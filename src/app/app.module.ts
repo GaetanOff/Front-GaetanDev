@@ -10,13 +10,12 @@ import {NotifierModule} from 'angular-notifier';
 import {HttpClientModule} from "@angular/common/http";
 import {FooterComponent} from './components/include/footer/footer.component';
 import {WhymeComponent} from './components/include/whyme/whyme.component';
-import {CompetencesComponent} from './components/include/competences/competences.component';
 import {CVComponent} from './components/include/cv/cv.component';
-import { AboutComponent } from './components/base/about/about.component';
 import { CertifComponent } from './components/include/cv/certif/certif.component';
 import { ExperienceComponent } from './components/include/cv/experience/experience.component';
 import { LanguagesComponent } from './components/include/cv/languages/languages.component';
 import { InterestComponent } from './components/include/cv/interest/interest.component';
+import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 
 
 @NgModule({
@@ -26,12 +25,12 @@ import { InterestComponent } from './components/include/cv/interest/interest.com
     NavbarComponent,
     FooterComponent,
     WhymeComponent,
-    CompetencesComponent,
     CVComponent,
     CertifComponent,
     ExperienceComponent,
     LanguagesComponent,
     InterestComponent,
+    CompetencesComponent
   ],
   imports: [
     BrowserModule,
