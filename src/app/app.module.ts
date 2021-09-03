@@ -14,7 +14,6 @@ import {CVComponent} from './components/include/cv/cv.component';
 import { CertifComponent } from './components/include/cv/certif/certif.component';
 import { ExperienceComponent } from './components/include/cv/experience/experience.component';
 import { LanguagesComponent } from './components/include/cv/languages/languages.component';
-import { InterestComponent } from './components/include/cv/interest/interest.component';
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 
 
@@ -29,7 +28,6 @@ import {CompetencesComponent} from "./components/include/cv/competences/competen
     CertifComponent,
     ExperienceComponent,
     LanguagesComponent,
-    InterestComponent,
     CompetencesComponent
   ],
   imports: [
