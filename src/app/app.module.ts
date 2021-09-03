@@ -13,6 +13,10 @@ import {WhymeComponent} from './components/include/whyme/whyme.component';
 import {CompetencesComponent} from './components/include/competences/competences.component';
 import {CVComponent} from './components/include/cv/cv.component';
 import { AboutComponent } from './components/base/about/about.component';
+import { CertifComponent } from './components/include/cv/certif/certif.component';
+import { ExperienceComponent } from './components/include/cv/experience/experience.component';
+import { LanguagesComponent } from './components/include/cv/languages/languages.component';
+import { InterestComponent } from './components/include/cv/interest/interest.component';
 
 
 @NgModule({
@@ -24,6 +28,10 @@ import { AboutComponent } from './components/base/about/about.component';
     WhymeComponent,
     CompetencesComponent,
     CVComponent,
+    CertifComponent,
+    ExperienceComponent,
+    LanguagesComponent,
+    InterestComponent,
   ],
   imports: [
     BrowserModule,
