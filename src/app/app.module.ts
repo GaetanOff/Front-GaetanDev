@@ -12,6 +12,7 @@ import {FooterComponent} from './components/include/footer/footer.component';
 import {WhymeComponent} from './components/include/whyme/whyme.component';
 import {CompetencesComponent} from './components/include/competences/competences.component';
 import {CVComponent} from './components/include/cv/cv.component';
+import { AboutComponent } from './components/base/about/about.component';
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import {CVComponent} from './components/include/cv/cv.component';
     FooterComponent,
     WhymeComponent,
     CompetencesComponent,
-    CVComponent
+    CVComponent,
   ],
   imports: [
     BrowserModule,

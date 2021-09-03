@@ -27,20 +27,22 @@ function clear() {
 }
 
 @Component({
-  selector: 'app-achievements',
-  templateUrl: './achievements.component.html',
-  styleUrls: ['./achievements.component.css']
+  selector: 'app-about',
+  templateUrl: './about.component.html',
+  styleUrls: ['./about.component.css']
 })
-export class AchievementsComponent implements OnInit {
+export class AboutComponent implements OnInit {
 
   constructor() {
   }
 
   ngOnInit(): void {
     clear();
-
     // @ts-ignore
-    document.getElementById("real").classList.toggle("font-bold");
+    document.getElementById("about").classList.toggle("font-bold");
   }
 
+  processForm() {
+    console.log("Ca arrive !")
+  }
 }

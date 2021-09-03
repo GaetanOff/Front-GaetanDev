@@ -20,6 +20,12 @@ function clear() {
     // @ts-ignore
     document.getElementById("real").classList.toggle("font-bold");
   }
+
+  // @ts-ignore
+  if (document.getElementById("about").classList.contains("font-bold")) {
+    // @ts-ignore
+    document.getElementById("about").classList.toggle("font-bold");
+  }
 }
 
 @Component({
