@@ -1,69 +1,71 @@
-<div class="text-center w-full">
-</div>
-<form (ngSubmit)="processForm()">
-  <div
-    class="max-w-screen-xl mt-20 px-4 grid gap-2 grid-cols-1 md:grid-cols-1 md:px-12 lg:px-16 xl:px-36 py-10 mx-auto rounded-lg">
-    <div class="flex flex-col justify-between">
-      <div class="max-w-lg mx-auto">
-        <span class="text-green-600 font-bold"></span>
-        <h2 class="mb-2 text-4xl lg:text-5xl font-bold font-heading">Contactez-moi</h2>
-        <p class="mb-6 text-gray-500"></p>
-      </div>
-    </div>
-    <div class="">
-      <div>
-        <span class="uppercase text-sm font-bold">Nom Prénom</span>
-        <input
-          #nameInput="ngModel"
-          [(ngModel)]="name"
-          class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-          minlength="3"
-          minlength="3"
-          name="name"
-          placeholder="Votre nom"
-          required
-          type="text">
-      </div>
-      <div class="mt-8">
-        <span class="uppercase text-sm font-bold">Email</span>
-        <input
-          #emailInput="ngModel"
-          [(ngModel)]="email"
-          class="input"
-          class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-          email
-          name="email"
-          placeholder="Votre email"
-          required
-          type="text">
-      </div>
-      <div class="mt-8">
-        <span class="uppercase text-sm font-bold">Message</span>
-        <textarea
-          #messageInput="ngModel"
-          [(ngModel)]="message"
-          class="textarea"
-          class="w-full h-32 bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-          name="message"
-          placeholder="Message"></textarea>
-      </div>
-
-      <div class="field ">
-        <div class="control">
-          <re-captcha
-            (resolved)="resolved()"
-            siteKey="6LflFpcbAAAAAHVzsHtIZtJHqpKqxdWNKpMH3Bmo"
-          ></re-captcha>
+<section>
+  <div class="py-20 radius-for-skewed">
+    <div class="container px-4 mx-auto">
+      <div class="max-w-6xl mx-auto">
+        <div class="max-w-lg mx-auto mb-8 text-center">
+          <span class="text-green-600 font-bold"></span>
+          <h2 class="mb-2 text-4xl lg:text-5xl font-bold font-heading">Me contacter</h2>
+          <p class="mb-6 text-gray-500"></p>
         </div>
-      </div>
+        <div
+          class="max-w-screen-xl px-4 grid gap-2 grid-cols-1 md:grid-cols-1 md:px-12 lg:px-16 xl:px-36 py-10 mx-auto rounded-lg">
+          <form (ngSubmit)="processForm()">
+            <div>
+              <span class="uppercase text-sm font-bold">Nom Prénom</span>
+              <input
+                #nameInput="ngModel"
+                [(ngModel)]="name"
+                class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                minlength="3"
+                minlength="3"
+                name="name"
+                placeholder="Votre nom"
+                required
+                type="text">
+            </div>
+            <div class="mt-8">
+              <span class="uppercase text-sm font-bold">Email</span>
+              <input
+                #emailInput="ngModel"
+                [(ngModel)]="email"
+                class="input"
+                class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                email
+                name="email"
+                placeholder="Votre email"
+                required
+                type="text">
+            </div>
+            <div class="mt-8">
+              <span class="uppercase text-sm font-bold">Message</span>
+              <textarea
+                #messageInput="ngModel"
+                [(ngModel)]="message"
+                class="textarea"
+                class="w-full h-32 bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                name="message"
+                placeholder="Message"></textarea>
+            </div>
 
-      <div class="mt-8">
-        <button
-          class="uppercase text-sm font-bold tracking-wide bg-green-600 hover:bg-green-700 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline"
-          name="submit" type="submit">
-          Envoyer mon message
-        </button>
+            <div class="field ">
+              <div class="control">
+                <re-captcha
+                  (resolved)="resolved()"
+                  siteKey="6LflFpcbAAAAAHVzsHtIZtJHqpKqxdWNKpMH3Bmo"
+                ></re-captcha>
+              </div>
+            </div>
+
+            <div class="mt-8">
+              <button
+                class="uppercase text-sm font-bold tracking-wide bg-green-600 hover:bg-green-700 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline"
+                name="submit" type="submit">
+                Envoyer mon message
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</form>
+</section>
