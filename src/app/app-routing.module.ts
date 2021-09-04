@@ -1,7 +1,6 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {HomeComponent} from "./components/base/home/home.component";
-import {ServicesComponent} from "./components/base/services/services.component";
 import {AchievementsComponent} from "./components/base/achievements/achievements.component";
 import {ContactComponent} from "./components/base/contact/contact.component";
 import {AboutComponent} from "./components/base/about/about.component";
@@ -12,9 +11,6 @@ const routes: Routes = [
   },
   {
     path: "about", component: AboutComponent
-  },
-  {
-    path: "services", component: ServicesComponent
   },
   {
     path: "achievements", component: AchievementsComponent
@@ -31,4 +27,4 @@ const routes: Routes = [
 export class AppRoutingModule {
 }
 
-export const routingComponents = [HomeComponent, AboutComponent, ServicesComponent, AchievementsComponent, ContactComponent]
+export const routingComponents = [HomeComponent, AboutComponent, AchievementsComponent, ContactComponent]

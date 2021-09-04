@@ -4,12 +4,6 @@ import {HttpClient} from "@angular/common/http";
 
 function clear() {
   // @ts-ignore
-  if (document.getElementById("serv").classList.contains("font-bold")) {
-    // @ts-ignore
-    document.getElementById("serv").classList.toggle("font-bold");
-  }
-
-  // @ts-ignore
   if (document.getElementById("contact").classList.contains("font-bold")) {
     // @ts-ignore
     document.getElementById("contact").classList.toggle("font-bold");

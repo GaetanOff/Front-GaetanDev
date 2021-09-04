@@ -15,6 +15,7 @@ import { CertifComponent } from './components/include/cv/certif/certif.component
 import { ExperienceComponent } from './components/include/cv/experience/experience.component';
 import { LanguagesComponent } from './components/include/cv/languages/languages.component';
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
+import { ServicesComponent } from './components/include/services/services.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {CompetencesComponent} from "./components/include/cv/competences/competen
     CertifComponent,
     ExperienceComponent,
     LanguagesComponent,
-    CompetencesComponent
+    CompetencesComponent,
+    ServicesComponent
   ],
   imports: [
     BrowserModule,
