@@ -12,7 +12,6 @@
           class="flex items-center p-1 text-black hover:text-gray-900 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
           id="nav-toggle">
           <svg class="fill-current h-6 w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <title>Menu</title>
             <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
           </svg>
         </button>
@@ -34,7 +33,9 @@
                id="contact" routerLink="/contact">Contact</a>
           </li>
         </ul>
-        <img (click)="onToggle()" class="hover:bg-opacity-25 hover:shadow-lg rounded-3xl" src="{{darkImg}}">
+        <li (click)="onToggle()" class="cursor-pointer flex items-center p-1.5 rounded-xl hover:bg-opacity-25 hover:shadow-lg duration-200">
+          <img src="{{darkImg}}">
+        </li>
       </div>
     </div>
   </div>

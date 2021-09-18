@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   darkMode$ = this.darkModeService.darkMode$;
   darkImg = "assets/img/moon.png";
 
+
   constructor(private darkModeService: DarkModeService) {
   }
 
@@ -27,7 +28,7 @@ export class NavbarComponent implements OnInit {
     // @ts-ignore
     document.getElementById('nav-toggle').onclick = function () {
       // @ts-ignore
-      document.getElementById("nav-content").classList.toggle("hidden");
+      document.getElementById("nav-content").classList.toggle("hidden")
     }
   }
 
