@@ -17,7 +17,6 @@ import {LanguagesComponent} from './components/include/cv/languages/languages.co
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 import {ServicesComponent} from './components/include/services/services.component';
 
-
 @NgModule({
   declarations: [
     routingComponents,
@@ -30,7 +29,7 @@ import {ServicesComponent} from './components/include/services/services.componen
     ExperienceComponent,
     LanguagesComponent,
     CompetencesComponent,
-    ServicesComponent
+    ServicesComponent,
   ],
   imports: [
     BrowserModule,

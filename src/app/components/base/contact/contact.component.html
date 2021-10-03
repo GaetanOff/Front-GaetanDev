@@ -1,3 +1,5 @@
+<notifier-container></notifier-container>
+
 <section>
   <div class="py-20 radius-for-skewed">
     <div class="container px-4 mx-auto">
@@ -12,39 +14,45 @@
           <form (ngSubmit)="processForm()">
             <div>
               <span class="uppercase text-sm font-bold">Nom Prénom</span>
-              <input
-                #nameInput="ngModel"
-                [(ngModel)]="name"
-                class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                minlength="3"
-                minlength="3"
-                name="name"
-                placeholder="Votre nom"
-                required
-                type="text">
+              <label>
+                <input
+                  #nameInput="ngModel"
+                  [(ngModel)]="name"
+                  class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                  minlength="3"
+                  minlength="3"
+                  name="name"
+                  placeholder="Votre nom"
+                  required
+                  type="text">
+              </label>
             </div>
             <div class="mt-8">
               <span class="uppercase text-sm font-bold">Email</span>
-              <input
-                #emailInput="ngModel"
-                [(ngModel)]="email"
-                class="input"
-                class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                email
-                name="email"
-                placeholder="Votre email"
-                required
-                type="text">
+              <label>
+                <input
+                  #emailInput="ngModel"
+                  [(ngModel)]="email"
+                  class="input"
+                  class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                  email
+                  name="email"
+                  placeholder="Votre email"
+                  required
+                  type="text">
+              </label>
             </div>
             <div class="mt-8">
               <span class="uppercase text-sm font-bold">Message</span>
-              <textarea
-                #messageInput="ngModel"
-                [(ngModel)]="message"
-                class="textarea"
-                class="w-full h-32 bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                name="message"
-                placeholder="Message"></textarea>
+              <label>
+<textarea
+  #messageInput="ngModel"
+  [(ngModel)]="message"
+  class="textarea"
+  class="w-full h-32 bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+  name="message"
+  placeholder="Message"></textarea>
+              </label>
             </div>
 
             <div class="field ">
