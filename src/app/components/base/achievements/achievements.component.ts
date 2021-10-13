@@ -18,6 +18,12 @@ function clear() {
     // @ts-ignore
     document.getElementById("about").classList.toggle("font-bold");
   }
+
+  // @ts-ignore
+  if (document.getElementById("accueil").classList.contains("font-bold")) {
+    // @ts-ignore
+    document.getElementById("accueil").classList.toggle("font-bold");
+  }
 }
 
 @Component({

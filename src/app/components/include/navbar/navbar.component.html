@@ -1,10 +1,6 @@
 <header class="shadow-lg md:pb-4 test">
-  <div class="relative px-2 py-2 flex justify-between items-center">
+  <nav>
     <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
-      <a class="toggleColour no-underline hover:no-underline font-bold text-3xl" id="logo"
-         routerLink="">
-        GaetanDev
-      </a>
       <div class="block lg:hidden pr-4">
         <button
           class="flex items-center p-1 text-black hover:text-gray-900 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
@@ -14,28 +10,46 @@
           </svg>
         </button>
       </div>
-      <div
-        class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 lg:bg-transparent p-4 lg:p-0 z-20"
-        id="nav-content">
-        <ul class="list-reset lg:flex justify-center flex-1 items-center ">
-          <li class="mr-3">
-            <a class="inline-block py-2 px-4 hover:text-green-400 no-underline"
-               id="about" routerLink="/about">A Propos</a>
-          </li>
-          <li class="mr-3">
-            <a class="inline-block no-underline hover:text-green-400 hover:text-underline py-2 px-4"
-               id="real" routerLink="/achievements">Réalisations</a>
-          </li>
-          <li class="mr-3">
-            <a class="inline-block no-underline hover:text-green-400 hover:text-underline py-2 px-4"
-               id="contact" routerLink="/contact">Contact</a>
-          </li>
-        </ul>
-        <li (click)="onToggle()"
-            class="cursor-pointer flex items-center p-1.5 rounded-xl hover:bg-opacity-25 hover:shadow-lg duration-200">
-          <img src="{{darkImg}}">
-        </li>
+    </div>
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+      <div class="relative flex items-center justify-between">
+        <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+          <div
+            class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 lg:bg-transparent p-4 lg:p-0 z-20"
+            id="nav-content">
+            <div class="flex space-x-4">
+              <ul class="list-reset lg:flex justify-center flex-1 items-center">
+                <li class="mr-3">
+                  <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
+                     id="accueil" routerLink="">Accueil</a>
+                </li>
+                <li class="mr-3">
+                  <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
+                     id="about" routerLink="/about">A Propos</a>
+                </li>
+                <li class="mr-3">
+                  <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
+                     id="real" routerLink="/achievements">Réalisations</a>
+                </li>
+                <li class="mr-3">
+                  <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
+                     id="contact" routerLink="/contact">Contact</a>
+                </li>
+              </ul>
+              <div (click)="onToggle()"
+                   class="lg:hidden flex items-center p-1.5 rounded-xl duration-200">
+                <img src="{{darkImg}}">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="deskContent">
+          <div (click)="onToggle()"
+               class="flex items-center p-1.5 rounded-xl hover:bg-opacity-25 hover:shadow-lg duration-200">
+            <img src="{{darkImg}}">
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </nav>
 </header>
