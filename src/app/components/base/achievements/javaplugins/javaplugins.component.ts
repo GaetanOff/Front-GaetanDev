@@ -12,4 +12,15 @@ export class JavapluginsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  staffPin() {
+    window.open("https://github.com/GaetanOff/StaffPin");
+  }
+
+  staffSecurity() {
+    window.open("https://github.com/GaetanOff/StaffSecurity");
+  }
+
+  ffaRush() {
+    window.open("https://github.com/GaetanOff/FFARush");
+  }
 }
