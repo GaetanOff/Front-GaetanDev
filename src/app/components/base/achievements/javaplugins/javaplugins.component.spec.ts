@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { JavapluginsComponent } from './javaplugins.component';
+import {JavapluginsComponent} from './javaplugins.component';
 
 describe('JavapluginsComponent', () => {
   let component: JavapluginsComponent;
@@ -8,9 +8,9 @@ describe('JavapluginsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ JavapluginsComponent ]
+      declarations: [JavapluginsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

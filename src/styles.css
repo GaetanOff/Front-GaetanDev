@@ -54,11 +54,15 @@ body.light-mode {
 }
 
 @media all and (min-width: 1001px) {
-  .deskContent {display:block;}
+  .deskContent {
+    display: block;
+  }
 }
 
 @media all and (max-width: 1000px) {
-  .deskContent {display:none;}
+  .deskContent {
+    display: none;
+  }
 }
 
 ::-webkit-scrollbar {
