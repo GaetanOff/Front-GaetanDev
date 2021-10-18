@@ -5,6 +5,7 @@ import {AchievementsComponent} from "./components/base/achievements/achievements
 import {ContactComponent} from "./components/base/contact/contact.component";
 import {AboutComponent} from "./components/base/about/about.component";
 import {JavapluginsComponent} from "./components/base/achievements/javaplugins/javaplugins.component";
+import {AdminComponent} from "./components/base/admin/admin.component";
 
 const routes: Routes = [
   {
@@ -21,6 +22,9 @@ const routes: Routes = [
   },
   {
     path: "contact", component: ContactComponent
+  },
+  {
+    path: "admin", component: AdminComponent
   }
 ]
 
@@ -31,4 +35,4 @@ const routes: Routes = [
 export class AppRoutingModule {
 }
 
-export const routingComponents = [HomeComponent, AboutComponent, AchievementsComponent, ContactComponent, JavapluginsComponent]
+export const routingComponents = [HomeComponent, AboutComponent, AchievementsComponent, ContactComponent, JavapluginsComponent, AdminComponent]
