@@ -6,6 +6,7 @@ import {ContactComponent} from "./components/base/contact/contact.component";
 import {AboutComponent} from "./components/base/about/about.component";
 import {JavapluginsComponent} from "./components/base/achievements/javaplugins/javaplugins.component";
 import {AdminComponent} from "./components/base/admin/admin.component";
+import {TrackerComponent} from "./components/base/tracker/tracker.component";
 
 const routes: Routes = [
   {
@@ -25,6 +26,9 @@ const routes: Routes = [
   },
   {
     path: "admin", component: AdminComponent
+  },
+  {
+    path: "tracker", component: TrackerComponent
   }
 ]
 
@@ -35,4 +39,4 @@ const routes: Routes = [
 export class AppRoutingModule {
 }
 
-export const routingComponents = [HomeComponent, AboutComponent, AchievementsComponent, ContactComponent, JavapluginsComponent, AdminComponent]
+export const routingComponents = [HomeComponent, AboutComponent, AchievementsComponent, ContactComponent, JavapluginsComponent, AdminComponent, TrackerComponent]
