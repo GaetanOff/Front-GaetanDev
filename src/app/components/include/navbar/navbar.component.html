@@ -17,7 +17,7 @@
           <div
             class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:mt-0 lg:bg-transparent p-4 lg:p-0 z-20"
             id="nav-content">
-            <ul class="list-reset lg:flex justify-center flex-1 items-center">
+            <ol class="list-reset lg:flex justify-center flex-1 items-center">
               <li class="mr-3">
                 <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
                    id="accueil" routerLink="">Accueil</a>
@@ -34,7 +34,7 @@
                 <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
                    id="contact" routerLink="/contact">Contact</a>
               </li>
-            </ul>
+            </ol>
             <div (click)="onToggle()"
                  class="lg:hidden flex items-center p-1.5 rounded-xl duration-200">
               <img src="{{darkImg}}">

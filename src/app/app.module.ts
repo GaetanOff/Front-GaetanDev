@@ -16,7 +16,6 @@ import {ExperienceComponent} from './components/include/cv/experience/experience
 import {LanguagesComponent} from './components/include/cv/languages/languages.component';
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 import {ServicesComponent} from './components/include/services/services.component';
-import { AdminComponent } from './components/base/admin/admin.component';
 
 @NgModule({
   declarations: [
