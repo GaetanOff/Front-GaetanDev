@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 function clear() {
   // @ts-ignore
@@ -33,22 +33,19 @@ function clear() {
 }
 
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css']
+  selector: 'app-blog',
+  templateUrl: './blog.component.html',
+  styleUrls: ['./blog.component.css']
 })
-export class AboutComponent implements OnInit {
+export class BlogComponent implements OnInit {
 
-  constructor() {
-  }
+  constructor() { }
 
   ngOnInit(): void {
     clear();
+
     // @ts-ignore
-    document.getElementById("about").classList.toggle("font-bold");
+    document.getElementById("blog").classList.toggle("font-bold");
   }
 
-  processForm() {
-    console.log("Ca arrive !")
-  }
 }

@@ -29,7 +29,7 @@ import {ServicesComponent} from './components/include/services/services.componen
     ExperienceComponent,
     LanguagesComponent,
     CompetencesComponent,
-    ServicesComponent,
+    ServicesComponent
   ],
   imports: [
     BrowserModule,

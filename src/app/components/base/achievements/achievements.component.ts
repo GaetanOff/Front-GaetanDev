@@ -24,6 +24,12 @@ function clear() {
     // @ts-ignore
     document.getElementById("accueil").classList.toggle("font-bold");
   }
+
+  // @ts-ignore
+  if (document.getElementById("blog").classList.contains("font-bold")) {
+    // @ts-ignore
+    document.getElementById("blog").classList.toggle("font-bold");
+  }
 }
 
 @Component({
