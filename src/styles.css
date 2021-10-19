@@ -12,47 +12,6 @@ body.light-mode {
   color: #dfe6e9;
 }
 
-.slide-in-bottom {
-  -webkit-animation: slide-in-bottom .5s cubic-bezier(.25, .46, .45, .94) both;
-  animation: slide-in-bottom .5s cubic-bezier(.25, .46, .45, .94) both
-}
-
-.slide-in-bottom-h1 {
-  -webkit-animation: slide-in-bottom .5s cubic-bezier(.25, .46, .45, .94) .2s both;
-  animation: slide-in-bottom .5s cubic-bezier(.25, .46, .45, .94) .5s both
-}
-
-.slide-in-bottom-subtitle {
-  -webkit-animation: slide-in-bottom .5s cubic-bezier(.25, .46, .45, .94) .5s both;
-  animation: slide-in-bottom .5s cubic-bezier(.25, .46, .45, .94) .75s both
-}
-
-@-webkit-keyframes slide-in-bottom {
-  0% {
-    -webkit-transform: translateY(1000px);
-    transform: translateY(1000px);
-    opacity: 0
-  }
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-    opacity: 1
-  }
-}
-
-@keyframes slide-in-bottom {
-  0% {
-    -webkit-transform: translateY(1000px);
-    transform: translateY(1000px);
-    opacity: 0
-  }
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-    opacity: 1
-  }
-}
-
 @media all and (min-width: 1001px) {
   .deskContent {
     display: block;
