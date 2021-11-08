@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 function clear() {
   // @ts-ignore
@@ -39,7 +39,8 @@ function clear() {
 })
 export class BlogComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     clear();

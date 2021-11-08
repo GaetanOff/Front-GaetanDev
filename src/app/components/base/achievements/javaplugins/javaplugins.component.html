@@ -25,9 +25,9 @@
                   class="transform motion-reduce:transform-none duration-300 bg-green-600 hover:bg-green-700 text-gray-100 font-bold py-2 px-4 p-3 rounded-lg inline-flex items-center">
                   <svg class="fill-current w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
                        xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
+                    <path clip-rule="evenodd"
                           d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                          clip-rule="evenodd"></path>
+                          fill-rule="evenodd"></path>
                   </svg>
                   <span>Source Code</span>
                 </button>
@@ -50,9 +50,9 @@
                   class="transform motion-reduce:transform-none duration-300 bg-green-600 hover:bg-green-700 text-gray-100 font-bold py-2 px-4 p-3 rounded-lg inline-flex items-center">
                   <svg class="fill-current w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
                        xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
+                    <path clip-rule="evenodd"
                           d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                          clip-rule="evenodd"></path>
+                          fill-rule="evenodd"></path>
                   </svg>
                   <span>Source Code</span>
                 </button>
@@ -74,9 +74,9 @@
                   class="transform motion-reduce:transform-none duration-300 bg-green-600 hover:bg-green-700 text-gray-100 font-bold py-2 px-4 p-3 rounded-lg inline-flex items-center">
                   <svg class="fill-current w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
                        xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
+                    <path clip-rule="evenodd"
                           d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                          clip-rule="evenodd"></path>
+                          fill-rule="evenodd"></path>
                   </svg>
                   <span>Source Code</span>
                 </button>
@@ -95,16 +95,16 @@
               <div class="mt-3 md:mt-0 md:ml-2">
                 <button
                   class="transform motion-reduce:transform-none duration-300 bg-red-600 hover:bg-red-700 text-gray-100 font-bold py-2 px-4 p-3 rounded-lg inline-flex items-center">
-                  <svg class="fill-current w-4 h-4 mr-2" viewPort="0 0 12 12" version="1.1"
+                  <svg class="fill-current w-4 h-4 mr-2" version="1.1" viewPort="0 0 12 12"
                        xmlns="http://www.w3.org/2000/svg">
-                    <line x1="1" y1="14"
-                          x2="14" y2="1"
-                          stroke="white"
-                          stroke-width="2"/>
-                    <line x1="1" y1="1"
-                          x2="14" y2="14"
-                          stroke="white"
-                          stroke-width="2"/>
+                    <line stroke="white" stroke-width="2"
+                          x1="1" x2="14"
+                          y1="14"
+                          y2="1"/>
+                    <line stroke="white" stroke-width="2"
+                          x1="1" x2="14"
+                          y1="1"
+                          y2="14"/>
                   </svg>
                   <span>Closed Code</span>
                 </button>
