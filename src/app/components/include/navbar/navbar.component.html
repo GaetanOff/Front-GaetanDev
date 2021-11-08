@@ -1,4 +1,4 @@
-<header class="shadow-lg md:pb-4 ">
+<header class="shadow-lg md:pb-4">
   <nav>
     <div class="w-full container mx-auto flex flex-wrap items-center  mt-0 py-2">
       <div class="block lg:hidden pr-3">
@@ -11,12 +11,34 @@
         </button>
       </div>
     </div>
+    <div class="lg:hidden hidden" id="nav-content">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a aria-current="page" class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+           routerLink="">Accueil</a>
+
+        <a class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+           routerLink="/about">A Propos</a>
+
+        <a class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+           routerLink="/blog">Blog</a>
+
+        <a class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+           routerLink="/achievements">Réalisations</a>
+
+        <a class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+           routerLink="/contact">Contact</a>
+
+        <div (click)="onToggle()"
+             class="lg:hidden flex items-center p-1.5 rounded-xl duration-200">
+          <img src="{{darkImg}}">
+        </div>
+      </div>
+    </div>
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between">
         <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
           <div
-            class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:mt-0 lg:bg-transparent p-4 lg:p-0 z-20"
-            id="nav-content">
+            class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:mt-0 lg:bg-transparent p-4 lg:p-0 z-20">
             <ol class="list-reset lg:flex justify-center flex-1 items-center">
               <li class="mr-3">
                 <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
@@ -39,13 +61,9 @@
                    id="contact" routerLink="/contact">Contact</a>
               </li>
             </ol>
-            <div (click)="onToggle()"
-                 class="lg:hidden flex items-center p-1.5 rounded-xl duration-200">
-              <img src="{{darkImg}}">
-            </div>
           </div>
         </div>
-        <div class="deskContent">
+        <div class="darkModeDesk">
           <div (click)="onToggle()"
                class="flex items-center p-1.5 rounded-xl hover:bg-opacity-25 hover:shadow-lg duration-200">
             <img src="{{darkImg}}">

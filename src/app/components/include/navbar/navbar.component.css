@@ -1,0 +1,11 @@
+@media all and (min-width: 1001px) {
+  .darkModeDesk {
+    display: block;
+  }
+}
+
+@media all and (max-width: 1000px) {
+  .darkModeDesk {
+    display: none;
+  }
+}
