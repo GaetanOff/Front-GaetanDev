@@ -1,21 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {DarkModeService} from "angular-dark-mode";
 
-function changeLang(boolean: any) {
-  if (boolean) {
-
-  } else {
-
-  }
-}
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  darkMode$ = this.darkModeService.darkMode$;
   darkImg = "assets/img/moon.png";
   darkClass = "bg-white";
 
@@ -30,6 +21,7 @@ export class NavbarComponent implements OnInit {
     let previouses = false;
     let clicked = false;
     let clicked2 = false;
+    let clicked3 = false;
 
     // @ts-ignore
     document.getElementById('nav-toggle').onclick = function () {
@@ -51,7 +43,7 @@ export class NavbarComponent implements OnInit {
     window.onscroll = function () {
 
       if (document.documentElement.scrollTop < previous) {
-        if (!previouses && !clicked && !clicked2) {
+        if (!previouses && !clicked && !clicked2 && !clicked3) {
           console.log("" + document.documentElement.scrollTop + " " + previouses)
           previouses = true;
 
@@ -71,7 +63,7 @@ export class NavbarComponent implements OnInit {
           document.getElementById("navHeader").classList.add("z-50")
         }
       } else {
-        if (!clicked && !clicked2) {
+        if (!clicked && !clicked2 && !clicked3) {
           previouses = false;
 
           // @ts-ignore
