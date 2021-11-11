@@ -2,7 +2,23 @@ import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-languages',
-  templateUrl: './languages.component.html'
+  template: `
+    <section class="w-full mb-10">
+      <h3 class="font-bold text-2xl md:text-4xl">
+        Langues
+      </h3>
+      <div>
+        <table class="text-base text-xl">
+          <tr>
+            <td class="py-2 pr-4">Français</td>
+          </tr>
+          <tr>
+            <td class="py-2 pr-4">Anglais</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+  `
 })
 export class LanguagesComponent implements OnInit {
 
