@@ -29,6 +29,7 @@ export class ContactComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.scrollTo({top: 0});
     this.navService.updateNav();
 
     // @ts-ignore
