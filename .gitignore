@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+
 # Only exists if Bazel was run
 /bazel-out
 
@@ -43,6 +44,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+src/.htaccess
 
 # Little back-end
 /src/assets/contact.php
