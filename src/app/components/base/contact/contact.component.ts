@@ -6,8 +6,7 @@ import {NavService} from "../../../services/nav/nav.service";
 
 @Component({
   selector: 'app-contact',
-  templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+  templateUrl: './contact.component.html'
 })
 export class ContactComponent implements OnInit {
   name: string | undefined;

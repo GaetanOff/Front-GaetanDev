@@ -9,7 +9,6 @@ import {RECAPTCHA_SETTINGS, RecaptchaModule, RecaptchaSettings} from "ng-recaptc
 import {NotifierModule} from 'angular-notifier';
 import {HttpClientModule} from "@angular/common/http";
 import {FooterComponent} from './components/include/footer/footer.component';
-import {WhymeComponent} from './components/include/whyme/whyme.component';
 import {CVComponent} from './components/include/cv/cv.component';
 import {CertifComponent} from './components/include/cv/certif/certif.component';
 import {ExperienceComponent} from './components/include/cv/experience/experience.component';
@@ -24,7 +23,6 @@ import {NavService} from "./services/nav/nav.service";
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    WhymeComponent,
     CVComponent,
     CertifComponent,
     ExperienceComponent,

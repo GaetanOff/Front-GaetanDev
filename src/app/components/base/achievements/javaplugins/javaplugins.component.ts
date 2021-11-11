@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-javaplugins',
-  templateUrl: './javaplugins.component.html',
-  styleUrls: ['./javaplugins.component.css']
+  templateUrl: './javaplugins.component.html'
 })
 export class JavapluginsComponent implements OnInit {
 

@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-certif',
-  templateUrl: './certif.component.html',
-  styleUrls: ['./certif.component.css']
+  templateUrl: './certif.component.html'
 })
 export class CertifComponent implements OnInit {
 

@@ -4,8 +4,7 @@ import {NavService} from "../../../services/nav/nav.service";
 
 @Component({
   selector: 'app-blog',
-  templateUrl: './blog.component.html',
-  styleUrls: ['./blog.component.css']
+  templateUrl: './blog.component.html'
 })
 export class BlogComponent implements OnInit {
 

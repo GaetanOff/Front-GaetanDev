@@ -4,8 +4,7 @@ import {NavService} from "../../../services/nav/nav.service";
 
 @Component({
   selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css']
+  templateUrl: './about.component.html'
 })
 export class AboutComponent implements OnInit {
 
