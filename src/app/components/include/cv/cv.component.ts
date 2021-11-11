@@ -2,7 +2,12 @@ import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-cv',
-  templateUrl: './cv.component.html'
+  template: `
+    <app-competences></app-competences>
+    <app-certif></app-certif>
+    <app-experience></app-experience>
+    <app-languages></app-languages>
+  `
 })
 export class CVComponent implements OnInit {
 
