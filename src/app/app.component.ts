@@ -9,5 +9,5 @@ import {Component} from '@angular/core';
   `
 })
 export class AppComponent {
-  title = 'Front-Gaetan2mz-V2';
+  title = 'Front-GaetanDev';
 }
