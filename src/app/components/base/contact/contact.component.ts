@@ -1,37 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NotifierService} from "angular-notifier";
 import {HttpClient} from "@angular/common/http";
-
-function clear() {
-  // @ts-ignore
-  if (document.getElementById("contact").classList.contains("font-bold")) {
-    // @ts-ignore
-    document.getElementById("contact").classList.toggle("font-bold");
-  }
-
-  // @ts-ignore
-  if (document.getElementById("real").classList.contains("font-bold")) {
-    // @ts-ignore
-    document.getElementById("real").classList.toggle("font-bold");
-  }
-
-  // @ts-ignore
-  if (document.getElementById("about").classList.contains("font-bold")) {
-    // @ts-ignore
-    document.getElementById("about").classList.toggle("font-bold");
-  }
-
-  // @ts-ignore
-  if (document.getElementById("accueil").classList.contains("font-bold")) {
-    // @ts-ignore
-    document.getElementById("accueil").classList.toggle("font-bold");
-  }
-  // @ts-ignore
-  if (document.getElementById("blog").classList.contains("font-bold")) {
-    // @ts-ignore
-    document.getElementById("blog").classList.toggle("font-bold");
-  }
-}
+import {Title} from "@angular/platform-browser";
+import {NavService} from "../../../services/nav/nav.service";
 
 @Component({
   selector: 'app-contact',
@@ -42,12 +13,12 @@ export class ContactComponent implements OnInit {
   name: string | undefined;
   email: string | undefined;
   message: string | undefined;
-  lastName: string | undefined;
-  captcha: boolean;
+  private lastName: string | undefined;
+  private captcha: boolean;
   private readonly notifier: NotifierService;
   private http: HttpClient;
 
-  constructor(notifierService: NotifierService, private httpClient: HttpClient) {
+  constructor(private notifierService: NotifierService, private httpClient: HttpClient, private titleService: Title, private navService: NavService) {
     this.notifier = notifierService;
     this.http = httpClient;
     this.captcha = false;
@@ -58,10 +29,12 @@ export class ContactComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    clear();
+    this.navService.updateNav();
 
     // @ts-ignore
     document.getElementById("contact").classList.toggle("font-bold");
+
+    this.titleService.setTitle("Gaetan • Contact");
   }
 
   processForm() {
@@ -95,4 +68,5 @@ export class ContactComponent implements OnInit {
       this.lastName = this.name;
     }
   }
+
 }

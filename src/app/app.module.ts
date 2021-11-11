@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, Title} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './components/include/navbar/navbar.component';
@@ -16,6 +16,7 @@ import {ExperienceComponent} from './components/include/cv/experience/experience
 import {LanguagesComponent} from './components/include/cv/languages/languages.component';
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 import {ServicesComponent} from './components/include/services/services.component';
+import {NavService} from "./services/nav/nav.service";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,8 @@ import {ServicesComponent} from './components/include/services/services.componen
       provide: RECAPTCHA_SETTINGS,
       useValue: {siteKey: "6LflFpcbAAAAAHVzsHtIZtJHqpKqxdWNKpMH3Bmo"} as RecaptchaSettings,
     },
+    Title,
+    NavService
   ],
   bootstrap: [AppComponent]
 })

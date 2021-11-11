@@ -1,36 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-
-function clear() {
-  // @ts-ignore
-  if (document.getElementById("contact").classList.contains("font-bold")) {
-    // @ts-ignore
-    document.getElementById("contact").classList.toggle("font-bold");
-  }
-
-  // @ts-ignore
-  if (document.getElementById("real").classList.contains("font-bold")) {
-    // @ts-ignore
-    document.getElementById("real").classList.toggle("font-bold");
-  }
-
-  // @ts-ignore
-  if (document.getElementById("about").classList.contains("font-bold")) {
-    // @ts-ignore
-    document.getElementById("about").classList.toggle("font-bold");
-  }
-
-  // @ts-ignore
-  if (document.getElementById("accueil").classList.contains("font-bold")) {
-    // @ts-ignore
-    document.getElementById("accueil").classList.toggle("font-bold");
-  }
-
-  // @ts-ignore
-  if (document.getElementById("blog").classList.contains("font-bold")) {
-    // @ts-ignore
-    document.getElementById("blog").classList.toggle("font-bold");
-  }
-}
+import {Title} from "@angular/platform-browser";
+import {NavService} from "../../../services/nav/nav.service";
 
 @Component({
   selector: 'app-home',
@@ -39,12 +9,16 @@ function clear() {
 })
 export class HomeComponent implements OnInit {
 
-  constructor() {
+  constructor(private titleService: Title, private navService: NavService) {
   }
 
   ngOnInit(): void {
-    clear();
+    this.navService.updateNav();
+
     // @ts-ignore
     document.getElementById("accueil").classList.toggle("font-bold");
+
+    this.titleService.setTitle("Gaetan • DevOps");
   }
+
 }

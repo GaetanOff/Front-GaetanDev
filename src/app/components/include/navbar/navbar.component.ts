@@ -44,7 +44,6 @@ export class NavbarComponent implements OnInit {
 
       if (document.documentElement.scrollTop < previous) {
         if (!previouses && !clicked && !clicked2 && !clicked3) {
-          console.log("" + document.documentElement.scrollTop + " " + previouses)
           previouses = true;
 
           // @ts-ignore
@@ -111,4 +110,5 @@ export class NavbarComponent implements OnInit {
       }
     })
   }
+
 }

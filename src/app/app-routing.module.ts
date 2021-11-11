@@ -5,8 +5,6 @@ import {AchievementsComponent} from "./components/base/achievements/achievements
 import {ContactComponent} from "./components/base/contact/contact.component";
 import {AboutComponent} from "./components/base/about/about.component";
 import {JavapluginsComponent} from "./components/base/achievements/javaplugins/javaplugins.component";
-import {AdminComponent} from "./components/base/admin/admin.component";
-import {TrackerComponent} from "./components/base/tracker/tracker.component";
 import {BlogComponent} from "./components/base/blog/blog.component";
 import {HowIStartedComponent} from "./components/base/blog/how-i-started/how-i-started.component";
 
@@ -31,12 +29,6 @@ const routes: Routes = [
   },
   {
     path: "contact", component: ContactComponent
-  },
-  {
-    path: "admin", component: AdminComponent
-  },
-  {
-    path: "tracker", component: TrackerComponent
   }
 ]
 
@@ -47,6 +39,6 @@ const routes: Routes = [
 export class AppRoutingModule {
 }
 
-export const routingComponents = [HomeComponent, AboutComponent,
+export const routingComponents = [HomeComponent, AboutComponent, ContactComponent,
   BlogComponent, HowIStartedComponent,
-  AchievementsComponent, ContactComponent, JavapluginsComponent, AdminComponent, TrackerComponent]
+  AchievementsComponent, JavapluginsComponent]

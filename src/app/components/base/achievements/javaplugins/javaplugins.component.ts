@@ -24,4 +24,5 @@ export class JavapluginsComponent implements OnInit {
   ffaRush() {
     window.open("https://github.com/GaetanOff/FFARush");
   }
+
 }
