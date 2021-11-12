@@ -15,6 +15,6 @@ export class NavService {
         document.getElementById(page).classList.toggle("font-bold");
       }
     })
-
   }
+  
 }
