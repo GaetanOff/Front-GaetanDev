@@ -7,6 +7,13 @@ import {NavService} from "../../../services/nav/nav.service";
   templateUrl: './blog.component.html'
 })
 export class BlogComponent implements OnInit {
+  blogsList = [
+    {
+      name: 'Mes débuts dans la programmation',
+      description: "Comment ai-je commencé le développement ? Pourquoi ai-je commencé ? Comment vois-je mon avenir dans ce domaine ?",
+      redirect: '/blog/how_i_started'
+    }
+  ];
 
   constructor(private titleService: Title, private navService: NavService) {
   }

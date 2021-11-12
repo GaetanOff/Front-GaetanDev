@@ -13,21 +13,25 @@
     </div>
     <div class="lg:hidden hidden" id="nav-content">
       <div class="px-2 pt-2 pb-3 space-y-1">
-        <a aria-current="page"
+        <a (click)="onClickList()"
+           aria-current="page"
+           class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium" routerLink="">Accueil</a>
+
+        <a (click)="onClickList()"
            class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-           (click)="onClickList()" routerLink="">Accueil</a>
+           routerLink="/about">A Propos</a>
 
-        <a class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-           (click)="onClickList()" routerLink="/about">A Propos</a>
+        <a (click)="onClickList()"
+           class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+           routerLink="/blog">Blog</a>
 
-        <a class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-           (click)="onClickList()" routerLink="/blog">Blog</a>
+        <a (click)="onClickList()"
+           class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+           routerLink="/achievements">Réalisations</a>
 
-        <a class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-           (click)="onClickList()" routerLink="/achievements">Réalisations</a>
-
-        <a class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-           (click)="onClickList()" routerLink="/contact">Contact</a>
+        <a (click)="onClickList()"
+           class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+           routerLink="/contact">Contact</a>
 
         <div (click)="onToggle()"
              class="lg:hidden flex items-center p-1.5 rounded-xl duration-200">
@@ -42,30 +46,36 @@
             class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:mt-0 lg:bg-transparent p-4 lg:p-0 z-20">
             <ol class="list-reset lg:flex justify-center flex-1 items-center" id="navbar-content">
               <li class="mr-3">
-                <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
-                   id="accueil" (click)="onClickList()" routerLink="">Accueil</a>
+                <a (click)="onClickList()"
+                   class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium" id="accueil"
+                   routerLink="">Accueil</a>
               </li>
               <li class="mr-3">
-                <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
-                   id="about" (click)="onClickList()" routerLink="/about">A Propos</a>
+                <a (click)="onClickList()"
+                   class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium" id="about"
+                   routerLink="/about">A Propos</a>
               </li>
               <li class="mr-3">
-                <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
-                   id="blog" (click)="onClickList()" routerLink="/blog">Blog</a>
+                <a (click)="onClickList()"
+                   class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium" id="blog"
+                   routerLink="/blog">Blog</a>
               </li>
               <li class="mr-3">
-                <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
-                   id="real" (click)="onClickList()" routerLink="/achievements">Réalisations</a>
+                <a (click)="onClickList()"
+                   class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium" id="real"
+                   routerLink="/achievements">Réalisations</a>
               </li>
               <li class="mr-3">
-                <a class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium"
-                   id="contact" (click)="onClickList()" routerLink="/contact">Contact</a>
+                <a (click)="onClickList()"
+                   class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium" id="contact"
+                   routerLink="/contact">Contact</a>
               </li>
             </ol>
           </div>
         </div>
         <div class="darkModeDesk">
-          <div (click)="onToggle()" class="flex items-center p-1.5 rounded-xl hover:bg-opacity-25 hover:shadow-lg duration-200"
+          <div (click)="onToggle()"
+               class="flex items-center p-1.5 rounded-xl hover:bg-opacity-25 hover:shadow-lg duration-200"
                id="dark">
             <img src="{{darkImg}}">
           </div>
