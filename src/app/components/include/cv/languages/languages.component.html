@@ -4,11 +4,8 @@
   </h3>
   <div>
     <table class="text-base text-xl">
-      <tr>
-        <td class="py-2 pr-4">Français</td>
-      </tr>
-      <tr>
-        <td class="py-2 pr-4">Anglais</td>
+      <tr *ngFor="let lang of langList">
+        <td class="py-2 pr-4">{{ lang }}</td>
       </tr>
     </table>
   </div>

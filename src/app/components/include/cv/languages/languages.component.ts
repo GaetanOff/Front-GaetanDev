@@ -5,6 +5,7 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: '/languages.component.html'
 })
 export class LanguagesComponent implements OnInit {
+  langList = ['Français', 'Anglais'];
 
   constructor() {
   }
