@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule, Title} from '@angular/platform-browser';
 
-import {AppComponent} from './app.component';
+import {AppComponent} from './components/app.component';
 import {NavbarComponent} from './components/include/navbar/navbar.component';
 import {AppRoutingModule, routingComponents} from "./app-routing.module";
 import {FormsModule} from "@angular/forms";
