@@ -14,7 +14,7 @@ export class NavService {
         // @ts-ignore
         document.getElementById(page).classList.toggle("font-bold");
       }
-    })
+    });
   }
 
 }

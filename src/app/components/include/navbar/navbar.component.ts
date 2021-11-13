@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.image();
+    this.switchDarkModeImage();
 
     let previous = 0;
     let previouses = false;
@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
     document.getElementById('nav-toggle').onclick = function () {
       clicked = !clicked;
       // @ts-ignore
-      document.getElementById("nav-content").classList.toggle("hidden")
+      document.getElementById("nav-content").classList.toggle("hidden");
     }
 
     // @ts-ignore
@@ -46,43 +46,22 @@ export class NavbarComponent implements OnInit {
         if (!previouses && !clicked && !clicked2 && !clicked3) {
           previouses = true;
 
-          // @ts-ignore
-          document.getElementById("navHeader").classList.add("animate__animated")
+          ['animate__animated', 'fadeIn', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
+            // @ts-ignore
+            document.getElementById("navHeader").classList.add(tokens);
+          });
 
-          // @ts-ignore
-          document.getElementById("navHeader").classList.add("fadeIn")
-
-          // @ts-ignore
-          document.getElementById("navHeader").classList.add("sticky")
-
-          // @ts-ignore
-          document.getElementById("navHeader").classList.add("top-0")
-
-          // @ts-ignore
-          document.getElementById("navHeader").classList.add("z-50")
         }
       } else {
         if (!clicked && !clicked2 && !clicked3) {
           previouses = false;
 
-          // @ts-ignore
-          document.getElementById("navHeader").classList.remove("animate__animated")
-
-          // @ts-ignore
-          document.getElementById("navHeader").classList.remove("fadeIn")
-
-          // @ts-ignore
-          document.getElementById("navHeader").classList.remove("sticky")
-
-          // @ts-ignore
-          document.getElementById("navHeader").classList.remove("top-0")
-
-          // @ts-ignore
-          document.getElementById("navHeader").classList.remove("z-50")
+          ['animate__animated', 'fadeIn', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
+            // @ts-ignore
+            document.getElementById("navHeader").classList.remove(tokens);
+          });
 
         }
-
-        // do un-sticky
       }
 
       previous = document.documentElement.scrollTop;
@@ -90,16 +69,16 @@ export class NavbarComponent implements OnInit {
 
   }
 
-  onToggle(): void {
+  onSwitchDarkMode(): void {
     this.darkModeService.toggle();
-    this.image();
+    this.switchDarkModeImage();
   }
 
   onClickList(): void {
     window.scrollTo({top: 0});
   }
 
-  image(): void {
+  switchDarkModeImage(): void {
     this.darkModeService.darkMode$.subscribe(bool => {
       if (bool) {
         this.darkImg = "assets/img/moon.png";

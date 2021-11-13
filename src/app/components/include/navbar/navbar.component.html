@@ -33,7 +33,7 @@
            class="hover:bg-green-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
            routerLink="/contact">Contact</a>
 
-        <div (click)="onToggle()"
+        <div (click)="onSwitchDarkMode()"
              class="lg:hidden flex items-center p-1.5 rounded-xl duration-200">
           <img src="{{darkImg}}">
         </div>
@@ -74,7 +74,7 @@
           </div>
         </div>
         <div class="darkModeDesk">
-          <div (click)="onToggle()"
+          <div (click)="onSwitchDarkMode()"
                class="flex items-center p-1.5 rounded-xl hover:bg-opacity-25 hover:shadow-lg duration-200"
                id="dark">
             <img src="{{darkImg}}">

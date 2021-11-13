@@ -35,5 +35,7 @@ const routes: Routes = [
 export class AppRoutingModule {
 }
 
-export const routingComponents = [HomeComponent, AboutComponent, ContactComponent, AchievementsComponent,
-  BlogComponent, HowIStartedComponent]
+export const routingComponents = [
+  HomeComponent, AboutComponent, ContactComponent, AchievementsComponent,
+  BlogComponent, HowIStartedComponent
+]

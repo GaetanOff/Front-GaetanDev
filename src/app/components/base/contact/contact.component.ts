@@ -49,21 +49,15 @@ export class ContactComponent implements OnInit {
     } else if (!this.captcha) {
       this.notifier.notify('error', 'Erreur, captcha invalide !');
     } else {
-      this.notifier.notify('success', 'Succès, mail envoyé !');
-
-      /**let postVars = {
-        email : this.email,
-        name : this.name,
-        message : this.message
-      };**/
-
       if (this.lastName == this.name) {
         location.reload();
         return;
       }
 
+      this.notifier.notify('success', 'Succès, mail envoyé !');
+
       this.http.get("https://gaetandev.fr/assets/contact.php?email=" + this.email + "&name=" + this.name + "&message=" + this.message)
-        .subscribe()
+        .subscribe();
 
       this.lastName = this.name;
     }

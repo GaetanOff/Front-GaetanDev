@@ -21,7 +21,7 @@ export class AboutComponent implements OnInit {
   }
 
   processForm() {
-    console.log("Ca arrive !")
+    console.log("Ca arrive !");
   }
 
 }
