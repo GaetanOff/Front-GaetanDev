@@ -56,7 +56,7 @@ export class ContactComponent implements OnInit {
 
       this.notifier.notify('success', 'Succès, mail envoyé !');
 
-      this.http.get("https://gaetandev.fr/assets/contact.php?email=" + this.email + "&name=" + this.name + "&message=" + this.message)
+      this.http.get("https://cdn.gaetandev.fr/gaetan/files/contact.php?email=" + this.email + "&name=" + this.name + "&message=" + this.message)
         .subscribe();
 
       this.lastName = this.name;
