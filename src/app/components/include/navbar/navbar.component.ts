@@ -3,7 +3,28 @@ import {DarkModeService} from "angular-dark-mode";
 
 @Component({
   selector: 'app-navbar',
-  templateUrl: './navbar.component.html'
+  templateUrl: './navbar.component.html',
+  styles: [`
+    @media all and (min-width: 1001px) {
+      .darkModeDesk {
+        display: block;
+      }
+    }
+
+    @media all and (max-width: 1000px) {
+      .darkModeDesk {
+        display: none;
+      }
+    }
+
+    .transitionMode {
+      transition: all 0.3s linear;
+    }
+
+    .black {
+      background-color: #2d3436;
+    }
+  `]
 })
 export class NavbarComponent implements OnInit {
   darkImg = "assets/img/moon.png";
