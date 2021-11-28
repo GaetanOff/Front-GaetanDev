@@ -3,8 +3,7 @@ import {DarkModeService} from "angular-dark-mode";
 
 @Component({
   selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
   darkImg = "assets/img/moon.png";
@@ -46,7 +45,7 @@ export class NavbarComponent implements OnInit {
         if (!previouses && !clicked && !clicked2 && !clicked3) {
           previouses = true;
 
-          ['animate__animated', 'fadeIn', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
+          ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
             // @ts-ignore
             document.getElementById("navHeader").classList.add(tokens);
           });
@@ -56,7 +55,7 @@ export class NavbarComponent implements OnInit {
         if (!clicked && !clicked2 && !clicked3) {
           previouses = false;
 
-          ['animate__animated', 'fadeIn', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
+          ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
             // @ts-ignore
             document.getElementById("navHeader").classList.remove(tokens);
           });
