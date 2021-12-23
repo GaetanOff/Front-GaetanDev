@@ -5,7 +5,8 @@ import {Injectable} from '@angular/core';
 })
 export class NavService {
 
-  constructor() { }
+  constructor() {
+  }
 
   updateNav(): void {
     ['contact', 'real', 'about', 'accueil', 'blog'].forEach(page => {

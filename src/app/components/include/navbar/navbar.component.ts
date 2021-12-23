@@ -17,13 +17,7 @@ import {DarkModeService} from "angular-dark-mode";
       }
     }
 
-    .transitionMode {
-      transition: all 0.3s linear;
-    }
 
-    .black {
-      background-color: #2d3436;
-    }
   `]
 })
 export class NavbarComponent implements OnInit {

@@ -17,7 +17,8 @@
                     <a class="flex flex-wrap no-underline hover:no-underline"
                        href="{{ ach.redirect }}" target="_blank">
                       <img alt="Achievements Img"
-                           class="h-64 w-full rounded-t pb-6" src="{{ ach.image }}">
+                           class="h-64 w-full rounded-t pb-6"
+                           decoding="async" src="{{ ach.image }}">
                       <div class="w-full font-bold text-xl  px-6 mb-6">{{ ach.name }}</div>
                       <p class=" text-base px-6 mb-5">
                         {{ ach.description }}
