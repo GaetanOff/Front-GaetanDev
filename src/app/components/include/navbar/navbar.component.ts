@@ -5,13 +5,13 @@ import {DarkModeService} from "angular-dark-mode";
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styles: [`
-    @media all and (min-width: 1001px) {
+    @media all and (min-width: 1027px) {
       .darkModeDesk {
         display: block;
       }
     }
 
-    @media all and (max-width: 1000px) {
+    @media all and (max-width: 1026px) {
       .darkModeDesk {
         display: none;
       }
@@ -39,9 +39,13 @@ export class NavbarComponent implements OnInit {
 
     // @ts-ignore
     document.getElementById('nav-toggle').onclick = function () {
-      clicked = !clicked;
       // @ts-ignore
       document.getElementById("nav-content").classList.toggle("hidden");
+
+      ['animate__animated', 'animate__backInLeft'].forEach(tokens => {
+        // @ts-ignore
+        document.getElementById("nav-content").classList.add(tokens);
+      });
     }
 
     // @ts-ignore
@@ -81,6 +85,19 @@ export class NavbarComponent implements OnInit {
       previous = document.documentElement.scrollTop;
     };
 
+  }
+
+  disableMobileMenu(): void {
+    // @ts-ignore
+    if (!document.getElementById("nav-content").classList.contains("hidden")) {
+      ['animate__animated', 'animate__backInLeft'].forEach(tokens => {
+        // @ts-ignore
+        document.getElementById("nav-content").classList.remove(tokens);
+      });
+
+      // @ts-ignore
+      document.getElementById("nav-content").classList.toggle("hidden");
+    }
   }
 
   onSwitchDarkMode(): void {
