@@ -15272,6 +15272,11 @@ video {
   background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
 }
 
+.bg-gray-custom {
+  --tw-bg-opacity: 1;
+  background-color: #2d3436;
+}
+
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgba(243, 244, 246, var(--tw-bg-opacity));

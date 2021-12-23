@@ -116,7 +116,7 @@ export class NavbarComponent implements OnInit {
         this.darkClass = "transitionMode bg-white";
       } else {
         this.darkImg = "assets/img/sun.png";
-        this.darkClass = "transitionMode black";
+        this.darkClass = "transitionMode bg-gray-custom";
       }
     })
   }
