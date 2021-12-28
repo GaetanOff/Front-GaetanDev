@@ -17,7 +17,19 @@ import {DarkModeService} from "angular-dark-mode";
       }
     }
 
+    .font-bold {
+      font-weight: 700;
+    }
 
+    .bg-gray-custom {
+      --tw-bg-opacity: 1;
+      background-color: #2d3436;
+    }
+
+    .bg-white {
+      --tw-bg-opacity: 1;
+      background-color: white;
+    }
   `]
 })
 export class NavbarComponent implements OnInit {
