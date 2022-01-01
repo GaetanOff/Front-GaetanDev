@@ -30,6 +30,11 @@ import {DarkModeService} from "angular-dark-mode";
       --tw-bg-opacity: 1;
       background-color: white;
     }
+
+    .sticky {
+      position: -webkit-sticky;
+      position: sticky
+    }
   `]
 })
 export class NavbarComponent implements OnInit {
@@ -51,6 +56,11 @@ export class NavbarComponent implements OnInit {
 
     // @ts-ignore
     document.getElementById('nav-toggle').onclick = function () {
+      ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
+        // @ts-ignore
+        document.getElementById("navHeader").classList.remove(tokens);
+      });
+
       // @ts-ignore
       document.getElementById("nav-content").classList.toggle("hidden");
 
@@ -81,6 +91,8 @@ export class NavbarComponent implements OnInit {
             document.getElementById("navHeader").classList.add(tokens);
           });
 
+          console.log("test")
+
         }
       } else {
         if (!clicked && !clicked2 && !clicked3) {
@@ -90,6 +102,8 @@ export class NavbarComponent implements OnInit {
             // @ts-ignore
             document.getElementById("navHeader").classList.remove(tokens);
           });
+
+          console.log("test2")
 
         }
       }
