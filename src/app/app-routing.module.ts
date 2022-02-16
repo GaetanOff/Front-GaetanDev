@@ -6,6 +6,7 @@ import {ContactComponent} from "./components/base/contact/contact.component";
 import {AboutComponent} from "./components/base/about/about.component";
 import {BlogComponent} from "./components/base/blog/blog.component";
 import {HowIStartedComponent} from "./components/base/blog/how-i-started/how-i-started.component";
+import {LegalComponent} from "./components/base/legal/legal.component";
 
 const routes: Routes = [
   {
@@ -16,6 +17,9 @@ const routes: Routes = [
   },
   {
     path: "blog", component: BlogComponent
+  },
+  {
+    path: "legal", component: LegalComponent
   },
   {
     path: "blog/how_i_started", component: HowIStartedComponent
@@ -39,6 +43,6 @@ export class AppRoutingModule {
 }
 
 export const routingComponents = [
-  HomeComponent, AboutComponent, ContactComponent, AchievementsComponent,
+  HomeComponent, AboutComponent, ContactComponent, AchievementsComponent, LegalComponent,
   BlogComponent, HowIStartedComponent
 ]
