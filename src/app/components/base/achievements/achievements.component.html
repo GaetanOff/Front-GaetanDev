@@ -1,7 +1,7 @@
 <section class="animate__animated animate__fadeIn">
   <div class="pt-20 radius-for-skewed">
     <div class="container px-4 mx-auto">
-      <div class="max-w-6xl mx-auto text-center">
+      <div class="max-w-6xl mx-auto">
         <div class="max-w-lg mx-auto">
           <span class="text-green-600 font-bold"></span>
           <h2 class="mb-2 text-4xl lg:text-5xl font-bold font-heading">Mes réalisations</h2>
@@ -12,18 +12,24 @@
             <div class="">
               <div class="flex flex-wrap justify-between pt-12 -mx-6">
                 <div *ngFor="let ach of achievementsList"
-                     class=" w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink duration-300 transform hover:scale-110 motion-reduce:transform-none">
-                  <div class="flex-1 rounded-t rounded-b-none overflow-hidden shadow-lg ro">
-                    <a class="flex flex-wrap no-underline hover:no-underline"
-                       href="{{ ach.redirect }}" target="_blank">
-                      <img alt="Achievements Img"
-                           class="h-64 w-full rounded-t pb-6"
-                           decoding="async" src="{{ ach.image }}">
-                      <div class="w-full font-bold text-xl  px-6 mb-6">{{ ach.name }}</div>
-                      <p class=" text-base px-6 mb-5">
-                        {{ ach.description }}
-                      </p>
-                    </a>
+                     class=" w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+
+                  <div class="max-w-sm rounded-lg shadow-md">
+                    <img class="rounded-t-lg" src="{{ ach.image }}" alt=""/>
+                    <div class="p-5">
+                      <h5 class="mb-2 text-2xl font-bold tracking-tight">{{ ach.name }}</h5>
+                      <p class="mb-3">{{ ach.description }}</p>
+                      <a href="{{ ach.redirect }}" target="_blank"
+                         class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-green-600 hover:bg-green-700 rounded-lg hover:scale-110 motion-reduce:transform-none duration-300">
+                        En savoir plus
+                        <svg class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd"
+                                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
