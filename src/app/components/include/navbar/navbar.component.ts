@@ -91,8 +91,6 @@ export class NavbarComponent implements OnInit {
             document.getElementById("navHeader").classList.add(tokens);
           });
 
-          console.log("test")
-
         }
       } else {
         if (!clicked && !clicked2 && !clicked3) {
@@ -102,8 +100,6 @@ export class NavbarComponent implements OnInit {
             // @ts-ignore
             document.getElementById("navHeader").classList.remove(tokens);
           });
-
-          console.log("test2")
 
         }
       }
