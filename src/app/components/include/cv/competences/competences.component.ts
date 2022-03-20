@@ -32,7 +32,7 @@ export class CompetencesComponent implements OnInit {
     },
     {
       name: 'C++',
-      image: 'assets/img/comp/C++.png',
+      image: 'assets/img/comp/Cpp.png',
     },
     {
       name: 'C#',
