@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
 import {BrowserModule, Title} from '@angular/platform-browser';
 
 import {AppComponent} from './components/app.component';
@@ -16,6 +16,9 @@ import {LanguagesComponent} from './components/include/cv/languages/languages.co
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 import {ServicesComponent} from './components/include/services/services.component';
 import {NavService} from "./services/nav/nav.service";
+
+import * as Sentry from "@sentry/angular";
+import {Router} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -42,6 +45,22 @@ import {NavService} from "./services/nav/nav.service";
     {
       provide: RECAPTCHA_SETTINGS,
       useValue: {siteKey: "6LflFpcbAAAAAHVzsHtIZtJHqpKqxdWNKpMH3Bmo"} as RecaptchaSettings,
+    },
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: true,
+      }),
+    },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {},
+      deps: [Sentry.TraceService],
+      multi: true,
     },
     Title,
     NavService
