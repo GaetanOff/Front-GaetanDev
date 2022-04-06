@@ -19,6 +19,7 @@ import {NavService} from "./services/nav/nav.service";
 
 import * as Sentry from "@sentry/angular";
 import {Router} from "@angular/router";
+import { ImageDirective } from './directives/lazy/image.directive';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {Router} from "@angular/router";
     ExperienceComponent,
     LanguagesComponent,
     CompetencesComponent,
-    ServicesComponent
+    ServicesComponent,
+    ImageDirective
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,7 @@ import {Router} from "@angular/router";
     HttpClientModule,
     FormsModule,
     RecaptchaModule,
-    NotifierModule,
+    NotifierModule
   ],
   providers: [
     {
