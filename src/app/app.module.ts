@@ -19,7 +19,6 @@ import {NavService} from "./services/nav/nav.service";
 
 import * as Sentry from "@sentry/angular";
 import {Router} from "@angular/router";
-import { ImageDirective } from './directives/lazy/image.directive';
 import { TestimonialsComponent } from './components/include/testimonials/testimonials.component';
 
 @NgModule({
@@ -34,7 +33,6 @@ import { TestimonialsComponent } from './components/include/testimonials/testimo
     LanguagesComponent,
     CompetencesComponent,
     ServicesComponent,
-    ImageDirective,
     TestimonialsComponent
   ],
   imports: [
