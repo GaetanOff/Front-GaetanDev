@@ -9,7 +9,7 @@ export class NavService {
   }
 
   updateNav(): void {
-    ['contact', 'real', 'about', 'accueil', 'blog'].forEach(page => {
+    ['contact', 'real', 'about', 'accueil'].forEach(page => {
       // @ts-ignore
       if (document.getElementById(page).classList.contains("font-bold")) {
         // @ts-ignore
