@@ -19,6 +19,10 @@ export class CompetencesComponent implements OnInit {
       image: 'assets/img/comp/Angular.png',
     },
     {
+      name: 'Svelte',
+      image: 'assets/img/comp/Svelte.png',
+    },
+    {
       name: 'SASS',
       image: 'assets/img/comp/SASS.png',
     },

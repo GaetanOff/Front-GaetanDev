@@ -8,6 +8,8 @@ body:not(.dark-mode-preloading) {
 
 body.dark-mode {
   background-color: white;
+  background-image: url('assets/img/pattern-white.svg');
+  background-position: center;
   color: #2d3436;
 }
 
