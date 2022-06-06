@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule, Title} from '@angular/platform-browser';
 
 import {AppComponent} from './components/app.component';
@@ -17,8 +17,6 @@ import {CompetencesComponent} from "./components/include/cv/competences/competen
 import {ServicesComponent} from './components/include/services/services.component';
 import {NavService} from "./services/nav/nav.service";
 
-import * as Sentry from "@sentry/angular";
-import {Router} from "@angular/router";
 import { TestimonialsComponent } from './components/include/testimonials/testimonials.component';
 
 @NgModule({
@@ -47,22 +45,6 @@ import { TestimonialsComponent } from './components/include/testimonials/testimo
     {
       provide: RECAPTCHA_SETTINGS,
       useValue: {siteKey: "6LflFpcbAAAAAHVzsHtIZtJHqpKqxdWNKpMH3Bmo"} as RecaptchaSettings,
-    },
-    {
-      provide: ErrorHandler,
-      useValue: Sentry.createErrorHandler({
-        showDialog: true,
-      }),
-    },
-    {
-      provide: Sentry.TraceService,
-      deps: [Router],
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => {},
-      deps: [Sentry.TraceService],
-      multi: true,
     },
     Title,
     NavService
