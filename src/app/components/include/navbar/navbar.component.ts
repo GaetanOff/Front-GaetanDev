@@ -38,7 +38,7 @@ import {DarkModeService} from "angular-dark-mode";
   `]
 })
 export class NavbarComponent implements OnInit {
-  darkImg = "assets/img/moon.png";
+  darkImg = "assets/img/moon.webp";
   darkClass = "bg-white";
 
   constructor(private darkModeService: DarkModeService) {
@@ -134,10 +134,10 @@ export class NavbarComponent implements OnInit {
   switchDarkModeImage(): void {
     this.darkModeService.darkMode$.subscribe(bool => {
       if (bool) {
-        this.darkImg = "assets/img/moon.png";
+        this.darkImg = "assets/img/moon.webp";
         this.darkClass = "transitionMode bg-white";
       } else {
-        this.darkImg = "assets/img/sun.png";
+        this.darkImg = "assets/img/sun.webp";
         this.darkClass = "transitionMode bg-gray-custom";
       }
     })

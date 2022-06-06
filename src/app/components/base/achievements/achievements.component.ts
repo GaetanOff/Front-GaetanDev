@@ -11,25 +11,25 @@ export class AchievementsComponent implements OnInit {
     {
       name: 'Portfolio',
       description: "Le côté graphique de mon portfolio et le côté serveur.",
-      image: 'assets/img/achievements/Portfolio.png',
+      image: 'assets/img/achievements/Portfolio.webp',
       redirect: 'https://github.com/GaetanOff/Front-GaetanDev'
     },
     {
       name: 'Firewall Template',
       description: "Un exemple de règles de pare-feu pouvant être utilisées pour un serveur Minecraft, pour diminuer les attaques.",
-      image: 'assets/img/achievements/iptables.png',
+      image: 'assets/img/achievements/iptables.webp',
       redirect: 'https://github.com/GaetanOff/Firewall-Template'
     },
     {
       name: 'Plugiciel KryxCore',
       description: "Plugiciel codé en Java pour le serveur Minecraft KryxMC.",
-      image: 'assets/img/achievements/KryxMC.png',
+      image: 'assets/img/achievements/KryxMC.webp',
       redirect: 'https://github.com/GaetanOff/KryxCore'
     },
     {
       name: 'Content Delivery Network',
       description: "Mon réseau de distribution de contenu pour pouvoir avoir une diffusion rapides et fiables.",
-      image: 'assets/img/achievements/cloud.png',
+      image: 'assets/img/achievements/cloud.webp',
       redirect: 'https://cdn.gaetandev.fr/'
     }
   ];

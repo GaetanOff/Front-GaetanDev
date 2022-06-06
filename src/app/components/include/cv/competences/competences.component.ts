@@ -8,107 +8,107 @@ export class CompetencesComponent implements OnInit {
   competencesList = [
     {
       name: 'JVM',
-      image: 'assets/img/comp/JVM.png',
+      image: 'assets/img/comp/JVM.webp',
     },
     {
       name: 'TypeScript',
-      image: 'assets/img/comp/TypeScript.png',
+      image: 'assets/img/comp/TypeScript.webp',
     },
     {
       name: 'Angular',
-      image: 'assets/img/comp/Angular.png',
+      image: 'assets/img/comp/Angular.webp',
     },
     {
       name: 'Svelte',
-      image: 'assets/img/comp/Svelte.png',
+      image: 'assets/img/comp/Svelte.webp',
     },
     {
       name: 'SASS',
-      image: 'assets/img/comp/SASS.png',
+      image: 'assets/img/comp/SASS.webp',
     },
     {
       name: 'Go',
-      image: 'assets/img/comp/Go.png',
+      image: 'assets/img/comp/Go.webp',
     },
     {
       name: 'C',
-      image: 'assets/img/comp/C.png',
+      image: 'assets/img/comp/C.webp',
     },
     {
       name: 'C++',
-      image: 'assets/img/comp/Cpp.png',
+      image: 'assets/img/comp/Cpp.webp',
     },
     {
       name: 'C#',
-      image: 'assets/img/comp/CSharp.png',
+      image: 'assets/img/comp/CSharp.webp',
     },
     {
       name: 'Dart',
-      image: 'assets/img/comp/Dart.png',
+      image: 'assets/img/comp/Dart.webp',
     },
     {
       name: 'Flutter',
-      image: 'assets/img/comp/Flutter.png',
+      image: 'assets/img/comp/Flutter.webp',
     },
     {
       name: 'NodeJS',
-      image: 'assets/img/comp/NodeJS.png',
+      image: 'assets/img/comp/NodeJS.webp',
     },
     {
       name: 'AWS',
-      image: 'assets/img/comp/AWS.png',
+      image: 'assets/img/comp/AWS.webp',
     },
     {
       name: 'GCP',
-      image: 'assets/img/comp/GCP.png',
+      image: 'assets/img/comp/GCP.webp',
     },
     {
       name: 'OVHCloud',
-      image: 'assets/img/comp/OVHCloud.png',
+      image: 'assets/img/comp/OVHCloud.webp',
     },
     {
       name: 'Prometheus',
-      image: 'assets/img/comp/Prometheus.png',
+      image: 'assets/img/comp/Prometheus.webp',
     },
     {
       name: 'Grafana',
-      image: 'assets/img/comp/Grafana.png',
+      image: 'assets/img/comp/Grafana.webp',
     },
     {
       name: 'Datadog',
-      image: 'assets/img/comp/Datadog.png',
+      image: 'assets/img/comp/Datadog.webp',
     },
     {
       name: 'VMWare',
-      image: 'assets/img/comp/VMWare.png',
+      image: 'assets/img/comp/VMWare.webp',
     },
     {
       name: 'Proxmox',
-      image: 'assets/img/comp/Proxmox.png',
+      image: 'assets/img/comp/Proxmox.webp',
     },
     {
       name: 'Unraid',
-      image: 'assets/img/comp/Unraid.png',
+      image: 'assets/img/comp/Unraid.webp',
     },
     {
       name: 'Docker',
-      image: 'assets/img/comp/Docker.png',
+      image: 'assets/img/comp/Docker.webp',
     },
     {
       name: 'Containerd',
-      image: 'assets/img/comp/Containerd.png',
+      image: 'assets/img/comp/Containerd.webp',
     },
     {
       name: 'Kubernetes',
-      image: 'assets/img/comp/Kubernetes.png',
+      image: 'assets/img/comp/Kubernetes.webp',
     },
     {
       name: 'Terraform',
-      image: 'assets/img/comp/Terraform.png',
+      image: 'assets/img/comp/Terraform.webp',
     },
     {
       name: 'Ansible',
-      image: 'assets/img/comp/Ansible.png',
+      image: 'assets/img/comp/Ansible.webp',
     }
   ];
 
