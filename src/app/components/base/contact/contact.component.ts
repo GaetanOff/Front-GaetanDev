@@ -30,10 +30,10 @@ export class ContactComponent implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo({top: 0});
+
     this.navService.updateNav();
 
-    // @ts-ignore
-    document.getElementById("contact").classList.toggle("font-bold");
+    document.getElementById("contact")?.classList.toggle("font-bold");
 
     this.titleService.setTitle("Gaetan • Contact");
   }

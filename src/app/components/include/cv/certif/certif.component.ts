@@ -6,7 +6,7 @@ import {I18nService} from "../../../../services/i18n/i18n.service";
   templateUrl: '/certif.component.html'
 })
 export class CertifComponent implements OnInit {
-  certifList = [
+  certifList: any = [
     {
       name: 'AWS - Professional',
       date: this.i18n.isFrench ?

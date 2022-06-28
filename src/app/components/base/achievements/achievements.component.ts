@@ -12,7 +12,7 @@ export class AchievementsComponent implements OnInit {
     {
       name: 'Content Delivery Network',
       description: this.i18n.isFrench ? "My content distribution network to be able to have a fast and reliable distribution." : "Mon réseau de distribution de contenu pour pouvoir avoir une diffusion rapides et fiables.",
-      image: 'assets/img/achievements/cloud.webp',
+      image: 'assets/img/achievements/cdn.webp',
       redirect: 'https://cdn.gaetandev.fr/'
     }
   ];
@@ -23,8 +23,7 @@ export class AchievementsComponent implements OnInit {
   ngOnInit(): void {
     this.navService.updateNav();
 
-    // @ts-ignore
-    document.getElementById("real").classList.toggle("font-bold");
+    document.getElementById("real")?.classList.toggle("font-bold");
 
     this.titleService.setTitle("Gaetan • " + (this.i18n.isFrench ? "Achievements" : "Réalisations"));
   }

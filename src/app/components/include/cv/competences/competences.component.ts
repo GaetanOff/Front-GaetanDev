@@ -6,7 +6,7 @@ import {I18nService} from "../../../../services/i18n/i18n.service";
   templateUrl: '/competences.component.html'
 })
 export class CompetencesComponent implements OnInit {
-  competencesList = [
+  competencesList: any = [
     {
       name: 'JVM',
       image: 'assets/img/comp/JVM.webp',

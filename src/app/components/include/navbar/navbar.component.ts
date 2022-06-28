@@ -8,43 +8,12 @@ import {NotifierService} from "angular-notifier";
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styles: [`
-    @media all and (min-width: 1027px) {
-      .darkModeDesk {
-        display: block;
-      }
-    }
-
-    @media all and (max-width: 1026px) {
-      .darkModeDesk {
-        display: none;
-      }
-    }
-
-    .font-bold {
-      font-weight: 700;
-    }
-
-    .bg-gray-custom {
-      --tw-bg-opacity: 1;
-      background-color: #2d3436;
-    }
-
-    .bg-white {
-      --tw-bg-opacity: 1;
-      background-color: white;
-    }
-
-    .sticky {
-      position: -webkit-sticky;
-      position: sticky
-    }
-  `]
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  darkImg = "assets/img/moon.webp";
-  languageImg = this.i18n.isFrench ? "assets/img/france.svg" : "assets/img/english.svg";
-  darkClass = "bg-white";
+  darkImg: string = "assets/img/moon.webp";
+  languageImg: string = this.i18n.isFrench ? "assets/img/france.svg" : "assets/img/english.svg";
+  darkClass: string = "bg-white";
 
   constructor(private darkModeService: DarkModeService, public i18n: I18nService, private localStorage: LocalstorageService,
               private router: Router, private notifierService: NotifierService) {
@@ -54,47 +23,49 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.switchDarkModeImage();
 
-    let previous = 0;
-    let previouses = false;
-    let clicked = false;
-    let clicked2 = false;
-    let clicked3 = false;
+    let previous: number = 0;
+    let previouses: boolean = false;
+    let clicked: boolean = false;
+    let clicked2: boolean = false;
+    let clicked3: boolean = false;
 
-    // @ts-ignore
-    document.getElementById('nav-toggle').onclick = function () {
+    document.getElementById('nav-toggle')?.addEventListener("click", function () {
       ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
-        // @ts-ignore
-        document.getElementById("navHeader").classList.remove(tokens);
+        document.getElementById("navHeader")?.classList.remove(tokens);
       });
 
-      // @ts-ignore
-      document.getElementById("nav-content").classList.toggle("hidden");
+      document.getElementById("nav-content")?.classList.toggle("hidden");
 
       ['animate__animated', 'animate__backInLeft'].forEach(tokens => {
-        // @ts-ignore
-        document.getElementById("nav-content").classList.add(tokens);
+        document.getElementById("nav-content")?.classList.add(tokens);
       });
-    }
+    });
 
-    // @ts-ignore
-    document.getElementById('dark').onclick = function () {
+    document.getElementById('dark')?.addEventListener("click", function () {
       clicked2 = true;
 
       setTimeout(
         function () {
           clicked2 = false;
         }, 300);
-    }
+    });
 
-    window.onscroll = function () {
+    document.addEventListener("click", function () {
+      clicked2 = true;
 
+      setTimeout(
+        function () {
+          clicked2 = false;
+        }, 300);
+    });
+
+    document.addEventListener("scroll", function () {
       if (document.documentElement.scrollTop < previous) {
         if (!previouses && !clicked && !clicked2 && !clicked3) {
           previouses = true;
 
           ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
-            // @ts-ignore
-            document.getElementById("navHeader").classList.add(tokens);
+            document.getElementById("navHeader")?.classList.add(tokens);
           });
 
         }
@@ -103,28 +74,23 @@ export class NavbarComponent implements OnInit {
           previouses = false;
 
           ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
-            // @ts-ignore
-            document.getElementById("navHeader").classList.remove(tokens);
+            document.getElementById("navHeader")?.classList.remove(tokens);
           });
 
         }
       }
 
       previous = document.documentElement.scrollTop;
-    };
-
+    });
   }
 
   disableMobileMenu(): void {
-    // @ts-ignore
-    if (!document.getElementById("nav-content").classList.contains("hidden")) {
+    if (!document.getElementById("nav-content")?.classList.contains("hidden")) {
       ['animate__animated', 'animate__backInLeft'].forEach(tokens => {
-        // @ts-ignore
-        document.getElementById("nav-content").classList.remove(tokens);
+        document.getElementById("nav-content")?.classList.remove(tokens);
       });
 
-      // @ts-ignore
-      document.getElementById("nav-content").classList.toggle("hidden");
+      document.getElementById("nav-content")?.classList.toggle("hidden");
     }
   }
 

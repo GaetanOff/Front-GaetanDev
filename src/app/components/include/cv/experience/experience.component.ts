@@ -6,7 +6,7 @@ import {I18nService} from "../../../../services/i18n/i18n.service";
   templateUrl: '/experience.component.html'
 })
 export class ExperienceComponent implements OnInit {
-  experiencesList = [
+  experiencesList: any = [
     {
       name: 'Free-lance',
       date: this.i18n.isFrench ?

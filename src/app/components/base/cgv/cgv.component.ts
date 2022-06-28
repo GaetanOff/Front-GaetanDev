@@ -14,7 +14,9 @@ export class CgvComponent implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
+
     this.navService.updateNav();
+
     this.titleService.setTitle("Gaetan • " + (this.i18n.isFrench ? "TOS/CGV\n" : "CGU/CGV"));
   }
 

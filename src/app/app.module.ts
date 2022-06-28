@@ -15,7 +15,6 @@ import {ExperienceComponent} from './components/include/cv/experience/experience
 import {LanguagesComponent} from './components/include/cv/languages/languages.component';
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 import {ServicesComponent} from './components/include/services/services.component';
-import {NavService} from "./services/nav/nav.service";
 
 @NgModule({
   declarations: [
@@ -43,8 +42,7 @@ import {NavService} from "./services/nav/nav.service";
       provide: RECAPTCHA_SETTINGS,
       useValue: {siteKey: "6LflFpcbAAAAAHVzsHtIZtJHqpKqxdWNKpMH3Bmo"} as RecaptchaSettings,
     },
-    Title,
-    NavService
+    Title
   ],
   bootstrap: [AppComponent]
 })

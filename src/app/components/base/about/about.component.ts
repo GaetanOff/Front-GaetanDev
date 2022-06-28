@@ -15,8 +15,7 @@ export class AboutComponent implements OnInit {
   ngOnInit(): void {
     this.navService.updateNav();
 
-    // @ts-ignore
-    document.getElementById("about").classList.toggle("font-bold");
+    document.getElementById("about")?.classList.toggle("font-bold");
 
     this.titleService.setTitle("Gaetan • " + (this.i18n.isFrench ? "About me" : "A propos"));
   }

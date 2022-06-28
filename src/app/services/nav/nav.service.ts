@@ -10,10 +10,8 @@ export class NavService {
 
   updateNav(): void {
     ['contact', 'real', 'about', 'accueil'].forEach(page => {
-      // @ts-ignore
-      if (document.getElementById(page).classList.contains("font-bold")) {
-        // @ts-ignore
-        document.getElementById(page).classList.toggle("font-bold");
+      if (document.getElementById(page)?.classList.contains("font-bold")) {
+        document.getElementById(page)?.classList.toggle("font-bold");
       }
     });
   }
