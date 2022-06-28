@@ -18,7 +18,7 @@ export class AboutComponent implements OnInit {
     // @ts-ignore
     document.getElementById("about").classList.toggle("font-bold");
 
-    this.titleService.setTitle("Gaetan • A propos");
+    this.titleService.setTitle("Gaetan • " + (this.i18n.isFrench ? "About me" : "A propos"));
   }
 
   processForm() {

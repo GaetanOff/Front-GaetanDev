@@ -26,7 +26,7 @@ export class AchievementsComponent implements OnInit {
     // @ts-ignore
     document.getElementById("real").classList.toggle("font-bold");
 
-    this.titleService.setTitle("Gaetan • Réalisations");
+    this.titleService.setTitle("Gaetan • " + (this.i18n.isFrench ? "Achievements" : "Réalisations"));
   }
 
 }
