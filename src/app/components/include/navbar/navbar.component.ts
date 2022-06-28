@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {DarkModeService} from "angular-dark-mode";
 import {I18nService} from "../../../services/i18n/i18n.service";
 import {LocalstorageService} from "../../../services/localstorage/localstorage.service";
+import {Router} from "@angular/router";
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-navbar',
@@ -44,7 +46,8 @@ export class NavbarComponent implements OnInit {
   languageImg = this.i18n.isFrench ? "assets/img/france.svg" : "assets/img/english.svg";
   darkClass = "bg-white";
 
-  constructor(private darkModeService: DarkModeService, public i18n: I18nService, private localStorage: LocalstorageService) {
+  constructor(private darkModeService: DarkModeService, public i18n: I18nService, private localStorage: LocalstorageService,
+              private router: Router, private notifierService: NotifierService) {
   }
 
 
@@ -155,14 +158,16 @@ export class NavbarComponent implements OnInit {
       this.i18n.isFrench = false;
       this.localStorage.get.setItem("english", "false")
       this.languageImg = "assets/img/english.svg";
+      this.notifierService.notify('success', "Succès, vous êtes maintenant sur la version française.");
     } else {
       this.i18n.isFrench = true;
       this.localStorage.get.setItem("english", "true")
       this.languageImg = "assets/img/france.svg";
+      this.notifierService.notify('success', "Success, you are now on the English version.");
     }
 
     this.i18n.update();
-    location.reload();
+    this.router.navigate([" "]).then(() => console.log("Redirected to the main page"));
   }
 
 }
