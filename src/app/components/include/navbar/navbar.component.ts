@@ -167,7 +167,7 @@ export class NavbarComponent implements OnInit {
     }
 
     this.i18n.update();
-    this.router.navigate([" "]).then(() => console.log("Redirected to the main page"));
+    this.router.navigate([""]).then(() => console.log("Redirected to the main page"));
   }
 
 }

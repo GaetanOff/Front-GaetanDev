@@ -17,6 +17,16 @@ export class I18nService {
       this.isFrench = true;
     }
 
+    if (window.location.href.indexOf("/en") > -1) {
+      this.localStorage.get.setItem("english", "true");
+      this.isFrench = true;
+    }
+
+    if (window.location.href.indexOf("/fr") > -1) {
+      this.localStorage.get.setItem("english", "false");
+      this.isFrench = false;
+    }
+
     this.update();
 
   }
