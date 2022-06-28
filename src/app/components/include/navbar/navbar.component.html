@@ -4,8 +4,8 @@
       <div class="block lg:hidden pr-3">
         <button
           class="flex items-center p-4 text-black hover:text-gray-900 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
-          style="font-size: 0"
-          id="nav-toggle">
+          id="nav-toggle"
+          style="font-size: 0">
           Navbar
           <svg class="fill-current h-6 w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
@@ -30,22 +30,26 @@
         <div>
           <ul>
             <li class="mb-1"><a
+              (click)="disableMobileMenu()"
               class="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded"
-              routerLink="" (click)="disableMobileMenu()">Accueil</a></li>
+              routerLink="">{{ this.i18n.text.navbar.home }}</a></li>
             <li class="mb-1"><a
+              (click)="disableMobileMenu()"
               class="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded"
-              routerLink="/about" (click)="disableMobileMenu()">A Propos</a></li>
+              routerLink="/about">{{ this.i18n.text.navbar.about }}</a></li>
             <li class="mb-1"><a
+              (click)="disableMobileMenu()"
               class="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded"
-              routerLink="/achievements" (click)="disableMobileMenu()">Réalisations</a></li>
+              routerLink="/achievements">{{ this.i18n.text.navbar.achievements }}</a></li>
             <li class="mb-1"><a
+              (click)="disableMobileMenu()"
               class="block p-4 text-sm font-semibold text-gray-400 hover:bg-green-50 hover:text-green-600 rounded"
-              routerLink="/contact" (click)="disableMobileMenu()">Contact</a></li>
+              routerLink="/contact">Contact</a></li>
           </ul>
         </div>
         <div class="mt-auto">
           <p class="my-4 text-xs text-center text-gray-400">
-            <span>Développé et conçu avec ❤️ par Gaëtan Faucher.</span>
+            <span>{{ this.i18n.text.devWithLove }}.</span>
           </p>
           <div class="text-center">
             <a class="inline-block px-1" href="https://twitter.com/Gaetan_Off/" target="_blank">
@@ -62,6 +66,10 @@
                  class="flex items-center p-1.5">
               <img alt="DarkMode logo" src="{{darkImg}}">
             </div>
+            <div (click)="onSwitchLanguage()"
+                 class="flex items-center p-1.5">
+              <img alt="Language logo" src="{{languageImg}}" width="30">
+            </div>
           </div>
         </div>
       </nav>
@@ -75,7 +83,7 @@
               <li>
                 <a (click)="onClickList()"
                    class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium" id="accueil"
-                   routerLink="">Accueil</a>
+                   routerLink="">{{ this.i18n.text.navbar.home }}</a>
               </li>
               <li class="text-gray-300">
                 <svg class="w-4 h-4 current-fill" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -89,7 +97,7 @@
               <li>
                 <a (click)="onClickList()"
                    class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium" id="about"
-                   routerLink="/about">A Propos</a>
+                   routerLink="/about">{{ this.i18n.text.navbar.about }}</a>
               </li>
               <li class="text-gray-300">
                 <svg class="w-4 h-4 current-fill" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -103,7 +111,7 @@
               <li>
                 <a (click)="onClickList()"
                    class="lg:hover:bg-green-600 lg:hover:text-white px-3 py-2 rounded-md font-medium" id="real"
-                   routerLink="/achievements">Réalisations</a>
+                   routerLink="/achievements">{{ this.i18n.text.navbar.achievements }}</a>
               </li>
               <li class="text-gray-300">
                 <svg class="w-4 h-4 current-fill" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -127,6 +135,13 @@
                class="flex items-center p-1.5 rounded-xl hover:bg-opacity-25 hover:shadow-lg duration-200"
                id="dark">
             <img src="{{darkImg}}">
+          </div>
+        </div>
+        <div class="darkModeDesk">
+          <div (click)="onSwitchLanguage()"
+               class="flex items-center p-1.5 rounded-xl hover:bg-opacity-25 hover:shadow-lg duration-200"
+               id="language">
+            <img src="{{languageImg}}" width="30">
           </div>
         </div>
       </div>

@@ -3,22 +3,22 @@
   <div
     class="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 mt-8 lg:mt-12 border-t-2 border-gray-200 pt-8">
     <nav class="flex flex-wrap justify-center space-x-6">
-      <strong>Développé et conçu par Gaëtan Faucher.</strong>
+      <strong>{{ this.i18n.text.devWithLove }}.</strong>
     </nav>
     <nav class="col-span-4 col-start-2 md:pl-12 lg:pl-24">
       <ul class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 lg:space-x-12">
         <li>
           <a class="flex space-x-2 font-normal text-base hover:text-green-400" routerLink="/cgv">
-            <span>CGU/CGV</span>
+            <span>{{ this.i18n.text.footer.cgu }}</span>
           </a>
         </li>
         <li>
           <a class="flex space-x-2 font-normal text-base hover:text-green-400" routerLink="/legal">
-            <span>Mention légales</span>
+            <span>{{ this.i18n.text.footer.legal }}</span>
           </a>
         </li>
         <li class="hidden lg:block md:block">
-            <span>|</span>
+          <span>|</span>
         </li>
         <li>
           <a class="flex space-x-2 font-normal text-base hover:text-green-400" href="https://twitter.com/Gaetan_Off/"
@@ -28,7 +28,8 @@
           </a>
         </li>
         <li>
-          <a class="flex space-x-2 font-normal text-base hover:text-green-400" href="https://www.instagram.com/gaetan_dev/"
+          <a class="flex space-x-2 font-normal text-base hover:text-green-400"
+             href="https://www.instagram.com/gaetan_dev/"
              target="_blank">
             <img alt="Twitter Logo" src="assets/img/social/instagram.svg"/>
             <span class="lg:hidden md:hidden">Instagram</span>

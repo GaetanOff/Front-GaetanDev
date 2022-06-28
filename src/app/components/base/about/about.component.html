@@ -5,16 +5,15 @@
       <div class="max-w-6xl mx-auto text-center">
         <div class="max-w-lg mx-auto">
           <span class="text-green-600 font-bold"></span>
-          <h2 class="mb-2 text-4xl lg:text-5xl font-bold font-heading">A propos de moi</h2>
+          <h2 class="mb-2 text-4xl lg:text-5xl font-bold font-heading">{{ this.i18n.text.about.title }}</h2>
           <p class="mb-6 text-gray-500"></p>
         </div>
         <div class="mb-12">
           <p></p>
         </div>
         <div class="mb-6">
-          <p class="text-2xl">Bonjour, je suis Gaëtan Faucher.</p>
-          <p class="text-2xl">Je suis un jeune développeur full-stack et DevOps !
-            Je m'intéresse beaucoup aux nouvelles technologies, au développement et à l'informatique.</p>
+          <p class="text-2xl">{{ this.i18n.text.about.role }}</p>
+          <p class="text-2xl">{{ this.i18n.text.desc }}</p>
         </div>
         <form (ngSubmit)="processForm()">
           <button
@@ -23,7 +22,7 @@
             <svg class="fill-current w-4 h-4 mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/>
             </svg>
-            <span>Télécharger mon CV</span>
+            <span>{{ this.i18n.text.about.cvButton }}</span>
           </button>
         </form>
       </div>

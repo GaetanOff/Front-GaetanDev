@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavService} from "../../../services/nav/nav.service";
+import {I18nService} from "../../../services/i18n/i18n.service";
 
 @Component({
   selector: 'app-legal',
@@ -7,7 +8,8 @@ import {NavService} from "../../../services/nav/nav.service";
 })
 export class LegalComponent implements OnInit {
 
-  constructor(private navService: NavService) { }
+  constructor(private navService: NavService, public i18n: I18nService) {
+  }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);

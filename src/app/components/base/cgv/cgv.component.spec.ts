@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CgvComponent } from './cgv.component';
+import {CgvComponent} from './cgv.component';
 
 describe('CgvComponent', () => {
   let component: CgvComponent;
@@ -8,9 +8,9 @@ describe('CgvComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CgvComponent ]
+      declarations: [CgvComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -78,7 +78,7 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 
 abbr[title] {
   -webkit-text-decoration: underline dotted;
-          text-decoration: underline dotted;
+  text-decoration: underline dotted;
 }
 
 /*
@@ -1258,7 +1258,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .no-underline {
   -webkit-text-decoration-line: none;
-          text-decoration-line: none;
+  text-decoration-line: none;
 }
 
 .opacity-25 {
@@ -1381,7 +1381,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .hover\:underline:hover {
   -webkit-text-decoration-line: underline;
-          text-decoration-line: underline;
+  text-decoration-line: underline;
 }
 
 .hover\:shadow-lg:hover {

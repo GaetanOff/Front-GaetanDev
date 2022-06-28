@@ -4,7 +4,7 @@
 
       <div class="mb-16 max-w-2xl mx-auto text-center">
         <div class=" text-center mb-16">
-          <h2 class="mb-2 text-4xl lg:text-5xl font-bold font-heading ">Bonjour, je suis Gaëtan Faucher 👋</h2>
+          <h2 class="mb-2 text-4xl lg:text-5xl font-bold font-heading ">{{ this.i18n.text.home.welcome }}</h2>
         </div>
       </div>
 
@@ -16,17 +16,16 @@
           <div class="p-4 md:p-12 text-center lg:text-left">
             <div class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
                  style="background-image: url('assets/img/Gaetan2.webp')"></div>
-            <h1 class="text-3xl font-body pt-8 lg:pt-0 mb-4">Je suis un jeune développeur full-stack et DevOps !
-              Je m'intéresse beaucoup aux nouvelles technologies, au développement et à l'informatique.</h1>
+            <h1 class="text-3xl font-body pt-8 lg:pt-0 mb-4">{{ this.i18n.text.desc }}</h1>
             <button
               class="ml-auto transform hover:scale-110 motion-reduce:transform-none duration-300 bg-green-600 hover:bg-green-700 text-gray-100 font-bold py-2 px-4 p-12 rounded-lg inline-flex items-center"
               routerLink="/contact">
-              <span>Me contacter</span>
+              <span>{{ this.i18n.text.home.contactButton }}</span>
             </button>
             <button
               class="ml-2 transform hover:scale-110 motion-reduce:transform-none duration-300 bg-green-600 hover:bg-green-700 text-gray-100 font-bold py-2 px-4 p-12 rounded-lg inline-flex items-center"
               routerLink="/about">
-              <span>En savoir plus</span>
+              <span>{{ this.i18n.text.learnMoreButton }}</span>
             </button>
           </div>
         </div>

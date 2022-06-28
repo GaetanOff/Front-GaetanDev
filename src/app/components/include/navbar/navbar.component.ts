@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DarkModeService} from "angular-dark-mode";
+import {I18nService} from "../../../services/i18n/i18n.service";
+import {LocalstorageService} from "../../../services/localstorage/localstorage.service";
 
 @Component({
   selector: 'app-navbar',
@@ -39,9 +41,10 @@ import {DarkModeService} from "angular-dark-mode";
 })
 export class NavbarComponent implements OnInit {
   darkImg = "assets/img/moon.webp";
+  languageImg = this.i18n.isFrench ? "assets/img/france.svg" : "assets/img/english.svg";
   darkClass = "bg-white";
 
-  constructor(private darkModeService: DarkModeService) {
+  constructor(private darkModeService: DarkModeService, public i18n: I18nService, private localStorage: LocalstorageService) {
   }
 
 
@@ -127,6 +130,10 @@ export class NavbarComponent implements OnInit {
     this.switchDarkModeImage();
   }
 
+  onSwitchLanguage(): void {
+    this.switchDarkLanguage();
+  }
+
   onClickList(): void {
     window.scrollTo({top: 0});
   }
@@ -141,6 +148,21 @@ export class NavbarComponent implements OnInit {
         this.darkClass = "transitionMode bg-gray-custom";
       }
     })
+  }
+
+  switchDarkLanguage(): void {
+    if (this.i18n.isFrench) {
+      this.i18n.isFrench = false;
+      this.localStorage.get.setItem("english", "false")
+      this.languageImg = "assets/img/english.svg";
+    } else {
+      this.i18n.isFrench = true;
+      this.localStorage.get.setItem("english", "true")
+      this.languageImg = "assets/img/france.svg";
+    }
+
+    this.i18n.update();
+    location.reload();
   }
 
 }

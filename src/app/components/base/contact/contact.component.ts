@@ -3,6 +3,7 @@ import {NotifierService} from "angular-notifier";
 import {HttpClient} from "@angular/common/http";
 import {Title} from "@angular/platform-browser";
 import {NavService} from "../../../services/nav/nav.service";
+import {I18nService} from "../../../services/i18n/i18n.service";
 
 @Component({
   selector: 'app-contact',
@@ -17,7 +18,7 @@ export class ContactComponent implements OnInit {
   private readonly notifier: NotifierService;
   private http: HttpClient;
 
-  constructor(private notifierService: NotifierService, private httpClient: HttpClient, private titleService: Title, private navService: NavService) {
+  constructor(public i18n: I18nService, private notifierService: NotifierService, private httpClient: HttpClient, private titleService: Title, private navService: NavService) {
     this.notifier = notifierService;
     this.http = httpClient;
     this.captcha = false;
@@ -39,22 +40,22 @@ export class ContactComponent implements OnInit {
 
   processForm() {
     if (this.name == undefined || this.email == undefined || this.message == undefined) {
-      this.notifier.notify('error', 'Erreur, formulaire invalide !');
+      this.notifier.notify('error', this.i18n.text.contact.form.invalid);
     } else if (this.name.length < 3) {
-      this.notifier.notify('error', 'Erreur, nom invalide !');
+      this.notifier.notify('error', this.i18n.text.contact.form.nameInvalid);
     } else if (!this.email.includes("@") || !this.email.includes(".")) {
-      this.notifier.notify('error', 'Erreur, mail invalide !');
+      this.notifier.notify('error', this.i18n.text.contact.form.mailInvalid)
     } else if (this.message.length < 3) {
-      this.notifier.notify('error', 'Erreur, message invalide !');
+      this.notifier.notify('error', this.i18n.text.contact.form.messageInvalid)
     } else if (!this.captcha) {
-      this.notifier.notify('error', 'Erreur, captcha invalide !');
+      this.notifier.notify('error', this.i18n.text.contact.form.captchaInvalid)
     } else {
       if (this.lastName == this.name) {
         location.reload();
         return;
       }
 
-      this.notifier.notify('success', 'Succès, mail envoyé !');
+      this.notifier.notify('success', this.i18n.text.contact.form.success);
 
       this.http.get("https://cdn.gaetandev.fr/gaetan/files/contact.php?email=" + this.email + "&name=" + this.name + "&message=" + this.message)
         .subscribe();

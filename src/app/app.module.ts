@@ -17,8 +17,6 @@ import {CompetencesComponent} from "./components/include/cv/competences/competen
 import {ServicesComponent} from './components/include/services/services.component';
 import {NavService} from "./services/nav/nav.service";
 
-import { TestimonialsComponent } from './components/include/testimonials/testimonials.component';
-
 @NgModule({
   declarations: [
     routingComponents,
@@ -30,8 +28,7 @@ import { TestimonialsComponent } from './components/include/testimonials/testimo
     ExperienceComponent,
     LanguagesComponent,
     CompetencesComponent,
-    ServicesComponent,
-    TestimonialsComponent
+    ServicesComponent
   ],
   imports: [
     BrowserModule,

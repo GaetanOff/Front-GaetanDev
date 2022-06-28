@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg height="4cm" version="1.1" viewBox="-10 -10 3020 2020" width="6cm" xmlns="http://www.w3.org/2000/svg">
+  <g id="French_Flag_by_Adam_Stanislav">
+    <title>Flag of France, by Adam Stanislav</title>
+    <rect fill="rgb(0%,14%,58%)" height="2000" width="1010" x="0" y="0"/>
+    <rect fill="rgb(97%,97%,97%)" height="2000" width="1010" x="1000" y="0"/>
+    <rect fill="rgb(93%,16%,22%)" height="2000" width="1000" x="2000" y="0"/>
+    <rect fill="none" height="2000" stroke="rgb(55%,55%,55%)" stroke-width="10" width="3000" x="0" y="0"/>
+  </g>
+</svg>
