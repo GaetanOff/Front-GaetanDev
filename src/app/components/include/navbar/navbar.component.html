@@ -130,18 +130,20 @@
             </ol>
           </div>
         </div>
-        <div class="darkModeDesk">
-          <div (click)="onSwitchDarkMode()"
-               class="flex items-center p-1.5 rounded-xl hover:bg-opacity-25 hover:shadow-lg duration-200"
-               id="dark">
-            <img src="{{darkImg}}">
+        <div class="flex items-center space-x-2">
+          <div class="darkModeDesk">
+            <button (click)="onSwitchDarkMode()"
+                    class="p-1.5"
+                    id="dark">
+              <img src="{{darkImg}}" alt="">
+            </button>
           </div>
-        </div>
-        <div class="darkModeDesk">
-          <div (click)="onSwitchLanguage()"
-               class="flex items-center p-1.5 rounded-xl hover:bg-opacity-25 hover:shadow-lg duration-200"
-               id="language">
-            <img src="{{languageImg}}" width="30">
+          <div class="darkModeDesk">
+            <button (click)="onSwitchLanguage()"
+                    class="p-1.5"
+                    id="language">
+              <img src="{{languageImg}}" width="30" alt="">
+            </button>
           </div>
         </div>
       </div>

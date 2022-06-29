@@ -19,7 +19,6 @@ export class NavbarComponent implements OnInit {
               private router: Router, private notifierService: NotifierService) {
   }
 
-
   ngOnInit(): void {
     this.switchDarkModeImage();
 
