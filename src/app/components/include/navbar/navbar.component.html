@@ -55,21 +55,22 @@
             <a class="inline-block px-1" href="https://twitter.com/Gaetan_Off/" target="_blank">
               <img alt="" src="assets/img/social/twitter.svg">
             </a>
+            <a class="inline-block px-1" href="https://www.instagram.com/gaetan_dev/" target="_blank">
+              <img alt="" src="assets/img/social/instagram.svg">
+            </a>
             <a class="inline-block px-1" href="https://github.com/GaetanOff/" target="_blank">
               <img alt="" src="assets/img/social/github.svg">
             </a>
           </div>
         </div>
-        <div class="text-center">
-          <div class="inline-block px-1">
-            <div (click)="onSwitchDarkMode()"
-                 class="flex items-center p-1.5">
-              <img alt="DarkMode logo" src="{{darkImg}}">
-            </div>
-            <div (click)="onSwitchLanguage()"
-                 class="flex items-center p-1.5">
-              <img alt="Language logo" src="{{languageImg}}" width="30">
-            </div>
+        <div class="flex items-center justify-center">
+          <div (click)="onSwitchDarkMode()"
+               class=" p-1.5">
+            <img alt="DarkMode logo" src="{{darkImg}}">
+          </div>
+          <div (click)="onSwitchLanguage()"
+               class=" p-1.5">
+            <img alt="Language logo" src="{{languageImg}}" width="30">
           </div>
         </div>
       </nav>

@@ -9,9 +9,6 @@
     "test": "ng test"
   },
   "private": true,
-  "optionalDependencies": {
-    "fsevents": "*"
-  },
   "dependencies": {
     "@angular/animations": "~13.3.11",
     "@angular/common": "~13.3.11",

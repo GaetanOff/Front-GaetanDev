@@ -1,0 +1,50 @@
+2022-06-29T12:58:05.301Z [INFO]: # Cloning repository: git@github.com:GaetanOff/Front-GaetanDev.git
+2022-06-29T12:58:07.226Z [INFO]: Cloning into 'Front-GaetanDev'...
+2022-06-29T12:58:07.227Z [INFO]: # Switching to commit: 1d270a6d2ba7fd4c9a6ceeefe00889e3b12f0714
+2022-06-29T12:58:07.238Z [INFO]: Note: switching to '1d270a6d2ba7fd4c9a6ceeefe00889e3b12f0714'.
+                                 You are in 'detached HEAD' state. You can look around, make experimental
+                                 changes and commit them, and you can discard any commits you make in this
+                                 state without impacting any branches by switching back to a branch.
+                                 If you want to create a new branch to retain commits you create, you may
+                                 do so (now or later) by using -c with the switch command. Example:
+                                 git switch -c <new-branch-name>
+                                 Or undo this operation with:
+                                 git switch -
+                                 Turn off this advice by setting config variable advice.detachedHead to false
+                                 HEAD is now at 1d270a6 Update nav style
+2022-06-29T12:58:07.265Z [INFO]: Successfully cleaned up Git credentials
+2022-06-29T12:58:07.265Z [INFO]: # Checking for Git submodules at: /codebuild/output/src157330364/src/Front-GaetanDev/.gitmodules
+2022-06-29T12:58:07.291Z [INFO]: # Retrieving environment cache...
+2022-06-29T12:58:07.826Z [INFO]: # Retrieved environment cache
+2022-06-29T12:58:07.827Z [INFO]: ---- Setting Up SSM Secrets ----
+2022-06-29T12:58:07.827Z [INFO]: SSM params {"Path":"/amplify/d3tnws4old1ci0/master/","WithDecryption":true}
+2022-06-29T12:58:07.855Z [WARNING]: !Failed to set up process.env.secrets
+2022-06-29T12:58:07.878Z [INFO]: No live updates for this build run
+2022-06-29T12:58:07.883Z [INFO]: # Retrieving cache...
+2022-06-29T12:58:16.988Z [INFO]: # Extracting cache...
+2022-06-29T12:58:22.875Z [INFO]: # Extraction completed
+2022-06-29T12:59:09.881Z [INFO]: ## Starting Backend Build
+                                 ## Checking for associated backend environment...
+                                 ## No backend environment association found, continuing...
+                                 ## Completed Backend Build
+2022-06-29T12:59:09.884Z [INFO]: {"backendDuration": 0}
+                                 ## Starting Frontend Build
+                                 # Starting phase: preBuild
+                                 # Executing command: npm ci
+2022-06-29T12:59:15.948Z [WARNING]: npm
+2022-06-29T12:59:15.950Z [WARNING]: WARN prepare removing existing node_modules/ before installation
+2022-06-29T12:59:16.169Z [WARNING]: npm WARN
+2022-06-29T12:59:16.171Z [WARNING]: lockfile Optional missing: fsevents@*
+2022-06-29T12:59:17.567Z [WARNING]: npm
+2022-06-29T12:59:17.567Z [WARNING]: ERR! Cannot read property 'requires' of undefined
+2022-06-29T12:59:17.577Z [WARNING]: 
+2022-06-29T12:59:17.577Z [WARNING]: npm ERR! A complete log of this run can be found in:
+                                    npm ERR!     /root/.npm/_logs/2022-06-29T12_59_17_567Z-debug.log
+2022-06-29T12:59:17.577Z [HELP]: Outputting the npm debug log
+                                 [object Promise]
+2022-06-29T12:59:17.583Z [ERROR]: !!! Build failed
+2022-06-29T12:59:17.583Z [ERROR]: !!! Non-Zero Exit Code detected
+2022-06-29T12:59:17.584Z [INFO]: # Starting environment caching...
+2022-06-29T12:59:17.584Z [INFO]: # Uploading environment cache artifact...
+2022-06-29T12:59:17.680Z [INFO]: # Environment caching completed
+Terminating logging...
