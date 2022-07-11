@@ -18,16 +18,6 @@ export class ExperienceComponent implements OnInit {
       active: true
     },
     {
-      name: 'EspritGames',
-      date: this.i18n.isFrench ?
-        'June 2021' :
-        'Juin 2021',
-      description: this.i18n.isFrench ?
-        'Systems administrator' :
-        'Administrateur systèmes',
-      active: false
-    },
-    {
       name: 'Ubisoft',
       date: this.i18n.isFrench ?
         'January 2019' :

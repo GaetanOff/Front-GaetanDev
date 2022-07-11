@@ -24,7 +24,7 @@ export class CertifComponent implements OnInit {
         'Aout 2018',
       description: (this.i18n.isFrench ?
         'Obtaining certification' :
-        'Obtention de la certification') + 'LPIC 1',
+        'Obtention de la certification') + ' LPIC 1',
       active: false
     },
     {
@@ -34,7 +34,7 @@ export class CertifComponent implements OnInit {
         'Octobre 2016',
       description: (this.i18n.isFrench ?
         'Obtaining certification' :
-        'Obtention de la certification') + 'CKA',
+        'Obtention de la certification') + ' CKA',
       active: false
     }
   ];

@@ -94,6 +94,7 @@ export class I18nService {
         "title": (this.isFrench ? "About me" : "A propos de moi"),
         "role": (this.isFrench ? "Hello, I am Gaëtan Faucher." : "Bonjour, je suis Gaëtan Faucher."),
         "cvButton": (this.isFrench ? "Download my CV" : "Télécharger mon CV"),
+        "cvNotAvailable":  (this.isFrench ? "This feature is not yet available" : "Cette fonctionnalité n'est pas encore disponible"),
       },
       "achievements": {
         "title": (this.isFrench ? "My achievements" : "Mes réalisations"),

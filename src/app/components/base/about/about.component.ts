@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
 import {NavService} from "../../../services/nav/nav.service";
 import {I18nService} from "../../../services/i18n/i18n.service";
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-about',
@@ -9,7 +10,7 @@ import {I18nService} from "../../../services/i18n/i18n.service";
 })
 export class AboutComponent implements OnInit {
 
-  constructor(private titleService: Title, private navService: NavService, public i18n: I18nService) {
+  constructor(private titleService: Title, private notifierService: NotifierService, private navService: NavService, public i18n: I18nService) {
   }
 
   ngOnInit(): void {
@@ -21,7 +22,7 @@ export class AboutComponent implements OnInit {
   }
 
   processForm() {
-    console.log("Ca arrive !");
+    this.notifierService.notify('error', this.i18n.text.about.cvNotAvailable)
   }
 
 }
