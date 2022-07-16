@@ -235,7 +235,7 @@ export class I18nService {
           (this.isFrench ?
               "This right of withdrawal is made by message to the email address" :
               "Ce droit de rétractation s'effectue par message à l'adresse mail"
-          ) + ": gaetanfaucher1301@gmail.com",
+          ) + ": contact@gaetandev.fr",
         ],
 
         "price": (this.isFrench ? "Prices" : "Tarifs"),
