@@ -3,7 +3,6 @@ import {DarkModeService} from "angular-dark-mode";
 import {I18nService} from "../../../services/i18n/i18n.service";
 import {LocalstorageService} from "../../../services/localstorage/localstorage.service";
 import {Router} from "@angular/router";
-import {NotifierService} from "angular-notifier";
 import {NgxUiLoaderService} from "ngx-ui-loader";
 
 @Component({
@@ -17,7 +16,7 @@ export class NavbarComponent implements OnInit {
   darkClass: string = "bg-white";
 
   constructor(private darkModeService: DarkModeService, public i18n: I18nService, private localStorage: LocalstorageService,
-              private router: Router, private notifierService: NotifierService, private ngxService: NgxUiLoaderService) {
+              private router: Router, private ngxService: NgxUiLoaderService) {
   }
 
   ngOnInit(): void {
@@ -139,8 +138,6 @@ export class NavbarComponent implements OnInit {
       this.ngxService.stop();
 
       this.i18n.update();
-      this.notifierService.notify('success', isFrench ? "Succès, vous êtes maintenant sur la version française."
-        : "Success, you are now on the English version.");
     }, 200);
   }
 
