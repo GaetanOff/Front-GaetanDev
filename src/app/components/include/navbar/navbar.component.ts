@@ -4,6 +4,7 @@ import {I18nService} from "../../../services/i18n/i18n.service";
 import {LocalstorageService} from "../../../services/localstorage/localstorage.service";
 import {Router} from "@angular/router";
 import {NotifierService} from "angular-notifier";
+import {NgxUiLoaderService} from "ngx-ui-loader";
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,7 @@ export class NavbarComponent implements OnInit {
   darkClass: string = "bg-white";
 
   constructor(private darkModeService: DarkModeService, public i18n: I18nService, private localStorage: LocalstorageService,
-              private router: Router, private notifierService: NotifierService) {
+              private router: Router, private notifierService: NotifierService, private ngxService: NgxUiLoaderService) {
   }
 
   ngOnInit(): void {
@@ -99,7 +100,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onSwitchLanguage(): void {
-    this.switchDarkLanguage();
+    this.switchLanguage();
   }
 
   onClickList(): void {
@@ -118,21 +119,29 @@ export class NavbarComponent implements OnInit {
     })
   }
 
-  switchDarkLanguage(): void {
-    if (this.i18n.isFrench) {
+  switchLanguage(): void {
+    this.ngxService.start();
+    this.router.navigate([""]).then(() => console.log("Redirected to the main page"));
+
+    const isFrench = this.i18n.isFrench as Boolean;
+
+    if (isFrench) {
       this.i18n.isFrench = false;
       this.localStorage.get.setItem("english", "false")
       this.languageImg = "assets/img/english.svg";
-      this.notifierService.notify('success', "Succès, vous êtes maintenant sur la version française.");
     } else {
       this.i18n.isFrench = true;
       this.localStorage.get.setItem("english", "true")
       this.languageImg = "assets/img/france.svg";
-      this.notifierService.notify('success', "Success, you are now on the English version.");
     }
 
-    this.i18n.update();
-    this.router.navigate([""]).then(() => console.log("Redirected to the main page"));
+    setTimeout(() => {
+      this.ngxService.stop();
+
+      this.i18n.update();
+      this.notifierService.notify('success', isFrench ? "Succès, vous êtes maintenant sur la version française."
+        : "Success, you are now on the English version.");
+    }, 200);
   }
 
 }

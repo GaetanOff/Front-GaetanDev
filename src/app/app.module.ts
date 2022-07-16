@@ -15,6 +15,7 @@ import {ExperienceComponent} from './components/include/cv/experience/experience
 import {LanguagesComponent} from './components/include/cv/languages/languages.component';
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 import {ServicesComponent} from './components/include/services/services.component';
+import {NgxUiLoaderModule} from "ngx-ui-loader";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {ServicesComponent} from './components/include/services/services.componen
     HttpClientModule,
     FormsModule,
     RecaptchaModule,
-    NotifierModule
+    NotifierModule,
+    NgxUiLoaderModule,
   ],
   providers: [
     {
