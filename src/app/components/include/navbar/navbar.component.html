@@ -1,4 +1,4 @@
-<header class="shadow-lg lg:pb-4 {{darkClass}}" id="navHeader">
+<header class="shadow-lg lg:pb-4 bg-white" id="navHeader">
   <nav>
     <div class="w-full container mx-auto flex flex-wrap items-center mt-0 py-2" id="navDiv">
       <div class="block lg:hidden pr-3">
@@ -15,7 +15,7 @@
     </div>
     <div class="hidden navbar-menu fixed top-0 left-0 bottom-0 w-5/6 max-w-sm z-50" id="nav-content">
       <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
-      <nav class="relative flex flex-col py-6 px-6 h-full w-full {{darkClass}} border-r overflow-y-auto">
+      <nav class="relative flex flex-col py-6 px-6 h-full w-full bg-white border-r overflow-y-auto">
         <div class="flex items-center mb-8">
           <a class="mr-auto text-3xl font-bold leading-none" routerLink="">
             <h1 class="h-10">GaetanDev</h1>
@@ -64,10 +64,6 @@
           </div>
         </div>
         <div class="flex items-center justify-center">
-          <div (click)="onSwitchDarkMode()"
-               class=" p-1.5">
-            <img alt="DarkMode logo" src="{{darkImg}}">
-          </div>
           <div (click)="onSwitchLanguage()"
                class=" p-1.5">
             <img alt="Language logo" src="{{languageImg}}" width="30">
@@ -132,13 +128,6 @@
           </div>
         </div>
         <div class="flex items-center space-x-2">
-          <div class="darkModeDesk">
-            <button (click)="onSwitchDarkMode()"
-                    class="p-1.5"
-                    id="dark">
-              <img src="{{darkImg}}" alt="">
-            </button>
-          </div>
           <div class="darkModeDesk">
             <button (click)="onSwitchLanguage()"
                     class="p-1.5"

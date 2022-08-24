@@ -11,17 +11,13 @@ import {NgxUiLoaderService} from "ngx-ui-loader";
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  darkImg: string = "assets/img/moon.webp";
   languageImg: string = this.i18n.isFrench ? "assets/img/france.svg" : "assets/img/english.svg";
-  darkClass: string = "bg-white";
 
   constructor(private darkModeService: DarkModeService, public i18n: I18nService, private localStorage: LocalstorageService,
               private router: Router, private ngxService: NgxUiLoaderService) {
   }
 
   ngOnInit(): void {
-    this.switchDarkModeImage();
-
     let previous: number = 0;
     let previouses: boolean = false;
     let clicked: boolean = false;
@@ -38,15 +34,6 @@ export class NavbarComponent implements OnInit {
       ['animate__animated', 'animate__backInLeft'].forEach(tokens => {
         document.getElementById("nav-content")?.classList.add(tokens);
       });
-    });
-
-    document.getElementById('dark')?.addEventListener("click", function () {
-      clicked2 = true;
-
-      setTimeout(
-        function () {
-          clicked2 = false;
-        }, 300);
     });
 
     document.addEventListener("click", function () {
@@ -93,11 +80,6 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  onSwitchDarkMode(): void {
-    this.darkModeService.toggle();
-    this.switchDarkModeImage();
-  }
-
   onSwitchLanguage(): void {
     this.switchLanguage();
   }
@@ -106,21 +88,10 @@ export class NavbarComponent implements OnInit {
     window.scrollTo({top: 0});
   }
 
-  switchDarkModeImage(): void {
-    this.darkModeService.darkMode$.subscribe(bool => {
-      if (bool) {
-        this.darkImg = "assets/img/moon.webp";
-        this.darkClass = "transitionMode bg-white";
-      } else {
-        this.darkImg = "assets/img/sun.webp";
-        this.darkClass = "transitionMode bg-gray-custom";
-      }
-    })
-  }
-
   switchLanguage(): void {
     this.ngxService.start();
-    this.router.navigate([""]).then(() => console.log("Redirected to the main page"));
+    if (!window.location.href.indexOf("/shield"))
+      this.router.navigate([""]).then(() => console.log("Redirected to the main page"));
 
     const isFrench = this.i18n.isFrench as Boolean;
 

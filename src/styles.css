@@ -2,19 +2,10 @@
 @import "~angular-notifier/styles";
 @import '~animate.css';
 
-body:not(.dark-mode-preloading) {
-  transition: all 0.3s linear;
-}
-
-body.dark-mode {
+body {
   background-color: white;
   background-position: center;
   color: #2d3436;
-}
-
-body.light-mode {
-  background-color: #2d3436;
-  color: #dfe6e9;
 }
 
 ::-webkit-scrollbar {

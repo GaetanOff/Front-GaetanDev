@@ -94,10 +94,16 @@ export class I18nService {
         "title": (this.isFrench ? "About me" : "A propos de moi"),
         "role": (this.isFrench ? "Hello, I am Gaëtan Faucher." : "Bonjour, je suis Gaëtan Faucher."),
         "cvButton": (this.isFrench ? "Download my CV" : "Télécharger mon CV"),
-        "cvNotAvailable":  (this.isFrench ? "This feature is not yet available" : "Cette fonctionnalité n'est pas encore disponible"),
+        "cvNotAvailable": (this.isFrench ? "This feature is not yet available" : "Cette fonctionnalité n'est pas encore disponible"),
       },
       "achievements": {
         "title": (this.isFrench ? "My achievements" : "Mes réalisations"),
+      },
+      "shield": {
+        "title": (this.isFrench ? "Shield GaetanDev" : "Bouclier GaetanDev"),
+        "servers": (this.isFrench ? "Server currently protected" : "Serveur actuellement protégé"),
+        "protected": (this.isFrench ? "Attack received successfully mitigated" : "Attaque reçue atténuée avec succès"),
+        "total": (this.isFrench ? "Number of people connected to the infrastructure" : "Nombre de personnes connectées sur l'infrastructure"),
       },
       "contact": {
         "title": (this.isFrench ? "Contact me" : "Me contacter"),

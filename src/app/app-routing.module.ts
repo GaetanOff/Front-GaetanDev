@@ -6,6 +6,7 @@ import {ContactComponent} from "./components/base/contact/contact.component";
 import {AboutComponent} from "./components/base/about/about.component";
 import {LegalComponent} from "./components/base/legal/legal.component";
 import {CgvComponent} from "./components/base/cgv/cgv.component";
+import {ShieldComponent} from "./components/base/shield/shield.component";
 
 const routes: Routes = [
   {
@@ -27,6 +28,9 @@ const routes: Routes = [
     path: "contact", component: ContactComponent
   },
   {
+    path: "shield", component: ShieldComponent
+  },
+  {
     path: "**", component: HomeComponent
   }
 ]
@@ -39,5 +43,5 @@ export class AppRoutingModule {
 }
 
 export const routingComponents = [
-  HomeComponent, AboutComponent, ContactComponent, AchievementsComponent, LegalComponent, CgvComponent
+  HomeComponent, AboutComponent, ContactComponent, AchievementsComponent, LegalComponent, CgvComponent, ShieldComponent
 ]

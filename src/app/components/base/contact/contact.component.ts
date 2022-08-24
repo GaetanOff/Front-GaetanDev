@@ -15,10 +15,8 @@ export class ContactComponent implements OnInit {
   message: string | undefined;
   private lastName: string | undefined;
   private captcha: boolean;
-  private http: HttpClient;
 
   constructor(public i18n: I18nService, private notifierService: NotifierService, private httpClient: HttpClient, private titleService: Title, private navService: NavService) {
-    this.http = httpClient;
     this.captcha = false;
   }
 
@@ -55,7 +53,7 @@ export class ContactComponent implements OnInit {
 
       this.notifierService.notify('success', this.i18n.text.contact.form.success);
 
-      this.http.get("https://cdn.gaetandev.fr/gaetan/files/contact.php?email=" + this.email + "&name=" + this.name + "&message=" + this.message);
+      this.httpClient.get("https://cdn.gaetandev.fr/gaetan/files/contact.php?email=" + this.email + "&name=" + this.name + "&message=" + this.message);
 
       this.lastName = this.name;
     }
