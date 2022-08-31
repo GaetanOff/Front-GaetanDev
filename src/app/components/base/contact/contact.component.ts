@@ -29,6 +29,7 @@ export class ContactComponent implements OnInit {
 
     this.navService.updateNav();
 
+    document.getElementById("contact")?.classList.toggle("font-medium");
     document.getElementById("contact")?.classList.toggle("font-bold");
 
     this.titleService.setTitle("Gaetan • Contact");

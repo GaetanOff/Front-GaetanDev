@@ -13,6 +13,9 @@ export class NavService {
       if (document.getElementById(page)?.classList.contains("font-bold")) {
         document.getElementById(page)?.classList.toggle("font-bold");
       }
+      if (!document.getElementById(page)?.classList.contains("font-medium")) {
+        document.getElementById(page)?.classList.toggle("font-medium");
+      }
     });
   }
 

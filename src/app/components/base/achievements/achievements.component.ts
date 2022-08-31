@@ -23,6 +23,7 @@ export class AchievementsComponent implements OnInit {
   ngOnInit(): void {
     this.navService.updateNav();
 
+    document.getElementById("real")?.classList.toggle("font-medium");
     document.getElementById("real")?.classList.toggle("font-bold");
 
     this.titleService.setTitle("Gaetan • " + (this.i18n.isFrench ? "Achievements" : "Réalisations"));
