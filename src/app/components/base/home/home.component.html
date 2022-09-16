@@ -4,9 +4,13 @@
 
       <div class="mb-16 max-w-2xl mx-auto text-center">
         <div class=" text-center mb-16">
-          <h2 class="mb-2 text-4xl lg:text-5xl font-bold font-heading transform hover:scale-110 duration-300">
+          <h1 class="mb-2 text-4xl lg:text-5xl font-bold font-heading transform hover:scale-110 duration-300">
             {{ this.i18n.text.home.welcome }}
-          </h2>
+            <div class="inline-flex space-x-2">
+              <div>Faucher</div>
+              <div class="hey">👋</div>
+            </div>
+          </h1>
         </div>
       </div>
 
@@ -20,12 +24,12 @@
                  style="background-image: url('../../../../assets/img/pdp.webp')"></div>
             <h1 class="text-3xl font-body pt-8 lg:pt-0 mb-4">{{ this.i18n.text.desc }}</h1>
             <button
-              class="ml-auto transform hover:scale-110 motion-reduce:transform-none duration-300 bg-green-600 hover:bg-green-700 text-gray-100 font-bold py-2 px-4 p-12 rounded-lg inline-flex items-center"
+              class="animate__animated animate__fadeIn ml-auto transform hover:scale-110 motion-reduce:transform-none duration-300 bg-green-600 hover:bg-green-700 text-gray-100 font-bold py-2 px-4 p-12 rounded-lg inline-flex items-center"
               routerLink="/contact">
               <span>{{ this.i18n.text.home.contactButton }}</span>
             </button>
             <button
-              class="ml-2 transform hover:scale-110 motion-reduce:transform-none duration-300 bg-green-600 hover:bg-green-700 text-gray-100 font-bold py-2 px-4 p-12 rounded-lg inline-flex items-center"
+              class="animate__animated animate__fadeIn ml-2 transform hover:scale-110 motion-reduce:transform-none duration-300 bg-green-600 hover:bg-green-700 text-gray-100 font-bold py-2 px-4 p-12 rounded-lg inline-flex items-center"
               routerLink="/about">
               <span>{{ this.i18n.text.learnMoreButton }}</span>
             </button>
@@ -36,9 +40,9 @@
           <div class="relative" style="z-index: 0;">
             <img alt="Photo de profil" class="rounded-none lg:rounded-lg shadow-2xl hidden lg:block w-full h-full"
                  src="../../../../assets/img/pdp.webp">
-            <img alt="" class="hidden lg:block absolute"
+            <img alt="" class="hidden lg:block absolute animate__animated animate__fadeIn "
                  src="assets/img/home/green-dark-up.svg" style="top:-2rem; right: 3rem; z-index: -1;">
-            <img alt="" class="hidden lg:block absolute"
+            <img alt="" class="hidden lg:block absolute animate__animated animate__fadeIn "
                  src="assets/img/home/wing-green-down.svg" style="bottom:-2rem; right: -2rem; z-index: -1;">
             <img alt="" class="hidden lg:block absolute"
                  src="assets/img/home/bullets-gray-right.svg" style="top:3rem; right: -3rem; z-index: -1;">

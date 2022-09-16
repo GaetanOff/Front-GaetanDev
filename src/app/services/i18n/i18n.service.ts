@@ -87,7 +87,7 @@ export class I18nService {
 
       //base
       "home": {
-        "welcome": (this.isFrench ? "Hello, I'm Gaëtan Faucher 👋" : "Bonjour, je suis Gaëtan Faucher 👋"),
+        "welcome": (this.isFrench ? "Hello, I'm Gaëtan" : "Bonjour, je suis Gaëtan"),
         "contactButton": (this.isFrench ? "Contact me" : "Me contacter"),
       },
       "about": {
