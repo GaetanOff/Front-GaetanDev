@@ -23,7 +23,6 @@
     "angular-dark-mode": "^3.0.1",
     "angular-notifier": "^11.0.0",
     "animate.css": "^4.1.1",
-    "ng-recaptcha": "^8.0.1",
     "ngx-ui-loader": "^13.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",

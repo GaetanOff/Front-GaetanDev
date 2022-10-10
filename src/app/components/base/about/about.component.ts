@@ -23,7 +23,7 @@ export class AboutComponent implements OnInit {
   }
 
   processForm() {
-    this.notifierService.notify('error', this.i18n.text.about.cvNotAvailable)
+    this.notifierService.notify('error', this.i18n.text.about.cvNotAvailable);
   }
 
 }

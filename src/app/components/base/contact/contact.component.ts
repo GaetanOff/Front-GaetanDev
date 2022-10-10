@@ -13,15 +13,8 @@ export class ContactComponent implements OnInit {
   name: string | undefined;
   email: string | undefined;
   message: string | undefined;
-  private lastName: string | undefined;
-  private captcha: boolean;
 
   constructor(public i18n: I18nService, private notifierService: NotifierService, private httpClient: HttpClient, private titleService: Title, private navService: NavService) {
-    this.captcha = false;
-  }
-
-  resolved() {
-    this.captcha = true;
   }
 
   ngOnInit(): void {
@@ -41,22 +34,17 @@ export class ContactComponent implements OnInit {
     } else if (this.name.length < 3) {
       this.notifierService.notify('error', this.i18n.text.contact.form.nameInvalid);
     } else if (!this.email.includes("@") || !this.email.includes(".")) {
-      this.notifierService.notify('error', this.i18n.text.contact.form.mailInvalid)
+      this.notifierService.notify('error', this.i18n.text.contact.form.mailInvalid);
     } else if (this.message.length < 3) {
-      this.notifierService.notify('error', this.i18n.text.contact.form.messageInvalid)
-    } else if (!this.captcha) {
-      this.notifierService.notify('error', this.i18n.text.contact.form.captchaInvalid)
+      this.notifierService.notify('error', this.i18n.text.contact.form.messageInvalid);
     } else {
-      if (this.lastName == this.name) {
-        location.reload();
-        return;
-      }
-
       this.notifierService.notify('success', this.i18n.text.contact.form.success);
 
       this.httpClient.get("https://cdn.gaetandev.fr/gaetan/files/contact.php?email=" + this.email + "&name=" + this.name + "&message=" + this.message);
 
-      this.lastName = this.name;
+      this.name = undefined;
+      this.email = undefined;
+      this.message = undefined;
     }
   }
 
