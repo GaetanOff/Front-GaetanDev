@@ -15,7 +15,6 @@ import {LanguagesComponent} from './components/include/cv/languages/languages.co
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 import {ServicesComponent} from './components/include/services/services.component';
 import {NgxUiLoaderModule} from "ngx-ui-loader";
-import {AboutModule} from "./components/base/about/about.module";
 
 @NgModule({
   declarations: [
@@ -23,6 +22,12 @@ import {AboutModule} from "./components/base/about/about.module";
     AppComponent,
     NavbarComponent,
     FooterComponent,
+    CertifComponent,
+    ExperienceComponent,
+    LanguagesComponent,
+    CompetencesComponent,
+    CVComponent,
+    ServicesComponent
   ],
   imports: [
     BrowserModule,
@@ -30,8 +35,8 @@ import {AboutModule} from "./components/base/about/about.module";
     HttpClientModule,
     FormsModule,
     NotifierModule,
-    NgxUiLoaderModule,
-    AboutModule,
+    NgxUiLoaderModule
+
   ],
   providers: [
     Title
