@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {DarkModeService} from "angular-dark-mode";
 import {I18nService} from "../../../services/i18n/i18n.service";
 import {LocalstorageService} from "../../../services/localstorage/localstorage.service";
 import {Router} from "@angular/router";
@@ -13,7 +12,7 @@ import {NgxUiLoaderService} from "ngx-ui-loader";
 export class NavbarComponent implements OnInit {
   languageImg: string = this.i18n.isFrench ? "assets/img/france.svg" : "assets/img/english.svg";
 
-  constructor(private darkModeService: DarkModeService, public i18n: I18nService, private localStorage: LocalstorageService,
+  constructor(public i18n: I18nService, private localStorage: LocalstorageService,
               private router: Router, private ngxService: NgxUiLoaderService) {
   }
 
