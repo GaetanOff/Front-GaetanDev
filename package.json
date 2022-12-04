@@ -20,7 +20,6 @@
     "@angular/router": "^14.2.5",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "angular-dark-mode": "^3.0.1",
     "angular-notifier": "^11.0.0",
     "animate.css": "^4.1.1",
     "ngx-ui-loader": "^13.0.0",
