@@ -111,6 +111,7 @@ export class I18nService {
         "sendButton": (this.isFrench ? "Send my message" : "Envoyer mon message"),
         "form": {
           "invalid": (this.isFrench ? "Error, invalid form !" : "Erreur, formulaire invalide !"),
+          "server": (this.isFrench ? "Error, server down !" : "Erreur, serveur hors-service !"),
           "nameInvalid": (this.isFrench ? "Error, invalid name !" : "Erreur, prénom invalide !"),
           "mailInvalid": (this.isFrench ? "Error, invalid mail !" : "Erreur, mail invalide !"),
           "messageInvalid": (this.isFrench ? "Error, invalid message !" : "Erreur, message invalide !"),

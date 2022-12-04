@@ -38,9 +38,16 @@ export class ContactComponent implements OnInit {
     } else if (this.message.length < 3) {
       this.notifierService.notify('error', this.i18n.text.contact.form.messageInvalid);
     } else {
-      this.notifierService.notify('success', this.i18n.text.contact.form.success);
+      const formData = new FormData() as FormData;
+      formData.append('name', this.name);
+      formData.append('email', this.email);
+      formData.append('message', this.message);
 
-      this.httpClient.get("https://cdn.gaetandev.fr/gaetan/files/contact.php?email=" + this.email + "&name=" + this.name + "&message=" + this.message);
+      this.httpClient.post("https://api.gaetandev.fr/contact", formData).subscribe(res => {
+        if (res)
+          this.notifierService.notify('success', this.i18n.text.contact.form.success);
+        else this.notifierService.notify('error', this.i18n.text.contact.form.server);
+      });
 
       this.name = undefined;
       this.email = undefined;
