@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {AchievementsComponent} from "./achievements.component";
 
@@ -17,4 +17,5 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ]
 })
-export class AchievementsModule { }
+export class AchievementsModule {
+}

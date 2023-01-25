@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {CgvComponent} from "./cgv.component";
 
@@ -17,4 +17,5 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ]
 })
-export class CgvModule { }
+export class CgvModule {
+}

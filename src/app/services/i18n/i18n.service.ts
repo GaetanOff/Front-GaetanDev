@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {LocalstorageService} from "../localstorage/localstorage.service";
 
 @Injectable({
@@ -7,6 +7,7 @@ import {LocalstorageService} from "../localstorage/localstorage.service";
 export class I18nService {
   isFrench: boolean = false;
   text: any;
+  updateEvent = new EventEmitter();
 
   constructor(private localStorage: LocalstorageService) {
     if (window.location.href.indexOf("/en") > -1 || this.localStorage.get.getItem("english") === "true") {
@@ -98,6 +99,7 @@ export class I18nService {
       },
       "achievements": {
         "title": (this.isFrench ? "My achievements" : "Mes réalisations"),
+        "cdn": (this.isFrench ? "My content distribution network to be able to have a fast and reliable distribution." : "Mon réseau de distribution de contenu pour pouvoir avoir une diffusion rapides et fiables.")
       },
       "shield": {
         "title": (this.isFrench ? "Shield GaetanDev" : "Bouclier GaetanDev"),
@@ -257,7 +259,8 @@ export class I18nService {
           ),
         ],
       }
-    }
+    };
+    this.updateEvent.emit(this.isFrench);
 
   }
 }
