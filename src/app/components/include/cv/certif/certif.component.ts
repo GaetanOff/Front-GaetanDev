@@ -9,11 +9,10 @@ export class CertifComponent implements OnInit {
   certifList: any = [];
 
   constructor(public i18n: I18nService) {
+    this.updateText();
   }
 
   ngOnInit(): void {
-    this.updateText();
-
     this.i18n.updateEvent.subscribe(() => {
       this.updateText();
     });

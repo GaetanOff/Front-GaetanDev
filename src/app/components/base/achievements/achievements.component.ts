@@ -11,11 +11,11 @@ export class AchievementsComponent implements OnInit {
   achievementsList: any = [];
 
   constructor(private titleService: Title, private navService: NavService, public i18n: I18nService) {
+    this.updateText();
   }
 
   ngOnInit(): void {
     this.navService.updateNav();
-    this.updateText();
 
     document.getElementById("real")?.classList.toggle("font-medium");
     document.getElementById("real")?.classList.toggle("font-bold");
