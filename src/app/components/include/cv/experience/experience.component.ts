@@ -31,13 +31,13 @@ export class ExperienceComponent implements OnInit {
         active: true
       },
       {
-        name: 'FirstSky',
+        name: 'FirstSky / PixelmonGo',
         date: this.i18n.isFrench ?
           "September 2021 - Today" :
           "Septembre 2021 - Aujourd'hui",
         description: this.i18n.isFrench ?
-          'Management of the entire server infrastructure' :
-          "Gestion de l'infrastructure de l'ensemble du serveur",
+          'Management of all server infrastructure' :
+          "Gestion de l'infrastructure de l'ensemble des serveurs",
         active: true
       },
       {
