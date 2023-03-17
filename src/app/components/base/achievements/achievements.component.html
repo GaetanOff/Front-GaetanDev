@@ -6,38 +6,45 @@
           <span class="text-green-600 font-bold"></span>
           <h2
             class="mb-2 text-4xl lg:text-5xl font-bold font-heading transform hover:scale-110 duration-300">{{ this.i18n.text.achievements.title }}</h2>
-          <p class="mb-6 text-gray-500"></p>
         </div>
-        <div>
-          <div class="mx-0 sm:mx-6">
-            <div class="">
-              <div class="flex flex-wrap justify-between pt-12 -mx-6">
-                <div *ngFor="let ach of achievementsList"
-                     class=" w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-
-                  <div class="max-w-sm rounded-lg shadow-md">
-                    <img alt="" class="rounded-t-lg" src="{{ ach.image }}"/>
-                    <div class="p-5">
-                      <p class="mb-2 text-2xl font-bold tracking-tight">{{ ach.name }}</p>
-                      <p class="mb-3">{{ ach.description }}</p>
-                      <a
-                        class="animate__animated animate__fadeIn inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-green-600 hover:bg-green-700 rounded-lg hover:scale-110 motion-reduce:transform-none duration-300"
-                        href="{{ ach.redirect }}"
-                        target="_blank">
-                        {{ this.i18n.text.learnMoreButton }}
-                        <svg class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
-                             xmlns="http://www.w3.org/2000/svg">
-                          <path clip-rule="evenodd"
-                                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                                fill-rule="evenodd"></path>
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+        <div class="mb-6">
+          <p class="text-2xl">{{ this.i18n.text.achievements.description }}</p>
+        </div>
+        <div class="mx-0 sm:mx-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-12">
+            <div *ngFor="let ach of showedList"
+                 class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col justify-between items-center">
+              <div></div>
+              <img alt="" class="w-full rounded-t-lg" src="{{ ach.image }}"/>
+              <div class="p-5">
+                <p class="mb-2 text-2xl font-bold tracking-tight">{{ ach.name }}</p>
+                <p class="mb-3">{{ ach.description }}</p>
+                <a
+                  class="animate__animated animate__fadeIn inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-green-600 hover:bg-green-700 rounded-lg hover:scale-110 motion-reduce:transform-none duration-300"
+                  href="{{ ach.redirect }}" target="_blank">
+                  {{ this.i18n.text.learnMoreButton }}
+                  <svg class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path clip-rule="evenodd"
+                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                          fill-rule="evenodd"></path>
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
+        </div>
+        <div class="pt-8" *ngIf="showedList.length < achievementsList.length">
+          <button (click)="showMore()"
+                  class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg hover:scale-110 motion-reduce:transform-none duration-300"
+                  role="button">
+            Voir plus de réalisations
+            <svg class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    fill-rule="evenodd"></path>
+            </svg>
+          </button>
         </div>
       </div>
     </div>

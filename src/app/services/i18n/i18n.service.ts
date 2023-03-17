@@ -99,7 +99,16 @@ export class I18nService {
       },
       "achievements": {
         "title": (this.isFrench ? "My achievements" : "Mes réalisations"),
-        "cdn": (this.isFrench ? "My content distribution network to be able to have a fast and reliable distribution." : "Mon réseau de distribution de contenu pour pouvoir avoir une diffusion rapides et fiables.")
+        "description": (this.isFrench ? "Here's a list of my accomplishments that I am allowed to showcase publicly. Please note that some of my accomplishments are not included on this list due to non-disclosure agreements in effect." : "Voici une liste de mes réalisations dont j'ai l'autorisation de partager publiquement. Veuillez noter que certaines de mes réalisations ne figurent pas sur cette liste en raison de contrats de confidentialité en vigueur."),
+        "chloecm": (this.isFrench ? "Web application to showcase the journey of a Master's degree student." : "Application web pour présenter le parcours d'une étudiante en Master."),
+        "vitapot": (this.isFrench ? "Creation/Management of the development of an innovative server." : "Création/Gestion du développement d'un serveur innovant."),
+        "cdn": (this.isFrench ? "My content distribution network to be able to have a fast and reliable distribution." : "Mon réseau de distribution de contenu pour pouvoir avoir une diffusion rapides et fiables."),
+        "immoct": (this.isFrench ? "Web application for an independent real estate agent that allows them to showcase their listings." : "Application web pour un agent immobilier indépendant qui permet de mettre en avant ses offres."),
+        "ctenergetique": (this.isFrench ? "Web application for a Chinese medicine company." : "Application web pour une entreprise de médécine chinoise."),
+        "firstsky": (this.isFrench ? "Management of the infrastructure of the entire server." : "Gestion de l'infrastructure de l'ensemble du serveur."),
+        "pizzaoplomo": (this.isFrench ? "School project for creating a fictitious company." : "Projet d'école de création d'une entreprise fictive."),
+        "heavycloud": (this.isFrench ? "Creation of a hosting provider offering VPS as well as Anti-DDoS solutions." : "Création d'un hébergeur proposant des VPS ainsi que des solutions Anti-DDoS."),
+        "neptune": (this.isFrench ? "School project for creating a web application for a fictitious hotel." : "Projet d'école de création d'une application web pour un hôtel fictif.")
       },
       "shield": {
         "title": (this.isFrench ? "Shield GaetanDev" : "Bouclier GaetanDev"),
