@@ -37,12 +37,6 @@ export class AchievementsComponent implements OnInit {
         redirect: 'https://cdn.gaetandev.fr/'
       },
       {
-        name: 'ImmoCT',
-        description: this.i18n.text.achievements.immoct,
-        image: 'assets/img/achievements/immoct.webp',
-        redirect: 'https://www.immoct.fr/'
-      },
-      {
         name: 'PizzaOPlomo',
         description: this.i18n.text.achievements.pizzaoplomo,
         image: 'assets/img/achievements/pizzaoplomo.webp',
@@ -73,6 +67,12 @@ export class AchievementsComponent implements OnInit {
         redirect: 'https://github.com/Fox-Food'
       },
       {
+        name: 'ImmoCT',
+        description: this.i18n.text.achievements.immoct,
+        image: 'assets/img/achievements/immoct.webp',
+        redirect: 'https://www.immoct.fr/'
+      },
+      {
         name: 'CT-Energetique',
         description: this.i18n.text.achievements.ctenergetique,
         image: 'assets/img/achievements/ctenergetique.webp',
@@ -95,7 +95,25 @@ export class AchievementsComponent implements OnInit {
         description: this.i18n.text.achievements.vitapot,
         image: 'assets/img/achievements/VitaPot.webp',
         redirect: 'https://twitter.com/vitapot'
-      }
+      },
+      {
+        name: 'PvPIng',
+        description: this.i18n.text.achievements.pvping,
+        image: 'assets/img/achievements/pvping.webp',
+        redirect: 'https://twitter.com/ServeurPvPing'
+      },
+      {
+        name: 'RealMC',
+        description: this.i18n.text.achievements.liptonpvp,
+        image: 'assets/img/achievements/realmc.webp',
+        redirect: 'https://youtu.be/SD1547llpvI'
+      },
+      {
+        name: 'LiptonPvP',
+        description: this.i18n.text.achievements.liptonpvp,
+        image: 'assets/img/achievements/liptonpvp.webp',
+        redirect: 'https://youtu.be/l5aYEVQmop8'
+      },
     ];
 
     this.showedList = this.achievementsList.slice(0, 3);
