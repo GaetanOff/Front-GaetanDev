@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {I18nService} from "../../../services/i18n/i18n.service";
 import {LocalstorageService} from "../../../services/localstorage/localstorage.service";
 import {Router} from "@angular/router";
-import {NgxUiLoaderService} from "ngx-ui-loader";
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +12,7 @@ export class NavbarComponent implements OnInit {
   languageImg: string = this.i18n.isFrench ? "assets/img/france.svg" : "assets/img/english.svg";
 
   constructor(public i18n: I18nService, private localStorage: LocalstorageService,
-              private router: Router, private ngxService: NgxUiLoaderService) {
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -23,7 +22,7 @@ export class NavbarComponent implements OnInit {
     let clicked2: boolean = false;
     let clicked3: boolean = false;
 
-    document.getElementById('nav-toggle')?.addEventListener("click", function () {
+    document.getElementById('nav-toggle')?.addEventListener("click", () => {
       ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
         document.getElementById("navHeader")?.classList.remove(tokens);
       });
@@ -35,16 +34,15 @@ export class NavbarComponent implements OnInit {
       });
     });
 
-    document.addEventListener("click", function () {
+    document.addEventListener("click", () => {
       clicked2 = true;
 
-      setTimeout(
-        function () {
-          clicked2 = false;
-        }, 300);
+      setTimeout(() => {
+        clicked2 = false;
+      }, 300);
     });
 
-    document.addEventListener("scroll", function () {
+    document.addEventListener("scroll", () => {
       if (document.documentElement.scrollTop < previous) {
         if (!previouses && !clicked && !clicked2 && !clicked3) {
           previouses = true;
@@ -52,7 +50,6 @@ export class NavbarComponent implements OnInit {
           ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
             document.getElementById("navHeader")?.classList.add(tokens);
           });
-
         }
       } else {
         if (!clicked && !clicked2 && !clicked3) {
@@ -61,7 +58,6 @@ export class NavbarComponent implements OnInit {
           ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
             document.getElementById("navHeader")?.classList.remove(tokens);
           });
-
         }
       }
 
@@ -70,14 +66,16 @@ export class NavbarComponent implements OnInit {
   }
 
   disableMobileMenu(): void {
-    if (!document.getElementById("nav-content")?.classList.contains("hidden")) {
+    const navContent = document.getElementById("nav-content");
+    if (navContent && !navContent.classList.contains("hidden")) {
       ['animate__animated', 'animate__backInLeft'].forEach(tokens => {
-        document.getElementById("nav-content")?.classList.remove(tokens);
+        navContent.classList.remove(tokens);
       });
 
-      document.getElementById("nav-content")?.classList.toggle("hidden");
+      navContent.classList.toggle("hidden");
     }
   }
+
 
   onSwitchLanguage(): void {
     this.switchLanguage();
@@ -88,7 +86,6 @@ export class NavbarComponent implements OnInit {
   }
 
   switchLanguage(): void {
-    this.ngxService.start();
     if (!window.location.href.indexOf("/shield"))
       this.router.navigate([""]).then(() => console.log("Redirected to the main page"));
 
@@ -104,11 +101,7 @@ export class NavbarComponent implements OnInit {
       this.languageImg = "assets/img/france.svg";
     }
 
-    setTimeout(() => {
-      this.ngxService.stop();
-
-      this.i18n.update();
-    }, 200);
+    this.i18n.update();
   }
 
 }

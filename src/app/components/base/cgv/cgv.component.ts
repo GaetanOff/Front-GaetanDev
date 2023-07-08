@@ -17,7 +17,7 @@ export class CgvComponent implements OnInit {
 
     this.navService.updateNav();
 
-    this.titleService.setTitle("Gaetan • " + (this.i18n.isFrench ? "TOS/CGV\n" : "CGU/CGV"));
+    this.titleService.setTitle("Gaetan • " + this.i18n.text.title.cgv);
   }
 
 }

@@ -1,5 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {LocalstorageService} from "../localstorage/localstorage.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -9,22 +10,35 @@ export class I18nService {
   text: any;
   updateEvent = new EventEmitter();
 
-  constructor(private localStorage: LocalstorageService) {
-    if (window.location.href.indexOf("/en") > -1 || this.localStorage.get.getItem("english") === "true") {
+  constructor(private localStorage: LocalstorageService, private router: Router) {
+    const englishQueryParam = window.location.href.includes("/en") as Boolean;
+    const frenchQueryParam = window.location.href.includes("/fr") as Boolean;
+    const hasCache = (this.localStorage.get.getItem("english") === "true") as Boolean;
+
+    if (englishQueryParam) {
       this.localStorage.get.setItem("english", "true");
       this.isFrench = true;
-    }
-
-    if (window.location.href.indexOf("/fr") > -1) {
+      this.router.navigate([""]).then(() => console.log("Redirected to english version"));
+    } else if (frenchQueryParam) {
       this.localStorage.get.setItem("english", "false");
       this.isFrench = false;
+      this.router.navigate([""]).then(() => console.log("Redirected to french version"));
+    } else if (hasCache) {
+      this.isFrench = true;
     }
 
     this.update();
   }
 
+
   update(): void {
     this.text = {
+      "title": {
+        "about": (this.isFrench ? "About Me" : "A Propos"),
+        "achievements": (this.isFrench ? "Achievements" : "Réalisations"),
+        "cgv": (this.isFrench ? "TOS/CGV" : "CGU/CGV"),
+        "legal": (this.isFrench ? "Legal mention" : "Mention légales"),
+      },
       "devWithLove": (this.isFrench ?
           "Developed and designed with ❤️ by Gaëtan Faucher" :
           "Développé et conçu avec ❤️ par Gaëtan Faucher"
@@ -271,7 +285,7 @@ export class I18nService {
         ],
       }
     };
-    this.updateEvent.emit(this.isFrench);
 
+    this.updateEvent.emit(this.isFrench);
   }
 }

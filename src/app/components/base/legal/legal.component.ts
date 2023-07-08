@@ -17,7 +17,7 @@ export class LegalComponent implements OnInit {
 
     this.navService.updateNav();
 
-    this.titleService.setTitle("Gaetan • " + (this.i18n.isFrench ? "Legal mention" : "Mention légales"));
+    this.titleService.setTitle("Gaetan • " + this.i18n.text.title.legal);
   }
 
 }

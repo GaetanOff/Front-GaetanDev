@@ -22,7 +22,6 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "angular-notifier": "^11.0.0",
     "animate.css": "^4.1.1",
-    "ngx-ui-loader": "^13.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

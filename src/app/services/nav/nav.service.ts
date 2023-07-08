@@ -8,15 +8,26 @@ export class NavService {
   constructor() {
   }
 
-  updateNav(): void {
-    ['contact', 'real', 'about', 'accueil'].forEach(page => {
-      if (document.getElementById(page)?.classList.contains("font-bold")) {
-        document.getElementById(page)?.classList.toggle("font-bold");
-      }
-      if (!document.getElementById(page)?.classList.contains("font-medium")) {
-        document.getElementById(page)?.classList.toggle("font-medium");
+  updateNav(current?: string): void {
+    const pages = ['contact', 'real', 'about', 'accueil'];
+
+    pages.forEach(page => {
+      const element = document.getElementById(page) as HTMLElement | null;
+
+      if (element) {
+        element.classList.remove("font-bold");
+        element.classList.add("font-medium");
       }
     });
+
+    if (current) {
+      const currentPageElement = document.getElementById(current) as HTMLElement | null;
+      if (currentPageElement) {
+        currentPageElement.classList.toggle("font-medium");
+        currentPageElement.classList.toggle("font-bold");
+      }
+    }
   }
+
 
 }

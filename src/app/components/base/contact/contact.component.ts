@@ -20,33 +20,34 @@ export class ContactComponent implements OnInit {
   ngOnInit(): void {
     window.scrollTo({top: 0});
 
-    this.navService.updateNav();
-
-    document.getElementById("contact")?.classList.toggle("font-medium");
-    document.getElementById("contact")?.classList.toggle("font-bold");
+    this.navService.updateNav("contact");
 
     this.titleService.setTitle("Gaetan • Contact");
   }
 
   processForm() {
-    if (this.name == undefined || this.email == undefined || this.message == undefined) {
+    const { name, email, message } = this;
+
+    if (name === undefined || email === undefined || message === undefined) {
       this.notifierService.notify('error', this.i18n.text.contact.form.invalid);
-    } else if (this.name.length < 3) {
+    } else if (name.length < 3) {
       this.notifierService.notify('error', this.i18n.text.contact.form.nameInvalid);
-    } else if (!this.email.includes("@") || !this.email.includes(".")) {
+    } else if (!email.includes("@") || !email.includes(".")) {
       this.notifierService.notify('error', this.i18n.text.contact.form.mailInvalid);
-    } else if (this.message.length < 3) {
+    } else if (message.length < 3) {
       this.notifierService.notify('error', this.i18n.text.contact.form.messageInvalid);
     } else {
-      const formData = new FormData() as FormData;
-      formData.append('name', this.name);
-      formData.append('email', this.email);
-      formData.append('message', this.message);
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('message', message);
 
       this.httpClient.post("https://api.gaetandev.fr/contact", formData).subscribe(res => {
-        if (res)
+        if (res) {
           this.notifierService.notify('success', this.i18n.text.contact.form.success);
-        else this.notifierService.notify('error', this.i18n.text.contact.form.server);
+        } else {
+          this.notifierService.notify('error', this.i18n.text.contact.form.server);
+        }
       });
 
       this.name = undefined;
