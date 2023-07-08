@@ -1,5 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {LocalstorageService} from "../localstorage/localstorage.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +10,17 @@ export class I18nService {
   text: any;
   updateEvent = new EventEmitter();
 
-  constructor(private localStorage: LocalstorageService) {
+  constructor(private localStorage: LocalstorageService, private router: Router) {
     if (window.location.href.indexOf("/en") > -1 || this.localStorage.get.getItem("english") === "true") {
       this.localStorage.get.setItem("english", "true");
       this.isFrench = true;
+      this.router.navigate([""]).then(() => console.log("Redirected to english version"));
     }
 
     if (window.location.href.indexOf("/fr") > -1) {
       this.localStorage.get.setItem("english", "false");
       this.isFrench = false;
+      this.router.navigate([""]).then(() => console.log("Redirected to french version"));
     }
 
     this.update();
