@@ -11,9 +11,9 @@ export class I18nService {
   updateEvent = new EventEmitter();
 
   constructor(private localStorage: LocalstorageService, private router: Router) {
-    const englishQueryParam = window.location.href.includes("/en");
-    const frenchQueryParam = window.location.href.includes("/fr");
-    const hasCache = this.localStorage.get.getItem("english") === "true";
+    const englishQueryParam = window.location.href.includes("/en") as Boolean;
+    const frenchQueryParam = window.location.href.includes("/fr")  as Boolean;
+    const hasCache = (this.localStorage.get.getItem("english") === "true") as Boolean;
 
     if (englishQueryParam) {
       this.localStorage.get.setItem("english", "true");
