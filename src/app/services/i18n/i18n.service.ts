@@ -12,7 +12,7 @@ export class I18nService {
 
   constructor(private localStorage: LocalstorageService, private router: Router) {
     const englishQueryParam = window.location.href.includes("/en") as Boolean;
-    const frenchQueryParam = window.location.href.includes("/fr")  as Boolean;
+    const frenchQueryParam = window.location.href.includes("/fr") as Boolean;
     const hasCache = (this.localStorage.get.getItem("english") === "true") as Boolean;
 
     if (englishQueryParam) {

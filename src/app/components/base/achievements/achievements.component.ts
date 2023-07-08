@@ -28,6 +28,14 @@ export class AchievementsComponent implements OnInit {
     });
   }
 
+  async showMore(): Promise<void> {
+    this.showedList = this.achievementsList.slice(0, this.showedList.length + 3);
+  }
+
+  async showLess(): Promise<void> {
+    this.showedList = this.achievementsList.slice(0, 3);
+  }
+
   private updateText(): void {
     this.achievementsList = [
       {
@@ -116,14 +124,6 @@ export class AchievementsComponent implements OnInit {
       },
     ];
 
-    this.showedList = this.achievementsList.slice(0, 3);
-  }
-
-  async showMore(): Promise<void> {
-    this.showedList = this.achievementsList.slice(0, this.showedList.length + 3);
-  }
-
-  async showLess(): Promise<void> {
     this.showedList = this.achievementsList.slice(0, 3);
   }
 
