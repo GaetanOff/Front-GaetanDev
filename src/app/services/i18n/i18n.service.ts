@@ -11,20 +11,25 @@ export class I18nService {
   updateEvent = new EventEmitter();
 
   constructor(private localStorage: LocalstorageService, private router: Router) {
-    if (window.location.href.indexOf("/en") > -1 || this.localStorage.get.getItem("english") === "true") {
+    const englishQueryParam = window.location.href.includes("/en");
+    const frenchQueryParam = window.location.href.includes("/fr");
+    const hasCache = this.localStorage.get.getItem("english") === "true";
+
+    if (englishQueryParam) {
       this.localStorage.get.setItem("english", "true");
       this.isFrench = true;
       this.router.navigate([""]).then(() => console.log("Redirected to english version"));
-    }
-
-    if (window.location.href.indexOf("/fr") > -1) {
+    } else if (frenchQueryParam) {
       this.localStorage.get.setItem("english", "false");
       this.isFrench = false;
       this.router.navigate([""]).then(() => console.log("Redirected to french version"));
+    } else if (hasCache) {
+      this.isFrench = true;
     }
 
     this.update();
   }
+
 
   update(): void {
     this.text = {
