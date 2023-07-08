@@ -14,10 +14,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.navService.updateNav();
-
-    document.getElementById("accueil")?.classList.toggle("font-medium");
-    document.getElementById("accueil")?.classList.toggle("font-bold");
+    this.navService.updateNav("accueil");
 
     this.titleService.setTitle("Gaetan • DevOps");
   }

@@ -16,12 +16,9 @@ export class AchievementsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.navService.updateNav();
+    this.navService.updateNav("real");
 
-    document.getElementById("real")?.classList.toggle("font-medium");
-    document.getElementById("real")?.classList.toggle("font-bold");
-
-    this.titleService.setTitle("Gaetan • " + (this.i18n.isFrench ? "Achievements" : "Réalisations"));
+    this.titleService.setTitle("Gaetan • " + this.i18n.text.title.achievements);
 
     this.i18n.updateEvent.subscribe(() => {
       this.updateText();

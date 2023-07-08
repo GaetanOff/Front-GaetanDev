@@ -33,6 +33,12 @@ export class I18nService {
 
   update(): void {
     this.text = {
+      "title": {
+        "about": (this.isFrench ? "About Me" : "A Propos"),
+        "achievements": (this.isFrench ? "Achievements" : "Réalisations"),
+        "cgv": (this.isFrench ? "TOS/CGV" : "CGU/CGV"),
+        "legal": (this.isFrench ? "Legal mention" : "Mention légales"),
+      },
       "devWithLove": (this.isFrench ?
           "Developed and designed with ❤️ by Gaëtan Faucher" :
           "Développé et conçu avec ❤️ par Gaëtan Faucher"
@@ -279,7 +285,7 @@ export class I18nService {
         ],
       }
     };
-    this.updateEvent.emit(this.isFrench);
 
+    this.updateEvent.emit(this.isFrench);
   }
 }
