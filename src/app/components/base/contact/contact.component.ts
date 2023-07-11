@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Title} from "@angular/platform-browser";
 import {NavService} from "../../../services/nav/nav.service";
 import {I18nService} from "../../../services/i18n/i18n.service";
+import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
 
 @Component({
   selector: 'app-contact',
@@ -25,7 +26,7 @@ export class ContactComponent implements OnInit {
     this.titleService.setTitle("Gaetan • Contact");
   }
 
-  processForm() {
+  processForm(): void {
     const { name, email, message } = this;
 
     if (name === undefined || email === undefined || message === undefined) {
@@ -37,6 +38,7 @@ export class ContactComponent implements OnInit {
     } else if (message.length < 3) {
       this.notifierService.notify('error', this.i18n.text.contact.form.messageInvalid);
     } else {
+      /**
       const formData = new FormData();
       formData.append('name', name);
       formData.append('email', email);
@@ -49,6 +51,19 @@ export class ContactComponent implements OnInit {
           this.notifierService.notify('error', this.i18n.text.contact.form.server);
         }
       });
+       **/
+      const templateParams = {
+        name: this.name,
+        email: this.email,
+        message: this.message
+      };
+
+      emailjs.send('service_katu34t', 'template_3rprude', templateParams, 'SsUfOyd0KywiMRRLl')
+        .then((result: EmailJSResponseStatus) => {
+          this.notifierService.notify('success', this.i18n.text.contact.form.success);
+        }, (error) => {
+          this.notifierService.notify('error', this.i18n.text.contact.form.server);
+        });
 
       this.name = undefined;
       this.email = undefined;

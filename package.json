@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^14.2.5",
     "@angular/platform-browser-dynamic": "^14.2.5",
     "@angular/router": "^14.2.5",
+    "@emailjs/browser": "^3.11.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "angular-notifier": "^11.0.0",
