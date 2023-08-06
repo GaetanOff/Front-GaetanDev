@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { LimitService } from './limit.service';
+import {LimitService} from './limit.service';
 
 describe('LimitService', () => {
   let service: LimitService;

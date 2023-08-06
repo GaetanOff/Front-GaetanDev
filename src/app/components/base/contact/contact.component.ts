@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Title} from "@angular/platform-browser";
 import {NavService} from "../../../services/nav/nav.service";
 import {I18nService} from "../../../services/i18n/i18n.service";
-import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
+import emailjs from '@emailjs/browser';
 import {LimitService} from "../../../services/limit/limit.service";
 
 @Component({
@@ -29,7 +29,7 @@ export class ContactComponent implements OnInit {
   }
 
   processForm(): void {
-    const { name, email, message } = this;
+    const {name, email, message} = this;
 
     if (name === undefined || email === undefined || message === undefined) {
       this.notifierService.notify('error', this.i18n.text.contact.form.invalid);
@@ -54,7 +54,7 @@ export class ContactComponent implements OnInit {
           }
 
           this.notifierService.notify('success', this.i18n.text.contact.form.success);
-          this.limitService.setLimit({hours: 0, minutes: 15});
+          this.limitService.setLimit({hours: 0, minutes: 10});
         }, (): void => {
           this.notifierService.notify('error', this.i18n.text.contact.form.server);
         });

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Time } from "@angular/common";
+import {Injectable} from '@angular/core';
+import {Time} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,8 @@ import { Time } from "@angular/common";
 export class LimitService {
   private dateLimit: Date = new Date();
 
-  constructor() { }
+  constructor() {
+  }
 
   setLimit(limit: Time): void {
     const now: Date = new Date();
@@ -15,7 +16,8 @@ export class LimitService {
   }
 
   getLimit(): Time {
-    const remainingMilliseconds: number = this.dateLimit.getTime() - new Date().getTime();
+    const now: Date = new Date();
+    const remainingMilliseconds: number = this.dateLimit.getTime() - now.getTime();
     return this.convertMillisecondsToTime(remainingMilliseconds);
   }
 
@@ -32,6 +34,6 @@ export class LimitService {
     const totalMinutes: number = milliseconds / (60 * 1000);
     const hours: number = Math.floor(totalMinutes / 60);
     const minutes: number = Math.floor(totalMinutes % 60);
-    return { hours, minutes };
+    return {hours, minutes};
   }
 }

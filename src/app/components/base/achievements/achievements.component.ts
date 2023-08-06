@@ -15,7 +15,7 @@ enum Category {
   templateUrl: './achievements.component.html'
 })
 export class AchievementsComponent implements OnInit {
-  categories: any  = [Category.ALL, Category.SYS, Category.DEV, Category.DO];
+  categories: any = [Category.ALL, Category.SYS, Category.DEV, Category.DO];
   achievementsList: any = [];
   showedList: any = [];
 
