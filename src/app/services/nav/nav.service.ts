@@ -9,10 +9,10 @@ export class NavService {
   }
 
   updateNav(current?: string): void {
-    const pages = ['contact', 'real', 'about', 'accueil'];
+    const pages: string[] = ['contact', 'real', 'about', 'accueil'];
 
-    pages.forEach(page => {
-      const element = document.getElementById(page) as HTMLElement | null;
+    pages.forEach((page: string): void => {
+      const element: HTMLElement | null = document.getElementById(page);
 
       if (element) {
         element.classList.remove("font-bold");
@@ -21,7 +21,7 @@ export class NavService {
     });
 
     if (current) {
-      const currentPageElement = document.getElementById(current) as HTMLElement | null;
+      const currentPageElement: HTMLElement | null = document.getElementById(current);
       if (currentPageElement) {
         currentPageElement.classList.toggle("font-medium");
         currentPageElement.classList.toggle("font-bold");

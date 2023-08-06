@@ -13,7 +13,7 @@ export class ExperienceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.i18n.updateEvent.subscribe(() => {
+    this.i18n.updateEvent.subscribe((): void => {
       this.updateText();
     });
   }

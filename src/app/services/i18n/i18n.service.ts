@@ -8,12 +8,12 @@ import {Router} from "@angular/router";
 export class I18nService {
   isFrench: boolean = false;
   text: any;
-  updateEvent = new EventEmitter();
+  updateEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private localStorage: LocalstorageService, private router: Router) {
-    const englishQueryParam = window.location.href.includes("/en") as Boolean;
-    const frenchQueryParam = window.location.href.includes("/fr") as Boolean;
-    const hasCache = (this.localStorage.get.getItem("english") === "true") as Boolean;
+    const englishQueryParam: boolean = window.location.href.includes("/en");
+    const frenchQueryParam: boolean = window.location.href.includes("/fr");
+    const hasCache: boolean = (this.localStorage.get.getItem("english") === "true");
 
     if (englishQueryParam) {
       this.localStorage.get.setItem("english", "true");
@@ -144,6 +144,7 @@ export class I18nService {
           "messageInvalid": (this.isFrench ? "Error, invalid message !" : "Erreur, message invalide !"),
           "captchaInvalid": (this.isFrench ? "Error, captcha form !" : "Erreur, captcha invalide !"),
           "success": (this.isFrench ? "Success, email sent !" : "Succès, mail envoyé !"),
+          "limit": (this.isFrench ? "Warning, please wait a bit !" : "Attention, attendez encore quelques minutess !"),
         }
       },
       "legal": {

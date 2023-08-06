@@ -10,6 +10,13 @@
         <div class="mb-6">
           <p class="text-2xl">{{ this.i18n.text.achievements.description }}</p>
         </div>
+        <div class="flex flex-wrap justify-center">
+          <div *ngFor="let category of categories"
+               class="inline-flex items-center justify-center px-4 py-2 mr-2 mb-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg hover:scale-110 motion-reduce:transform-none duration-300"
+               role="button">
+            {{ category }}
+          </div>
+        </div>
         <div class="mx-0 sm:mx-6">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-12">
             <div *ngFor="let ach of showedList"

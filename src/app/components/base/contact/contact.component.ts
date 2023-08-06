@@ -5,6 +5,7 @@ import {Title} from "@angular/platform-browser";
 import {NavService} from "../../../services/nav/nav.service";
 import {I18nService} from "../../../services/i18n/i18n.service";
 import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
+import {LimitService} from "../../../services/limit/limit.service";
 
 @Component({
   selector: 'app-contact',
@@ -15,7 +16,8 @@ export class ContactComponent implements OnInit {
   email: string | undefined;
   message: string | undefined;
 
-  constructor(public i18n: I18nService, private notifierService: NotifierService, private httpClient: HttpClient, private titleService: Title, private navService: NavService) {
+  constructor(public i18n: I18nService, private notifierService: NotifierService, private httpClient: HttpClient,
+              private titleService: Title, private navService: NavService, private limitService: LimitService) {
   }
 
   ngOnInit(): void {
@@ -38,30 +40,22 @@ export class ContactComponent implements OnInit {
     } else if (message.length < 3) {
       this.notifierService.notify('error', this.i18n.text.contact.form.messageInvalid);
     } else {
-      /**
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('message', message);
-
-      this.httpClient.post("https://api.gaetandev.fr/contact", formData).subscribe(res => {
-        if (res) {
-          this.notifierService.notify('success', this.i18n.text.contact.form.success);
-        } else {
-          this.notifierService.notify('error', this.i18n.text.contact.form.server);
-        }
-      });
-       **/
-      const templateParams = {
+      const templateParams: { name: string | undefined; message: string | undefined; email: string | undefined } = {
         name: this.name,
         email: this.email,
         message: this.message
       };
 
       emailjs.send('service_katu34t', 'template_3rprude', templateParams, 'SsUfOyd0KywiMRRLl')
-        .then((result: EmailJSResponseStatus) => {
+        .then((): void => {
+          if (this.limitService.checkLimit()) {
+            this.notifierService.notify('warning', this.i18n.text.contact.form.limit);
+            return;
+          }
+
           this.notifierService.notify('success', this.i18n.text.contact.form.success);
-        }, (error) => {
+          this.limitService.setLimit({hours: 0, minutes: 15});
+        }, (): void => {
           this.notifierService.notify('error', this.i18n.text.contact.form.server);
         });
 
