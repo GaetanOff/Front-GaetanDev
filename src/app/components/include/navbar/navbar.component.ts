@@ -22,32 +22,32 @@ export class NavbarComponent implements OnInit {
     let clicked2: boolean = false;
     let clicked3: boolean = false;
 
-    document.getElementById('nav-toggle')?.addEventListener("click", () => {
-      ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
+    document.getElementById('nav-toggle')?.addEventListener("click", (): void => {
+      ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach((tokens: string): void => {
         document.getElementById("navHeader")?.classList.remove(tokens);
       });
 
       document.getElementById("nav-content")?.classList.toggle("hidden");
 
-      ['animate__animated', 'animate__backInLeft'].forEach(tokens => {
+      ['animate__animated', 'animate__backInLeft'].forEach((tokens: string): void => {
         document.getElementById("nav-content")?.classList.add(tokens);
       });
     });
 
-    document.addEventListener("click", () => {
+    document.addEventListener("click", (): void => {
       clicked2 = true;
 
-      setTimeout(() => {
+      setTimeout((): void => {
         clicked2 = false;
       }, 300);
     });
 
-    document.addEventListener("scroll", () => {
+    document.addEventListener("scroll", (): void => {
       if (document.documentElement.scrollTop < previous) {
         if (!previouses && !clicked && !clicked2 && !clicked3) {
           previouses = true;
 
-          ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
+          ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach((tokens: string): void => {
             document.getElementById("navHeader")?.classList.add(tokens);
           });
         }
@@ -55,7 +55,7 @@ export class NavbarComponent implements OnInit {
         if (!clicked && !clicked2 && !clicked3) {
           previouses = false;
 
-          ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach(tokens => {
+          ['animate__animated', 'animate__fadeInDown', 'sticky', 'top-0', 'z-50'].forEach((tokens: string): void => {
             document.getElementById("navHeader")?.classList.remove(tokens);
           });
         }
@@ -66,9 +66,9 @@ export class NavbarComponent implements OnInit {
   }
 
   disableMobileMenu(): void {
-    const navContent = document.getElementById("nav-content");
+    const navContent: HTMLElement | null = document.getElementById("nav-content");
     if (navContent && !navContent.classList.contains("hidden")) {
-      ['animate__animated', 'animate__backInLeft'].forEach(tokens => {
+      ['animate__animated', 'animate__backInLeft'].forEach((tokens: string): void => {
         navContent.classList.remove(tokens);
       });
 
@@ -89,7 +89,7 @@ export class NavbarComponent implements OnInit {
     if (!window.location.href.indexOf("/shield"))
       this.router.navigate([""]).then(() => console.log("Redirected to the main page"));
 
-    const isFrench = this.i18n.isFrench as Boolean;
+    const isFrench: boolean = this.i18n.isFrench;
 
     if (isFrench) {
       this.i18n.isFrench = false;

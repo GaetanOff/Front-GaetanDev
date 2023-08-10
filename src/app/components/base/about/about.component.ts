@@ -19,7 +19,7 @@ export class AboutComponent implements OnInit {
     this.titleService.setTitle("Gaetan • " + this.i18n.text.title.about);
   }
 
-  processForm() {
+  processForm(): void {
     this.notifierService.notify('error', this.i18n.text.about.cvNotAvailable);
   }
 
