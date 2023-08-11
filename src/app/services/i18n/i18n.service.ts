@@ -144,7 +144,7 @@ export class I18nService {
           "messageInvalid": (this.isFrench ? "Error, invalid message !" : "Erreur, message invalide !"),
           "captchaInvalid": (this.isFrench ? "Error, captcha form !" : "Erreur, captcha invalide !"),
           "success": (this.isFrench ? "Success, email sent !" : "Succès, mail envoyé !"),
-          "limit": (this.isFrench ? "Warning, please wait a bit !" : "Attention, attendez encore quelques minutess !"),
+          "limit": (this.isFrench ? "Warning, please wait a bit !" : "Attention, attendez encore quelques minutes !"),
         }
       },
       "legal": {
