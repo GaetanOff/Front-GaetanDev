@@ -46,13 +46,13 @@ export class ContactComponent implements OnInit {
         message: this.message
       };
 
+      if (this.limitService.checkLimit()) {
+        this.notifierService.notify('warning', this.i18n.text.contact.form.limit);
+        return;
+      }
+
       emailjs.send('service_katu34t', 'template_3rprude', templateParams, 'SsUfOyd0KywiMRRLl')
         .then((): void => {
-          if (this.limitService.checkLimit()) {
-            this.notifierService.notify('warning', this.i18n.text.contact.form.limit);
-            return;
-          }
-
           this.notifierService.notify('success', this.i18n.text.contact.form.success);
           this.limitService.setLimit({hours: 0, minutes: 10});
         }, (): void => {
