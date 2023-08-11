@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Time} from "@angular/common";
+import {LocalstorageService} from "../localstorage/localstorage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -7,12 +8,17 @@ import {Time} from "@angular/common";
 export class LimitService {
   private dateLimit: Date = new Date();
 
-  constructor() {
+  constructor(private localStorage: LocalstorageService) {
+    const limit: string | null = this.localStorage.get.getItem("limit");
+    if (limit !== null) {
+      this.dateLimit = new Date(parseInt(limit));
+    }
   }
 
   setLimit(limit: Time): void {
     const now: Date = new Date();
     this.dateLimit = new Date(now.getTime() + this.convertTimeToMilliseconds(limit));
+    this.localStorage.get.setItem("limit", this.dateLimit.getTime().toString());
   }
 
   getLimit(): Time {
