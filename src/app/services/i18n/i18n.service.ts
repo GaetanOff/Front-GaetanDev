@@ -158,13 +158,11 @@ export class I18nService {
           (this.isFrench ? "Adress" : "Adresse") + ": 509 RUE DE BUGAREL 34070 MONTPELLIER",
           (this.isFrench ? "Director of publication" : "Directeur de la publication") + ": Gaëtan Faucher",
         ],
-        "reproductionText": [
-          (this.isFrench ?
+        "reproductionText":
+          this.isFrench ?
               "This entire site is subject to international legislation on copyright and intellectual property." :
-              "L'ensemble de ce site relève des législations internationales sur le droit d'auteur et la propriété intellectuelle."
-          ),
-          (this.isFrench ? "All reproduction rights are reserved." : "Tous les droits de reproduction sont réservés."),
-        ],
+              "L'ensemble de ce site relève des législations internationales sur le droit d'auteur et la propriété intellectuelle.",
+        "copyrightText": this.isFrench ? "All reproduction rights are reserved." : "Tous les droits de reproduction sont réservés.",
         "preamble": (this.isFrench ? "Preamble" : "Préambule"),
         "preambleText": [
           (this.isFrench ?

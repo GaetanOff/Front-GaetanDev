@@ -21,9 +21,15 @@
       <div class="mb-2">
         <h1 class="font-bold font-sans break-normal text-3xl md:text-3xl">Reproduction</h1>
         <div class="py-3">
-          <p *ngFor="let text of this.i18n.text.legal.reproductionText">
-            <span>{{ text }}</span>
+          <p>
+            {{ this.i18n.text.legal.reproductionText }}
             <br>
+          </p>
+          <p>
+            {{ this.i18n.text.legal.copyrightText }}
+            <a href="assets/files/00084228-1%20_%20Application%20Web%20_%20GaetanDev.pdf" target="_blank" class="font-bold">
+              ©
+            </a>
           </p>
         </div>
       </div>
