@@ -33,6 +33,7 @@ export class I18nService {
 
   update(): void {
     this.text = {
+      "lang": (this.isFrench ? "Langue changé en français." : "Language changed to english."),
       "title": {
         "about": (this.isFrench ? "About Me" : "A Propos"),
         "achievements": (this.isFrench ? "Achievements" : "Réalisations"),
