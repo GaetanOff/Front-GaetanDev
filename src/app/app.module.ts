@@ -14,6 +14,7 @@ import {ExperienceComponent} from './components/include/cv/experience/experience
 import {LanguagesComponent} from './components/include/cv/languages/languages.component';
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 import {ServicesComponent} from './components/include/services/services.component';
+import { TempladminComponent } from './components/include/admin/templadmin/templadmin.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {ServicesComponent} from './components/include/services/services.componen
     LanguagesComponent,
     CompetencesComponent,
     CVComponent,
-    ServicesComponent
+    ServicesComponent,
+    TempladminComponent,
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,9 @@ import {ContactComponent} from "./components/base/contact/contact.component";
 import {LegalComponent} from "./components/base/legal/legal.component";
 import {CgvComponent} from "./components/base/cgv/cgv.component";
 import {AboutComponent} from "./components/base/about/about.component";
+import {AdminComponent} from "./components/base/admin/admin.component";
+import {AuthComponent} from "./components/base/admin/auth/auth.component";
+import {WhitelistComponent} from "./components/base/admin/whitelist/whitelist.component";
 
 const routes: Routes = [
   {
@@ -32,6 +35,18 @@ const routes: Routes = [
     loadChildren: () => import('./components/base/contact/contact.module').then(m => m.ContactModule)
   },
   {
+    path: "admin",
+    loadChildren: () => import('./components/base/admin/admin.module').then(m => m.AdminModule)
+  },
+  {
+    path: "admin/auth",
+    loadChildren: () => import('./components/base/admin/auth/auth.module').then(m => m.AuthModule)
+  },
+  {
+    path: "admin/whitelist",
+    loadChildren: () => import('./components/base/admin/whitelist/whitelist.module').then(m => m.WhitelistModule)
+  },
+  {
     path: "**", component: HomeComponent
   }
 ]
@@ -44,5 +59,6 @@ export class AppRoutingModule {
 }
 
 export const routingComponents = [
-  HomeComponent, AboutComponent, ContactComponent, AchievementsComponent, LegalComponent, CgvComponent
+  HomeComponent, AboutComponent, ContactComponent, AchievementsComponent, LegalComponent, CgvComponent, AdminComponent,
+  AuthComponent, WhitelistComponent
 ]
