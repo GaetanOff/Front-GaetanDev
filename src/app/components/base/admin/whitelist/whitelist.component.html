@@ -1,0 +1,41 @@
+<app-templadmin>
+  <div class="flex-1 p-8">
+    <div class="flex flex-col md:flex-row justify-center md:justify-between">
+      <form (ngSubmit)="processForm()" class="w-1/2 p-4">
+        <h2 class="text-2xl font-bold mb-4">Whitelist IP Address</h2>
+        <div class="mb-4">
+          <label class="block text-sm font-semibold mb-1">IP</label>
+          <label>
+            <input
+              #nameInput="ngModel"
+              [(ngModel)]="address"
+              class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              minlength="3"
+              name="address"
+              placeholder="address"
+              required
+              type="text">
+          </label>
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-semibold mb-1">Server</label>
+          <select [(ngModel)]="server"
+                  class="w-full w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline">
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </div>
+        <button class="px-4 py-2 bg-blue-500 text-white rounded-md" type="submit">WL</button>
+      </form>
+      <div class="w-1/2 p-4">
+        <h2 class="text-2xl font-bold mb-4">All IP whitelisted</h2>
+        <div *ngFor="let ip of whitelistedIPs">
+          <div class="flex items-center justify-between border-b border-gray-300 py-2">
+            <div>{{ ip }}</div>
+            <button (click)="removeWhitelistedIP(ip)" class="px-4 py-2 bg-red-500 text-white rounded-md">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-templadmin>
