@@ -17,10 +17,10 @@ export class AdminService {
     private router: Router
   ) {
     this.formData = new FormData();
-    this.checkAdminStatus();
+    this.checkAdminStatus(true);
   }
 
-  private checkAdminStatus() {
+  private checkAdminStatus(login?: boolean) {
     const adminUsername = this.localStorage.get.getItem('adminUsername');
     const adminPassword = this.localStorage.get.getItem('adminPassword');
 
@@ -28,9 +28,11 @@ export class AdminService {
       this.formData.append('username', adminUsername);
       this.formData.append('password', adminPassword);
 
-      if (this.login(this.formData)) {
-        this.isLogged = true;
-      } else this.logout();
+      if (login) {
+        if (this.login(this.formData)) {
+          this.isLogged = true;
+        } else this.logout();
+      }
     }
   }
 
@@ -64,6 +66,8 @@ export class AdminService {
   }
 
   getWhitelistedIPs(): Observable<any> {
+    this.checkAdminStatus();
+    
     return this.httpClient.post('https://api.gaetandev.fr/whitelisted', this.formData, { responseType: 'json' });
   }
 

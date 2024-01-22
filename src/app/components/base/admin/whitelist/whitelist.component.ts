@@ -22,7 +22,7 @@ export class WhitelistComponent implements OnInit, OnDestroy {
     this.adminService.checkAdmin();
     this.updateWhitelistedIPs();
 
-    interval(3000)
+    interval(60000)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => this.updateWhitelistedIPs());
   }
