@@ -157,7 +157,13 @@ export class I18nService {
           ),
           "Siret: 91028598000017, CFE URSSAF 34",
           (this.isFrench ? "Adress" : "Adresse") + ": 509 RUE DE BUGAREL 34070 MONTPELLIER",
-          (this.isFrench ? "Director of publication" : "Directeur de la publication") + ": Gaëtan Faucher",
+          (this.isFrench ? "Director of publication" : "Directeur de la publication") + ": Gaëtan Faucher - contact@gaetandev.fr",
+        ],
+        "host": (this.isFrench ? "Host" : "Hébergeur"),
+        "hostText": [
+          this.isFrench ?
+            "The gaetandev.fr site is hosted on the servers of Amazon Web Services Inc, PO Box 81226, Seattle, WA 981808-1226 – USA. https://aws.amazon.com/en/compliance/eu-data-protection/.\n" :
+            "Le site gaetandev.fr est hébergé sur les serveurs de Amazon Web Services Inc, PO Box 81226, Seattle, WA 981808-1226 – USA. https://aws.amazon.com/fr/compliance/eu-data-protection/.",
         ],
         "reproductionText":
           this.isFrench ?

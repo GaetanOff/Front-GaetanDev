@@ -25,6 +25,7 @@ export class AdminService {
     const adminPassword = this.localStorage.get.getItem('adminPassword');
 
     if (adminUsername && adminPassword) {
+
       this.formData.append('username', adminUsername);
       this.formData.append('password', adminPassword);
 
@@ -67,7 +68,7 @@ export class AdminService {
 
   getWhitelistedIPs(): Observable<any> {
     this.checkAdminStatus();
-    
+
     return this.httpClient.post('https://api.gaetandev.fr/whitelisted', this.formData, { responseType: 'json' });
   }
 
