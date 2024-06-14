@@ -23,8 +23,8 @@ export class ExperienceComponent implements OnInit {
       {
         name: 'Freelance',
         date: this.i18n.isFrench ?
-          "October 2016 - Today" :
-          "Octobre 2016 - Aujourd'hui",
+          "October 2021 - Today" :
+          "Octobre 2021 - Aujourd'hui",
         description: this.i18n.isFrench ?
           "Full-Stack Developer & DevOps" :
           "Développeur Full-Stack & DevOps",
