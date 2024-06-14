@@ -39,16 +39,6 @@ export class CertifComponent implements OnInit {
           'Obtaining certification' :
           'Obtention de la certification') + ' LPIC 1',
         active: false
-      },
-      {
-        name: 'Certified Kubernetes Administrator',
-        date: this.i18n.isFrench ?
-          'October 2018' :
-          'Octobre 2018',
-        description: (this.i18n.isFrench ?
-          'Obtaining certification' :
-          'Obtention de la certification') + ' CKA',
-        active: false
       }
     ];
   }
