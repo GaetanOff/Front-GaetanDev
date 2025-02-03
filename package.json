@@ -10,14 +10,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^14.2.5",
-    "@angular/common": "^14.2.5",
-    "@angular/compiler": "^14.2.5",
-    "@angular/core": "^14.2.5",
-    "@angular/forms": "^14.2.5",
-    "@angular/platform-browser": "^14.2.5",
-    "@angular/platform-browser-dynamic": "^14.2.5",
-    "@angular/router": "^14.2.5",
+    "@angular/animations": "^15.2.10",
+    "@angular/common": "^15.2.10",
+    "@angular/compiler": "^15.2.10",
+    "@angular/core": "^15.2.10",
+    "@angular/forms": "^15.2.10",
+    "@angular/platform-browser": "^15.2.10",
+    "@angular/platform-browser-dynamic": "^15.2.10",
+    "@angular/router": "^15.2.10",
     "@emailjs/browser": "^3.11.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
@@ -28,9 +28,9 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.2.5",
-    "@angular/cli": "^14.2.5",
-    "@angular/compiler-cli": "^14.2.5",
+    "@angular-devkit/build-angular": "^15.2.11",
+    "@angular/cli": "^15.2.11",
+    "@angular/compiler-cli": "^15.2.10",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.8.0",
@@ -40,6 +40,6 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
     "tailwindcss": "^3.0.7",
-    "typescript": "~4.6.4"
+    "typescript": "~4.9.5"
   }
 }
