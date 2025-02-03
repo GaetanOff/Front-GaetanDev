@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build --configuration production --build-optimizer=true --vendor-chunk=true",
     "watch": "ng build --watch --configuration development",
+    "tailwind": "npx tailwindcss -i ./tailwind.css -o src/assets/css/output.css --watch",
     "test": "ng test"
   },
   "private": true,
@@ -21,8 +22,8 @@
     "@emailjs/browser": "^3.11.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "angular-notifier": "^11.0.0",
     "animate.css": "^4.1.1",
+    "ngx-sonner": "1.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.14.10"
@@ -39,7 +40,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "tailwindcss": "^3.0.7",
+    "tailwindcss": "^3.4.17",
     "typescript": "~5.4.5"
   }
 }

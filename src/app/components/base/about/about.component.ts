@@ -2,15 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
 import {NavService} from "../../../services/nav/nav.service";
 import {I18nService} from "../../../services/i18n/i18n.service";
-import {NotifierService} from "angular-notifier";
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html'
 })
 export class AboutComponent implements OnInit {
+  protected readonly toast = toast;
 
-  constructor(private titleService: Title, private notifierService: NotifierService, private navService: NavService, public i18n: I18nService) {
+  constructor(private titleService: Title, private navService: NavService, public i18n: I18nService) {
   }
 
   ngOnInit(): void {
@@ -20,7 +21,7 @@ export class AboutComponent implements OnInit {
   }
 
   processForm(): void {
-    this.notifierService.notify('error', this.i18n.text.about.cvNotAvailable);
+    this.toast.error(this.i18n.text.about.cvNotAvailable);
   }
 
 }

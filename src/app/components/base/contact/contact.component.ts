@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NotifierService} from "angular-notifier";
+import { toast } from 'ngx-sonner';
 import {HttpClient} from "@angular/common/http";
 import {Title} from "@angular/platform-browser";
 import {NavService} from "../../../services/nav/nav.service";
@@ -12,11 +12,13 @@ import {LimitService} from "../../../services/limit/limit.service";
   templateUrl: './contact.component.html'
 })
 export class ContactComponent implements OnInit {
+  protected readonly toast = toast;
+
   name: string | undefined;
   email: string | undefined;
   message: string | undefined;
 
-  constructor(public i18n: I18nService, private notifierService: NotifierService, private httpClient: HttpClient,
+  constructor(public i18n: I18nService, private httpClient: HttpClient,
               private titleService: Title, private navService: NavService, private limitService: LimitService) {
   }
 
@@ -28,17 +30,17 @@ export class ContactComponent implements OnInit {
     this.titleService.setTitle("Gaetan • Contact");
   }
 
-  processForm(): void {
+  async processForm(): Promise<void> {
     const {name, email, message} = this;
 
     if (name === undefined || email === undefined || message === undefined) {
-      this.notifierService.notify('error', this.i18n.text.contact.form.invalid);
+      this.toast.error(this.i18n.text.contact.form.invalid);
     } else if (name.length < 3) {
-      this.notifierService.notify('error', this.i18n.text.contact.form.nameInvalid);
+      this.toast.error(this.i18n.text.contact.form.nameInvalid);
     } else if (!email.includes("@") || !email.includes(".")) {
-      this.notifierService.notify('error', this.i18n.text.contact.form.mailInvalid);
+      this.toast.error(this.i18n.text.contact.form.mailInvalid);
     } else if (message.length < 3) {
-      this.notifierService.notify('error', this.i18n.text.contact.form.messageInvalid);
+      this.toast.error(this.i18n.text.contact.form.messageInvalid)
     } else {
       const templateParams: { name: string | undefined; message: string | undefined; email: string | undefined } = {
         name: this.name,
@@ -47,16 +49,18 @@ export class ContactComponent implements OnInit {
       };
 
       if (this.limitService.checkLimit()) {
-        this.notifierService.notify('warning', this.i18n.text.contact.form.limit);
+        this.toast.warning(this.i18n.text.contact.form.limit);
         return;
       }
 
+      const lastToast: string | number = toast.loading(this.i18n.text.contact.form.loading || "Envoi en cours...");
+
       emailjs.send('service_katu34t', 'template_3rprude', templateParams, 'SsUfOyd0KywiMRRLl')
         .then((): void => {
-          this.notifierService.notify('success', this.i18n.text.contact.form.success);
+          this.toast.success(this.i18n.text.contact.form.success, { id: lastToast });
           this.limitService.setLimit({hours: 0, minutes: 10});
         }, (): void => {
-          this.notifierService.notify('error', this.i18n.text.contact.form.server);
+          this.toast.error(this.i18n.text.contact.form.server, { id: lastToast });
         });
 
       this.name = undefined;

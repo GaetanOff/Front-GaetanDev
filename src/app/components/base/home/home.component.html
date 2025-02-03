@@ -6,8 +6,8 @@
         <div class=" text-center mb-16">
           <h1 class="mb-2 text-4xl lg:text-5xl font-bold font-heading transform hover:scale-110 duration-300">
             {{ this.i18n.text.home.welcome }}
-            <div class="inline-flex space-x-2">
-              <span>Faucher</span>
+            <div class="inline-flex space-x-2 align-middle">
+              <span class="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Faucher</span>
               <span class="hey">👋</span>
             </div>
           </h1>
@@ -24,12 +24,12 @@
                  style="background-image: url('../../../../assets/img/pdp.webp')"></div>
             <h1 class="text-3xl font-body pt-8 lg:pt-0 mb-4">{{ this.i18n.text.desc }}</h1>
             <button
-              class="animate__animated animate__fadeIn ml-auto transform hover:scale-110 motion-reduce:transform-none duration-300 bg-green-600 hover:bg-green-700 text-gray-100 font-bold py-2 px-4 p-12 mb-2 rounded-lg inline-flex items-center"
+              class="cursor-pointer animate__animated animate__fadeIn ml-auto transition-all duration-300 bg-gradient-to-r from-green-600 to-emerald-700 hover:shadow-lg hover:shadow-green-600/30 text-gray-100 font-bold py-2 px-4 p-12 mb-2 rounded-lg inline-flex items-center"
               routerLink="/contact">
               <span>{{ this.i18n.text.home.contactButton }}</span>
             </button>
             <button
-              class="animate__animated animate__fadeIn ml-2 transform hover:scale-110 motion-reduce:transform-none duration-300 bg-green-600 hover:bg-green-700 text-gray-100 font-bold py-2 px-4 p-12 rounded-lg inline-flex items-center"
+              class="cursor-pointer animate__animated animate__fadeIn ml-2 transition-all duration-300 bg-gradient-to-r from-green-600 to-emerald-700 hover:shadow-lg hover:shadow-green-600/30 text-gray-100 font-bold py-2 px-4 p-12 mb-2 rounded-lg inline-flex items-center"
               routerLink="/about">
               <span>{{ this.i18n.text.learnMoreButton }}</span>
             </button>

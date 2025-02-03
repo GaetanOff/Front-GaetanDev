@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { LocalstorageService } from "../localstorage/localstorage.service";
 import { Router } from "@angular/router";
-import { Observable } from 'rxjs';
+import {Observable, of} from 'rxjs';
+import {catchError, map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -42,21 +43,21 @@ export class AdminService {
       this.router.navigate(['/admin/auth']).then(() => console.log('Navigated to admin/auth'));
   }
 
-  login(formData: FormData): boolean {
-    let valid = false;
-
-    this.httpClient.post('https://api.gaetandev.fr/auth', formData, { responseType: 'text' }).subscribe((response: any) => {
-      if (response === 'true') {
-        this.localStorage.get.setItem('adminUsername', formData.get('username') as string);
-        this.localStorage.get.setItem('adminPassword', formData.get('password') as string);
-        this.isLogged = true;
-        this.router.navigate(['/admin']).then(() => console.log('Navigated to admin'));
-        valid = true;
-      }
-    });
-
-    return valid;
+  login(formData: FormData): Observable<boolean> {
+    return this.httpClient.post('https://api.gaetandev.fr/auth', formData, { responseType: 'text' }).pipe(
+      map((response: string) => {
+        if (response === 'true') {
+          this.localStorage.get.setItem('adminUsername', formData.get('username') as string);
+          this.localStorage.get.setItem('adminPassword', formData.get('password') as string);
+          this.isLogged = true;
+          return true;
+        }
+        return false;
+      }),
+      catchError(() => of(false))
+    );
   }
+
 
   async logout(): Promise<void> {
     this.localStorage.get.removeItem('adminUsername');
