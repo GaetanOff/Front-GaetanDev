@@ -19,6 +19,7 @@ export class ContactComponent implements OnInit {
   email: string = "";
   message: string = "";
 
+  isLoading: boolean = false;
   mpdmldpsmzl: string | null = null;
   dkqgdoijqdljbkfks: string = "0x4AAAAAAAQVPyoNLB-x1-gG";
 
@@ -68,6 +69,7 @@ export class ContactComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     const lastToast: string | number = toast.loading(this.i18n.text.contact.form.loading || "Envoi en cours...");
 
     const templateParams = { name, email, message };
@@ -79,6 +81,8 @@ export class ContactComponent implements OnInit {
       })
       .catch(() => {
         this.toast.error(this.i18n.text.contact.form.server, { id: lastToast });
+      }).finally(() => {
+        this.isLoading = false;
       });
 
     this.name = "";
