@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <div class="h-8 w-full bg-gray-300 rounded {{shimmer}} mb-4"></div>
     <div class="space-y-8">
       <div class="h-10 w-full bg-gray-300 rounded {{shimmer}}"></div>
       <div class="h-10 w-full bg-gray-300 rounded {{shimmer}}"></div>
