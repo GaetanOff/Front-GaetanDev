@@ -4,17 +4,14 @@
     <div class="container px-4 mx-auto">
       <div class="max-w-6xl mx-auto text-center">
         <div class="max-w-lg mx-auto">
-          <span class="text-green-600 font-bold"></span>
           <h2
-            class="mb-2 text-4xl lg:text-5xl font-bold font-heading transform hover:scale-110 duration-300">{{ this.i18n.text.about.title }}</h2>
-          <p class="mb-6 text-gray-500"></p>
+            class="mb-4 text-4xl lg:text-5xl font-bold font-heading transition-transform transform hover:scale-105 duration-300">
+            {{ this.i18n.text.about.title }}
+          </h2>
         </div>
-        <div class="mb-12">
-          <p></p>
-        </div>
-        <div class="mb-6">
-          <p class="text-2xl">{{ this.i18n.text.about.role }}</p>
-          <p class="text-2xl">{{ this.i18n.text.desc }}</p>
+        <div class="mb-8 text-2xl">
+          <p>{{ this.i18n.text.about.role }}</p>
+          <p>{{ this.i18n.text.desc }}</p>
         </div>
         <form (ngSubmit)="processForm()">
           <button
