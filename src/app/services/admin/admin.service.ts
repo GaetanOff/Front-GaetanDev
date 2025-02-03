@@ -9,7 +9,7 @@ import {catchError, map} from "rxjs/operators";
   providedIn: 'root'
 })
 export class AdminService {
-  private isLogged = false;
+  isLogged = false;
   private readonly formData: FormData;
 
   constructor(
@@ -36,11 +36,6 @@ export class AdminService {
         } else this.logout();
       }
     }
-  }
-
-  checkAdmin() {
-    if (!this.isLogged)
-      this.router.navigate(['/admin/auth']).then(() => console.log('Navigated to admin/auth'));
   }
 
   login(formData: FormData): Observable<boolean> {

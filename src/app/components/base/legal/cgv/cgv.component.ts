@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {NavService} from "../../../services/nav/nav.service";
-import {I18nService} from "../../../services/i18n/i18n.service";
+import {NavService} from "../../../../services/nav/nav.service";
+import {I18nService} from "../../../../services/i18n/i18n.service";
 import {Title} from "@angular/platform-browser";
 
 @Component({
