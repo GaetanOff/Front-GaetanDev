@@ -25,7 +25,6 @@ export class WhitelistComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.adminService.checkAdmin();
     this.updateWhitelistedIPs().catch(() => console.error('Error fetching whitelisted IPs'));
 
     interval(60000)

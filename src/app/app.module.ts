@@ -16,6 +16,7 @@ import {ServicesComponent} from './components/include/services/services.componen
 import { TempladminComponent } from './components/include/admin/templadmin/templadmin.component';
 import {NgxSonnerToaster} from "ngx-sonner";
 import {NgxTurnstileModule} from "ngx-turnstile";
+import {ContactSkeletonsComponent} from "./components/include/skeletons/contact-skeletons/contact-skeletons.component";
 import {
   WhitelistedIpsSkeletonsComponent
 } from "./components/include/skeletons/whitelisted-ips-skeletons/whitelisted-ips-skeletons.component";
@@ -23,7 +24,6 @@ import {
   RemoveIpSkeletonsComponent
 } from "./components/include/skeletons/remove-ip-skeletons/remove-ip-skeletons.component";
 import {AddIpSkeletonsComponent} from "./components/include/skeletons/add-ip-skeletons/add-ip-skeletons.component";
-import {ContactSkeletonsComponent} from "./components/include/skeletons/contact-skeletons/contact-skeletons.component";
 
 @NgModule({
   declarations: [
