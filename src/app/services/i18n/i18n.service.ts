@@ -45,6 +45,7 @@ export class I18nService {
           "Développé et conçu avec ❤️ par Gaëtan Faucher"
       ),
       "learnMoreButton": (this.isFrench ? "Learn more" : "En savoir plus"),
+      "learnMoreButtonAchievements": (this.isFrench ? "See more" : "Voir plus de réalisations"),
       "desc": (this.isFrench ?
           "I am a young full-stack developer and DevOps ! I am very interested in new technologies, development and computing." :
           "Je suis un jeune développeur full-stack et DevOps ! Je m'intéresse beaucoup aux nouvelles technologies, au développement et à l'informatique."
