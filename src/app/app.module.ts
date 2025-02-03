@@ -15,6 +15,7 @@ import {CompetencesComponent} from "./components/include/cv/competences/competen
 import {ServicesComponent} from './components/include/services/services.component';
 import { TempladminComponent } from './components/include/admin/templadmin/templadmin.component';
 import {NgxSonnerToaster} from "ngx-sonner";
+import {NgxTurnstileModule} from "ngx-turnstile";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {NgxSonnerToaster} from "ngx-sonner";
     HttpClientModule,
     FormsModule,
     NgxSonnerToaster,
+    NgxTurnstileModule
   ],
   providers: [
     Title

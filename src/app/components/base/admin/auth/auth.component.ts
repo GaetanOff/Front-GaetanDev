@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { toast } from 'ngx-sonner';
-import {AdminService} from "../../../../services/admin/admin.service";
-import {Router} from "@angular/router";
+import { AdminService } from "../../../../services/admin/admin.service";
+import { Router } from "@angular/router";
+import { z } from "zod";
 
 @Component({
   selector: 'app-auth',
@@ -10,25 +11,43 @@ import {Router} from "@angular/router";
 export class AuthComponent implements OnInit {
   protected readonly toast = toast;
 
-  username: string | undefined;
-  password: string | undefined;
+  mpdmldpsmzl: string | null = null;
+  mpmkmpkbgyijnhipm: string = "0x4AAAAAAAQVPyoNLB-x1-gG";
 
-  constructor(private adminService: AdminService, private router: Router) {
+  username: string = "";
+  password: string = "";
+
+  constructor(private adminService: AdminService, private router: Router) {}
+
+  ngOnInit(): void {}
+
+  hgfyjbvfddibbdguo(event: string | null) {
+    this.mpdmldpsmzl = event;
   }
 
-  ngOnInit(): void {
-  }
+  private authSchema = z.object({
+    username: z.string()
+      .min(3, "Username must be at least 3 characters long."),
+    password: z.string()
+      .min(6, "Password must be at least 6 characters long."),
+    captcha: z.string().nullable()
+      .refine(value => value !== null, { message: "Please verify the captcha." })
+  });
 
   async processForm(): Promise<void> {
-    const {username, password} = this;
+    const { username, password, mpdmldpsmzl } = this;
 
-    if (username === undefined || password === undefined) {
-      this.toast.error('Invalid form');
+    const validationResult = this.authSchema.safeParse({ username, password, captcha: mpdmldpsmzl });
+
+    if (!validationResult.success) {
+      validationResult.error.errors.forEach(err => {
+        this.toast.error(err.message);
+      });
       return;
     }
 
     const lastToast: string | number = toast.loading("Connecting...");
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     const formData = new FormData();
     formData.append('username', username);
@@ -43,5 +62,4 @@ export class AuthComponent implements OnInit {
       }
     });
   }
-
 }

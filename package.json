@@ -24,8 +24,10 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "animate.css": "^4.1.1",
     "ngx-sonner": "1.0.0",
+    "ngx-turnstile": "^0.2.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
+    "zod": "^3.24.1",
     "zone.js": "~0.14.10"
   },
   "devDependencies": {
