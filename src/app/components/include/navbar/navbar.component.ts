@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {I18nService} from "../../../services/i18n/i18n.service";
 import {LocalstorageService} from "../../../services/localstorage/localstorage.service";
 import {Router} from "@angular/router";
-import {NotifierService} from "angular-notifier";
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-navbar',
@@ -10,10 +10,12 @@ import {NotifierService} from "angular-notifier";
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  protected readonly toast = toast;
+
   languageImg: string = this.i18n.isFrench ? "assets/img/france.svg" : "assets/img/english.svg";
 
   constructor(public i18n: I18nService, private localStorage: LocalstorageService,
-              private router: Router, private notifierService: NotifierService) {
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -102,7 +104,7 @@ export class NavbarComponent implements OnInit {
       this.languageImg = "assets/img/france.svg";
     }
 
-    this.notifierService.notify('success', this.i18n.text.lang);
+    this.toast.success(this.i18n.text.lang);
 
     this.i18n.update();
   }

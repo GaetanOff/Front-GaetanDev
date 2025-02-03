@@ -20,7 +20,7 @@
                 <p class="mb-2 text-2xl font-bold tracking-tight">{{ ach.name }}</p>
                 <p class="mb-3">{{ ach.description }}</p>
                 <a
-                  class="animate__animated animate__fadeIn inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-green-600 hover:bg-green-700 rounded-lg hover:scale-110 motion-reduce:transform-none duration-300"
+                  class="inline-flex items-center py-2 px-3 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-emerald-700 hover:shadow-lg hover:shadow-green-600/30 rounded-lg transition-all duration-300"
                   href="{{ ach.redirect }}" target="_blank">
                   {{ this.i18n.text.learnMoreButton }}
                   <svg class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
@@ -36,9 +36,9 @@
         </div>
         <div *ngIf="showedList.length < achievementsList.length" class="pt-8">
           <button (click)="showMore()"
-                  class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg hover:scale-110 motion-reduce:transform-none duration-300"
+                  class="cursor-pointer animate__animated animate__fadeIn ml-auto transition-all duration-300 bg-gradient-to-r from-green-600 to-emerald-700 hover:shadow-lg hover:shadow-green-600/30 text-gray-100 font-bold py-2 px-4 p-12 mb-2 rounded-lg inline-flex items-center"
                   role="button">
-            Voir plus de réalisations
+            {{ this.i18n.text.learnMoreButtonAchievements }}
             <svg class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path clip-rule="evenodd"
                     d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"

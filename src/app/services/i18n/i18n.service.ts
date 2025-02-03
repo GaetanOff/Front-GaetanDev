@@ -45,6 +45,7 @@ export class I18nService {
           "Développé et conçu avec ❤️ par Gaëtan Faucher"
       ),
       "learnMoreButton": (this.isFrench ? "Learn more" : "En savoir plus"),
+      "learnMoreButtonAchievements": (this.isFrench ? "See more" : "Voir plus de réalisations"),
       "desc": (this.isFrench ?
           "I am a young full-stack developer and DevOps ! I am very interested in new technologies, development and computing." :
           "Je suis un jeune développeur full-stack et DevOps ! Je m'intéresse beaucoup aux nouvelles technologies, au développement et à l'informatique."
@@ -138,14 +139,15 @@ export class I18nService {
         "name": (this.isFrench ? "Name" : "Prénom"),
         "sendButton": (this.isFrench ? "Send my message" : "Envoyer mon message"),
         "form": {
-          "invalid": (this.isFrench ? "Error, invalid form !" : "Erreur, formulaire invalide !"),
-          "server": (this.isFrench ? "Error, server down !" : "Erreur, serveur hors-service !"),
-          "nameInvalid": (this.isFrench ? "Error, invalid name !" : "Erreur, prénom invalide !"),
-          "mailInvalid": (this.isFrench ? "Error, invalid mail !" : "Erreur, mail invalide !"),
-          "messageInvalid": (this.isFrench ? "Error, invalid message !" : "Erreur, message invalide !"),
-          "captchaInvalid": (this.isFrench ? "Error, captcha form !" : "Erreur, captcha invalide !"),
-          "success": (this.isFrench ? "Success, email sent !" : "Succès, mail envoyé !"),
-          "limit": (this.isFrench ? "Warning, please wait a bit !" : "Attention, attendez encore quelques minutes !"),
+          "invalid": (this.isFrench ? "Please check the form and fix the errors." : "Veuillez vérifier le formulaire et corriger les erreurs."),
+          "server": (this.isFrench ? "The server is temporarily unavailable. Please try again later." : "Le serveur est temporairement indisponible. Veuillez réessayer plus tard."),
+          "nameInvalid": (this.isFrench ? "Please enter a valid first name." : "Merci de renseigner un prénom valide."),
+          "mailInvalid": (this.isFrench ? "Please enter a valid email address." : "Merci de renseigner une adresse e-mail valide."),
+          "messageInvalid": (this.isFrench ? "Your message seems empty or invalid." : "Votre message semble vide ou invalide."),
+          "captchaInvalid": (this.isFrench ? "Verification failed. Please confirm you're not a robot." : "Vérification échouée. Merci de confirmer que vous n'êtes pas un robot."),
+          "success": (this.isFrench ? "Your message has been successfully sent." : "Votre message a été envoyé avec succès."),
+          "loading": (this.isFrench ? "Sending, please wait..." : "Envoi en cours, merci de patienter..."),
+          "limit": (this.isFrench ? "Please wait a moment before sending another message." : "Veuillez patienter quelques instants avant d'envoyer un nouveau message.")
         }
       },
       "legal": {

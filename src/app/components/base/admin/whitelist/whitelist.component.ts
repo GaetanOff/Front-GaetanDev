@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AdminService} from '../../../../services/admin/admin.service';
-import {NotifierService} from 'angular-notifier';
+import { toast } from 'ngx-sonner';
 import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
@@ -9,13 +9,15 @@ import {takeUntil} from 'rxjs/operators';
   templateUrl: './whitelist.component.html'
 })
 export class WhitelistComponent implements OnInit, OnDestroy {
+  protected readonly toast = toast;
+
   address: string | undefined;
   server: number | undefined;
   whitelistedIPs: string[] = [];
 
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private adminService: AdminService, private notifierService: NotifierService) {
+  constructor(private adminService: AdminService) {
   }
 
   ngOnInit(): void {
@@ -34,19 +36,19 @@ export class WhitelistComponent implements OnInit, OnDestroy {
 
   processForm() {
     if (!this.address) {
-      this.notifierService.notify('error', 'Invalid form');
+      this.toast.error("Invalid form");
       return;
     }
 
     this.adminService.addWhitelistedIP(this.address).subscribe(() => {
-      this.notifierService.notify('success', 'IP whitelisted');
+      this.toast.success('IP whitelisted');
       if (this.address != null) this.whitelistedIPs.push(this.address);
     });
   }
 
   removeWhitelistedIP(ip: string) {
     this.adminService.removeWhitelistedIP(ip).subscribe(() => {
-      this.notifierService.notify('success', 'IP removed from whitelist');
+      this.toast.success('IP removed from whitelist');
       this.whitelistedIPs = this.whitelistedIPs.filter((value: string) => value !== ip);
     });
   }
@@ -57,7 +59,7 @@ export class WhitelistComponent implements OnInit, OnDestroy {
         this.whitelistedIPs = response;
       },
       (error: any) => {
-        this.notifierService.notify('error', 'Error fetching whitelisted IPs');
+        this.toast.error("Error fetching whitelisted IPs");
         console.error('Error fetching whitelisted IPs:', error);
       }
     );

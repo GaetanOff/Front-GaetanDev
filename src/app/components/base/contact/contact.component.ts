@@ -1,68 +1,88 @@
-import {Component, OnInit} from '@angular/core';
-import {NotifierService} from "angular-notifier";
-import {HttpClient} from "@angular/common/http";
-import {Title} from "@angular/platform-browser";
-import {NavService} from "../../../services/nav/nav.service";
-import {I18nService} from "../../../services/i18n/i18n.service";
+import { Component, OnInit } from '@angular/core';
+import { toast } from 'ngx-sonner';
+import { HttpClient } from "@angular/common/http";
+import { Title } from "@angular/platform-browser";
+import { NavService } from "../../../services/nav/nav.service";
+import { I18nService } from "../../../services/i18n/i18n.service";
 import emailjs from '@emailjs/browser';
-import {LimitService} from "../../../services/limit/limit.service";
+import { LimitService } from "../../../services/limit/limit.service";
+import { z } from "zod";
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html'
 })
 export class ContactComponent implements OnInit {
-  name: string | undefined;
-  email: string | undefined;
-  message: string | undefined;
+  protected readonly toast = toast;
 
-  constructor(public i18n: I18nService, private notifierService: NotifierService, private httpClient: HttpClient,
-              private titleService: Title, private navService: NavService, private limitService: LimitService) {
-  }
+  name: string = "";
+  email: string = "";
+  message: string = "";
+
+  mpdmldpsmzl: string | null = null;
+  dkqgdoijqdljbkfks: string = "0x4AAAAAAAQVPyoNLB-x1-gG";
+
+  constructor(
+    public i18n: I18nService,
+    private httpClient: HttpClient,
+    private titleService: Title,
+    private navService: NavService,
+    private limitService: LimitService
+  ) {}
 
   ngOnInit(): void {
     window.scrollTo({top: 0});
-
     this.navService.updateNav("contact");
-
     this.titleService.setTitle("Gaetan • Contact");
   }
 
-  processForm(): void {
-    const {name, email, message} = this;
-
-    if (name === undefined || email === undefined || message === undefined) {
-      this.notifierService.notify('error', this.i18n.text.contact.form.invalid);
-    } else if (name.length < 3) {
-      this.notifierService.notify('error', this.i18n.text.contact.form.nameInvalid);
-    } else if (!email.includes("@") || !email.includes(".")) {
-      this.notifierService.notify('error', this.i18n.text.contact.form.mailInvalid);
-    } else if (message.length < 3) {
-      this.notifierService.notify('error', this.i18n.text.contact.form.messageInvalid);
-    } else {
-      const templateParams: { name: string | undefined; message: string | undefined; email: string | undefined } = {
-        name: this.name,
-        email: this.email,
-        message: this.message
-      };
-
-      if (this.limitService.checkLimit()) {
-        this.notifierService.notify('warning', this.i18n.text.contact.form.limit);
-        return;
-      }
-
-      emailjs.send('service_katu34t', 'template_3rprude', templateParams, 'SsUfOyd0KywiMRRLl')
-        .then((): void => {
-          this.notifierService.notify('success', this.i18n.text.contact.form.success);
-          this.limitService.setLimit({hours: 0, minutes: 10});
-        }, (): void => {
-          this.notifierService.notify('error', this.i18n.text.contact.form.server);
-        });
-
-      this.name = undefined;
-      this.email = undefined;
-      this.message = undefined;
-    }
+  dkmdpqjdnqdoqdkn(event: string | null) {
+    this.mpdmldpsmzl = event;
   }
 
+  private formSchema = z.object({
+    name: z.string()
+      .min(3, this.i18n.text.contact.form.nameInvalid),
+    email: z.string()
+      .email(this.i18n.text.contact.form.mailInvalid),
+    message: z.string()
+      .min(3, this.i18n.text.contact.form.messageInvalid),
+    captcha: z.string().nullable()
+      .refine(value => value !== null, { message: this.i18n.text.contact.form.captchaInvalid })
+  });
+
+  async processForm(): Promise<void> {
+    const { name, email, message, mpdmldpsmzl } = this;
+
+    const validationResult = this.formSchema.safeParse({ name, email, message, captcha: mpdmldpsmzl });
+
+    if (!validationResult.success) {
+      validationResult.error.errors.forEach(err => {
+        this.toast.error(err.message);
+      });
+      return;
+    }
+
+    if (this.limitService.checkLimit()) {
+      this.toast.warning(this.i18n.text.contact.form.limit);
+      return;
+    }
+
+    const lastToast: string | number = toast.loading(this.i18n.text.contact.form.loading || "Envoi en cours...");
+
+    const templateParams = { name, email, message };
+
+    emailjs.send('service_katu34t', 'template_3rprude', templateParams, 'SsUfOyd0KywiMRRLl')
+      .then(() => {
+        this.toast.success(this.i18n.text.contact.form.success, { id: lastToast });
+        this.limitService.setLimit({ hours: 0, minutes: 10 });
+      })
+      .catch(() => {
+        this.toast.error(this.i18n.text.contact.form.server, { id: lastToast });
+      });
+
+    this.name = "";
+    this.email = "";
+    this.message = "";
+  }
 }

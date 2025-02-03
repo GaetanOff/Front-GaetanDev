@@ -5,7 +5,6 @@ import {AppComponent} from './components/app.component';
 import {NavbarComponent} from './components/include/navbar/navbar.component';
 import {AppRoutingModule, routingComponents} from "./app-routing.module";
 import {FormsModule} from "@angular/forms";
-import {NotifierModule} from 'angular-notifier';
 import {HttpClientModule} from "@angular/common/http";
 import {FooterComponent} from './components/include/footer/footer.component';
 import {CVComponent} from './components/include/cv/cv.component';
@@ -15,6 +14,8 @@ import {LanguagesComponent} from './components/include/cv/languages/languages.co
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 import {ServicesComponent} from './components/include/services/services.component';
 import { TempladminComponent } from './components/include/admin/templadmin/templadmin.component';
+import {NgxSonnerToaster} from "ngx-sonner";
+import {NgxTurnstileModule} from "ngx-turnstile";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { TempladminComponent } from './components/include/admin/templadmin/templ
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NotifierModule
+    NgxSonnerToaster,
+    NgxTurnstileModule
   ],
   providers: [
     Title

@@ -3,22 +3,19 @@
     <div class="container px-4 mx-auto">
       <div class="max-w-6xl mx-auto">
         <div class="max-w-lg mx-auto mb-8 text-center">
-          <span class="text-green-600 font-bold"></span>
-          <h2
-            class="mb-2 text-4xl lg:text-5xl font-bold font-heading transform hover:scale-110 duration-300">{{ this.i18n.text.contact.title }}</h2>
-          <p class="mb-6 text-gray-500"></p>
+          <h2 class="mb-2 text-4xl lg:text-5xl font-bold font-heading transition-transform transform hover:scale-105 duration-300">
+            {{ this.i18n.text.contact.title }}
+          </h2>
         </div>
-        <div
-          class="max-w-screen-xl px-4 grid gap-2 grid-cols-1 md:grid-cols-1 md:px-12 lg:px-16 xl:px-36 py-10 mx-auto rounded-lg">
+        <div class="max-w-screen-xl px-4 grid gap-2 grid-cols-1 md:px-12 lg:px-16 xl:px-36 mx-auto rounded-lg">
           <form (ngSubmit)="processForm()">
             <div>
-              <span class="uppercase text-sm font-bold">{{ this.i18n.text.contact.name }}</span>
-              <label>
+              <label class="uppercase text-sm font-bold block">
+                {{ this.i18n.text.contact.name }}
                 <input
                   #nameInput="ngModel"
                   [(ngModel)]="name"
-                  class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  minlength="3"
+                  class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                   minlength="3"
                   name="name"
                   placeholder="{{ this.i18n.text.contact.name }}"
@@ -27,37 +24,36 @@
               </label>
             </div>
             <div class="mt-8">
-              <span class="uppercase text-sm font-bold">Email</span>
-              <label>
+              <label class="uppercase text-sm font-bold block">
+                Email
                 <input
                   #emailInput="ngModel"
                   [(ngModel)]="email"
-                  class="input"
                   class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  email
                   name="email"
                   placeholder="Email"
                   required
-                  type="text">
+                  type="email">
               </label>
             </div>
             <div class="mt-8">
-              <span class="uppercase text-sm font-bold">Message</span>
-              <label>
+              <label class="uppercase text-sm font-bold block">
+                Message
                 <textarea
                   #messageInput="ngModel"
                   [(ngModel)]="message"
-                  class="textarea"
                   class="w-full h-32 bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                   name="message"
                   placeholder="Message">
                 </textarea>
               </label>
             </div>
-
-            <div class="mt-8">
+            <div class="mt-5 flex justify-center">
+              <ngx-turnstile [siteKey]="dkqgdoijqdljbkfks" (resolved)="dkmdpqjdnqdoqdkn($event)" theme="auto" [tabIndex]="0"></ngx-turnstile>
+            </div>
+            <div class="mt-4">
               <button
-                class="animate__animated animate__fadeIn uppercase text-sm font-bold tracking-wide bg-green-600 hover:bg-green-700 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline"
+                class="uppercase text-sm font-bold tracking-wide text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline transition-all duration-300 bg-gradient-to-r from-green-600 to-emerald-700 hover:shadow-lg hover:shadow-green-600/30"
                 name="submit" type="submit">
                 {{ this.i18n.text.contact.sendButton }}
               </button>
