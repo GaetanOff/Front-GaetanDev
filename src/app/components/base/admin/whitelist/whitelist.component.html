@@ -9,12 +9,14 @@
             <input
               #nameInput="ngModel"
               [(ngModel)]="address"
+              *ngIf="!isAdding"
               class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
               minlength="3"
               name="address"
               placeholder="address"
               required
               type="text">
+            <app-add-ip-skeletons *ngIf="isAdding"></app-add-ip-skeletons>
           </label>
         </div>
         <div class="mb-4">
@@ -29,10 +31,16 @@
       </form>
       <div class="w-1/2 p-4">
         <h2 class="text-2xl font-bold mb-4">All IP whitelisted</h2>
-        <div *ngFor="let ip of whitelistedIPs">
-          <div class="flex items-center justify-between border-b border-gray-300 py-2">
-            <div>{{ ip }}</div>
-            <button (click)="removeWhitelistedIP(ip)" class="px-4 py-2 bg-red-500 text-white rounded-md">Remove</button>
+        <div *ngIf="isLoading">
+          <app-whitelisted-ips-skeletons></app-whitelisted-ips-skeletons>
+        </div>
+        <div *ngIf="!isLoading">
+          <div *ngFor="let ip of whitelistedIPs">
+            <div class="flex items-center justify-between border-b border-gray-300 py-2" *ngIf="ip !== '127.0.0.1' && removingIp !== ip">
+              <div>{{ ip }}</div>
+              <button (click)="removeWhitelistedIP(ip)" class="px-4 py-2 bg-red-500 text-white rounded-md">Remove</button>
+            </div>
+            <app-remove-ip-skeletons *ngIf="ip !== '127.0.0.1' && removingIp === ip"></app-remove-ip-skeletons>
           </div>
         </div>
       </div>

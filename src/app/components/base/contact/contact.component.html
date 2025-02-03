@@ -8,7 +8,8 @@
           </h2>
         </div>
         <div class="max-w-screen-xl px-4 grid gap-2 grid-cols-1 md:px-12 lg:px-16 xl:px-36 mx-auto rounded-lg">
-          <form (ngSubmit)="processForm()">
+          <app-contact-skeletons *ngIf="isLoading"></app-contact-skeletons>
+          <form (ngSubmit)="processForm()" *ngIf="!isLoading">
             <div>
               <label class="uppercase text-sm font-bold block">
                 {{ this.i18n.text.contact.name }}

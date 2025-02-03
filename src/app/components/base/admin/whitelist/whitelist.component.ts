@@ -3,6 +3,7 @@ import {AdminService} from '../../../../services/admin/admin.service';
 import { toast } from 'ngx-sonner';
 import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {z} from "zod";
 
 @Component({
   selector: 'app-whitelist',
@@ -14,6 +15,9 @@ export class WhitelistComponent implements OnInit, OnDestroy {
   address: string | undefined;
   server: number | undefined;
   whitelistedIPs: string[] = [];
+  isLoading: boolean = false
+  isAdding: boolean = false
+  removingIp: string | null = null
 
   private unsubscribe$ = new Subject<void>();
 
@@ -22,7 +26,7 @@ export class WhitelistComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.adminService.checkAdmin();
-    this.updateWhitelistedIPs();
+    this.updateWhitelistedIPs().catch(() => console.error('Error fetching whitelisted IPs'));
 
     interval(60000)
       .pipe(takeUntil(this.unsubscribe$))
@@ -34,34 +38,82 @@ export class WhitelistComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  processForm() {
+  async processForm(): Promise<void> {
     if (!this.address) {
       this.toast.error("Invalid form");
       return;
     }
 
-    this.adminService.addWhitelistedIP(this.address).subscribe(() => {
-      this.toast.success('IP whitelisted');
-      if (this.address != null) this.whitelistedIPs.push(this.address);
-    });
-  }
+    const ipSchema = z
+      .string()
+      .ip({ version: "v4" })
+      .refine(ip => ip !== '127.0.0.1', { message: "You cannot add 127.0.0.1 to the whitelist." })
+      .refine(ip => !this.whitelistedIPs.includes(ip), { message: "IP already whitelisted." });
 
-  removeWhitelistedIP(ip: string) {
-    this.adminService.removeWhitelistedIP(ip).subscribe(() => {
-      this.toast.success('IP removed from whitelist');
-      this.whitelistedIPs = this.whitelistedIPs.filter((value: string) => value !== ip);
-    });
-  }
+    const result = ipSchema.safeParse(this.address);
+    if (!result.success) {
+      this.toast.error(result.error.errors[0].message);
+      return;
+    }
 
-  private updateWhitelistedIPs() {
-    this.adminService.getWhitelistedIPs().subscribe(
-      (response: any) => {
-        this.whitelistedIPs = response;
+    this.isAdding = true;
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    this.adminService.addWhitelistedIP(this.address).subscribe({
+      next: (): void => {
+        this.toast.success('IP whitelisted.');
+        if (this.address) this.whitelistedIPs.push(this.address);
+        this.isAdding = false;
       },
-      (error: any) => {
-        this.toast.error("Error fetching whitelisted IPs");
-        console.error('Error fetching whitelisted IPs:', error);
+      error: (): void => {
+        this.toast.error("Error adding IP.");
+        this.isAdding = false;
       }
-    );
+    });
+  }
+
+  async removeWhitelistedIP(ip: string): Promise<void> {
+    if (this.removingIp) {
+      this.toast.error("An IP removal is already in progress.");
+      return;
+    }
+
+    this.removingIp = ip;
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    this.adminService.removeWhitelistedIP(ip).subscribe({
+      next: (): void => {
+        this.toast.success('IP removed from whitelist');
+        this.whitelistedIPs = this.whitelistedIPs.filter(value => value !== ip);
+      },
+      error: (): void => {
+        this.toast.error("Error removing IP.");
+      },
+      complete: (): void => {
+        this.removingIp = null;
+      }
+    });
+  }
+
+  private async updateWhitelistedIPs(): Promise<void> {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+    const loadingToast: string | number = this.toast.loading("Refreshing whitelist...");
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    this.adminService.getWhitelistedIPs().subscribe({
+      next: (response: string[]): void => {
+        this.whitelistedIPs = response;
+        this.toast.success("Whitelist refreshed", { id: loadingToast });
+      },
+      error: (error): void => {
+        this.toast.error("Error fetching whitelisted IPs");
+        console.error("Error fetching whitelisted IPs:", error);
+      },
+      complete: (): void => {
+        this.isLoading = false;
+      }
+    });
   }
 }
