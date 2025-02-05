@@ -4,9 +4,9 @@ import {I18nService} from "../../../services/i18n/i18n.service";
 import {Title} from "@angular/platform-browser";
 
 @Component({
-    selector: 'app-legal',
-    templateUrl: './legal.component.html',
-    standalone: false
+  selector: 'app-legal',
+  templateUrl: './legal.component.html',
+  standalone: false
 })
 export class LegalComponent implements OnInit {
 

@@ -1,6 +1,7 @@
 <div class="flex flex-col h-screen">
   <div class="flex flex-1">
-    <div *ngIf="navService.isAdminNavOpened" class="flex flex-col w-64 main-bg-color text-black p-4 space-y-4 border-r border-black">
+    <div *ngIf="navService.isAdminNavOpened"
+         class="flex flex-col w-64 main-bg-color text-black p-4 space-y-4 border-r border-black">
       <div class="flex items-center justify-between">
         <div class="border-b border-gray-700">
           <h2 class="text-xl font-bold">Admin Dashboard</h2>
@@ -17,7 +18,7 @@
       <ul class="flex flex-col space-y-2">
         <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin">Dashboard</li>
         <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin/whitelist">Whitelist</li>
-        <li class="px-4 py-2 hover:bg-red-600 cursor-pointer" (click)="logout()" >Logout</li>
+        <li (click)="logout()" class="px-4 py-2 hover:bg-red-600 cursor-pointer">Logout</li>
       </ul>
     </div>
     <div *ngIf="!navService.isAdminNavOpened"
@@ -45,7 +46,7 @@
               fill="currentColor"/>
           </svg>
         </li>
-        <li class="px-4 py-2 hover:bg-red-600 cursor-pointer" (click)="logout()">
+        <li (click)="logout()" class="px-4 py-2 hover:bg-red-600 cursor-pointer">
           <svg class="h-6 w-6" fill="black"
                height="50.000000pt" preserveAspectRatio="xMidYMid meet" version="1.0"
                viewBox="0 0 50.000000 50.000000" width="50.000000pt" xmlns="http://www.w3.org/2000/svg">

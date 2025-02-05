@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { WhitelistedIpsSkeletonsComponent } from './whitelisted-ips-skeletons.component';
+import {WhitelistedIpsSkeletonsComponent} from './whitelisted-ips-skeletons.component';
 
 describe('WhitelistedIpsSkeletonsComponent', () => {
   let component: WhitelistedIpsSkeletonsComponent;
@@ -10,8 +10,8 @@ describe('WhitelistedIpsSkeletonsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [WhitelistedIpsSkeletonsComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(WhitelistedIpsSkeletonsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

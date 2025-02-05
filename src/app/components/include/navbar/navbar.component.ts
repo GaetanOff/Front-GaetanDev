@@ -2,18 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {I18nService} from "../../../services/i18n/i18n.service";
 import {LocalstorageService} from "../../../services/localstorage/localstorage.service";
 import {Router} from "@angular/router";
-import { toast } from 'ngx-sonner';
+import {toast} from 'ngx-sonner';
 
 @Component({
-    selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.css'],
-    standalone: false
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css'],
+  standalone: false
 })
 export class NavbarComponent implements OnInit {
-  protected readonly toast = toast;
-
   languageImg: string = this.i18n.isFrench ? "assets/img/france.svg" : "assets/img/english.svg";
+  protected readonly toast = toast;
 
   constructor(public i18n: I18nService, private localStorage: LocalstorageService,
               private router: Router) {
