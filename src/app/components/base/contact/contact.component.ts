@@ -9,8 +9,9 @@ import { LimitService } from "../../../services/limit/limit.service";
 import { z } from "zod";
 
 @Component({
-  selector: 'app-contact',
-  templateUrl: './contact.component.html'
+    selector: 'app-contact',
+    templateUrl: './contact.component.html',
+    standalone: false
 })
 export class ContactComponent implements OnInit {
   protected readonly toast = toast;

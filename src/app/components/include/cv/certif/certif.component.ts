@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {I18nService} from "../../../../services/i18n/i18n.service";
 
 @Component({
-  selector: 'app-certif',
-  templateUrl: '/certif.component.html'
+    selector: 'app-certif',
+    templateUrl: '/certif.component.html',
+    standalone: false
 })
 export class CertifComponent implements OnInit {
   certifList: any = [];

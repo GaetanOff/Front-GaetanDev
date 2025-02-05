@@ -4,8 +4,9 @@ import {I18nService} from "../../../../services/i18n/i18n.service";
 import {Title} from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-cgv',
-  templateUrl: './cgv.component.html'
+    selector: 'app-cgv',
+    templateUrl: './cgv.component.html',
+    standalone: false
 })
 export class CgvComponent implements OnInit {
 

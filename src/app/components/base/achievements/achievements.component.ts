@@ -11,8 +11,9 @@ enum Category {
 }
 
 @Component({
-  selector: 'app-achievements',
-  templateUrl: './achievements.component.html'
+    selector: 'app-achievements',
+    templateUrl: './achievements.component.html',
+    standalone: false
 })
 export class AchievementsComponent implements OnInit {
   categories: any = [Category.ALL, Category.SYS, Category.DEV, Category.DO];

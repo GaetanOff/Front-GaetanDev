@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {I18nService} from "../../../../services/i18n/i18n.service";
 
 @Component({
-  selector: 'app-experience',
-  templateUrl: '/experience.component.html'
+    selector: 'app-experience',
+    templateUrl: '/experience.component.html',
+    standalone: false
 })
 export class ExperienceComponent implements OnInit {
   experiencesList: any = [];

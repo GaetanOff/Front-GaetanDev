@@ -5,8 +5,9 @@ import { Router } from "@angular/router";
 import { z } from "zod";
 
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.component.html'
+    selector: 'app-auth',
+    templateUrl: './auth.component.html',
+    standalone: false
 })
 export class AuthComponent implements OnInit {
   protected readonly toast = toast;
