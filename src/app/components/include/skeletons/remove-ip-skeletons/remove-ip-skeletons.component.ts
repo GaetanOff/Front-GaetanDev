@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-remove-ip-skeletons',
-  standalone: true,
-  imports: [],
-  template: `
+    selector: 'app-remove-ip-skeletons',
+    imports: [],
+    template: `
     <div class="h-8 w-full bg-gray-300 rounded {{shimmer}} mb-4"></div>
 
   `

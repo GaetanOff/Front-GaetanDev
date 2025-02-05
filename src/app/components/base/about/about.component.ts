@@ -5,8 +5,9 @@ import {I18nService} from "../../../services/i18n/i18n.service";
 import { toast } from 'ngx-sonner';
 
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.component.html'
+    selector: 'app-about',
+    templateUrl: './about.component.html',
+    standalone: false
 })
 export class AboutComponent implements OnInit {
   protected readonly toast = toast;

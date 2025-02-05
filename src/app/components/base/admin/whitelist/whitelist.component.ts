@@ -6,8 +6,9 @@ import {takeUntil} from 'rxjs/operators';
 import {z} from "zod";
 
 @Component({
-  selector: 'app-whitelist',
-  templateUrl: './whitelist.component.html'
+    selector: 'app-whitelist',
+    templateUrl: './whitelist.component.html',
+    standalone: false
 })
 export class WhitelistComponent implements OnInit, OnDestroy {
   protected readonly toast = toast;

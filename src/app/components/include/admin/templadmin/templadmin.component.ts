@@ -4,8 +4,9 @@ import {AdminService} from "../../../../services/admin/admin.service";
 import { toast } from 'ngx-sonner';
 
 @Component({
-  selector: 'app-templadmin',
-  templateUrl: './templadmin.component.html'
+    selector: 'app-templadmin',
+    templateUrl: './templadmin.component.html',
+    standalone: false
 })
 export class TempladminComponent implements OnInit {
   protected readonly toast = toast;

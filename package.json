@@ -4,36 +4,37 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration production --build-optimizer=true --vendor-chunk=true",
+    "build": "ng build --configuration production --optimization true",
     "watch": "ng build --watch --configuration development",
     "tailwind": "npx tailwindcss -i ./tailwind.css -o src/assets/css/output.css --watch",
     "test": "ng test"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^17.3.12",
-    "@angular/common": "^17.3.12",
-    "@angular/compiler": "^17.3.12",
-    "@angular/core": "^17.3.12",
-    "@angular/forms": "^17.3.12",
-    "@angular/platform-browser": "^17.3.12",
-    "@angular/platform-browser-dynamic": "^17.3.12",
-    "@angular/router": "^17.3.12",
+    "@angular/animations": "^19.1.4",
+    "@angular/common": "^19.1.4",
+    "@angular/compiler": "^19.1.4",
+    "@angular/core": "^19.1.4",
+    "@angular/forms": "^19.1.4",
+    "@angular/platform-browser": "^19.1.4",
+    "@angular/platform-browser-dynamic": "^19.1.4",
+    "@angular/router": "^19.1.4",
+    "@babel/runtime": "^7.26.7",
     "@emailjs/browser": "^3.11.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "animate.css": "^4.1.1",
-    "ngx-sonner": "1.0.0",
+    "ngx-sonner": "3.0.0",
     "ngx-turnstile": "^0.2.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zod": "^3.24.1",
-    "zone.js": "~0.14.10"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.3.11",
-    "@angular/cli": "^17.3.11",
-    "@angular/compiler-cli": "^17.3.12",
+    "@angular-devkit/build-angular": "^19.1.5",
+    "@angular/cli": "^19.1.5",
+    "@angular/compiler-cli": "^19.1.4",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.8.0",
@@ -43,6 +44,6 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
     "tailwindcss": "^3.4.17",
-    "typescript": "~5.4.5"
+    "typescript": "~5.7.3"
   }
 }
