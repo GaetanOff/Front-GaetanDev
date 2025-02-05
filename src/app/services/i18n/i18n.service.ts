@@ -169,8 +169,8 @@ export class I18nService {
         ],
         "reproductionText":
           this.isFrench ?
-              "This entire site is subject to international legislation on copyright and intellectual property." :
-              "L'ensemble de ce site relève des législations internationales sur le droit d'auteur et la propriété intellectuelle.",
+            "This entire site is subject to international legislation on copyright and intellectual property." :
+            "L'ensemble de ce site relève des législations internationales sur le droit d'auteur et la propriété intellectuelle.",
         "copyrightText": this.isFrench ? "All reproduction rights are reserved." : "Tous les droits de reproduction sont réservés.",
         "preamble": (this.isFrench ? "Preamble" : "Préambule"),
         "preambleText": [

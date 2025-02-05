@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-    selector: 'app-add-ip-skeletons',
-    imports: [],
-    template: `
+  selector: 'app-add-ip-skeletons',
+  standalone: false,
+  template: `
     <div class="h-10 w-full bg-gray-300 rounded {{shimmer}} mb-4"></div>
-
   `
 })
 export class AddIpSkeletonsComponent {

@@ -4,10 +4,10 @@ import {NavService} from "../../../services/nav/nav.service";
 import {I18nService} from "../../../services/i18n/i18n.service";
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.css'],
-    standalone: false
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
+  standalone: false
 })
 export class HomeComponent implements OnInit {
 

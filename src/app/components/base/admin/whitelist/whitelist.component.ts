@@ -1,25 +1,23 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AdminService} from '../../../../services/admin/admin.service';
-import { toast } from 'ngx-sonner';
+import {toast} from 'ngx-sonner';
 import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {z} from "zod";
 
 @Component({
-    selector: 'app-whitelist',
-    templateUrl: './whitelist.component.html',
-    standalone: false
+  selector: 'app-whitelist',
+  templateUrl: './whitelist.component.html',
+  standalone: false
 })
 export class WhitelistComponent implements OnInit, OnDestroy {
-  protected readonly toast = toast;
-
   address: string | undefined;
   server: number | undefined;
   whitelistedIPs: string[] = [];
   isLoading: boolean = false
   isAdding: boolean = false
   removingIp: string | null = null
-
+  protected readonly toast = toast;
   private unsubscribe$ = new Subject<void>();
 
   constructor(private adminService: AdminService) {
@@ -46,9 +44,9 @@ export class WhitelistComponent implements OnInit, OnDestroy {
 
     const ipSchema = z
       .string()
-      .ip({ version: "v4" })
-      .refine(ip => ip !== '127.0.0.1', { message: "You cannot add 127.0.0.1 to the whitelist." })
-      .refine(ip => !this.whitelistedIPs.includes(ip), { message: "IP already whitelisted." });
+      .ip({version: "v4"})
+      .refine(ip => ip !== '127.0.0.1', {message: "You cannot add 127.0.0.1 to the whitelist."})
+      .refine(ip => !this.whitelistedIPs.includes(ip), {message: "IP already whitelisted."});
 
     const result = ipSchema.safeParse(this.address);
     if (!result.success) {
@@ -105,7 +103,7 @@ export class WhitelistComponent implements OnInit, OnDestroy {
     this.adminService.getWhitelistedIPs().subscribe({
       next: (response: string[]): void => {
         this.whitelistedIPs = response;
-        this.toast.success("Whitelist refreshed", { id: loadingToast });
+        this.toast.success("Whitelist refreshed", {id: loadingToast});
       },
       error: (error): void => {
         this.toast.error("Error fetching whitelisted IPs");

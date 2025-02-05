@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RemoveIpSkeletonsComponent } from './remove-ip-skeletons.component';
+import {RemoveIpSkeletonsComponent} from './remove-ip-skeletons.component';
 
 describe('RemoveIpSkeletonsComponent', () => {
   let component: RemoveIpSkeletonsComponent;
@@ -10,8 +10,8 @@ describe('RemoveIpSkeletonsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [RemoveIpSkeletonsComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(RemoveIpSkeletonsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

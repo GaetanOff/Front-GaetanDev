@@ -3,7 +3,8 @@
     <div class="container px-4 mx-auto">
       <div class="max-w-6xl mx-auto">
         <div class="max-w-lg mx-auto mb-8 text-center">
-          <h2 class="mb-2 text-4xl lg:text-5xl font-bold font-heading transition-transform transform hover:scale-105 duration-300">
+          <h2
+            class="mb-2 text-4xl lg:text-5xl font-bold font-heading transition-transform transform hover:scale-105 duration-300">
             {{ this.i18n.text.contact.title }}
           </h2>
         </div>
@@ -50,7 +51,8 @@
               </label>
             </div>
             <div class="mt-5 flex justify-center">
-              <ngx-turnstile [siteKey]="dkqgdoijqdljbkfks" (resolved)="dkmdpqjdnqdoqdkn($event)" theme="auto" [tabIndex]="0"></ngx-turnstile>
+              <ngx-turnstile (resolved)="dkmdpqjdnqdoqdkn($event)" [siteKey]="dkqgdoijqdljbkfks" [tabIndex]="0"
+                             theme="auto"></ngx-turnstile>
             </div>
             <div class="mt-4">
               <button

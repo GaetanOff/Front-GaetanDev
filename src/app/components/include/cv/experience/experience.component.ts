@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {I18nService} from "../../../../services/i18n/i18n.service";
 
 @Component({
-    selector: 'app-experience',
-    templateUrl: '/experience.component.html',
-    standalone: false
+  selector: 'app-experience',
+  templateUrl: '/experience.component.html',
+  standalone: false
 })
 export class ExperienceComponent implements OnInit {
   experiencesList: any = [];
@@ -17,6 +17,52 @@ export class ExperienceComponent implements OnInit {
     this.i18n.updateEvent.subscribe((): void => {
       this.updateText();
     });
+  }
+
+  public calculateDuration(dateRange: string): string {
+    let [startDate, endDate]: string[] = dateRange.includes(" / ")
+      ? dateRange.split(" / ")
+      : dateRange.split(" - ");
+
+    startDate = startDate.trim();
+    endDate = endDate ? endDate.trim() : (this.i18n.isFrench ? "Aujourd'hui" : "Today");
+
+    const start: Date = this.parseDate(startDate);
+    const end: Date = endDate.includes("Aujourd'hui") || endDate.includes("Today") ? new Date() : this.parseDate(endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return this.i18n.isFrench ? "Durée inconnue" : "Unknown duration";
+    }
+
+    const years: number = end.getFullYear() - start.getFullYear();
+    const months: number = end.getMonth() - start.getMonth();
+
+    const totalMonths: number = years * 12 + months;
+
+    const formattedYears: number = Math.floor(totalMonths / 12);
+    const formattedMonths: number = totalMonths % 12;
+
+    if (formattedYears === 0 && formattedMonths === 0) {
+      return !this.i18n.isFrench ? "Moins d'un mois" : "Less than a month";
+    }
+
+    if (!this.i18n.isFrench) {
+      if (formattedYears > 0 && formattedMonths > 0) {
+        return `${formattedYears} an${formattedYears > 1 ? 's' : ''} et ${formattedMonths} mois`;
+      } else if (formattedYears > 0) {
+        return `${formattedYears} an${formattedYears > 1 ? 's' : ''}`;
+      } else {
+        return `${formattedMonths} mois`;
+      }
+    } else {
+      if (formattedYears > 0 && formattedMonths > 0) {
+        return `${formattedYears} year${formattedYears > 1 ? 's' : ''} and ${formattedMonths} month${formattedMonths > 1 ? 's' : ''}`;
+      } else if (formattedYears > 0) {
+        return `${formattedYears} year${formattedYears > 1 ? 's' : ''}`;
+      } else {
+        return `${formattedMonths} month${formattedMonths > 1 ? 's' : ''}`;
+      }
+    }
   }
 
   private updateText(): void {
@@ -82,52 +128,6 @@ export class ExperienceComponent implements OnInit {
         active: false
       }
     ];
-  }
-
-  public calculateDuration(dateRange: string): string {
-    let [startDate, endDate]: string[] = dateRange.includes(" / ")
-      ? dateRange.split(" / ")
-      : dateRange.split(" - ");
-
-    startDate = startDate.trim();
-    endDate = endDate ? endDate.trim() : (this.i18n.isFrench ? "Aujourd'hui" : "Today");
-
-    const start: Date = this.parseDate(startDate);
-    const end: Date = endDate.includes("Aujourd'hui") || endDate.includes("Today") ? new Date() : this.parseDate(endDate);
-
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-      return this.i18n.isFrench ? "Durée inconnue" : "Unknown duration";
-    }
-
-    const years: number = end.getFullYear() - start.getFullYear();
-    const months: number = end.getMonth() - start.getMonth();
-
-    const totalMonths: number = years * 12 + months;
-
-    const formattedYears: number = Math.floor(totalMonths / 12);
-    const formattedMonths: number = totalMonths % 12;
-
-    if (formattedYears === 0 && formattedMonths === 0) {
-      return !this.i18n.isFrench ? "Moins d'un mois" : "Less than a month";
-    }
-
-    if (!this.i18n.isFrench) {
-      if (formattedYears > 0 && formattedMonths > 0) {
-        return `${formattedYears} an${formattedYears > 1 ? 's' : ''} et ${formattedMonths} mois`;
-      } else if (formattedYears > 0) {
-        return `${formattedYears} an${formattedYears > 1 ? 's' : ''}`;
-      } else {
-        return `${formattedMonths} mois`;
-      }
-    } else {
-      if (formattedYears > 0 && formattedMonths > 0) {
-        return `${formattedYears} year${formattedYears > 1 ? 's' : ''} and ${formattedMonths} month${formattedMonths > 1 ? 's' : ''}`;
-      } else if (formattedYears > 0) {
-        return `${formattedYears} year${formattedYears > 1 ? 's' : ''}`;
-      } else {
-        return `${formattedMonths} month${formattedMonths > 1 ? 's' : ''}`;
-      }
-    }
   }
 
   private parseDate(dateStr: string): Date {
