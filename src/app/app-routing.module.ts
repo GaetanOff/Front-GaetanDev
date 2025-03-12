@@ -9,6 +9,7 @@ import {AboutComponent} from "./components/base/about/about.component";
 import {AdminComponent} from "./components/base/admin/admin.component";
 import {AuthComponent} from "./components/base/admin/auth/auth.component";
 import {WhitelistComponent} from "./components/base/admin/whitelist/whitelist.component";
+import {CorrectorComponent} from "./components/base/admin/corrector/corrector.component";
 
 const routes: Routes = [
   {
@@ -48,5 +49,5 @@ export class AppRoutingModule {
 
 export const routingComponents = [
   HomeComponent, AboutComponent, ContactComponent, AchievementsComponent, LegalComponent, CgvComponent, AdminComponent,
-  AuthComponent, WhitelistComponent
+  AuthComponent, WhitelistComponent, CorrectorComponent
 ]
