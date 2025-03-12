@@ -45,6 +45,13 @@ export class AchievementsComponent implements OnInit {
   private updateText(): void {
     this.achievementsList = [
       {
+        name: 'TMConseils',
+        description: this.i18n.text.achievements.tmconseils,
+        image: 'assets/img/achievements/tmconseils.webp',
+        redirect: 'https://tm-conseils.net/',
+        categories: [Category.DEV]
+      },
+      {
         name: 'Content Delivery Network',
         description: this.i18n.text.achievements.cdn,
         image: 'assets/img/achievements/cdn.webp',

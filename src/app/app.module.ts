@@ -24,6 +24,9 @@ import {
   RemoveIpSkeletonsComponent
 } from "./components/include/skeletons/remove-ip-skeletons/remove-ip-skeletons.component";
 import {AddIpSkeletonsComponent} from "./components/include/skeletons/add-ip-skeletons/add-ip-skeletons.component";
+import {
+  CorrectorTextSkeletonsComponent
+} from "./components/include/skeletons/corrector-text-skeletons/corrector-text-skeletons.component";
 
 @NgModule({
   declarations: [
@@ -41,7 +44,8 @@ import {AddIpSkeletonsComponent} from "./components/include/skeletons/add-ip-ske
     WhitelistedIpsSkeletonsComponent,
     RemoveIpSkeletonsComponent,
     AddIpSkeletonsComponent,
-    ContactSkeletonsComponent
+    ContactSkeletonsComponent,
+    CorrectorTextSkeletonsComponent
   ],
   bootstrap: [AppComponent],
   imports: [

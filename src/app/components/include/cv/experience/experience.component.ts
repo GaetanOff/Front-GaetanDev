@@ -80,12 +80,12 @@ export class ExperienceComponent implements OnInit {
       {
         name: 'FirstSky / PixelmonGo',
         date: this.i18n.isFrench ?
-          "September 2021 - Today" :
-          "Septembre 2021 - Aujourd'hui",
+          "September 2021 - Septembre 2024" :
+          "Septembre 2021 - Septembre 2024",
         description: this.i18n.isFrench ?
           'Management of all server infrastructure' :
           "Gestion de l'infrastructure de l'ensemble des serveurs",
-        active: true
+        active: false
       },
       {
         name: 'JobMe',

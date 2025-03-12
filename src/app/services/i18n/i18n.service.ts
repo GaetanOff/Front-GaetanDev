@@ -126,7 +126,10 @@ export class I18nService {
         "firstsky": (this.isFrench ? "Management of the infrastructure of the entire server." : "Gestion de l'infrastructure de l'ensemble du serveur."),
         "pizzaoplomo": (this.isFrench ? "School project for creating a fictitious company." : "Projet d'école de création d'une entreprise fictive."),
         "heavycloud": (this.isFrench ? "Creation of a hosting provider offering VPS as well as Anti-DDoS solutions." : "Création d'un hébergeur proposant des VPS ainsi que des solutions Anti-DDoS."),
-        "neptune": (this.isFrench ? "School project for creating a web application for a fictitious hotel." : "Projet d'école de création d'une application web pour un hôtel fictif.")
+        "neptune": (this.isFrench ? "School project for creating a web application for a fictitious hotel." : "Projet d'école de création d'une application web pour un hôtel fictif."),
+        "tmconseils": (!this.isFrench
+          ? "Application web pour une entreprise d'accompagnement stratégique sur mesure."
+          : "Web application for a customized strategic coaching company.")
       },
       "shield": {
         "title": (this.isFrench ? "Shield GaetanDev" : "Bouclier GaetanDev"),

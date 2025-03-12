@@ -18,6 +18,7 @@
       <ul class="flex flex-col space-y-2">
         <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin">Dashboard</li>
         <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin/whitelist">Whitelist</li>
+        <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin/corrector">Corrector</li>
         <li (click)="logout()" class="px-4 py-2 hover:bg-red-600 cursor-pointer">Logout</li>
       </ul>
     </div>
@@ -40,6 +41,13 @@
           </svg>
         </li>
         <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin/whitelist">
+          <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12 1.32l2.94 7.167 7.83.71c.55.05.77.78.36 1.16L18.28 15.5l1.96 7.49c.1.36-.32.67-.64.47L12 19.8l-6.6 4.17c-.32.2-.74-.1-.64-.47l1.96-7.49L1.97 10.35c-.41-.38-.19-1.11.36-1.16l7.83-.71L12 1.32z"
+              fill="currentColor"/>
+          </svg>
+        </li>
+        <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin/corrector">
           <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M12 1.32l2.94 7.167 7.83.71c.55.05.77.78.36 1.16L18.28 15.5l1.96 7.49c.1.36-.32.67-.64.47L12 19.8l-6.6 4.17c-.32.2-.74-.1-.64-.47l1.96-7.49L1.97 10.35c-.41-.38-.19-1.11.36-1.16l7.83-.71L12 1.32z"
