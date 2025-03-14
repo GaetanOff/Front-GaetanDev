@@ -1,14 +1,23 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TempladminComponent} from "../../../include/admin/templadmin/templadmin.component";
-import {CommonModule, NgFor, NgIf} from "@angular/common";
-import {AdminService} from "../../../../services/admin/admin.service";
-import {interval, Subject} from "rxjs";
-import {takeUntil} from "rxjs/operators";
-import {toast} from 'ngx-sonner';
-import {
-  RefreshProxiesWhitelistComponent
-} from "../../../include/skeletons/refresh-proxies-whitelist/refresh-proxies-whitelist.component";
-import {FormsModule, NgModel} from "@angular/forms";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TempladminComponent } from "../../../include/admin/templadmin/templadmin.component";
+import { CommonModule, NgFor, NgIf } from "@angular/common";
+import { AdminService } from "../../../../services/admin/admin.service";
+import { interval, Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { toast } from 'ngx-sonner';
+import { RefreshProxiesWhitelistComponent } from "../../../include/skeletons/refresh-proxies-whitelist/refresh-proxies-whitelist.component";
+import { FormsModule } from "@angular/forms";
+
+export interface ProxyDetails {
+  protocol: string;
+  host: string;
+  port: number;
+  geolocation: {
+    country: {
+      iso_code: string;
+    }
+  }
+}
 
 @Component({
   selector: 'app-proxies',
@@ -23,8 +32,8 @@ import {FormsModule, NgModel} from "@angular/forms";
   templateUrl: './proxies.component.html'
 })
 export class ProxiesComponent implements OnInit, OnDestroy {
-  httpProxies: string[] = [];
-  socks5Proxies: string[] = [];
+  httpProxies: ProxyDetails[] = [];
+  socks5Proxies: ProxyDetails[] = [];
   lastRefresh: string = '';
   isLoading: boolean = false;
   private unsubscribe$ = new Subject<void>();
@@ -34,15 +43,12 @@ export class ProxiesComponent implements OnInit, OnDestroy {
   selectedProxyType: 'http' | 'socks5' = 'http';
   proxyLimit: number = 10;
 
-  // Liste des pays
-  countries: string[] = ['All', 'US', 'UK', 'FR', 'DE', 'NL', 'CA', 'RU', 'CN', 'IN'];
+  countries: string[] = [];
 
-  constructor(private adminService: AdminService) {
-  }
+  constructor(private adminService: AdminService) {}
 
   ngOnInit() {
-    this.refreshProxies().catch(() => this.toast.error("Failed to refresh whitelist."));
-
+    this.refreshProxies().catch(() => this.toast.error("Failed to refresh proxies."));
     interval(60000)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => this.refreshProxies());
@@ -57,8 +63,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     if (this.isLoading) return;
 
     this.isLoading = true;
-    const loadingToast: string | number = this.toast.loading("Refreshing proxies...");
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const loadingToast = this.toast.loading("Refreshing proxies...");
 
     this.adminService.getProxies()
       .subscribe({
@@ -66,30 +71,32 @@ export class ProxiesComponent implements OnInit, OnDestroy {
           this.httpProxies = response.http;
           this.socks5Proxies = response.socks5;
           this.lastRefresh = response.lastRefresh;
-          this.toast.success("Proxies refreshed", {id: loadingToast});
+
+          const countrySet = new Set<string>();
+          this.httpProxies.forEach((proxy: ProxyDetails) => {
+            if (proxy.geolocation && proxy.geolocation.country && proxy.geolocation.country.iso_code) {
+              countrySet.add(proxy.geolocation.country.iso_code);
+            }
+          });
+          this.socks5Proxies.forEach((proxy: ProxyDetails) => {
+            if (proxy.geolocation && proxy.geolocation.country && proxy.geolocation.country.iso_code) {
+              countrySet.add(proxy.geolocation.country.iso_code);
+            }
+          });
+          this.countries = ['All', ...Array.from(countrySet).sort()];
+
+          this.toast.success("Proxies refreshed", { id: loadingToast });
           this.isLoading = false;
         },
         error: () => {
-          this.toast.error("Failed to refresh whitelist.");
+          this.toast.error("Failed to refresh proxies.");
           this.isLoading = false;
         }
       });
   }
 
-  /**
-  downloadProxies(type: 'http' | 'socks5'): void {
-    const proxies = type === 'http' ? this.httpProxies : this.socks5Proxies;
-    const blob = new Blob([proxies.join('\n')], { type: 'text/plain' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `${type}-proxies.txt`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  }
-    **/
-
   downloadFilteredProxies(): void {
-    let filteredProxies: string[];
+    let filteredProxies: ProxyDetails[];
 
     if (this.selectedProxyType === 'http') {
       filteredProxies = this.httpProxies;
@@ -98,7 +105,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     }
 
     if (this.selectedCountry !== 'All') {
-      filteredProxies = filteredProxies.filter(proxy => proxy.includes(this.selectedCountry));
+      filteredProxies = filteredProxies.filter(proxy => proxy.geolocation?.country?.iso_code === this.selectedCountry);
     }
 
     filteredProxies = filteredProxies.slice(0, this.proxyLimit);
@@ -108,7 +115,8 @@ export class ProxiesComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const blob = new Blob([filteredProxies.join('\n')], { type: 'text/plain' });
+    const lines = filteredProxies.map(proxy => `${proxy.host}:${proxy.port}`);
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = `${this.selectedProxyType}-proxies-${this.selectedCountry}.txt`;
