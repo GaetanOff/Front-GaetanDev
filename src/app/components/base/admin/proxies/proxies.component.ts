@@ -19,6 +19,13 @@ export interface ProxyDetails {
   }
 }
 
+export interface ScanningServer {
+  id: number;
+  status: string;
+  cpu: number;
+  ram: number;
+}
+
 @Component({
   selector: 'app-proxies',
   imports: [
@@ -32,6 +39,7 @@ export interface ProxyDetails {
   templateUrl: './proxies.component.html'
 })
 export class ProxiesComponent implements OnInit, OnDestroy {
+  scanningServers: ScanningServer[] = [];
   httpProxies: ProxyDetails[] = [];
   socks5Proxies: ProxyDetails[] = [];
   lastRefresh: string = '';
@@ -48,9 +56,16 @@ export class ProxiesComponent implements OnInit, OnDestroy {
 
   countryFilters: string[] = ['All'];
 
+  showServers: boolean = false;
+
   constructor(private adminService: AdminService) {}
 
   ngOnInit() {
+    this.refreshServersStatus().catch(() => this.toast.error("Failed to fetch scanning servers."));
+    interval(5000)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => this.refreshServersStatus());
+
     this.refreshProxies().catch(() => this.toast.error("Failed to refresh proxies."));
     interval(60000)
       .pipe(takeUntil(this.unsubscribe$))
@@ -64,6 +79,17 @@ export class ProxiesComponent implements OnInit, OnDestroy {
 
   get filteredCountries(): string[] {
     return this.countries.filter(c => c !== 'All');
+  }
+
+  async refreshServersStatus(): Promise<void> {
+    this.adminService.getScanningProxyServers().subscribe({
+      next: (response: ScanningServer[]) => {
+        this.scanningServers = response;
+      },
+      error: () => {
+        this.toast.error("Failed to fetch scanning servers.");
+      }
+    });
   }
 
   async refreshProxies(): Promise<void> {

@@ -54,6 +54,10 @@ export class AdminService {
     return this.httpClient.post('https://api.gaetandev.fr/proxies', this.formData, {responseType: 'json'});
   }
 
+  getScanningProxyServers(): Observable<any> {
+    return this.httpClient.get('https://api.gaetandev.fr/proxies/servers', {responseType: 'json'});
+  }
+
   getWhitelistedIPs(): Observable<any> {
     this.checkAdminStatus();
 
