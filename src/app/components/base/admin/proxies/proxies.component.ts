@@ -97,6 +97,8 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const loadingToast = this.toast.loading("Refreshing proxies...");
 
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     this.adminService.getProxies().subscribe({
       next: response => {
         this.httpProxies = response.http;
