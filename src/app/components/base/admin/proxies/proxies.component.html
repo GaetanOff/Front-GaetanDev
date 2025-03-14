@@ -1,0 +1,32 @@
+<app-templadmin>
+  <div class="flex-1 p-8">
+    <h1 class="text-3xl font-bold mb-6">Proxy List</h1>
+    <p class="text-gray-600 mb-4">Last refresh: {{ lastRefresh }}</p>
+    <div class="flex flex-col md:flex-row justify-center md:justify-between">
+      <div class="w-1/2 p-4">
+        <h2 class="text-2xl font-bold mb-4">HTTP Proxies</h2>
+        <div class="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg min-h-[120px] overflow-auto">
+          <ul>
+            <li *ngFor="let proxy of httpProxies.slice(0, 20)">{{ proxy }}</li>
+            <li class="italic">.... download to see all</li>
+          </ul>
+        </div>
+        <button (click)="downloadProxies('http')" class="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md">
+          Download HTTP Proxies
+        </button>
+      </div>
+      <div class="w-1/2 p-4">
+        <h2 class="text-2xl font-bold mb-4">SOCKS5 Proxies</h2>
+        <div class="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg min-h-[120px] overflow-auto">
+          <ul>
+            <li *ngFor="let proxy of socks5Proxies.slice(0, 20)">{{ proxy }}</li>
+            <li class="italic">.... download to see all</li>
+          </ul>
+        </div>
+        <button (click)="downloadProxies('socks5')" class="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md">
+          Download SOCKS5 Proxies
+        </button>
+      </div>
+    </div>
+  </div>
+</app-templadmin>
