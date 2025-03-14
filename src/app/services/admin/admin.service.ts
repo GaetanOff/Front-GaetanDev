@@ -44,6 +44,16 @@ export class AdminService {
     this.router.navigate(['/admin/auth']).then(() => console.log('Navigated to admin/auth'));
   }
 
+  getProxies(): Observable<any> {
+    this.checkAdminStatus();
+
+    const formData = new FormData();
+    formData.append('username', this.formData.get('username') as string);
+    formData.append('password', this.formData.get('password') as string);
+
+    return this.httpClient.post('https://api.gaetandev.fr/proxies', this.formData, {responseType: 'json'});
+  }
+
   getWhitelistedIPs(): Observable<any> {
     this.checkAdminStatus();
 

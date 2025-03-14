@@ -5,7 +5,7 @@ import {AdminComponent} from "./admin.component";
 import {AuthComponent} from "./auth/auth.component";
 import {WhitelistComponent} from "./whitelist/whitelist.component";
 import {AuthGuard} from "../../../guard/auth.guard";
-import {CorrectorComponent} from "./corrector/corrector.component";
+import {ProxiesComponent} from "./proxies/proxies.component";
 
 const routes: Routes = [
   {
@@ -23,8 +23,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: "corrector",
-    component: CorrectorComponent,
+    path: "proxies",
+    component: ProxiesComponent,
     canActivate: [AuthGuard]
   },
 ]

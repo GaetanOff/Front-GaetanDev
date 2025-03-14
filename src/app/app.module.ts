@@ -13,7 +13,6 @@ import {ExperienceComponent} from './components/include/cv/experience/experience
 import {LanguagesComponent} from './components/include/cv/languages/languages.component';
 import {CompetencesComponent} from "./components/include/cv/competences/competences.component";
 import {ServicesComponent} from './components/include/services/services.component';
-import {TempladminComponent} from './components/include/admin/templadmin/templadmin.component';
 import {NgxSonnerToaster} from "ngx-sonner";
 import {NgxTurnstileModule} from "ngx-turnstile";
 import {ContactSkeletonsComponent} from "./components/include/skeletons/contact-skeletons/contact-skeletons.component";
@@ -40,12 +39,7 @@ import {
     CompetencesComponent,
     CVComponent,
     ServicesComponent,
-    TempladminComponent,
-    WhitelistedIpsSkeletonsComponent,
-    RemoveIpSkeletonsComponent,
-    AddIpSkeletonsComponent,
     ContactSkeletonsComponent,
-    CorrectorTextSkeletonsComponent
   ],
   bootstrap: [AppComponent],
   imports: [

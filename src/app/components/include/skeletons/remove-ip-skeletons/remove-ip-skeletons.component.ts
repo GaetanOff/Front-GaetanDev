@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-remove-ip-skeletons',
-  standalone: false,
   template: `
     <div class="h-8 w-full bg-gray-300 rounded {{shimmer}} mb-4"></div>
   `

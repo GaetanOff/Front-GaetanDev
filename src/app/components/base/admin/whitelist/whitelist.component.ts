@@ -4,11 +4,27 @@ import {toast} from 'ngx-sonner';
 import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {z} from "zod";
+import {CommonModule, NgFor, NgIf} from "@angular/common";
+import {RemoveIpSkeletonsComponent} from "../../../include/skeletons/remove-ip-skeletons/remove-ip-skeletons.component";
+import {FormsModule, NgModel} from "@angular/forms";
+import {
+  WhitelistedIpsSkeletonsComponent
+} from "../../../include/skeletons/whitelisted-ips-skeletons/whitelisted-ips-skeletons.component";
+import {AddIpSkeletonsComponent} from "../../../include/skeletons/add-ip-skeletons/add-ip-skeletons.component";
+import {TempladminComponent} from "../../../include/admin/templadmin/templadmin.component";
 
 @Component({
   selector: 'app-whitelist',
+  imports: [
+    NgFor,
+    NgIf,
+    FormsModule,
+    TempladminComponent,
+    WhitelistedIpsSkeletonsComponent,
+    AddIpSkeletonsComponent,
+    RemoveIpSkeletonsComponent,
+  ],
   templateUrl: './whitelist.component.html',
-  standalone: false
 })
 export class WhitelistComponent implements OnInit, OnDestroy {
   address: string | undefined;

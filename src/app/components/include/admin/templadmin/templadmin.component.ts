@@ -2,11 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {NavService} from "../../../../services/nav/nav.service";
 import {AdminService} from "../../../../services/admin/admin.service";
 import {toast} from 'ngx-sonner';
+import {NgIf} from "@angular/common";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-templadmin',
-  templateUrl: './templadmin.component.html',
-  standalone: false
+  imports: [
+    NgIf,
+    RouterLink
+  ],
+  templateUrl: './templadmin.component.html'
 })
 export class TempladminComponent implements OnInit {
   protected readonly toast = toast;

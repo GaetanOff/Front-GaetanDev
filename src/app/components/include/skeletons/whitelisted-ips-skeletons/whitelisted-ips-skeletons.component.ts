@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-whitelisted-ips-skeletons',
-  standalone: false,
   template: `
     <div>
       <div class="h-8 bg-gray-300 rounded mb-2 {{shimmer}}"></div>
