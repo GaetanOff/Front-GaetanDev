@@ -8,7 +8,7 @@
         <div class="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg min-h-[120px] overflow-auto" *ngIf="!isLoading">
           <ul>
             <li *ngFor="let proxy of httpProxies.slice(0, 15)">{{ proxy }}</li>
-            <li class="italic">.... download to see all</li>
+            <li class="italic pt-2">... {{httpProxies.length}} more</li>
           </ul>
         </div>
         <div *ngIf="isLoading">
@@ -23,7 +23,7 @@
         <div class="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg min-h-[120px] overflow-auto" *ngIf="!isLoading">
           <ul>
             <li *ngFor="let proxy of socks5Proxies.slice(0, 15)">{{ proxy }}</li>
-            <li class="italic">.... download to see all</li>
+            <li class="italic pt-2">... {{socks5Proxies.length}} more</li>
           </ul>
         </div>
         <div *ngIf="isLoading">
