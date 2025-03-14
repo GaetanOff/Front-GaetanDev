@@ -6,6 +6,40 @@
       <span *ngIf="isLoading">loading...</span>
       <span *ngIf="!isLoading">{{ lastRefresh }}</span>
     </p>
+    <div class="mb-6">
+      <button (click)="showServers = true" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+        Show Scanning Servers status
+      </button>
+    </div>
+
+    <div *ngIf="showServers" class="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-50 z-50">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-2/3 lg:w-1/2">
+        <div class="flex justify-between items-center border-b pb-2">
+          <h2 class="text-2xl font-semibold text-gray-800">Scanning Servers</h2>
+          <button (click)="showServers = false" class="text-gray-600 hover:text-gray-800 text-2xl">&times;</button>
+        </div>
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div *ngFor="let server of scanningServers" class="p-4 border rounded-lg shadow-sm bg-white">
+            <div class="flex items-center justify-between">
+              <span class="text-lg font-bold">Server {{ server.id }}</span>
+              <span [ngClass]="{'text-green-600': server.status === 'online', 'text-red-600': server.status !== 'online'}" class="font-semibold">
+                {{ server.status }}
+              </span>
+            </div>
+            <div class="mt-2">
+              <p class="text-sm text-gray-600">CPU: <span class="font-medium">{{ server.cpu }}%</span></p>
+              <p class="text-sm text-gray-600">RAM: <span class="font-medium">{{ server.ram }}%</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex justify-end">
+          <button (click)="showServers = false" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="flex flex-col md:flex-row justify-center md:justify-between">
       <div class="w-1/2 p-4">
         <h2 class="text-2xl font-bold mb-4">HTTP Proxies</h2>
@@ -73,7 +107,7 @@
         </div>
 
         <div class="w-full md:w-1/3">
-          <label class="block text-sm font-semibold mb-1">Number of Proxies</label>
+          <label class="block text-sm font-semibold mb-1">Number of Proxy</label>
           <input type="number" [(ngModel)]="proxyLimit" min="1" max="1000"
                  class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
