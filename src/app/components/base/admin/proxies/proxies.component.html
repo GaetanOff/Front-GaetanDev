@@ -52,7 +52,7 @@
             <button *ngIf="countryFilters.length > 1" (click)="removeCountryFilter(i)"
                     class="px-4 py-2 bg-red-500 text-white rounded">-</button>
           </div>
-          <button (click)="addCountryFilter()"
+          <button (click)="addCountryFilter()" *ngIf="countryFilters[0] !== 'All'"
                   class="px-4 py-2 bg-green-500 hover:bg-green-600 rounded">
             +
           </button>
