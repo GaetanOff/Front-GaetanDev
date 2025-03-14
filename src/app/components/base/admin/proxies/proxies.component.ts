@@ -39,7 +39,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
   protected readonly toast = toast;
 
-  selectedCountry: string = 'All';
+  selectedCountry: string = 'ALL iso';
   selectedProxyType: 'http' | 'socks5' = 'http';
   proxyLimit: number = 10;
 
@@ -105,13 +105,29 @@ export class ProxiesComponent implements OnInit, OnDestroy {
 
   updateCountryList(): void {
     if (this.selectedProxyType === 'http') {
-      this.countries = ['All', ...this.httpCountries];
+      this.countries = ['ALL iso', ...this.httpCountries];
     } else {
-      this.countries = ['All', ...this.socks5Countries];
+      this.countries = ['ALL iso', ...this.socks5Countries];
     }
     if (!this.countries.includes(this.selectedCountry)) {
-      this.selectedCountry = 'All';
+      this.selectedCountry = 'ALL iso';
     }
+    this.updateProxyLimit();
+  }
+
+  updateProxyLimit(): void {
+    let filteredProxies: ProxyDetails[];
+    if (this.selectedProxyType === 'http') {
+      filteredProxies = this.httpProxies;
+    } else {
+      filteredProxies = this.socks5Proxies;
+    }
+    if (this.selectedCountry !== 'ALL iso') {
+      filteredProxies = filteredProxies.filter(
+        proxy => proxy.geolocation?.country?.iso_code === this.selectedCountry
+      );
+    }
+    this.proxyLimit = filteredProxies.length;
   }
 
   downloadFilteredProxies(): void {
@@ -123,7 +139,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
       filteredProxies = this.socks5Proxies;
     }
 
-    if (this.selectedCountry !== 'All') {
+    if (this.selectedCountry !== 'ALL iso') {
       filteredProxies = filteredProxies.filter(
         proxy => proxy.geolocation?.country?.iso_code === this.selectedCountry
       );
