@@ -162,6 +162,8 @@ export class ProxiesComponent implements OnInit, OnDestroy {
         this.countries.includes(filter) ? filter : 'All'
       );
     }
+
+    this.updateProxyLimit();
   }
 
   updateProxyLimit(): void {
