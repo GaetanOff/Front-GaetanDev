@@ -39,14 +39,14 @@ export class ProxiesComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
   protected readonly toast = toast;
 
-  selectedCountry: string = 'ALL iso';
   selectedProxyType: 'http' | 'socks5' = 'http';
   proxyLimit: number = 10;
 
   countries: string[] = [];
-
   httpCountries: string[] = [];
   socks5Countries: string[] = [];
+
+  countryFilters: string[] = ['All'];
 
   constructor(private adminService: AdminService) {}
 
@@ -62,89 +62,118 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  get filteredCountries(): string[] {
+    return this.countries.filter(c => c !== 'All');
+  }
+
   async refreshProxies(): Promise<void> {
     if (this.isLoading) return;
-
     this.isLoading = true;
     const loadingToast = this.toast.loading("Refreshing proxies...");
 
-    this.adminService.getProxies()
-      .subscribe({
-        next: response => {
-          this.httpProxies = response.http;
-          this.socks5Proxies = response.socks5;
-          this.lastRefresh = response.lastRefresh;
+    this.adminService.getProxies().subscribe({
+      next: response => {
+        this.httpProxies = response.http;
+        this.socks5Proxies = response.socks5;
+        this.lastRefresh = response.lastRefresh;
 
-          const httpCountrySet = new Set<string>();
-          this.httpProxies.forEach((proxy: ProxyDetails) => {
-            if (proxy.geolocation?.country?.iso_code) {
-              httpCountrySet.add(proxy.geolocation.country.iso_code);
-            }
-          });
-          this.httpCountries = Array.from(httpCountrySet).sort();
+        const httpCountrySet = new Set<string>();
+        this.httpProxies.forEach((proxy: ProxyDetails) => {
+          if (proxy.geolocation?.country?.iso_code) {
+            httpCountrySet.add(proxy.geolocation.country.iso_code);
+          }
+        });
+        this.httpCountries = Array.from(httpCountrySet).sort();
 
-          const socks5CountrySet = new Set<string>();
-          this.socks5Proxies.forEach((proxy: ProxyDetails) => {
-            if (proxy.geolocation?.country?.iso_code) {
-              socks5CountrySet.add(proxy.geolocation.country.iso_code);
-            }
-          });
-          this.socks5Countries = Array.from(socks5CountrySet).sort();
+        const socks5CountrySet = new Set<string>();
+        this.socks5Proxies.forEach((proxy: ProxyDetails) => {
+          if (proxy.geolocation?.country?.iso_code) {
+            socks5CountrySet.add(proxy.geolocation.country.iso_code);
+          }
+        });
+        this.socks5Countries = Array.from(socks5CountrySet).sort();
 
-          this.updateCountryList();
+        this.updateAvailableCountries();
+        this.updateProxyLimit();
 
-          this.toast.success("Proxies refreshed", { id: loadingToast });
-          this.isLoading = false;
-        },
-        error: () => {
-          this.toast.error("Failed to refresh proxies.");
-          this.isLoading = false;
-        }
-      });
+        this.toast.success("Proxies refreshed", { id: loadingToast });
+        this.isLoading = false;
+      },
+      error: () => {
+        this.toast.error("Failed to refresh proxies.");
+        this.isLoading = false;
+      }
+    });
   }
 
-  updateCountryList(): void {
+  updateAvailableCountries(): void {
     if (this.selectedProxyType === 'http') {
-      this.countries = ['ALL iso', ...this.httpCountries];
+      this.countries = ['All', ...this.httpCountries];
     } else {
-      this.countries = ['ALL iso', ...this.socks5Countries];
+      this.countries = ['All', ...this.socks5Countries];
     }
-    if (!this.countries.includes(this.selectedCountry)) {
-      this.selectedCountry = 'ALL iso';
+    if (this.countryFilters.length > 1) {
+      this.countryFilters = this.countryFilters.map(filter =>
+        filter === 'All' ? (this.countries.filter(c => c !== 'All')[0] || this.countries[0]) : filter
+      );
+    } else {
+      this.countryFilters = this.countryFilters.map(filter =>
+        this.countries.includes(filter) ? filter : 'All'
+      );
     }
-    this.updateProxyLimit();
   }
 
   updateProxyLimit(): void {
+    const duplicates = this.getDuplicateISO(this.countryFilters);
+    if (duplicates.length > 0) {
+      this.toast.error("Duplicate ISO code selected: " + duplicates.join(', '));
+      return;
+    }
     let filteredProxies: ProxyDetails[];
     if (this.selectedProxyType === 'http') {
       filteredProxies = this.httpProxies;
     } else {
       filteredProxies = this.socks5Proxies;
     }
-    if (this.selectedCountry !== 'ALL iso') {
+    if (!(this.countryFilters.length === 1 && this.countryFilters[0] === 'All')) {
       filteredProxies = filteredProxies.filter(
-        proxy => proxy.geolocation?.country?.iso_code === this.selectedCountry
+        proxy => this.countryFilters.includes(proxy.geolocation?.country?.iso_code)
       );
     }
     this.proxyLimit = filteredProxies.length;
   }
 
-  downloadFilteredProxies(): void {
-    let filteredProxies: ProxyDetails[];
+  addCountryFilter(): void {
+    this.countryFilters.push('All');
+    this.updateAvailableCountries();
+    this.updateProxyLimit();
+  }
 
+  removeCountryFilter(index: number): void {
+    if (this.countryFilters.length > 1) {
+      this.countryFilters.splice(index, 1);
+      this.updateAvailableCountries();
+      this.updateProxyLimit();
+    }
+  }
+
+  downloadFilteredProxies(): void {
+    const duplicates = this.getDuplicateISO(this.countryFilters);
+    if (duplicates.length > 0) {
+      this.toast.error("Duplicate ISO code selected: " + duplicates.join(', '));
+      return;
+    }
+    let filteredProxies: ProxyDetails[];
     if (this.selectedProxyType === 'http') {
       filteredProxies = this.httpProxies;
     } else {
       filteredProxies = this.socks5Proxies;
     }
-
-    if (this.selectedCountry !== 'ALL iso') {
+    if (!(this.countryFilters.length === 1 && this.countryFilters[0] === 'All')) {
       filteredProxies = filteredProxies.filter(
-        proxy => proxy.geolocation?.country?.iso_code === this.selectedCountry
+        proxy => this.countryFilters.includes(proxy.geolocation?.country?.iso_code)
       );
     }
-
     filteredProxies = filteredProxies.slice(0, this.proxyLimit);
 
     if (filteredProxies.length === 0) {
@@ -156,10 +185,22 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `${this.selectedProxyType}-proxies-${this.selectedCountry}.txt`;
+    a.download = `${this.selectedProxyType}-proxies-${this.countryFilters.join('_')}.txt`;
     a.click();
     URL.revokeObjectURL(a.href);
-
     this.toast.success("Proxies downloaded successfully.");
+  }
+
+  private getDuplicateISO(filters: string[]): string[] {
+    const seen = new Set<string>();
+    const duplicates = new Set<string>();
+    for (const code of filters) {
+      if (seen.has(code)) {
+        duplicates.add(code);
+      } else {
+        seen.add(code);
+      }
+    }
+    return Array.from(duplicates);
   }
 }
