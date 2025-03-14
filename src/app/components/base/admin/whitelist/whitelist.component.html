@@ -10,7 +10,7 @@
               #nameInput="ngModel"
               *ngIf="!isAdding"
               [(ngModel)]="address"
-              class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               minlength="3"
               name="address"
               placeholder="address"
@@ -21,13 +21,18 @@
         </div>
         <div class="mb-4">
           <label class="block text-sm font-semibold mb-1">Server</label>
-          <select [(ngModel)]="server"
-                  class="w-full w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline">
-            <option value="1">1</option>
-            <option value="2">2</option>
-          </select>
+          <div class="relative">
+            <select [(ngModel)]="server"
+                    class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+            <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+              ▼
+            </div>
+          </div>
         </div>
-        <button class="px-4 py-2 bg-blue-500 text-white rounded-md" type="submit">WL</button>
+        <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 duration-300 text-white rounded-md" type="submit">WL</button>
       </form>
       <div class="w-1/2 p-4">
         <h2 class="text-2xl font-bold mb-4">All IP whitelisted</h2>
