@@ -1,7 +1,11 @@
 <app-templadmin>
   <div class="flex-1 p-8">
     <h1 class="text-3xl font-bold mb-6">Proxy List</h1>
-    <p class="text-gray-600 mb-4">Last refresh: {{ lastRefresh }}</p>
+    <p class="text-gray-600 mb-4">
+      Last refresh:
+      <span *ngIf="isLoading">loading...</span>
+      <span *ngIf="!isLoading">{{ lastRefresh }}</span>
+    </p>
     <div class="flex flex-col md:flex-row justify-center md:justify-between">
       <div class="w-1/2 p-4">
         <h2 class="text-2xl font-bold mb-4">HTTP Proxies</h2>
