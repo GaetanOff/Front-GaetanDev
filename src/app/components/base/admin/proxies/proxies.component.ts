@@ -8,12 +8,14 @@ import {toast} from 'ngx-sonner';
 import {
   RefreshProxiesWhitelistComponent
 } from "../../../include/skeletons/refresh-proxies-whitelist/refresh-proxies-whitelist.component";
+import {FormsModule, NgModel} from "@angular/forms";
 
 @Component({
   selector: 'app-proxies',
   imports: [
     NgFor,
     NgIf,
+    FormsModule,
     CommonModule,
     TempladminComponent,
     RefreshProxiesWhitelistComponent
@@ -27,6 +29,13 @@ export class ProxiesComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   private unsubscribe$ = new Subject<void>();
   protected readonly toast = toast;
+
+  selectedCountry: string = 'All';
+  selectedProxyType: 'http' | 'socks5' = 'http';
+  proxyLimit: number = 10;
+
+  // Liste des pays
+  countries: string[] = ['All', 'US', 'UK', 'FR', 'DE', 'NL', 'CA', 'RU', 'CN', 'IN'];
 
   constructor(private adminService: AdminService) {
   }
@@ -75,5 +84,35 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     a.download = `${type}-proxies.txt`;
     a.click();
     URL.revokeObjectURL(a.href);
+  }
+
+  downloadFilteredProxies(): void {
+    let filteredProxies: string[];
+
+    if (this.selectedProxyType === 'http') {
+      filteredProxies = this.httpProxies;
+    } else {
+      filteredProxies = this.socks5Proxies;
+    }
+
+    if (this.selectedCountry !== 'All') {
+      filteredProxies = filteredProxies.filter(proxy => proxy.includes(this.selectedCountry));
+    }
+
+    filteredProxies = filteredProxies.slice(0, this.proxyLimit);
+
+    if (filteredProxies.length === 0) {
+      this.toast.error("No proxies available for selected criteria.");
+      return;
+    }
+
+    const blob = new Blob([filteredProxies.join('\n')], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${this.selectedProxyType}-proxies-${this.selectedCountry}.txt`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+
+    this.toast.success("Proxies downloaded successfully.");
   }
 }
