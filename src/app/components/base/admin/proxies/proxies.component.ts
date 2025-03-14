@@ -45,6 +45,9 @@ export class ProxiesComponent implements OnInit, OnDestroy {
 
   countries: string[] = [];
 
+  httpCountries: string[] = [];
+  socks5Countries: string[] = [];
+
   constructor(private adminService: AdminService) {}
 
   ngOnInit() {
@@ -72,18 +75,23 @@ export class ProxiesComponent implements OnInit, OnDestroy {
           this.socks5Proxies = response.socks5;
           this.lastRefresh = response.lastRefresh;
 
-          const countrySet = new Set<string>();
+          const httpCountrySet = new Set<string>();
           this.httpProxies.forEach((proxy: ProxyDetails) => {
-            if (proxy.geolocation && proxy.geolocation.country && proxy.geolocation.country.iso_code) {
-              countrySet.add(proxy.geolocation.country.iso_code);
+            if (proxy.geolocation?.country?.iso_code) {
+              httpCountrySet.add(proxy.geolocation.country.iso_code);
             }
           });
+          this.httpCountries = Array.from(httpCountrySet).sort();
+
+          const socks5CountrySet = new Set<string>();
           this.socks5Proxies.forEach((proxy: ProxyDetails) => {
-            if (proxy.geolocation && proxy.geolocation.country && proxy.geolocation.country.iso_code) {
-              countrySet.add(proxy.geolocation.country.iso_code);
+            if (proxy.geolocation?.country?.iso_code) {
+              socks5CountrySet.add(proxy.geolocation.country.iso_code);
             }
           });
-          this.countries = ['All', ...Array.from(countrySet).sort()];
+          this.socks5Countries = Array.from(socks5CountrySet).sort();
+
+          this.updateCountryList();
 
           this.toast.success("Proxies refreshed", { id: loadingToast });
           this.isLoading = false;
@@ -93,6 +101,17 @@ export class ProxiesComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         }
       });
+  }
+
+  updateCountryList(): void {
+    if (this.selectedProxyType === 'http') {
+      this.countries = ['All', ...this.httpCountries];
+    } else {
+      this.countries = ['All', ...this.socks5Countries];
+    }
+    if (!this.countries.includes(this.selectedCountry)) {
+      this.selectedCountry = 'All';
+    }
   }
 
   downloadFilteredProxies(): void {
@@ -105,7 +124,9 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     }
 
     if (this.selectedCountry !== 'All') {
-      filteredProxies = filteredProxies.filter(proxy => proxy.geolocation?.country?.iso_code === this.selectedCountry);
+      filteredProxies = filteredProxies.filter(
+        proxy => proxy.geolocation?.country?.iso_code === this.selectedCountry
+      );
     }
 
     filteredProxies = filteredProxies.slice(0, this.proxyLimit);
