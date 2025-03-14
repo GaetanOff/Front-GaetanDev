@@ -14,7 +14,7 @@
         <div *ngIf="isLoading">
           <app-refresh-proxies-whitelist></app-refresh-proxies-whitelist>
         </div>
-        <button (click)="downloadProxies('http')" class="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md">
+        <button (click)="downloadProxies('http')" class="px-4 py-2 mt-4 bg-blue-500 hover:bg-blue-600 duration-300 text-white rounded-md">
           Download HTTP Proxies
         </button>
       </div>
@@ -29,7 +29,7 @@
         <div *ngIf="isLoading">
           <app-refresh-proxies-whitelist></app-refresh-proxies-whitelist>
         </div>
-        <button (click)="downloadProxies('socks5')" class="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md">
+        <button (click)="downloadProxies('socks5')" class="px-4 py-2 mt-4 bg-blue-500 hover:bg-blue-600 duration-300 text-white rounded-md">
           Download SOCKS5 Proxies
         </button>
       </div>
@@ -71,7 +71,7 @@
         </div>
       </div>
 
-      <button (click)="downloadFilteredProxies()" class="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md w-full hover:bg-blue-600 transition">
+      <button (click)="downloadFilteredProxies()" class="px-4 py-2 mt-4 bg-blue-500 hover:bg-blue-600 duration-300 text-white rounded-md w-full hover:bg-blue-600 transition">
         Download Filtered Proxies
       </button>
     </div>
