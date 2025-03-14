@@ -76,6 +76,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
   downloadProxies(type: 'http' | 'socks5'): void {
     const proxies = type === 'http' ? this.httpProxies : this.socks5Proxies;
     const blob = new Blob([proxies.join('\n')], { type: 'text/plain' });
@@ -85,6 +86,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     a.click();
     URL.revokeObjectURL(a.href);
   }
+    **/
 
   downloadFilteredProxies(): void {
     let filteredProxies: string[];
