@@ -6,9 +6,13 @@
       <span *ngIf="isLoading">loading...</span>
       <span *ngIf="!isLoading">{{ lastRefresh }}</span>
     </p>
-    <div class="mb-6">
+    <div class="flex space-x-4 mb-6">
       <button (click)="showServers = true" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
         Show Scanning Servers status
+      </button>
+
+      <button (click)="showProxy = true" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+        Open Proxy Checker
       </button>
     </div>
 
@@ -36,6 +40,51 @@
           <button (click)="showServers = false" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
             Close
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popup Proxy Checker -->
+    <div *ngIf="showProxy" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-2/3 lg:w-1/2">
+        <div class="flex justify-between items-center border-b pb-2">
+          <h2 class="text-2xl font-semibold text-gray-800">Proxy Checker</h2>
+          <button (click)="closeProxyChecker()" class="text-gray-600 hover:text-gray-800 text-2xl">&times;</button>
+        </div>
+        <div class="mt-4">
+          <form (submit)="checkProxy($event)">
+            <div class="mb-4">
+              <label class="block text-sm font-semibold mb-1">Protocol</label>
+              <select [(ngModel)]="proxyProtocol" name="protocol" class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">>
+                <option value="http">HTTP</option>
+                <option value="socks5">SOCKS5</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-semibold mb-1">Host</label>
+              <input type="text" [(ngModel)]="proxyHost" name="host" placeholder="Proxy host" class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-semibold mb-1">Port</label>
+              <input type="number" [(ngModel)]="proxyPort" name="port" placeholder="Proxy port" class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+            </div>
+            <div class="flex justify-end">
+              <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" *ngIf="!isCheckerLoading">
+                Check Proxy
+              </button>
+              <div *ngIf="isCheckerLoading" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                Checking...
+              </div>
+            </div>
+          </form>
+          <div *ngIf="proxyCheckResult" class="mt-4 p-4 border rounded">
+            <p *ngIf="proxyCheckResult.success" class="text-green-600">
+              Proxy is functional. Data: {{ proxyCheckResult.data | json }}
+            </p>
+            <p *ngIf="!proxyCheckResult.success" class="text-red-600">
+              Proxy failed: {{ proxyCheckResult.error }}
+            </p>
+          </div>
         </div>
       </div>
     </div>

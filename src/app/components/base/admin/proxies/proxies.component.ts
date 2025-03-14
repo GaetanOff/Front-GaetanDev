@@ -26,6 +26,12 @@ export interface ScanningServer {
   ram: number;
 }
 
+export interface ProxyCheckResponse {
+  success: boolean;
+  data?: any;
+  error?: string;
+}
+
 @Component({
   selector: 'app-proxies',
   imports: [
@@ -44,6 +50,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
   socks5Proxies: ProxyDetails[] = [];
   lastRefresh: string = '';
   isLoading: boolean = false;
+  isCheckerLoading: boolean = false;
   private unsubscribe$ = new Subject<void>();
   protected readonly toast = toast;
 
@@ -57,6 +64,12 @@ export class ProxiesComponent implements OnInit, OnDestroy {
   countryFilters: string[] = ['All'];
 
   showServers: boolean = false;
+  showProxy: boolean = false;
+
+  proxyProtocol: string = 'http';
+  proxyHost: string = '';
+  proxyPort: number = 0;
+  proxyCheckResult: ProxyCheckResponse | null = null;
 
   constructor(private adminService: AdminService) {}
 
@@ -231,4 +244,42 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     }
     return Array.from(duplicates);
   }
+
+  async checkProxy(event: Event): Promise<void> {
+    event.preventDefault();
+    this.proxyCheckResult = null;
+
+    if (!this.proxyHost || !this.proxyPort) {
+      this.toast.error("Please enter a valid proxy host and port.");
+      return;
+    }
+
+    this.isCheckerLoading = true;
+
+    const lastToast: string | number = this.toast.loading("Checking proxy...");
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    this.adminService.checkProxy(this.proxyProtocol, this.proxyHost, this.proxyPort).subscribe({
+      next: (response: any) => {
+        if(response.success) {
+          this.toast.success("Proxy checked successfully.", {id: lastToast});
+        } else {
+          this.toast.error("Proxy check failed.", {id: lastToast});
+        }
+        this.isCheckerLoading = false;
+        this.proxyCheckResult = response;
+      },
+      error: () => {
+        this.toast.error("Error checking proxy.", {id: lastToast});
+        this.isCheckerLoading = false;
+      }
+    });
+  }
+
+  closeProxyChecker(): void {
+    this.showProxy = false;
+    this.proxyCheckResult = null;
+  }
+
+
 }
