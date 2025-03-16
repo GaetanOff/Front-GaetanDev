@@ -1,0 +1,33 @@
+<section class="flex items-center pt-20">
+  <div class="container mx-auto px-6">
+    <div class="flex flex-col lg:flex-row items-center justify-center">
+      <!-- Illustration -->
+      <div class="w-full lg:w-1/2 text-center lg:text-left">
+        <h1 class="text-7xl font-extrabold text-gradient bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+          404
+        </h1>
+        <h2 class="text-4xl lg:text-5xl font-bold mt-4">
+          {{ this.i18n.text.error.notfound.title }}
+        </h2>
+        <p class="text-lg text-gray-600 mt-4">
+          {{ this.i18n.text.error.notfound.description }}
+        </p>
+        <p class="text-gray-500 mb-6">
+          {{ this.i18n.text.error.notfound.moved }}
+        </p>
+
+        <!-- Bouton Retour Accueil -->
+        <button
+          class="cursor-pointer animate__animated animate__fadeIn transition-all duration-300 bg-gradient-to-r from-green-600 to-emerald-700 hover:shadow-lg hover:shadow-green-600/30 text-white font-bold py-3 px-6 rounded-lg inline-flex items-center"
+          routerLink="/">
+          <span>{{ this.i18n.text.error.notfound.button }}</span>
+        </button>
+      </div>
+
+      <!-- Image d'illustration -->
+      <div class="w-full lg:w-1/2 flex justify-center lg:justify-end mt-10 lg:mt-0">
+        <img src="assets/img/404.svg" alt="Page Not Found" class="w-full animate__animated animate__fadeInUp">
+      </div>
+    </div>
+  </div>
+</section>

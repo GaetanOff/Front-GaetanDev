@@ -7,6 +7,7 @@ import {LegalComponent} from "./components/base/legal/legal.component";
 import {CgvComponent} from "./components/base/legal/cgv/cgv.component";
 import {AboutComponent} from "./components/base/about/about.component";
 import {AuthComponent} from "./components/base/admin/auth/auth.component";
+import {ErrorComponent} from "./components/base/error/error.component";
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
     loadChildren: () => import('./components/base/admin/admin.module').then(m => m.AdminModule)
   },
   {
-    path: "**", component: HomeComponent
+    path: "**", component: ErrorComponent
   }
 ]
 
@@ -46,5 +47,5 @@ export class AppRoutingModule {
 
 export const routingComponents = [
   HomeComponent, AboutComponent, ContactComponent, AchievementsComponent, LegalComponent, CgvComponent,
-  AuthComponent
+  AuthComponent, ErrorComponent
 ]
