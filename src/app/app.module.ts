@@ -26,6 +26,7 @@ import {AddIpSkeletonsComponent} from "./components/include/skeletons/add-ip-ske
 import {
   CorrectorTextSkeletonsComponent
 } from "./components/include/skeletons/corrector-text-skeletons/corrector-text-skeletons.component";
+import {ErrorComponent} from "./components/base/error/error.component";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {
     CompetencesComponent,
     CVComponent,
     ServicesComponent,
+    ErrorComponent,
     ContactSkeletonsComponent,
   ],
   bootstrap: [AppComponent],

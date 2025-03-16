@@ -137,6 +137,14 @@ export class I18nService {
         "protected": (this.isFrench ? "Attack received successfully mitigated" : "Attaque reçue atténuée avec succès"),
         "total": (this.isFrench ? "Number of people connected to the infrastructure" : "Nombre de personnes connectées sur l'infrastructure"),
       },
+      "error": {
+        "notfound": {
+          "title": (this.isFrench ? "Page not found" : "Page introuvable"),
+          "description": (this.isFrench ? "The page you are looking for does not exist." : "La page que vous cherchez n'existe pas."),
+          "moved": (this.isFrench ? "It might have been moved or deleted." : "Elle pourrait avoir fait l'objet d'un transfert ou d'une suppression."),
+          "button": (this.isFrench ? "Go to the home page" : "Retourner à la page d'accueil")
+        }
+      },
       "contact": {
         "title": (this.isFrench ? "Contact me" : "Me contacter"),
         "name": (this.isFrench ? "Name" : "Prénom"),
