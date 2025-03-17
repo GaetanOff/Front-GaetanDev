@@ -5,6 +5,11 @@ import {TempladminComponent} from "../../../../include/admin/templadmin/templadm
 import {
   DetailsServerSkeletonsComponent
 } from "../../../../include/skeletons/details-server-skeletons/details-server-skeletons.component";
+import { toast } from 'ngx-sonner';
+import {interval, Subject} from "rxjs";
+import {AdminService} from "../../../../../services/admin/admin.service";
+import {ScanningServer} from "../../../../../types";
+import {takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'app-detailserver',
@@ -21,15 +26,12 @@ import {
 export class DetailserverComponent {
   isLoading: boolean = true;
   serverId!: number;
-  serverDetails: any;
+  serverDetails : ScanningServer | null = null;
   showIp: boolean = false;
+  private unsubscribe$ = new Subject<void>();
+  protected readonly toast = toast;
 
-  private serverList = [
-    { id: 1, status: 'online', cpu: 45, ram: 70, disk: 30, swap: 5, incomingNetwork: 150, outgoingNetwork: 75, ip: '192.168.1.1', location: 'France' },
-    { id: 2, status: 'offline', cpu: 30, ram: 50, disk: 30, swap: 5, incomingNetwork: 120, outgoingNetwork: 60, ip: '192.168.1.2', location: 'USA' }
-  ];
-
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private adminService: AdminService) {}
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -38,7 +40,27 @@ export class DetailserverComponent {
 
     this.route.params.subscribe(params => {
       this.serverId = +params['id'];
-      this.serverDetails = this.serverList.find(server => server.id === this.serverId);
+      this.subscribeToServer(this.serverId);
+      interval(5000)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(() => this.subscribeToServer(this.serverId));
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  private subscribeToServer(serverId: number): void {
+    this.adminService.getScanningProxyServersDetails(serverId).subscribe({
+      next: (response) => {
+        this.serverDetails = response;
+      },
+      error: (error) => {
+        this.toast.error("Error fetching server details");
+        console.error("Error fetching server details:", error);
+      }
     });
   }
 

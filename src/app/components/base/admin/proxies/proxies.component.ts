@@ -8,6 +8,7 @@ import { toast } from 'ngx-sonner';
 import { RefreshProxiesWhitelistComponent } from "../../../include/skeletons/refresh-proxies-whitelist/refresh-proxies-whitelist.component";
 import { FormsModule } from "@angular/forms";
 import {Router} from "@angular/router";
+import {ScanningServer} from "../../../../types";
 
 export interface ProxyDetails {
   protocol: string;
@@ -18,13 +19,6 @@ export interface ProxyDetails {
       iso_code: string;
     }
   }
-}
-
-export interface ScanningServer {
-  id: number;
-  status: string;
-  cpu: number;
-  ram: number;
 }
 
 export interface ProxyCheckResponse {
@@ -75,6 +69,8 @@ export class ProxiesComponent implements OnInit, OnDestroy {
   constructor(private adminService: AdminService, private router: Router) {}
 
   ngOnInit() {
+    window.scrollTo(0, 0);
+    
     this.refreshServersStatus().catch(() => this.toast.error("Failed to fetch scanning servers."));
     interval(5000)
       .pipe(takeUntil(this.unsubscribe$))

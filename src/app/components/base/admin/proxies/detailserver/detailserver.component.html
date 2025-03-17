@@ -65,7 +65,7 @@
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm col-span-2">
             <h2 class="text-lg font-semibold text-gray-800">IP Address</h2>
-            <p class="text-gray-600" *ngIf="this.showIp">{{ serverDetails.ip }}</p>
+            <p class="text-gray-600" *ngIf="this.showIp">{{ serverDetails.addressIp }}</p>
             <p class="text-gray-600" *ngIf="!this.showIp">IP address is hidden</p>
             <button (click)="toggleIp()" class="mt-2 text-sm text-blue-500 hover:text-blue-600">Toggle IP</button>
           </div>

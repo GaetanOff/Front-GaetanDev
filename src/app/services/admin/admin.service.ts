@@ -60,8 +60,19 @@ export class AdminService {
     const formData = new FormData();
     formData.append('username', this.formData.get('username') as string);
     formData.append('password', this.formData.get('password') as string);
-    
+
     return this.httpClient.post('https://api.gaetandev.fr/proxies/servers', this.formData, {responseType: 'json'});
+  }
+
+  getScanningProxyServersDetails(id: number): Observable<any> {
+    this.checkAdminStatus();
+
+    const formData = new FormData();
+    formData.append('username', this.formData.get('username') as string);
+    formData.append('password', this.formData.get('password') as string);
+    formData.append('id', id.toString());
+
+    return this.httpClient.post('https://api.gaetandev.fr/proxies/servers/details', formData, {responseType: 'json'});
   }
 
   checkProxy(protocol: string, host: string, port: number): Observable<any> {
