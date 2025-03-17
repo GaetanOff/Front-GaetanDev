@@ -70,7 +70,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     window.scrollTo(0, 0);
-    
+
     this.refreshServersStatus().catch(() => this.toast.error("Failed to fetch scanning servers."));
     interval(5000)
       .pipe(takeUntil(this.unsubscribe$))

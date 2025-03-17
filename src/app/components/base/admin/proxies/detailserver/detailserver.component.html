@@ -30,38 +30,44 @@
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">CPU Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
-              <div class="h-full bg-blue-500" [style.width.%]="serverDetails.cpu"></div>
+              <div class="h-full" [ngClass]="getLoadBarColor(serverDetails.cpu)" [style.width.%]="serverDetails.cpu"></div>
             </div>
             <p class="text-gray-600 mt-2">{{ serverDetails.cpu }}%</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">RAM Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
-              <div class="h-full bg-green-500" [style.width.%]="serverDetails.ram"></div>
+              <div class="h-full" [ngClass]="getLoadBarColor(serverDetails.ram)" [style.width.%]="serverDetails.ram"></div>
             </div>
             <p class="text-gray-600 mt-2">{{ serverDetails.ram }}%</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">DISK Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
-              <div class="h-full bg-orange-400" [style.width.%]="serverDetails.disk"></div>
+              <div class="h-full" [ngClass]="getLoadBarColor(serverDetails.disk)" [style.width.%]="serverDetails.disk"></div>
             </div>
             <p class="text-gray-600 mt-2">{{ serverDetails.disk }}%</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">SWAP Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
-              <div class="h-full bg-yellow-700" [style.width.%]="serverDetails.swap"></div>
+              <div class="h-full" [ngClass]="getLoadBarColor(serverDetails.swap)" [style.width.%]="serverDetails.swap"></div>
             </div>
             <p class="text-gray-600 mt-2">{{ serverDetails.swap }}%</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">Incoming Network</h2>
-            <p class="text-gray-600">{{ serverDetails.incomingNetwork }} Mbps</p>
+            <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
+              <div class="h-full" [ngClass]="getLoadBarColor((serverDetails.incomingNetwork / 10000) * 100)" [style.width.%]="(serverDetails.incomingNetwork / 10000) * 100"></div>
+            </div>
+            <p class="text-gray-600">{{ serverDetails.incomingNetwork }}/10000 Mbps</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">Outgoing Network</h2>
-            <p class="text-gray-600">{{ serverDetails.outgoingNetwork }} Mbps</p>
+            <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
+              <div class="h-full" [ngClass]="getLoadBarColor((serverDetails.outgoingNetwork / 10000) * 100)" [style.width.%]="(serverDetails.outgoingNetwork / 10000) * 100"></div>
+            </div>
+            <p class="text-gray-600">{{ serverDetails.outgoingNetwork }}/10000 Mbps</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm col-span-2">
             <h2 class="text-lg font-semibold text-gray-800">IP Address</h2>
