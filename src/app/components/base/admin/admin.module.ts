@@ -6,6 +6,7 @@ import {AuthComponent} from "./auth/auth.component";
 import {WhitelistComponent} from "./whitelist/whitelist.component";
 import {AuthGuard} from "../../../guard/auth.guard";
 import {ProxiesComponent} from "./proxies/proxies.component";
+import {DetailserverComponent} from "./proxies/detailserver/detailserver.component";
 
 const routes: Routes = [
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
   {
     path: "proxies",
     component: ProxiesComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "proxies/details/:id",
+    component: DetailserverComponent,
     canActivate: [AuthGuard]
   },
 ]

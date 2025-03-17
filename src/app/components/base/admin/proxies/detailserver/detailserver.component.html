@@ -1,0 +1,89 @@
+<app-templadmin>
+  <div class="flex-1 p-8">
+
+    <div *ngIf="isLoading; else detailsLoaded">
+      <app-details-server-skeletons></app-details-server-skeletons>
+    </div>
+
+    <ng-template #detailsLoaded>
+      <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
+      <h1 class="text-4xl font-extrabold text-gray-900 text-center mb-6">Server Details</h1>
+
+      <div *ngIf="serverDetails; else notFound">
+        <div class="text-center">
+          <span class="inline-block px-4 py-2 rounded-full text-white text-sm font-semibold"
+                [ngClass]="{'bg-green-500': serverDetails.status === 'online', 'bg-red-500': serverDetails.status !== 'online'}">
+            {{ serverDetails.status.toUpperCase() }}
+          </span>
+        </div>
+
+        <!-- Info Card -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+            <h2 class="text-lg font-semibold text-gray-800">Server ID</h2>
+            <p class="text-gray-600">{{ serverDetails.id }}</p>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+            <h2 class="text-lg font-semibold text-gray-800">Location</h2>
+            <p class="text-gray-600">{{ serverDetails.location }}</p>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+            <h2 class="text-lg font-semibold text-gray-800">CPU Usage</h2>
+            <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
+              <div class="h-full bg-blue-500" [style.width.%]="serverDetails.cpu"></div>
+            </div>
+            <p class="text-gray-600 mt-2">{{ serverDetails.cpu }}%</p>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+            <h2 class="text-lg font-semibold text-gray-800">RAM Usage</h2>
+            <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
+              <div class="h-full bg-green-500" [style.width.%]="serverDetails.ram"></div>
+            </div>
+            <p class="text-gray-600 mt-2">{{ serverDetails.ram }}%</p>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+            <h2 class="text-lg font-semibold text-gray-800">DISK Usage</h2>
+            <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
+              <div class="h-full bg-orange-400" [style.width.%]="serverDetails.disk"></div>
+            </div>
+            <p class="text-gray-600 mt-2">{{ serverDetails.disk }}%</p>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+            <h2 class="text-lg font-semibold text-gray-800">SWAP Usage</h2>
+            <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
+              <div class="h-full bg-yellow-700" [style.width.%]="serverDetails.swap"></div>
+            </div>
+            <p class="text-gray-600 mt-2">{{ serverDetails.swap }}%</p>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+            <h2 class="text-lg font-semibold text-gray-800">Incoming Network</h2>
+            <p class="text-gray-600">{{ serverDetails.incomingNetwork }} Mbps</p>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+            <h2 class="text-lg font-semibold text-gray-800">Outgoing Network</h2>
+            <p class="text-gray-600">{{ serverDetails.outgoingNetwork }} Mbps</p>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg shadow-sm col-span-2">
+            <h2 class="text-lg font-semibold text-gray-800">IP Address</h2>
+            <p class="text-gray-600" *ngIf="this.showIp">{{ serverDetails.addressIp }}</p>
+            <p class="text-gray-600" *ngIf="!this.showIp">IP address is hidden</p>
+            <button (click)="toggleIp()" class="mt-2 text-sm text-blue-500 hover:text-blue-600">Toggle IP</button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #notFound>
+        <p class="text-red-500 text-center text-lg">Server not found.</p>
+      </ng-template>
+
+      <div class="mt-8 text-center">
+        <a routerLink="/admin/proxies"
+           class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition">
+          Back to Proxy List
+        </a>
+      </div>
+    </div>
+    </ng-template>
+
+  </div>
+</app-templadmin>
