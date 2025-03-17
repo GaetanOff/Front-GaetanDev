@@ -23,7 +23,8 @@
           <button (click)="showServers = false" class="text-gray-600 hover:text-gray-800 text-2xl">&times;</button>
         </div>
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div *ngFor="let server of scanningServers" class="p-4 border rounded-lg shadow-sm bg-white">
+          <div *ngFor="let server of scanningServers" class="p-4 border rounded-lg shadow-sm bg-white cursor-pointer duration-300 hover:shadow-lg hover:shadow-green-600/30"
+               (click)="navigateToDetails(server.id)">
             <div class="flex items-center justify-between">
               <span class="text-lg font-bold">Server {{ server.id }}</span>
               <span [ngClass]="{'text-green-600': server.status === 'online', 'text-red-600': server.status !== 'online'}" class="font-semibold">
