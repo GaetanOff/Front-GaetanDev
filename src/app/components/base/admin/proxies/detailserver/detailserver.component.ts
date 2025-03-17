@@ -67,4 +67,11 @@ export class DetailserverComponent {
   async toggleIp() {
     this.showIp = !this.showIp;
   }
+
+  getLoadBarColor(value: number): string {
+    if (value < 40) return 'bg-green-500';
+    if (value < 80) return 'bg-yellow-400';
+    return 'bg-red-500';
+  }
+
 }

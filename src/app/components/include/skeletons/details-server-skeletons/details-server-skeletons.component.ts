@@ -22,8 +22,8 @@ import { Component } from '@angular/core';
         <div class="h-24 bg-gray-300 rounded-lg shadow-sm p-4 {{ shimmer }}"></div>
         <div class="h-24 bg-gray-300 rounded-lg shadow-sm p-4 {{ shimmer }}"></div>
         <div class="h-24 bg-gray-300 rounded-lg shadow-sm p-4 {{ shimmer }}"></div>
-        <div class="h-16 bg-gray-300 rounded-lg shadow-sm p-4 {{ shimmer }}"></div>
-        <div class="h-16 bg-gray-300 rounded-lg shadow-sm p-4 {{ shimmer }}"></div>
+        <div class="h-24 bg-gray-300 rounded-lg shadow-sm p-4 {{ shimmer }}"></div>
+        <div class="h-24 bg-gray-300 rounded-lg shadow-sm p-4 {{ shimmer }}"></div>
         <div class="h-24 bg-gray-300 rounded-lg shadow-sm p-4 col-span-2 {{ shimmer }}"></div>
       </div>
 
