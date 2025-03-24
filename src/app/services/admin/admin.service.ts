@@ -75,13 +75,14 @@ export class AdminService {
     return this.httpClient.post('https://api.gaetandev.fr/proxies/servers/details', formData, {responseType: 'json'});
   }
 
-  checkProxy(protocol: string, host: string, port: number): Observable<any> {
+  checkProxy(protocol: string, host: string, port: number, serverToCheck: string): Observable<any> {
     const formData = new FormData();
     formData.append('username', this.formData.get('username') as string);
     formData.append('password', this.formData.get('password') as string);
     formData.append('protocol', protocol);
     formData.append('host', host);
     formData.append('port', port.toString());
+    formData.append('server', serverToCheck);
 
     return this.httpClient.post('https://api.gaetandev.fr/proxies/check', formData, {responseType: 'json'});
   }

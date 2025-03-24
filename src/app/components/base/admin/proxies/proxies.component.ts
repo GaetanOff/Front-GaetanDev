@@ -62,6 +62,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
   showProxy: boolean = false;
 
   proxyProtocol: string = 'http';
+  serverToCheck: string = 'random'
   proxyHost: string = '';
   proxyPort: number = 0;
   proxyCheckResult: ProxyCheckResponse | null = null;
@@ -258,7 +259,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     const lastToast: string | number = this.toast.loading("Checking proxy...");
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    this.adminService.checkProxy(this.proxyProtocol, this.proxyHost, this.proxyPort).subscribe({
+    this.adminService.checkProxy(this.proxyProtocol, this.proxyHost, this.proxyPort, this.serverToCheck).subscribe({
       next: (response: any) => {
         if(response.success) {
           this.toast.success("Proxy checked successfully.", {id: lastToast});
