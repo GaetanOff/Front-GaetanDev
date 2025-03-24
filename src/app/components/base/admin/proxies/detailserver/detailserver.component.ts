@@ -20,8 +20,7 @@ import {takeUntil} from "rxjs/operators";
     TempladminComponent,
     DetailsServerSkeletonsComponent
   ],
-  templateUrl: './detailserver.component.html',
-  styleUrl: './detailserver.component.css'
+  templateUrl: './detailserver.component.html'
 })
 export class DetailserverComponent {
   isLoading: boolean = true;
