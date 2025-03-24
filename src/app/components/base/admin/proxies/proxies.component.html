@@ -69,6 +69,15 @@
               <label class="block text-sm font-semibold mb-1">Port</label>
               <input type="number" [(ngModel)]="proxyPort" name="port" placeholder="Proxy port" class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
             </div>
+            <div class="mb-4">
+              <label class="block text-sm font-semibold mb-1">Server</label>
+              <select [(ngModel)]="serverToCheck" name="server" class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+                <option value="random">Random</option>
+                <option *ngFor="let server of scanningServers" [value]="server.id">
+                  Server {{ server.id }} - CPU: {{ server.cpu }}%, RAM: {{ server.ram }}% ({{ server.status }})
+                </option>
+              </select>
+            </div>
             <div class="flex justify-end">
               <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" *ngIf="!isCheckerLoading">
                 Check Proxy
