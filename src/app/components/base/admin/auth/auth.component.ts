@@ -52,6 +52,7 @@ export class AuthComponent implements OnInit {
     const formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
+    formData.append('captcha', mpdmldpsmzl || '');
 
     this.adminService.login(formData).subscribe((success: boolean) => {
       if (success) {
