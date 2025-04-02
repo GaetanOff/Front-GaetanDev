@@ -16,6 +16,11 @@ interface Email {
   description: string;
 }
 
+interface WordsResponse {
+  firstWords: string[];
+  secondWords: string[];
+}
+
 @Component({
   selector: 'app-email',
   imports: [
@@ -41,12 +46,28 @@ export class EmailComponent implements OnInit, OnDestroy {
   protected readonly toast = toast;
   private unsubscribe$ = new Subject<void>();
 
+  firstWords: string[] = [];
+  secondWords: string[] = [];
+  wordsLoaded: boolean = false;
+
   constructor(private adminService: AdminService) {}
 
   ngOnInit(): void {
     this.updateEmails().catch(err =>
       console.error('Error fetching alias emails:', err)
     );
+
+    this.adminService.getEmailsWords().subscribe({
+      next: (response: WordsResponse) => {
+        this.firstWords = response.firstWords;
+        this.secondWords = response.secondWords;
+        this.wordsLoaded = true;
+      },
+      error: (error) => {
+        console.error("Error fetching email words:", error);
+        // Vous pouvez éventuellement définir un fallback ici
+      }
+    });
 
     interval(60000)
       .pipe(takeUntil(this.unsubscribe$))
@@ -171,5 +192,37 @@ export class EmailComponent implements OnInit, OnDestroy {
         this.isLoadingEmails = false;
       }
     });
+  }
+
+  generateRandomAlias(): void {
+    const separators = ["-", ".", "_"];
+
+    let alias = "";
+    let isUnique = false;
+
+    while (!isUnique) {
+      const A = this.firstWords[Math.floor(Math.random() * this.firstWords.length)];
+      const B = this.secondWords[Math.floor(Math.random() * this.secondWords.length)];
+      const sep = separators[Math.floor(Math.random() * separators.length)];
+
+      const option = Math.random() < 0.5 ? 1 : 2;
+      if (option === 1) {
+        const num = Math.floor(Math.random() * 100).toString().padStart(2, "0");
+        alias = A + sep + num + B;
+      } else {
+        const random2 = Array.from({ length: 2 }, () => {
+          const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+          return chars.charAt(Math.floor(Math.random() * chars.length));
+        }).join("");
+        alias = A + sep + B + sep + random2;
+      }
+
+      if (!this.emails.some(e => e.nom.toLowerCase() === alias.toLowerCase())) {
+        isUnique = true;
+      }
+    }
+
+    this.emailName = alias;
+    this.toast.info("Alias aléatoire généré.");
   }
 }
