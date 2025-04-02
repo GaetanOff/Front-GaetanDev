@@ -129,7 +129,13 @@ export class I18nService {
         "neptune": (this.isFrench ? "School project for creating a web application for a fictitious hotel." : "Projet d'école de création d'une application web pour un hôtel fictif."),
         "tmconseils": (!this.isFrench
           ? "Application web pour une entreprise d'accompagnement stratégique sur mesure."
-          : "Web application for a customized strategic coaching company.")
+          : "Web application for a customized strategic coaching company."),
+        "lookaway": (!this.isFrench
+          ? "Application macOS pour protéger vos yeux en vous invitant à faire des pauses régulières."
+          : "A macOS menu-bar application to protect your eyes by prompting regular breaks."),
+        "tcping": (!this.isFrench
+          ? "Outil léger de test de connexion TCP."
+          : "A lightweight TCP connection testing tool.")
       },
       "shield": {
         "title": (this.isFrench ? "Shield GaetanDev" : "Bouclier GaetanDev"),

@@ -52,6 +52,13 @@ export class AchievementsComponent implements OnInit {
         categories: [Category.DEV]
       },
       {
+        name: 'LookAway',
+        description: this.i18n.text.achievements.lookaway,
+        image: 'assets/img/achievements/lookaway.webp',
+        redirect: 'https://github.com/GaetanOff/LookAway',
+        categories: [Category.DEV]
+      },
+      {
         name: 'Content Delivery Network',
         description: this.i18n.text.achievements.cdn,
         image: 'assets/img/achievements/cdn.webp',
@@ -59,11 +66,18 @@ export class AchievementsComponent implements OnInit {
         categories: [Category.SYS, Category.DO]
       },
       {
-        name: 'PizzaOPlomo',
-        description: this.i18n.text.achievements.pizzaoplomo,
-        image: 'assets/img/achievements/pizzaoplomo.webp',
-        redirect: 'https://www.pizzaoplomo.gaetandev.fr/',
-        categories: [Category.DEV]
+        name: 'Content Delivery Network',
+        description: this.i18n.text.achievements.cdn,
+        image: 'assets/img/achievements/cdn.webp',
+        redirect: 'https://cdn.gaetandev.fr/',
+        categories: [Category.SYS, Category.DO]
+      },
+      {
+        name: 'TCPing',
+        description: this.i18n.text.achievements.tcping,
+        image: 'assets/img/achievements/tcping.webp',
+        redirect: 'https://github.com/GaetanOff/TCPing',
+        categories: [Category.SYS, Category.DO]
       },
       {
         name: 'PixelmonGo',
