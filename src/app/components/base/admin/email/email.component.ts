@@ -9,6 +9,7 @@ import { EmailsLoadingSkeletonsComponent } from '../../../include/skeletons/emai
 import { AddEmailSkeletonsComponent } from '../../../include/skeletons/add-email-skeletons/add-email-skeletons.component';
 import { TempladminComponent } from '../../../include/admin/templadmin/templadmin.component';
 import { FormsModule } from '@angular/forms';
+import { RemoveEmailSkeletonsComponent } from '../../../include/skeletons/remove-email-skeletons/remove-email-skeletons.component';
 
 interface Email {
   nom: string;
@@ -25,6 +26,7 @@ interface Email {
     TempladminComponent,
     EmailsLoadingSkeletonsComponent,
     AddEmailSkeletonsComponent,
+    RemoveEmailSkeletonsComponent
   ],
   templateUrl: './email.component.html',
 })
@@ -32,6 +34,7 @@ export class EmailComponent implements OnInit, OnDestroy {
   emailName: string = '';
   description: string = '';
   emails: Email[] = [];
+  filterText: string = '';
   isLoadingEmails: boolean = false;
   isSubmitting: boolean = false;
   removingEmail: string | null = null;
@@ -45,7 +48,6 @@ export class EmailComponent implements OnInit, OnDestroy {
       console.error('Error fetching alias emails:', err)
     );
 
-    // Rafraîchissement automatique toutes les 60 secondes
     interval(60000)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => this.updateEmails());
@@ -54,6 +56,22 @@ export class EmailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  get filteredEmails(): Email[] {
+    if (!this.filterText.trim()) {
+      return this.emails.slice().reverse();
+    }
+    const filterLower = this.filterText.trim().toLowerCase();
+    const matching = this.emails.filter(email =>
+      email.nom.toLowerCase().includes(filterLower) ||
+      email.description.toLowerCase().includes(filterLower)
+    );
+    const nonMatching = this.emails.filter(email =>
+      !(email.nom.toLowerCase().includes(filterLower) ||
+        email.description.toLowerCase().includes(filterLower))
+    );
+    return matching.reverse().concat(nonMatching.reverse());
   }
 
   async processForm(): Promise<void> {

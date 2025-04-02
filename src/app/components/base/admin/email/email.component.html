@@ -1,61 +1,74 @@
 <app-templadmin>
   <div class="flex-1 p-8">
     <div class="flex flex-col md:flex-row justify-center md:justify-between">
-      <form (ngSubmit)="processForm()" class="w-1/2 p-4">
-        <h2 class="text-2xl font-bold mb-4">Create an alias</h2>
-        <div class="mb-4">
-          <label class="block text-sm font-semibold mb-1">Alias</label>
-          <div class="flex items-center">
-            <input
-              #emailNameInput="ngModel"
-              *ngIf="!isSubmitting"
-              [(ngModel)]="emailName"
-              class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              minlength="3"
-              name="emailName"
-              placeholder="Alias"
-              required
-              type="text">
-            <span class="bg-gray-300 text-gray-900 mt-2 p-3 rounded-r-lg" *ngIf="!isSubmitting">
-              &#64;cf.gaetandev.fr
-            </span>
-          </div>
-          <app-add-email-skeletons *ngIf="isSubmitting"></app-add-email-skeletons>
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm font-semibold mb-1">Description</label>
-          <textarea
-            [(ngModel)]="description"
-            *ngIf="!isSubmitting"
-            name="description"
-            class="input w-full h-12 bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Description"
-            required>
-          </textarea>
-          <app-add-email-skeletons *ngIf="isSubmitting"></app-add-email-skeletons>
-        </div>
-        <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 duration-300 text-white rounded-md" type="submit">
-          Ajouter
-        </button>
-      </form>
 
-      <div class="w-1/2 p-4">
-        <h2 class="text-2xl font-bold mb-4">Alias List</h2>
-        <div *ngIf="isLoadingEmails">
-          <app-emails-loading-skeletons></app-emails-loading-skeletons>
-        </div>
-        <div *ngIf="!isLoadingEmails">
-          <div *ngFor="let email of emails.reverse()" class="flex items-center justify-between border-b border-gray-300 py-2">
-            <div>
-              <strong>{{ email.nom }}&#64;cf.gaetandev.fr</strong>
-              <p class="text-sm">{{ email.description }}</p>
+        <form (ngSubmit)="processForm()" class="w-1/2 p-4">
+          <h2 class="text-2xl font-bold mb-4">Create an alias</h2>
+          <div class="mb-4">
+            <label class="block text-sm font-semibold mb-1">Alias</label>
+            <div class="flex items-center">
+              <input
+                #emailNameInput="ngModel"
+                *ngIf="!isSubmitting"
+                [(ngModel)]="emailName"
+                class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                minlength="3"
+                name="emailName"
+                placeholder="Alias"
+                required
+                type="text">
+              <span class="bg-gray-300 text-gray-900 mt-2 p-3 rounded-r-lg" *ngIf="!isSubmitting">
+                &#64;cf.gaetandev.fr
+              </span>
             </div>
-            <button (click)="removeEmail(email)" class="px-4 py-2 bg-red-500 text-white rounded-md">
-              Supprimer
-            </button>
+            <app-add-email-skeletons *ngIf="isSubmitting"></app-add-email-skeletons>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-semibold mb-1">Description</label>
+            <textarea
+              [(ngModel)]="description"
+              *ngIf="!isSubmitting"
+              name="description"
+              class="input w-full h-12 bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Description"
+              required>
+            </textarea>
+            <app-add-email-skeletons *ngIf="isSubmitting"></app-add-email-skeletons>
+          </div>
+          <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 duration-300 text-white rounded-md" type="submit">
+            Ajouter
+          </button>
+        </form>
+
+        <div class="w-1/2 p-4">
+          <h2 class="text-2xl font-bold mb-4">Alias List</h2>
+          <div class="mb-4">
+            <label class="block text-sm font-semibold mb-1">Filter aliases</label>
+            <input
+              type="text"
+              [(ngModel)]="filterText"
+              name="filterText"
+              placeholder="Search alias or description"
+              class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          <div *ngIf="isLoadingEmails">
+            <app-emails-loading-skeletons></app-emails-loading-skeletons>
+          </div>
+          <div *ngIf="!isLoadingEmails">
+            <div *ngFor="let email of filteredEmails">
+              <div *ngIf="removingEmail !== email.nom" class="flex items-center justify-between border-b border-gray-300 py-2">
+                <div>
+                  <strong>{{ email.nom }}&#64;cf.gaetandev.fr</strong>
+                  <p class="text-sm">{{ email.description }}</p>
+                </div>
+                <button (click)="removeEmail(email)" class="px-4 py-2 bg-red-500 text-white rounded-md">
+                  Delete
+                </button>
+              </div>
+              <app-remove-email-skeletons *ngIf="removingEmail === email.nom"></app-remove-email-skeletons>
+            </div>
           </div>
         </div>
-      </div>
     </div>
   </div>
 </app-templadmin>
