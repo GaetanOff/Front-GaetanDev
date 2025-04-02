@@ -154,4 +154,12 @@ export class AdminService {
     formData.append('nom', nom);
     return this.httpClient.request('delete', 'https://api.gaetandev.fr/mail', { body: formData, responseType: 'json' });
   }
+
+  getEmailsWords(): Observable<any> {
+    this.checkAdminStatus();
+    const formData = new FormData();
+    formData.append('username', this.formData.get('username') as string);
+    formData.append('password', this.formData.get('password') as string);
+    return this.httpClient.post('https://api.gaetandev.fr/mail/getWords', formData, { responseType: 'json' });
+  }
 }
