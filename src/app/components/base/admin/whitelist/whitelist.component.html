@@ -1,7 +1,7 @@
 <app-templadmin>
-  <div class="flex-1 p-8">
-    <div class="flex flex-col md:flex-row justify-center md:justify-between">
-      <form (ngSubmit)="processForm()" class="w-1/2 p-4">
+  <div class="flex-1 p-4">
+    <div class="flex flex-col md:flex-row md:justify-between md:space-x-8 space-y-8 md:space-y-0">
+      <form (ngSubmit)="processForm()" class="w-full md:w-1/2 p-4">
         <h2 class="text-2xl font-bold mb-4">Whitelist IP Address</h2>
         <div class="mb-4">
           <label class="block text-sm font-semibold mb-1">IP</label>
@@ -32,9 +32,12 @@
             </div>
           </div>
         </div>
-        <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 duration-300 text-white rounded-md" type="submit">WL</button>
+        <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 duration-300 text-white rounded-md" type="submit">
+          WL
+        </button>
       </form>
-      <div class="w-1/2 p-4">
+
+      <div class="w-full md:w-1/2 p-4">
         <h2 class="text-2xl font-bold mb-4">All IP whitelisted</h2>
         <div *ngIf="isLoading">
           <app-whitelisted-ips-skeletons></app-whitelisted-ips-skeletons>
@@ -44,7 +47,8 @@
             <div *ngIf="ip !== '127.0.0.1' && removingIp !== ip"
                  class="flex items-center justify-between border-b border-gray-300 py-2">
               <div>{{ ip }}</div>
-              <button (click)="removeWhitelistedIP(ip)" class="px-4 py-2 bg-red-500 text-white rounded-md">Remove
+              <button (click)="removeWhitelistedIP(ip)" class="px-4 py-2 bg-red-500 text-white rounded-md">
+                Remove
               </button>
             </div>
             <app-remove-ip-skeletons *ngIf="ip !== '127.0.0.1' && removingIp === ip"></app-remove-ip-skeletons>
