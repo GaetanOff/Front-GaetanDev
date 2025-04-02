@@ -7,6 +7,7 @@ import {WhitelistComponent} from "./whitelist/whitelist.component";
 import {AuthGuard} from "../../../guard/auth.guard";
 import {ProxiesComponent} from "./proxies/proxies.component";
 import {DetailserverComponent} from "./proxies/detailserver/detailserver.component";
+import {EmailComponent} from "./email/email.component";
 
 const routes: Routes = [
   {
@@ -21,6 +22,11 @@ const routes: Routes = [
   {
     path: "whitelist",
     component: WhitelistComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "email",
+    component: EmailComponent,
     canActivate: [AuthGuard]
   },
   {
