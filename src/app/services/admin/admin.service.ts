@@ -127,4 +127,31 @@ export class AdminService {
       }
     }
   }
+
+  getEmails(): Observable<any> {
+    this.checkAdminStatus();
+    const formData = new FormData();
+    formData.append('username', this.formData.get('username') as string);
+    formData.append('password', this.formData.get('password') as string);
+    return this.httpClient.post('https://api.gaetandev.fr/mail/getEmails', formData, { responseType: 'json' });
+  }
+
+  addEmail(nom: string, description: string): Observable<any> {
+    this.checkAdminStatus();
+    const formData = new FormData();
+    formData.append('username', this.formData.get('username') as string);
+    formData.append('password', this.formData.get('password') as string);
+    formData.append('nom', nom);
+    formData.append('description', description);
+    return this.httpClient.post('https://api.gaetandev.fr/mail', formData, { responseType: 'json' });
+  }
+
+  removeEmail(nom: string): Observable<any> {
+    this.checkAdminStatus();
+    const formData = new FormData();
+    formData.append('username', this.formData.get('username') as string);
+    formData.append('password', this.formData.get('password') as string);
+    formData.append('nom', nom);
+    return this.httpClient.request('delete', 'https://api.gaetandev.fr/mail', { body: formData, responseType: 'json' });
+  }
 }
