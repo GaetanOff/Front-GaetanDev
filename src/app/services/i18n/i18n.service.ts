@@ -65,11 +65,6 @@ export class I18nService {
         "title": (this.isFrench ? "What I offer" : "Ce que je propose"),
         "devis": (this.isFrench ? "Quotation" : "Sur devis"),
         "contactButton": (this.isFrench ? "Contact me" : "Contactez-moi"),
-        "sysadmin": [
-          (this.isFrench ? "Facility" : "Installation"),
-          (this.isFrench ? "Securing" : "Sécurisation"),
-          (this.isFrench ? "Surveillance" : "Surveillance"),
-        ],
         "perDay": "/" + (this.isFrench ? "day" : "jour"),
         "devTitle": (this.isFrench ? "Development" : "Développement"),
         "dev": [
@@ -78,10 +73,16 @@ export class I18nService {
           (this.isFrench ? "Advice" : "Conseil"),
         ],
         "devops": [
-          (this.isFrench ? "Facility" : "Installation"),
-          (this.isFrench ? "Securing" : "Sécurisation"),
-          (this.isFrench ? "Surveillance" : "Surveillance"),
+          (this.isFrench ? "CI/CD Pipelines" : "Pipelines CI/CD"),
+          (this.isFrench ? "Containerization (Docker/K8s)" : "Conteneurisation (Docker/K8s)"),
+          (this.isFrench ? "Infrastructure as Code" : "Infrastructure as Code"),
         ],
+        "iaTitle": (this.isFrench ? "AI Solutions" : "Solutions IA"),
+        "ia": [
+          (this.isFrench ? "Model integration" : "Intégration de modèles"),
+          (this.isFrench ? "Workflow automation" : "Automatisation de workflows"),
+          (this.isFrench ? "AI audit & strategy" : "Audit & stratégie IA"),
+        ]
       },
       "cv": {
         "competences": {
