@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy, inject, signal, computed, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed, AfterViewInit, OnDestroy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import {I18nService} from "../../../services/i18n/i18n.service";
 import {LimitService} from "../../../services/limit/limit.service";
 import {toast} from 'ngx-sonner';
@@ -15,10 +16,15 @@ import emailjs from '@emailjs/browser';
   templateUrl: './contact.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContactComponent implements AfterViewInit, OnDestroy {
+export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
   public i18n = inject(I18nService);
   private limitService = inject(LimitService);
   private cdr = inject(ChangeDetectorRef);
+  private titleService = inject(Title);
+
+  ngOnInit(): void {
+    this.titleService.setTitle("Gaetan • Contact");
+  }
 
   public loading = signal(false);
 

@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy, inject, computed, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed, signal, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import {I18nService} from "../../../services/i18n/i18n.service";
 
 @Component({
@@ -6,9 +7,14 @@ import {I18nService} from "../../../services/i18n/i18n.service";
   templateUrl: './achievements.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AchievementsComponent {
+export class AchievementsComponent implements OnInit {
   public i18n = inject(I18nService);
+  private titleService = inject(Title);
   private displayedCount = signal<number>(3);
+
+  ngOnInit(): void {
+    this.titleService.setTitle("Gaetan • " + this.i18n.text().title.achievements);
+  }
   
   public displayedList = computed(() => {
     const allProjects = this.i18n.text().achievements.list;

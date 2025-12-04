@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import {I18nService} from "../../../services/i18n/i18n.service";
 
 @Component({
@@ -8,9 +9,14 @@ import {I18nService} from "../../../services/i18n/i18n.service";
   templateUrl: './error.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ErrorComponent {
+export class ErrorComponent implements OnInit {
   public i18n = inject(I18nService);
+  private titleService = inject(Title);
   public currentLang = computed(() => this.i18n.isEnglish() ? 'en' : 'fr');
+
+  ngOnInit(): void {
+    this.titleService.setTitle("Gaetan • " + this.i18n.text().error.notfound.title);
+  }
 
   public getLocalizedRoute(route: string): string {
     // Use the same logic as app.component - detect if we're on a route with or without prefix

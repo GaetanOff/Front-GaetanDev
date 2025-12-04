@@ -1,5 +1,6 @@
 
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import {ServicesComponent} from "../../include/services/services.component";
 import {CompetencesComponent} from "../../include/cv/competences/competences.component";
 import {ExperienceComponent} from "../../include/cv/experience/experience.component";
@@ -20,8 +21,13 @@ import {toast} from 'ngx-sonner';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutComponent {
+export class AboutComponent implements OnInit {
   public i18n = inject(I18nService);
+  private titleService = inject(Title);
+
+  ngOnInit(): void {
+    this.titleService.setTitle("Gaetan • " + this.i18n.text().title.about);
+  }
 
   processForm(): void {
     toast.error(this.i18n.text().about.cvNotAvailable);
