@@ -71,7 +71,10 @@
           <a [routerLink]="getLocalizedRoute('/legal')" class="text-sm text-gray-300 hover:text-white transition-colors">{{ i18n.text().footer.legal }}</a>
           <a [routerLink]="getLocalizedRoute('/legal/cgv')" class="text-sm text-gray-300 hover:text-white transition-colors">{{ i18n.text().footer.cgv }}</a>
         </div>
-        <p class="text-xs text-gray-400">{{ i18n.text().footer.devWithLove }}</p>
+        <p class="text-xs text-gray-400 flex items-center justify-center">
+          <a href="https://www.gaetandev.fr/assets/files/00084228-1_ApplicationWeb_GaetanDev.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors mr-1">©</a>
+          <span>{{ i18n.text().footer.devWithLove }}</span>
+        </p>
       </div>
     </footer>
   }
