@@ -1,13 +1,16 @@
 import {Component, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {Router} from "@angular/router";
+import {NgxTurnstileModule} from 'ngx-turnstile';
 import {toast} from 'ngx-sonner';
 import {AdminService} from "../../../../services/admin/admin.service";
-import {Router} from "@angular/router";
 import {z} from "zod";
 
 @Component({
   selector: 'app-auth',
+  standalone: true,
+  imports: [FormsModule, NgxTurnstileModule],
   templateUrl: './auth.component.html',
-  standalone: false
 })
 export class AuthComponent implements OnInit {
   mpdmldpsmzl: string | null = null;
@@ -47,8 +50,6 @@ export class AuthComponent implements OnInit {
     }
 
     const lastToast: string | number = toast.loading("Connecting...");
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
     const formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);

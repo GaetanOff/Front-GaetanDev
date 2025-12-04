@@ -1,12 +1,21 @@
-import {enableProdMode} from '@angular/core';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {enableProdMode, provideZoneChangeDetection} from '@angular/core';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {provideRouter, withComponentInputBinding} from '@angular/router';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {Title} from '@angular/platform-browser';
 
-import {AppModule} from './app/app.module';
+import {AppComponent} from './app/components/app.component';
+import {routes} from './app/app-routing.module';
 import {environment} from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideZoneChangeDetection(),provideRouter(routes, withComponentInputBinding()),
+    provideHttpClient(withInterceptorsFromDi()),
+    Title
+  ]
+}).catch(err => console.error(err));

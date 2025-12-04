@@ -2,15 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {NavService} from "../../../../services/nav/nav.service";
 import {AdminService} from "../../../../services/admin/admin.service";
 import {toast} from 'ngx-sonner';
-import {NgIf} from "@angular/common";
-import {RouterLink} from "@angular/router";
+
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-templadmin',
   imports: [
-    NgIf,
-    RouterLink
-  ],
+    RouterLink,
+    RouterLinkActive
+],
   templateUrl: './templadmin.component.html'
 })
 export class TempladminComponent implements OnInit {

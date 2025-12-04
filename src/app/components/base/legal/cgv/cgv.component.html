@@ -1,78 +1,54 @@
-<section>
-  <div class="container w-full md:max-w-3xl mx-auto pt-20">
+<div class="text-white prose prose-invert max-w-none prose-headings:font-bold prose-p:my-2">
+  <h1 class="text-4xl lg:text-5xl font-bold mb-8 text-center">{{ i18n.text().title.cgv }}</h1>
 
-    <div class="p-4 text-center">
-      <div class="block mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
-           style="background-image: url('/assets/img/metaLogo.webp')"></div>
-    </div>
+  <div class="space-y-6">
+    <section>
+      <h2 class="text-2xl">{{ i18n.text().legal.preamble }}</h2>
+      @for (text of i18n.text().legal.preambleText; track text) {
+        <p>{{ text }}</p>
+      }
+    </section>
 
-    <div class="w-full px-4 md:px-6 text-xl leading-normal">
+    <section>
+      <h2 class="text-2xl">{{ i18n.text().legal.definitions }}</h2>
+      @for (text of i18n.text().legal.definitionsText; track text) {
+        <p>{{ text }}</p>
+      }
+    </section>
 
-      <div class="py-6">
-        <h1 class="font-bold font-sans break-normal text-3xl md:text-3xl">{{ this.i18n.text.legal.preamble }}</h1>
-        <div class="py-3">
-          <p *ngFor="let text of this.i18n.text.legal.preambleText">
-            <span>{{ text }}</span>
-            <br>
-          </p>
-        </div>
-      </div>
+    <section>
+      <h2 class="text-2xl">{{ i18n.text().legal.cgu }}</h2>
+      @for (text of i18n.text().legal.cguText; track text) {
+        <p>{{ text }}</p>
+      }
+    </section>
 
-      <div class="mb-2">
-        <h1 class="font-bold font-sans break-normal text-3xl md:text-3xl">{{ this.i18n.text.legal.definitions }}</h1>
-        <div class="py-3">
-          <p *ngFor="let text of this.i18n.text.legal.definitionsText">
-            <span>{{ text }}</span>
-            <br>
-          </p>
-        </div>
-      </div>
+    <section>
+      <h2 class="text-2xl">{{ i18n.text().legal.command }}</h2>
+      @for (text of i18n.text().legal.commandText; track text) {
+        <p>{{ text }}</p>
+      }
+    </section>
 
-      <div class="mb-2">
-        <h1 class="font-bold font-sans break-normal text-3xl md:text-3xl">{{ this.i18n.text.legal.cgu }}</h1>
-        <div class="py-3">
-          <p *ngFor="let text of this.i18n.text.legal.cguText">
-            <span>{{ text }}</span>
-          </p>
-        </div>
-      </div>
+    <section>
+      <h2 class="text-2xl">{{ i18n.text().legal.payment }}</h2>
+      @for (text of i18n.text().legal.paymentText; track text) {
+        <p>{{ text }}</p>
+      }
+    </section>
 
-      <div class="mb-2">
-        <h1 class="font-bold font-sans break-normal text-3xl md:text-3xl">{{ this.i18n.text.legal.command }}</h1>
-        <div class="py-3">
-          <p *ngFor="let text of this.i18n.text.legal.commandText">
-            <span>{{ text }}</span>
-          </p>
-        </div>
-      </div>
+    <section>
+      <h2 class="text-2xl">{{ i18n.text().legal.retractation }}</h2>
+      @for (text of i18n.text().legal.retractationText; track text) {
+        <p>{{ text }}</p>
+      }
+    </section>
 
-      <div class="mb-2">
-        <h1 class="font-bold font-sans break-normal text-3xl md:text-3xl">{{ this.i18n.text.legal.payment }}</h1>
-        <div class="py-3">
-          <p *ngFor="let text of this.i18n.text.legal.paymentText">
-            <span>{{ text }}</span>
-          </p>
-        </div>
-      </div>
-
-      <div class="mb-2">
-        <h1 class="font-bold font-sans break-normal text-3xl md:text-3xl">{{ this.i18n.text.legal.retractation }}</h1>
-        <div class="py-3">
-          <p *ngFor="let text of this.i18n.text.legal.retractationText">
-            <span>{{ text }}</span>
-          </p>
-        </div>
-      </div>
-
-      <div class="mb-2">
-        <h1 class="font-bold font-sans break-normal text-3xl md:text-3xl">{{ this.i18n.text.legal.price }}</h1>
-        <div class="py-3">
-          <p *ngFor="let text of this.i18n.text.legal.priceText">
-            <span>{{ text }}</span>
-          </p>
-        </div>
-      </div>
-
-    </div>
+    <section>
+      <h2 class="text-2xl">{{ i18n.text().legal.price }}</h2>
+      @for (text of i18n.text().legal.priceText; track text) {
+        <p>{{ text }}</p>
+      }
+    </section>
   </div>
-</section>
+</div>

@@ -1,18 +1,13 @@
-<section class="w-full mb-10">
-  <h1 class="font-bold text-2xl md:text-4xl mb-3">{{ this.i18n.text.cv.languages.title }}</h1>
-  <div>
-  </div>
-  <div>
-    <div *ngFor="let lang of this.i18n.text.cv.languages.langList">
-      <div class="flex flex-row mb-5">
-        <div class="self-center flex h-3 w-3 mr-3 relative"><span
-          class="relative inline h-3 w-3 rounded-full opacity-75 bg-gray-400"></span> <span
-          class="inline absolute rounded-full h-3 w-3 bg-gray-500"></span></div>
-        <div class="leading-7">
-          <h1 class="text-xl">{{ lang }}</h1>
-        </div>
+<div class="pt-20 pb-10 text-center">
+  <h2 class="text-3xl lg:text-4xl font-bold mb-8">
+    {{ i18n.text().cv.languages.title }}
+  </h2>
+  <div class="inline-flex flex-col md:flex-row gap-8 bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+    @for (lang of i18n.text().cv.languages.langList; track lang) {
+      <div class="flex items-center gap-3">
+        <div class="w-3 h-3 bg-teal-400 rounded-full"></div>
+        <span class="text-xl">{{ lang }}</span>
       </div>
-    </div>
+    }
   </div>
-</section>
-
+</div>

@@ -1,25 +1,28 @@
-<section class="w-full mb-10">
-  <h1 class="font-bold text-2xl md:text-4xl mb-3">{{ this.i18n.text.cv.experience.title }}</h1>
-  <div>
-  </div>
-  <div>
-    <div *ngFor="let exp of experiencesList">
-      <div class="flex flex-row mb-5">
-        <div *ngIf="exp.active" class="self-center flex h-3 w-3 mr-3 relative"><span
-          class="relative inline h-3 w-3 rounded-full opacity-75 animate-ping bg-green-600"></span>
-          <span class="inline absolute rounded-full h-3 w-3 bg-green-600"></span></div>
-        <div *ngIf="!exp.active" class="self-center flex h-3 w-3 mr-3 relative"><span
-          class="relative inline h-3 w-3 rounded-full opacity-75 bg-gray-400"></span> <span
-          class="inline absolute rounded-full h-3 w-3 bg-gray-500"></span></div>
-        <div class="leading-7">
-          <p class="text-base leading-6">
-            {{ exp.date }}
-            ({{ calculateDuration(exp.date) }})
-          </p>
-          <h1 class="text-2xl font-bold">{{ exp.name }}</h1>
-          <h2 class="text-xl">{{ exp.description }}</h2>
+<div class="pt-20">
+  <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12">
+    {{ i18n.text().cv.experience.title }}
+  </h2>
+  <div class="relative max-w-4xl mx-auto px-4 md:px-6">
+    <div class="absolute z-0 w-0.5 h-full bg-white/20 shadow-md left-1/2 -translate-x-1/2 top-0"></div>
+    @for (exp of experiencesList(); track exp.name; let i = $index) {
+      <div class="relative z-10 mb-8 flex items-center">
+        <div class="timeline-marker-container">
+          @if (exp.active) {
+            <div class="timeline-marker-ping"></div>
+          }
+          <div class="timeline-marker-dot" [class.bg-green-400]="exp.active" [class.bg-gray-400]="!exp.active"></div>
+        </div>
+        <div class="timeline-item" [class.timeline-item-left]="i % 2 === 0" [class.timeline-item-right]="i % 2 !== 0">
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 transform transition-all duration-300 hover:scale-105 hover:bg-white/20 w-full">
+            <p class="text-sm text-gray-300">
+              {{ exp.date }}
+              <span class="font-semibold">({{ calculateDuration(exp.date) }})</span>
+            </p>
+            <h3 class="text-xl font-bold mt-1">{{ exp.name }}</h3>
+            <p class="text-gray-200 mt-1">{{ exp.description }}</p>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
-</section>
+</div>

@@ -1,72 +1,75 @@
-<div class="flex flex-col h-screen">
-  <div class="flex flex-1">
-    <div *ngIf="navService.isAdminNavOpened"
-         class="flex flex-col w-64 main-bg-color text-black p-4 space-y-4 border-r border-black">
-      <div class="flex items-center justify-between">
-        <div class="border-b border-gray-700">
-          <h2 class="text-xl font-bold">Admin Dashboard</h2>
+<div class="fixed inset-0 flex flex-col bg-gradient-to-br from-gray-900 via-teal-800 to-green-700 z-50">
+  <div class="flex flex-1 overflow-hidden">
+    @if (navService.isAdminNavOpened) {
+      <div
+        class="flex flex-col w-64 bg-white/20 backdrop-blur-lg text-white p-4 space-y-4 border-r border-white/20">
+        <div class="flex items-center justify-between">
+          <div class="border-b border-white/30 pb-2">
+            <h2 class="text-xl font-bold">Admin Dashboard</h2>
+          </div>
+          <button (click)="toggleMenu()" aria-label="close menu"
+            class="text-white hover:text-gray-200 focus:outline-none transition-colors">
+            <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+              <path clip-rule="evenodd"
+                d="M6.29289 7.29289C6.68342 6.90237 7.31658 6.90237 7.70711 7.29289L12 11.5858L16.2929 7.29289C16.6834 6.90237 17.3166 6.90237 17.7071 7.29289C18.0976 7.68342 18.0976 8.31658 17.7071 8.70711L13.4142 13L17.7071 17.2929C18.0976 17.6834 18.0976 18.3166 17.7071 18.7071C17.3166 19.0976 16.6834 19.0976 16.2929 18.7071L12 14.4142L7.70711 18.7071C7.31658 19.0976 6.68342 19.0976 6.29289 18.7071C5.90237 18.3166 5.90237 17.6834 6.29289 17.2929L10.5858 13L6.29289 8.70711C5.90237 8.31658 5.90237 7.68342 6.29289 7.29289Z"
+                fill-rule="evenodd"/>
+            </svg>
+          </button>
         </div>
-        <a (click)="toggleMenu()" aria-label="close menu"
-           class="text-black focus:outline-none">
+        <ul class="flex flex-col space-y-2">
+          <li class="px-4 py-2 hover:bg-white/10 rounded-lg cursor-pointer transition-colors" routerLink="/admin" routerLinkActive="bg-white/20 font-semibold">Dashboard</li>
+          <li class="px-4 py-2 hover:bg-white/10 rounded-lg cursor-pointer transition-colors" routerLink="/admin/whitelist" routerLinkActive="bg-white/20 font-semibold">Whitelist</li>
+          <li class="px-4 py-2 hover:bg-white/10 rounded-lg cursor-pointer transition-colors" routerLink="/admin/proxies" routerLinkActive="bg-white/20 font-semibold">Proxies</li>
+          <li class="px-4 py-2 hover:bg-white/10 rounded-lg cursor-pointer transition-colors" routerLink="/admin/email" routerLinkActive="bg-white/20 font-semibold">E-Mail</li>
+          <li (click)="logout()" class="px-4 py-2 hover:bg-red-500/30 rounded-lg cursor-pointer transition-colors">Logout</li>
+        </ul>
+      </div>
+    }
+    @if (!navService.isAdminNavOpened) {
+      <div
+        class="flex flex-col items-center w-16 bg-white/20 backdrop-blur-lg text-white p-4 space-y-4 border-r border-white/20">
+        <button (click)="toggleMenu()" aria-label="open menu"
+          class="text-white hover:text-gray-200 focus:outline-none transition-colors">
           <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
             <path clip-rule="evenodd"
-                  d="M6.29289 7.29289C6.68342 6.90237 7.31658 6.90237 7.70711 7.29289L12 11.5858L16.2929 7.29289C16.6834 6.90237 17.3166 6.90237 17.7071 7.29289C18.0976 7.68342 18.0976 8.31658 17.7071 8.70711L13.4142 13L17.7071 17.2929C18.0976 17.6834 18.0976 18.3166 17.7071 18.7071C17.3166 19.0976 16.6834 19.0976 16.2929 18.7071L12 14.4142L7.70711 18.7071C7.31658 19.0976 6.68342 19.0976 6.29289 18.7071C5.90237 18.3166 5.90237 17.6834 6.29289 17.2929L10.5858 13L6.29289 8.70711C5.90237 8.31658 5.90237 7.68342 6.29289 7.29289Z"
-                  fill-rule="evenodd"/>
+              d="M4.24264 8.24264C4.63316 7.85211 5.26633 7.85211 5.65685 8.24264L12 14.5858L18.3431 8.24264C18.7337 7.85211 19.3668 7.85211 19.7574 8.24264C20.1479 8.63316 20.1479 9.26633 19.7574 9.65685L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.24264 9.65685C3.85211 9.26633 3.85211 8.63316 4.24264 8.24264Z"
+              fill-rule="evenodd"/>
           </svg>
-        </a>
-      </div>
-      <ul class="flex flex-col space-y-2">
-        <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin">Dashboard</li>
-        <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin/whitelist">Whitelist</li>
-        <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin/proxies">Proxies</li>
-        <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin/email">E-Mail</li>
-        <li (click)="logout()" class="px-4 py-2 hover:bg-red-600 cursor-pointer">Logout</li>
-      </ul>
-    </div>
-    <div *ngIf="!navService.isAdminNavOpened"
-         class="flex flex-col items-center w-16 main-bg-color text-black p-4 space-y-4 border-r border-black">
-      <a (click)="toggleMenu()" aria-label="close menu"
-         class="text-black focus:outline-none">
-        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
-          <path clip-rule="evenodd"
-                d="M4.24264 8.24264C4.63316 7.85211 5.26633 7.85211 5.65685 8.24264L12 14.5858L18.3431 8.24264C18.7337 7.85211 19.3668 7.85211 19.7574 8.24264C20.1479 8.63316 20.1479 9.26633 19.7574 9.65685L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.24264 9.65685C3.85211 9.26633 3.85211 8.63316 4.24264 8.24264Z"
+        </button>
+        <ul class="flex flex-col space-y-2">
+          <li class="px-4 py-2 hover:bg-white/10 rounded-lg cursor-pointer transition-colors" routerLink="/admin" routerLinkActive="bg-white/20">
+            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd"
+                d="M18 10.7c0-.2-.1-.5-.3-.7l-7.2-7c-.4-.4-1-.4-1.4 0l-7.2 7c-.2.2-.3.5-.3.7v7c0 .6.4 1 1 1h5v-6c0-.6.4-1 1-1h2c.6 0 1 .4 1 1v6h5c.6 0 1-.4 1-1v-7z"
                 fill-rule="evenodd"/>
-        </svg>
-      </a>
-      <ul class="flex flex-col space-y-2">
-        <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin">
-          <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path clip-rule="evenodd"
-                  d="M18 10.7c0-.2-.1-.5-.3-.7l-7.2-7c-.4-.4-1-.4-1.4 0l-7.2 7c-.2.2-.3.5-.3.7v7c0 .6.4 1 1 1h5v-6c0-.6.4-1 1-1h2c.6 0 1 .4 1 1v6h5c.6 0 1-.4 1-1v-7z"
-                  fill-rule="evenodd"/>
-          </svg>
-        </li>
-        <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin/whitelist">
-          <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 1.32l2.94 7.167 7.83.71c.55.05.77.78.36 1.16L18.28 15.5l1.96 7.49c.1.36-.32.67-.64.47L12 19.8l-6.6 4.17c-.32.2-.74-.1-.64-.47l1.96-7.49L1.97 10.35c-.41-.38-.19-1.11.36-1.16l7.83-.71L12 1.32z"
-              fill="currentColor"/>
-          </svg>
-        </li>
-        <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin/proxies">
-          <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 1.32l2.94 7.167 7.83.71c.55.05.77.78.36 1.16L18.28 15.5l1.96 7.49c.1.36-.32.67-.64.47L12 19.8l-6.6 4.17c-.32.2-.74-.1-.64-.47l1.96-7.49L1.97 10.35c-.41-.38-.19-1.11.36-1.16l7.83-.71L12 1.32z"
-              fill="currentColor"/>
-          </svg>
-        </li>
-        <li class="px-4 py-2 hover:bg-green-600 cursor-pointer" routerLink="/admin/email">
-          <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 1.32l2.94 7.167 7.83.71c.55.05.77.78.36 1.16L18.28 15.5l1.96 7.49c.1.36-.32.67-.64.47L12 19.8l-6.6 4.17c-.32.2-.74-.1-.64-.47l1.96-7.49L1.97 10.35c-.41-.38-.19-1.11.36-1.16l7.83-.71L12 1.32z"
-              fill="currentColor"/>
-          </svg>
-        </li>
-        <li (click)="logout()" class="px-4 py-2 hover:bg-red-600 cursor-pointer">
-          <svg class="h-6 w-6" fill="black"
-               height="50.000000pt" preserveAspectRatio="xMidYMid meet" version="1.0"
-               viewBox="0 0 50.000000 50.000000" width="50.000000pt" xmlns="http://www.w3.org/2000/svg">
-            <g fill="white" stroke="none" transform="translate(0.000000,50.000000) scale(0.100000,-0.100000)">
+            </svg>
+          </li>
+          <li class="px-4 py-2 hover:bg-white/10 rounded-lg cursor-pointer transition-colors" routerLink="/admin/whitelist" routerLinkActive="bg-white/20">
+            <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 1.32l2.94 7.167 7.83.71c.55.05.77.78.36 1.16L18.28 15.5l1.96 7.49c.1.36-.32.67-.64.47L12 19.8l-6.6 4.17c-.32.2-.74-.1-.64-.47l1.96-7.49L1.97 10.35c-.41-.38-.19-1.11.36-1.16l7.83-.71L12 1.32z"
+                fill="currentColor"/>
+            </svg>
+          </li>
+          <li class="px-4 py-2 hover:bg-white/10 rounded-lg cursor-pointer transition-colors" routerLink="/admin/proxies" routerLinkActive="bg-white/20">
+            <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 1.32l2.94 7.167 7.83.71c.55.05.77.78.36 1.16L18.28 15.5l1.96 7.49c.1.36-.32.67-.64.47L12 19.8l-6.6 4.17c-.32.2-.74-.1-.64-.47l1.96-7.49L1.97 10.35c-.41-.38-.19-1.11.36-1.16l7.83-.71L12 1.32z"
+                fill="currentColor"/>
+            </svg>
+          </li>
+          <li class="px-4 py-2 hover:bg-white/10 rounded-lg cursor-pointer transition-colors" routerLink="/admin/email" routerLinkActive="bg-white/20">
+            <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 1.32l2.94 7.167 7.83.71c.55.05.77.78.36 1.16L18.28 15.5l1.96 7.49c.1.36-.32.67-.64.47L12 19.8l-6.6 4.17c-.32.2-.74-.1-.64-.47l1.96-7.49L1.97 10.35c-.41-.38-.19-1.11.36-1.16l7.83-.71L12 1.32z"
+                fill="currentColor"/>
+            </svg>
+          </li>
+          <li (click)="logout()" class="px-4 py-2 hover:bg-red-500/30 rounded-lg cursor-pointer transition-colors">
+            <svg class="h-6 w-6" fill="currentColor"
+              height="50.000000pt" preserveAspectRatio="xMidYMid meet" version="1.0"
+              viewBox="0 0 50.000000 50.000000" width="50.000000pt" xmlns="http://www.w3.org/2000/svg">
+              <g fill="currentColor" stroke="none" transform="translate(0.000000,50.000000) scale(0.100000,-0.100000)">
               <path d="M210 456 c0 -36 -33 -52 -72 -35 -26 11 -32 10 -51 -9 -19 -19 -19
                         -24 -7 -47 19 -35 0 -75 -35 -75 -24 0 -26 -3 -23 -37 2 -31 7 -39 26 -41 33
                         -5 47 -37 31 -74 -11 -26 -10 -32 9 -51 19 -19 24 -19 47 -7 35 19 75 0 75
@@ -89,10 +92,16 @@
               <path d="M210 290 c-11 -11 -20 -29 -20 -40 0 -26 34 -60 60 -60 26 0 60 34
                         60 60 0 11 -9 29 -20 40 -11 11 -29 20 -40 20 -11 0 -29 -9 -40 -20z m70 -15
                         c26 -32 -13 -81 -47 -59 -23 14 -28 41 -13 59 16 19 44 19 60 0z"/>
-            </g>
-          </svg>
-      </ul>
+              </g>
+            </svg>
+          </li>
+        </ul>
+      </div>
+    }
+    <div class="flex-1 overflow-auto">
+      <div class="p-8 text-white min-h-full">
+        <ng-content></ng-content>
+      </div>
     </div>
-    <ng-content></ng-content>
   </div>
 </div>

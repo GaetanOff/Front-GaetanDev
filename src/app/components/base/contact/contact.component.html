@@ -1,69 +1,97 @@
-<section>
-  <div class="pt-20 radius-for-skewed">
-    <div class="container px-4 mx-auto">
-      <div class="max-w-6xl mx-auto">
-        <div class="max-w-lg mx-auto mb-8 text-center">
-          <h2
-            class="mb-2 text-4xl lg:text-5xl font-bold font-heading transition-transform transform hover:scale-105 duration-300">
-            {{ this.i18n.text.contact.title }}
-          </h2>
-        </div>
-        <div class="max-w-screen-xl px-4 grid gap-2 grid-cols-1 md:px-12 lg:px-16 xl:px-36 mx-auto rounded-lg">
-          <app-contact-skeletons *ngIf="isLoading"></app-contact-skeletons>
-          <form (ngSubmit)="processForm()" *ngIf="!isLoading">
-            <div>
-              <label class="uppercase text-sm font-bold block">
-                {{ this.i18n.text.contact.name }}
-                <input
-                  #nameInput="ngModel"
-                  [(ngModel)]="name"
-                  class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  minlength="3"
-                  name="name"
-                  placeholder="{{ this.i18n.text.contact.name }}"
-                  required
-                  type="text">
-              </label>
-            </div>
-            <div class="mt-8">
-              <label class="uppercase text-sm font-bold block">
-                Email
-                <input
-                  #emailInput="ngModel"
-                  [(ngModel)]="email"
-                  class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  name="email"
-                  placeholder="Email"
-                  required
-                  type="email">
-              </label>
-            </div>
-            <div class="mt-8">
-              <label class="uppercase text-sm font-bold block">
-                Message
-                <textarea
-                  #messageInput="ngModel"
-                  [(ngModel)]="message"
-                  class="w-full h-32 bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  name="message"
-                  placeholder="Message">
-                </textarea>
-              </label>
-            </div>
-            <div class="mt-5 flex justify-center">
-              <ngx-turnstile (resolved)="dkmdpqjdnqdoqdkn($event)" [siteKey]="dkqgdoijqdljbkfks" [tabIndex]="0"
-                             theme="light"></ngx-turnstile>
-            </div>
-            <div class="mt-4">
-              <button
-                class="uppercase text-sm font-bold tracking-wide text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline transition-all duration-300 bg-gradient-to-r from-green-600 to-emerald-700 hover:shadow-lg hover:shadow-green-600/30"
-                name="submit" type="submit">
-                {{ this.i18n.text.contact.sendButton }}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+<div class="text-white">
+  <div class="text-center">
+    <h1 class="text-4xl lg:text-5xl font-bold mb-8">{{ i18n.text().contact.title }}</h1>
   </div>
-</section>
+
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate class="space-y-6">
+    <!-- Name Field -->
+    <div>
+      <label for="name" class="block mb-2 font-medium">{{ i18n.text().contact.nameLabel }}</label>
+      @if (loading()) {
+        <div>
+          <div class="h-12 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent"></div>
+        </div>
+      } @else {
+        <input id="name" type="text" formControlName="name" class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 focus:ring-2 focus:ring-green-400 focus:outline-none transition-all duration-300" />
+        @if (name?.invalid && (name?.dirty || name?.touched)) {
+          <div class="text-red-400 mt-2 text-sm">
+            @if (name?.errors?.['required']) {
+              <p>{{ i18n.text().contact.validation.nameRequired }}</p>
+            }
+            @if (name?.errors?.['minlength']) {
+              <p>{{ i18n.text().contact.validation.nameMinLength }}</p>
+            }
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Email Field -->
+    <div>
+      <label for="email" class="block mb-2 font-medium">{{ i18n.text().contact.emailLabel }}</label>
+      @if (loading()) {
+        <div>
+          <div class="h-12 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent"></div>
+        </div>
+      } @else {
+        <input id="email" type="email" formControlName="email" class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 focus:ring-2 focus:ring-green-400 focus:outline-none transition-all duration-300" />
+        @if (email?.invalid && (email?.dirty || email?.touched)) {
+          <div class="text-red-400 mt-2 text-sm">
+            @if (email?.errors?.['required']) {
+              <p>{{ i18n.text().contact.validation.emailRequired }}</p>
+            }
+            @if (email?.errors?.['email']) {
+              <p>{{ i18n.text().contact.validation.emailInvalid }}</p>
+            }
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Message Field -->
+    <div>
+      <label for="message" class="block mb-2 font-medium">{{ i18n.text().contact.messageLabel }}</label>
+      @if (loading()) {
+        <div>
+          <div class="h-32 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent"></div>
+        </div>
+      } @else {
+        <textarea id="message" formControlName="message" rows="5" class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 focus:ring-2 focus:ring-green-400 focus:outline-none transition-all duration-300"></textarea>
+        @if (message?.invalid && (message?.dirty || message?.touched)) {
+          <div class="text-red-400 mt-2 text-sm">
+            @if (message?.errors?.['required']) {
+              <p>{{ i18n.text().contact.validation.messageRequired }}</p>
+            }
+          </div>
+        }
+      }
+    </div>
+
+      <!-- Turnstile CAPTCHA -->
+      @if (showTurnstile()) {
+        <div class="flex justify-center">
+          <ngx-turnstile
+            (resolved)="onTurnstileResolved($event)"
+            [siteKey]="siteKey"
+            [tabIndex]="0"
+            theme="light">
+          </ngx-turnstile>
+        </div>
+      }
+
+      <!-- Submit Button -->
+      <div>
+        <button type="submit" [disabled]="loading()" class="w-full bg-green-400/80 hover:bg-green-400 backdrop-blur-md text-black font-bold py-3 px-6 rounded-xl border border-green-300/50 transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+          @if (loading()) {
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>{{ i18n.text().contact.sendingButton }}</span>
+          } @else {
+            <span>{{ i18n.text().contact.sendButton }}</span>
+          }
+        </button>
+      </div>
+    </form>
+</div>

@@ -1,19 +1,13 @@
-<section>
-  <div class="container px-4 mx-auto">
-    <h1 class="font-bold text-2xl md:text-4xl">{{ this.i18n.text.cv.competences.title }}</h1>
-    <section class="w-full mb-10 mt-4">
-      <div
-        class="flex flex-row w-full overflow-x-auto md:overflow-x-hidden lg:flex-wrap space-x-4 lg:space-x-0 lg:justify-center">
-        <div *ngFor="let competences of competencesList">
-          <div
-            class="hover:shadow-lg hover:bg-green-600 mb-3 mr-2 p-1 md:p-2 h-32 w-32 border-gray-900  border-2 duration-300 rounded-3xl hover:bg-opacity-25">
-            <div class="w-full h-full flex flex-col justify-center items-center">
-              <img alt="Skill Img" class="rounded-sm" src="{{ competences.image }}">
-              <h1 class="md:text-lg text-md font-bold text-center">{{ competences.name }}</h1>
-            </div>
-          </div>
-        </div>
+<div class="pt-20 text-center">
+  <h2 class="mb-10 text-3xl lg:text-4xl font-bold">
+    {{ i18n.text().cv.competences.title }}
+  </h2>
+  <div class="flex flex-wrap justify-center gap-4">
+    @for (competence of competencesList; track competence.name) {
+      <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 w-32 h-32 flex flex-col justify-center items-center gap-2 border border-white/20 transform transition-all duration-300 hover:scale-110 hover:bg-white/20 hover:shadow-xl">
+        <img [src]="competence.image" [alt]="competence.name + ' logo'" class="h-12 w-12 object-contain">
+        <h3 class="font-bold text-center text-sm">{{ competence.name }}</h3>
       </div>
-    </section>
+    }
   </div>
-</section>
+</div>

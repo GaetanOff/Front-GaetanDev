@@ -5,9 +5,9 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <div>
-      <div class="h-8 bg-gray-300 rounded mb-2 {{shimmer}}"></div>
-      <div class="h-8 bg-gray-300 rounded mb-2 {{shimmer}}"></div>
-      <div class="h-8 bg-gray-300 rounded mb-2 {{shimmer}}"></div>
+      <div class="h-8 bg-white/10 backdrop-blur-md rounded-xl mb-2 border border-white/20 {{shimmer}}"></div>
+      <div class="h-8 bg-white/10 backdrop-blur-md rounded-xl mb-2 border border-white/20 {{shimmer}}"></div>
+      <div class="h-8 bg-white/10 backdrop-blur-md rounded-xl mb-2 border border-white/20 {{shimmer}}"></div>
     </div>
   `
 })

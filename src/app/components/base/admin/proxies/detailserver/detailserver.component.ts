@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import {ActivatedRoute, RouterLink} from "@angular/router";
-import {NgClass, NgIf} from "@angular/common";
+import { NgClass } from "@angular/common";
 import {TempladminComponent} from "../../../../include/admin/templadmin/templadmin.component";
 import {
   DetailsServerSkeletonsComponent
@@ -15,11 +15,10 @@ import {takeUntil} from "rxjs/operators";
   selector: 'app-detailserver',
   imports: [
     NgClass,
-    NgIf,
     RouterLink,
     TempladminComponent,
     DetailsServerSkeletonsComponent
-  ],
+],
   templateUrl: './detailserver.component.html'
 })
 export class DetailserverComponent {
@@ -30,13 +29,9 @@ export class DetailserverComponent {
   private unsubscribe$ = new Subject<void>();
   protected readonly toast = toast;
 
-  constructor(private route: ActivatedRoute, private adminService: AdminService) {}
+  constructor(private route: ActivatedRoute, private adminService: AdminService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1000);
-
     this.route.params.subscribe(params => {
       this.serverId = +params['id'];
       this.subscribeToServer(this.serverId);
@@ -52,11 +47,18 @@ export class DetailserverComponent {
   }
 
   private subscribeToServer(serverId: number): void {
+    this.isLoading = true;
     this.adminService.getScanningProxyServersDetails(serverId).subscribe({
-      next: (response) => {
+      next: async (response) => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
         this.serverDetails = response;
+        this.isLoading = false;
+        this.cdr.detectChanges();
       },
-      error: (error) => {
+      error: async (error) => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        this.isLoading = false;
+        this.cdr.detectChanges();
         this.toast.error("Error fetching server details");
         console.error("Error fetching server details:", error);
       }

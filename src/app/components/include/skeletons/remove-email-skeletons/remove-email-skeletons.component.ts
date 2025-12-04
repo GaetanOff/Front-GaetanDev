@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-remove-email-skeletons',
   imports: [],
   template: `
-    <div class="h-8 w-full bg-gray-300 rounded {{shimmer}} mb-4"></div>
+    <div class="h-8 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 {{shimmer}} mb-4"></div>
   `
 })
 export class RemoveEmailSkeletonsComponent {

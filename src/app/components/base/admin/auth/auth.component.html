@@ -1,61 +1,47 @@
-<section>
-  <div class="pt-20 radius-for-skewed">
-    <div class="container px-4 mx-auto">
-      <div class="max-w-6xl mx-auto">
-        <div class="max-w-lg mx-auto mb-8 text-center">
-          <span class="text-green-600 font-bold"></span>
-          <h2
-            class="mb-2 text-4xl lg:text-5xl font-bold font-heading transform hover:scale-110 duration-300">Admin
-            Panel</h2>
-          <p class="mb-6 text-gray-500"></p>
-        </div>
-        <div
-          class="max-w-screen-xl px-4 grid gap-2 grid-cols-1 md:grid-cols-1 md:px-12 lg:px-16 xl:px-36 py-10 mx-auto rounded-lg">
-          <form (ngSubmit)="processForm()">
-            <div>
-              <span class="uppercase text-sm font-bold">Username</span>
-              <label>
-                <input
-                  #nameInput="ngModel"
-                  [(ngModel)]="username"
-                  class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  minlength="3"
-                  name="username"
-                  placeholder="Username"
-                  required
-                  type="text">
-              </label>
-            </div>
-            <div class="mt-8">
-              <span class="uppercase text-sm font-bold">Password</span>
-              <label>
-                <input
-                  #emailInput="ngModel"
-                  [(ngModel)]="password"
-                  class="input"
-                  class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  name="password"
-                  placeholder="Password"
-                  required
-                  type="password">
-              </label>
-            </div>
-
-            <div class="mt-5 flex justify-center">
-              <ngx-turnstile (resolved)="hgfyjbvfddibbdguo($event)" [siteKey]="mpmkmpkbgyijnhipm" [tabIndex]="0"
-                             theme="light"></ngx-turnstile>
-            </div>
-
-            <div class="mt-4">
-              <button
-                class="animate__animated animate__fadeIn uppercase text-sm font-bold tracking-wide bg-green-600 hover:bg-green-700 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline"
-                name="submit" type="submit">
-                Login
-              </button>
-            </div>
-          </form>
-        </div>
+<div class="min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-md">
+    <div class="bg-black/20 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8 md:p-12">
+      <div class="text-center mb-8">
+        <h2 class="text-4xl lg:text-5xl font-bold text-white transform hover:scale-105 duration-300">Admin Panel</h2>
       </div>
+      <form (ngSubmit)="processForm()" class="space-y-6">
+        <div>
+          <label class="block text-sm font-bold text-white mb-2 uppercase">Username</label>
+          <input
+            #nameInput="ngModel"
+            [(ngModel)]="username"
+            name="username"
+            class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:ring-2 focus:ring-green-400 focus:outline-none transition-all duration-300"
+            minlength="3"
+            placeholder="Username"
+            required
+            type="text">
+        </div>
+        <div>
+          <label class="block text-sm font-bold text-white mb-2 uppercase">Password</label>
+          <input
+            #emailInput="ngModel"
+            [(ngModel)]="password"
+            class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:ring-2 focus:ring-green-400 focus:outline-none transition-all duration-300"
+            name="password"
+            placeholder="Password"
+            required
+            type="password">
+        </div>
+
+        <div class="mt-5 flex justify-center">
+          <ngx-turnstile (resolved)="hgfyjbvfddibbdguo($event)" [siteKey]="mpmkmpkbgyijnhipm" [tabIndex]="0"
+                         theme="light"></ngx-turnstile>
+        </div>
+
+        <div class="mt-4">
+          <button
+            class="uppercase text-sm font-bold tracking-wide bg-green-400/80 hover:bg-green-400 text-black p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-green-300 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            name="submit" type="submit">
+            Login
+          </button>
+        </div>
+      </form>
     </div>
   </div>
-</section>
+</div>

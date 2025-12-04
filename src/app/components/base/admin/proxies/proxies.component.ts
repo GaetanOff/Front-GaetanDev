@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { TempladminComponent } from "../../../include/admin/templadmin/templadmin.component";
-import { CommonModule, NgFor, NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { AdminService } from "../../../../services/admin/admin.service";
 import { interval, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -30,13 +30,11 @@ export interface ProxyCheckResponse {
 @Component({
   selector: 'app-proxies',
   imports: [
-    NgFor,
-    NgIf,
     FormsModule,
     CommonModule,
     TempladminComponent,
     RefreshProxiesWhitelistComponent
-  ],
+],
   templateUrl: './proxies.component.html'
 })
 export class ProxiesComponent implements OnInit, OnDestroy {
@@ -67,7 +65,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
   proxyPort: number = 0;
   proxyCheckResult: ProxyCheckResponse | null = null;
 
-  constructor(private adminService: AdminService, private router: Router) {}
+  constructor(private adminService: AdminService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -108,10 +106,9 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const loadingToast = this.toast.loading("Refreshing proxies...");
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
     this.adminService.getProxies().subscribe({
-      next: response => {
+      next: async response => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
         this.httpProxies = response.http;
         this.socks5Proxies = response.socks5;
         this.lastRefresh = response.lastRefresh;
@@ -135,12 +132,15 @@ export class ProxiesComponent implements OnInit, OnDestroy {
         this.updateAvailableCountries();
         this.updateProxyLimit();
 
+        this.isLoading = false;
+        this.cdr.detectChanges();
         this.toast.success("Proxies refreshed", { id: loadingToast });
-        this.isLoading = false;
       },
-      error: () => {
-        this.toast.error("Failed to refresh proxies.");
+      error: async () => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
         this.isLoading = false;
+        this.cdr.detectChanges();
+        this.toast.error("Failed to refresh proxies.");
       }
     });
   }
@@ -257,7 +257,6 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     this.isCheckerLoading = true;
 
     const lastToast: string | number = this.toast.loading("Checking proxy...");
-    await new Promise(resolve => setTimeout(resolve, 1000));
 
     this.adminService.checkProxy(this.proxyProtocol, this.proxyHost, this.proxyPort, this.serverToCheck).subscribe({
       next: (response: any) => {
