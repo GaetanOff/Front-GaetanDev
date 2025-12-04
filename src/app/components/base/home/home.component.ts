@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   public currentLang = computed(() => this.i18n.isEnglish() ? 'en' : 'fr');
 
   ngOnInit(): void {
-    this.titleService.setTitle("Gaetan • DevOps");
+    this.titleService.setTitle("Gaetan • DevOps & Développeur Fullstack | IA & MLOps");
   }
 
   public getLocalizedRoute(route: string): string {
