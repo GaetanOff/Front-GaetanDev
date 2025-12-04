@@ -34,13 +34,20 @@
       }
     }
   </div>
-  @if (hasMore()) {
-    <div class="text-center mt-12">
+  <div class="text-center mt-12 flex justify-center gap-4">
+    @if (hasMore()) {
       <button 
-        (click)="toggleShowAll()" 
+        (click)="showMore()" 
         class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold py-3 px-8 rounded-xl border border-white/30 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
-        {{ isShowingAll() ? (i18n.isEnglish() ? "Show Less" : "Voir Moins") : (i18n.isEnglish() ? "Show More" : "Voir Plus") }}
+        {{ i18n.isEnglish() ? "Show More" : "Voir Plus" }}
       </button>
-    </div>
-  }
+    }
+    @if (hasLess()) {
+      <button 
+        (click)="showLess()" 
+        class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold py-3 px-8 rounded-xl border border-white/30 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
+        {{ i18n.isEnglish() ? "Show Less" : "Voir Moins" }}
+      </button>
+    }
+  </div>
 </div>

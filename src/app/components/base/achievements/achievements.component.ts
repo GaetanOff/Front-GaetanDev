@@ -8,20 +8,28 @@ import {I18nService} from "../../../services/i18n/i18n.service";
 })
 export class AchievementsComponent {
   public i18n = inject(I18nService);
-  private showAll = signal<boolean>(false);
+  private displayedCount = signal<number>(3);
   
   public displayedList = computed(() => {
     const allProjects = this.i18n.text().achievements.list;
-    return this.showAll() ? allProjects : allProjects.slice(0, 3);
+    return allProjects.slice(0, this.displayedCount());
   });
   
   public hasMore = computed(() => {
-    return this.i18n.text().achievements.list.length > 3;
+    const totalProjects = this.i18n.text().achievements.list.length;
+    return this.displayedCount() < totalProjects;
   });
   
-  public isShowingAll = computed(() => this.showAll());
+  public hasLess = computed(() => {
+    return this.displayedCount() > 3;
+  });
   
-  public toggleShowAll(): void {
-    this.showAll.update(value => !value);
+  public showMore(): void {
+    const totalProjects = this.i18n.text().achievements.list.length;
+    this.displayedCount.update(count => Math.min(count + 3, totalProjects));
+  }
+  
+  public showLess(): void {
+    this.displayedCount.update(count => Math.max(count - 3, 3));
   }
 }
