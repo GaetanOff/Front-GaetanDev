@@ -38,6 +38,8 @@ export class AppComponent {
         const lang = urlMatch[1] as 'fr' | 'en';
         this.i18n.setLanguage(lang);
       }
+      // Scroll to top on route change
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     // Check initial route
     this.isAdminRoute.set(this.router.url.startsWith('/admin'));
