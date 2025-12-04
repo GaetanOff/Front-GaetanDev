@@ -114,6 +114,13 @@ export class I18nService {
         "description": (isEnglish ? "Here's a list of my accomplishments that I am allowed to showcase publicly. Please note that some of my accomplishments are not included on this list due to non-disclosure agreements in effect." : "Voici une liste de mes réalisations dont j'ai l'autorisation de partager publiquement. Veuillez noter que certaines de mes réalisations ne figurent pas sur cette liste en raison de contrats de confidentialité en vigueur."),
         "list": [
           {
+            "name": "llmops-finetune-pipeline",
+            "description": (isEnglish ? "End-to-end MLOps pipeline for fine-tuning and deploying small open-source LLMs with LoRA." : "Pipeline MLOps de bout en bout pour le fine-tuning et le déploiement de petits LLM open-source avec LoRA."),
+            "image": "assets/img/achievements/llmops-finetune-pipeline.webp",
+            "redirect": "https://github.com/GaetanOff/llmops-finetune-pipeline",
+            "categories": ["DEV"]
+          },
+          {
             "name": "TMConseils",
             "description": (!isEnglish ? "Application web pour une entreprise d'accompagnement stratégique sur mesure." : "Web application for a customized strategic coaching company."),
             "image": "assets/img/achievements/tmconseils.webp",
