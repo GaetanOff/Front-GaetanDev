@@ -1,16 +1,14 @@
-import {NgModule} from "@angular/core";
-import {RouterModule, Routes} from "@angular/router";
+import {Routes} from "@angular/router";
 import {HomeComponent} from "./components/base/home/home.component";
 import {AchievementsComponent} from "./components/base/achievements/achievements.component";
 import {ContactComponent} from "./components/base/contact/contact.component";
 import {LegalComponent} from "./components/base/legal/legal.component";
 import {CgvComponent} from "./components/base/legal/cgv/cgv.component";
 import {AboutComponent} from "./components/base/about/about.component";
-import {AuthComponent} from "./components/base/admin/auth/auth.component";
 import {ErrorComponent} from "./components/base/error/error.component";
 import {LanguageGuard} from "./guards/language.guard";
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: "",
     canActivate: [LanguageGuard],
@@ -34,7 +32,7 @@ const routes: Routes = [
   {
     path: "legal",
     canActivate: [LanguageGuard],
-    loadChildren: () => import('./components/base/legal/legal.module').then(m => m.LegalModule)
+    loadChildren: () => import('./components/base/legal/legal.routes').then(m => m.legalRoutes)
   },
   {
     path: "fr",
@@ -58,7 +56,7 @@ const routes: Routes = [
       },
       {
         path: "legal",
-        loadChildren: () => import('./components/base/legal/legal.module').then(m => m.LegalModule)
+        loadChildren: () => import('./components/base/legal/legal.routes').then(m => m.legalRoutes)
       }
     ]
   },
@@ -84,7 +82,7 @@ const routes: Routes = [
       },
       {
         path: "legal",
-        loadChildren: () => import('./components/base/legal/legal.module').then(m => m.LegalModule)
+        loadChildren: () => import('./components/base/legal/legal.routes').then(m => m.legalRoutes)
       }
     ]
   },
@@ -96,17 +94,4 @@ const routes: Routes = [
     path: "**",
     component: ErrorComponent
   }
-]
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-  providers: [LanguageGuard]
-})
-export class AppRoutingModule {
-}
-
-export const routingComponents = [
-  HomeComponent, AboutComponent, ContactComponent, AchievementsComponent, LegalComponent, CgvComponent,
-  ErrorComponent
 ]
