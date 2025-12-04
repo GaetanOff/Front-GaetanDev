@@ -57,8 +57,8 @@ export class I18nService {
       },
       "learnMoreButton": (isEnglish ? "Learn more" : "En savoir plus"),
       "desc": (isEnglish ?
-          "I am a young full-stack developer and DevOps! I am very interested in new technologies, development and computing." :
-          "Je suis un jeune développeur full-stack et DevOps ! Je m'intéresse beaucoup aux nouvelles technologies, au développement et à l'informatique."
+          "I am a Fullstack and DevOps developer, passionate about automation, Cloud and integrating AI into concrete solutions." :
+          "Je suis développeur Fullstack et DevOps, passionné par l'automatisation, le Cloud et l'intégration de l'IA dans des solutions concrètes."
       ),
       "navbar": {
         "home": (isEnglish ? "Home" : "Accueil"),
