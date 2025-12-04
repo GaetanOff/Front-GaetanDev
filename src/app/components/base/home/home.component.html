@@ -1,58 +1,18 @@
-<section>
-  <div class="pt-20">
-    <div class="container mx-auto px-4">
-
-      <div class="mb-16 max-w-2xl mx-auto text-center">
-        <div class=" text-center mb-16">
-          <h1 class="mb-2 text-4xl lg:text-5xl font-bold font-heading transform hover:scale-110 duration-300">
-            {{ this.i18n.text.home.welcome }}
-            <div class="inline-flex space-x-2 align-middle">
-              <span class="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Faucher</span>
-              <span class="hey">👋</span>
-            </div>
-          </h1>
-        </div>
-      </div>
-
-      <div class="max-w-4xl flex items-center flex-wrap mx-auto lg:my-0">
-
-        <div
-          class="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none mx-6 lg:mx-0"
-          id="profile">
-          <div class="p-4 md:p-12 text-center lg:text-left">
-            <div class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
-                 style="background-image: url('/assets/img/pdp.webp')"></div>
-            <h1 class="text-3xl font-body pt-8 lg:pt-0 mb-4">{{ this.i18n.text.desc }}</h1>
-            <button
-              class="cursor-pointer animate__animated animate__fadeIn ml-auto transition-all duration-300 bg-gradient-to-r from-green-600 to-emerald-700 hover:shadow-lg hover:shadow-green-600/30 text-gray-100 font-bold py-2 px-4 p-12 mb-2 rounded-lg inline-flex items-center"
-              routerLink="/contact">
-              <span>{{ this.i18n.text.home.contactButton }}</span>
-            </button>
-            <button
-              class="cursor-pointer animate__animated animate__fadeIn ml-2 transition-all duration-300 bg-gradient-to-r from-green-600 to-emerald-700 hover:shadow-lg hover:shadow-green-600/30 text-gray-100 font-bold py-2 px-4 p-12 mb-2 rounded-lg inline-flex items-center"
-              routerLink="/about">
-              <span>{{ this.i18n.text.learnMoreButton }}</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="w-full lg:w-2/5">
-          <div class="relative" style="z-index: 0;">
-            <img alt="Photo de profil" class="rounded-none lg:rounded-lg shadow-2xl hidden lg:block w-full h-full"
-                 src="/assets/img/pdp.webp">
-            <img alt="" class="hidden lg:block absolute animate__animated animate__fadeIn "
-                 src="/assets/img/home/green-dark-up.svg" style="top:-2rem; right: 3rem; z-index: -1;">
-            <img alt="" class="hidden lg:block absolute animate__animated animate__fadeIn "
-                 src="/assets/img/home/wing-green-down.svg" style="bottom:-2rem; right: -2rem; z-index: -1;">
-            <img alt="" class="hidden lg:block absolute"
-                 src="/assets/img/home/bullets-gray-right.svg" style="top:3rem; right: -3rem; z-index: -1;">
-            <img alt="" class="hidden lg:block absolute"
-                 src="/assets/img/home/bullets-gray-left.svg"
-                 style="bottom:2.5rem; left: -4.5rem; z-index: -1;">
-          </div>
-        </div>
-
-      </div>
-    </div>
+<div class="text-center text-white py-16">
+  <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4">
+    {{ i18n.text().home.welcome }}
+    <span class="bg-gradient-to-r from-green-300 to-teal-300 bg-clip-text text-transparent">Faucher</span>
+    <span class="animate-wave text-4xl">👋</span>
+  </h1>
+  <p class="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-8">
+    {{ i18n.text().desc }}
+  </p>
+  <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+    <a [routerLink]="getLocalizedRoute('/contact')" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold py-3 px-8 rounded-xl border border-white/30 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 w-full sm:w-auto text-center">
+      <span>{{ i18n.text().home.contactButton }}</span>
+    </a>
+    <a [routerLink]="getLocalizedRoute('/about')" class="bg-transparent hover:bg-white/10 backdrop-blur-md text-white font-semibold py-3 px-8 rounded-xl border border-white/30 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 w-full sm:w-auto text-center">
+      <span>{{ i18n.text().learnMoreButton }}</span>
+    </a>
   </div>
-</section>
+</div>

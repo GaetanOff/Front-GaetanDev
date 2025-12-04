@@ -47,8 +47,6 @@ export class AuthComponent implements OnInit {
     }
 
     const lastToast: string | number = toast.loading("Connecting...");
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
     const formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);

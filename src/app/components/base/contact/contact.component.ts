@@ -1,91 +1,141 @@
-import {Component, OnInit} from '@angular/core';
-import {toast} from 'ngx-sonner';
-import {HttpClient} from "@angular/common/http";
-import {Title} from "@angular/platform-browser";
-import {NavService} from "../../../services/nav/nav.service";
+import { Component, ChangeDetectionStrategy, inject, signal, computed, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import {I18nService} from "../../../services/i18n/i18n.service";
-import emailjs from '@emailjs/browser';
 import {LimitService} from "../../../services/limit/limit.service";
+import {toast} from 'ngx-sonner';
 import {z} from "zod";
+import { debounceTime } from 'rxjs/operators';
+import { NgxTurnstileModule } from 'ngx-turnstile';
+
+import emailjs from '@emailjs/browser';
 
 @Component({
   selector: 'app-contact',
+  imports: [ReactiveFormsModule, NgxTurnstileModule],
   templateUrl: './contact.component.html',
-  standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContactComponent implements OnInit {
-  name: string = "";
-  email: string = "";
-  message: string = "";
-  isLoading: boolean = false;
-  mpdmldpsmzl: string | null = null;
-  dkqgdoijqdljbkfks: string = "0x4AAAAAAAQVPyoNLB-x1-gG";
-  protected readonly toast = toast;
-  private formSchema = z.object({
-    name: z.string()
-      .min(3, this.i18n.text.contact.form.nameInvalid),
-    email: z.string()
-      .email(this.i18n.text.contact.form.mailInvalid),
-    message: z.string()
-      .min(3, this.i18n.text.contact.form.messageInvalid),
-    captcha: z.string().nullable()
-      .refine(value => value !== null, {message: this.i18n.text.contact.form.captchaInvalid})
+export class ContactComponent implements AfterViewInit, OnDestroy {
+  public i18n = inject(I18nService);
+  private limitService = inject(LimitService);
+  private cdr = inject(ChangeDetectorRef);
+
+  public loading = signal(false);
+
+  public captchaToken = signal<string | null>(null);
+  public formValid = signal(false);
+  public siteKey: string = "0x4AAAAAAAQVPyoNLB-x1-gG";
+
+  // Computed signal to check if all fields are valid and filled
+  public showTurnstile = computed(() => this.formValid());
+
+  private getFormSchema() {
+    return z.object({
+      name: z.string()
+        .min(3, this.i18n.text().contact.form.nameInvalid),
+      email: z.string()
+        .email(this.i18n.text().contact.form.mailInvalid),
+      message: z.string()
+        .min(3, this.i18n.text().contact.form.messageInvalid),
+      captcha: z.string().nullable()
+        .refine(value => value !== null, {message: this.i18n.text().contact.form.captchaInvalid})
+    });
+  }
+
+  contactForm = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    message: new FormControl('', Validators.required),
   });
 
-  constructor(
-    public i18n: I18nService,
-    private httpClient: HttpClient,
-    private titleService: Title,
-    private navService: NavService,
-    private limitService: LimitService
-  ) {
+  get name() { return this.contactForm.get('name'); }
+  get email() { return this.contactForm.get('email'); }
+  get message() { return this.contactForm.get('message'); }
+
+  ngAfterViewInit() {
+    // Subscribe to form value changes to show/hide Turnstile
+    this.contactForm.valueChanges.pipe(
+      debounceTime(300)
+    ).subscribe(() => {
+      this.checkFormValidity();
+    });
+
+    // Also check on status changes (for validation state)
+    this.contactForm.statusChanges.pipe(
+      debounceTime(300)
+    ).subscribe(() => {
+      this.checkFormValidity();
+    });
   }
 
-  ngOnInit(): void {
-    window.scrollTo({top: 0});
-    this.navService.updateNav("contact");
-    this.titleService.setTitle("Gaetan • Contact");
+  ngOnDestroy() {
+    // No cleanup needed with ngx-turnstile component
   }
 
-  dkmdpqjdnqdoqdkn(event: string | null) {
-    this.mpdmldpsmzl = event;
+  private checkFormValidity() {
+    const name = this.name?.value;
+    const email = this.email?.value;
+    const message = this.message?.value;
+
+    const isValid = !!(name && name.length >= 3 &&
+                       email && this.email?.valid &&
+                       message && message.length >= 3);
+
+    this.formValid.set(isValid);
+    this.cdr.detectChanges();
   }
 
-  async processForm(): Promise<void> {
-    const {name, email, message, mpdmldpsmzl} = this;
+  onTurnstileResolved(token: string | null) {
+    this.captchaToken.set(token);
+    this.cdr.detectChanges();
+  }
 
-    const validationResult = this.formSchema.safeParse({name, email, message, captcha: mpdmldpsmzl});
+  async onSubmit(): Promise<void> {
+    this.contactForm.markAllAsTouched();
+
+    const {name, email, message} = this.contactForm.value;
+    const formSchema = this.getFormSchema();
+    const validationResult = formSchema.safeParse({
+      name: name || '',
+      email: email || '',
+      message: message || '',
+      captcha: this.captchaToken()
+    });
 
     if (!validationResult.success) {
       validationResult.error.errors.forEach(err => {
-        this.toast.error(err.message);
+        toast.error(err.message);
       });
       return;
     }
 
     if (this.limitService.checkLimit()) {
-      this.toast.warning(this.i18n.text.contact.form.limit);
+      toast.warning(this.i18n.text().contact.form.limit);
       return;
     }
 
-    this.isLoading = true;
-    const lastToast: string | number = toast.loading(this.i18n.text.contact.form.loading || "Envoi en cours...");
+    this.loading.set(true);
+    const lastToast: string | number = toast.loading(this.i18n.text().contact.form.loading || "Envoi en cours...");
 
-    const templateParams = {name, email, message};
+    const templateParams = {
+      name: name || '',
+      email: email || '',
+      message: message || '',
+    };
 
     emailjs.send('service_katu34t', 'template_3rprude', templateParams, 'SsUfOyd0KywiMRRLl')
       .then(() => {
-        this.toast.success(this.i18n.text.contact.form.success, {id: lastToast});
-        this.limitService.setLimit({hours: 0, minutes: 10});
+        toast.success(this.i18n.text().contact.form.success, {id: lastToast});
+        this.limitService.setLimit({ hours: 0, minutes: 10 });
+        this.contactForm.reset();
+        this.formValid.set(false);
+        this.captchaToken.set(null);
       })
       .catch(() => {
-        this.toast.error(this.i18n.text.contact.form.server, {id: lastToast});
+        toast.error(this.i18n.text().contact.form.server, {id: lastToast});
       }).finally(() => {
-      this.isLoading = false;
+      this.loading.set(false);
+      this.captchaToken.set(null);
     });
-
-    this.name = "";
-    this.email = "";
-    this.message = "";
   }
 }

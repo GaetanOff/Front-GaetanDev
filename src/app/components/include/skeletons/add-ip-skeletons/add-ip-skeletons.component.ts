@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 @Component({
   selector: 'app-add-ip-skeletons',
   template: `
-    <div class="h-10 w-full bg-gray-300 rounded {{shimmer}} mb-4"></div>
+    <div class="h-10 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 {{shimmer}} mb-4"></div>
   `
 })
 export class AddIpSkeletonsComponent {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/services/admin/admin.service';
 import { toast } from 'ngx-sonner';
 import { interval, Subject } from 'rxjs';
@@ -50,7 +50,7 @@ export class EmailComponent implements OnInit, OnDestroy {
   secondWords: string[] = [];
   wordsLoaded: boolean = false;
 
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.updateEmails().catch(err =>
@@ -121,7 +121,6 @@ export class EmailComponent implements OnInit, OnDestroy {
 
     this.isSubmitting = true;
     const loadingToast = this.toast.loading("Creating alias email...");
-    await new Promise(resolve => setTimeout(resolve, 1000));
 
     this.adminService.addEmail(this.emailName.trim(), this.description.trim()).subscribe({
       next: (response: any) => {
@@ -153,7 +152,6 @@ export class EmailComponent implements OnInit, OnDestroy {
 
     this.removingEmail = emailToRemove.nom;
     const loadingToast = this.toast.loading("Deleting alias email...");
-    await new Promise(resolve => setTimeout(resolve, 1000));
 
     this.adminService.removeEmail(emailToRemove.nom).subscribe({
       next: (response: any) => {
@@ -177,19 +175,21 @@ export class EmailComponent implements OnInit, OnDestroy {
     if (this.isLoadingEmails) return;
     this.isLoadingEmails = true;
     const loadingToast = this.toast.loading("Refreshing alias emails...");
-    await new Promise(resolve => setTimeout(resolve, 1000));
 
     this.adminService.getEmails().subscribe({
-      next: (response: Email[]) => {
+      next: async (response: Email[]) => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
         this.emails = response || [];
+        this.isLoadingEmails = false;
+        this.cdr.detectChanges();
         this.toast.success("Alias emails refreshed", { id: loadingToast });
       },
-      error: (error) => {
+      error: async (error) => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        this.isLoadingEmails = false;
+        this.cdr.detectChanges();
         this.toast.error("Error fetching alias emails");
         console.error("Error fetching alias emails:", error);
-      },
-      complete: () => {
-        this.isLoadingEmails = false;
       }
     });
   }

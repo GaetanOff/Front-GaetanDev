@@ -1,17 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import {I18nService} from "../../../services/i18n/i18n.service";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
-  standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink
+  ]
 })
-export class ServicesComponent implements OnInit {
-
-  constructor(public i18n: I18nService) {
-  }
-
-  ngOnInit(): void {
-  }
-
+export class ServicesComponent {
+  public i18n = inject(I18nService);
 }

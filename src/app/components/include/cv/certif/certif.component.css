@@ -1,0 +1,46 @@
+.timeline-marker-container {
+  @apply absolute z-20 left-1/2 top-1/2;
+  transform: translate(-50%, -50%);
+}
+
+.timeline-marker-dot {
+  @apply w-4 h-4 rounded-full border-2 border-white/30;
+}
+
+.timeline-marker-ping {
+  @apply absolute w-4 h-4 rounded-full bg-green-400 animate-ping;
+  top: 0;
+  left: 0;
+}
+
+.timeline-item {
+  @apply w-full md:w-[calc(50%-2rem)];
+}
+
+.timeline-item-left {
+  @apply mr-auto md:pr-8;
+}
+
+.timeline-item-right {
+  @apply ml-auto md:pl-8;
+}
+
+@media (max-width: 768px) {
+  .timeline-item {
+    @apply w-full pl-10 pr-0;
+  }
+  
+  .timeline-item-left,
+  .timeline-item-right {
+    @apply ml-0 mr-0 pl-10 pr-0;
+  }
+  
+  .timeline-marker-container {
+    @apply left-0;
+    transform: translate(-50%, -50%);
+  }
+  
+  .absolute.z-0 {
+    @apply left-0 -translate-x-0;
+  }
+}

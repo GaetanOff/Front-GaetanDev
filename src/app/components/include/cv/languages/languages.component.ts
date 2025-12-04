@@ -1,17 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import {I18nService} from "../../../../services/i18n/i18n.service";
 
 @Component({
   selector: 'app-languages',
-  templateUrl: '/languages.component.html',
-  standalone: false
+  templateUrl: './languages.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LanguagesComponent implements OnInit {
-
-  constructor(public i18n: I18nService) {
-  }
-
-  ngOnInit(): void {
-  }
-
+export class LanguagesComponent {
+  public i18n = inject(I18nService);
 }

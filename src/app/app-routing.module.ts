@@ -8,44 +8,105 @@ import {CgvComponent} from "./components/base/legal/cgv/cgv.component";
 import {AboutComponent} from "./components/base/about/about.component";
 import {AuthComponent} from "./components/base/admin/auth/auth.component";
 import {ErrorComponent} from "./components/base/error/error.component";
+import {LanguageGuard} from "./guards/language.guard";
 
 const routes: Routes = [
   {
-    path: "", component: HomeComponent
+    path: "",
+    canActivate: [LanguageGuard],
+    component: HomeComponent
   },
   {
     path: "about",
+    canActivate: [LanguageGuard],
     component: AboutComponent
   },
   {
     path: "achievements",
+    canActivate: [LanguageGuard],
     component: AchievementsComponent
   },
   {
     path: "contact",
+    canActivate: [LanguageGuard],
     component: ContactComponent
   },
   {
     path: "legal",
+    canActivate: [LanguageGuard],
     loadChildren: () => import('./components/base/legal/legal.module').then(m => m.LegalModule)
+  },
+  {
+    path: "fr",
+    canActivate: [LanguageGuard],
+    children: [
+      {
+        path: "",
+        component: HomeComponent
+      },
+      {
+        path: "about",
+        component: AboutComponent
+      },
+      {
+        path: "achievements",
+        component: AchievementsComponent
+      },
+      {
+        path: "contact",
+        component: ContactComponent
+      },
+      {
+        path: "legal",
+        loadChildren: () => import('./components/base/legal/legal.module').then(m => m.LegalModule)
+      }
+    ]
+  },
+  {
+    path: "en",
+    canActivate: [LanguageGuard],
+    children: [
+      {
+        path: "",
+        component: HomeComponent
+      },
+      {
+        path: "about",
+        component: AboutComponent
+      },
+      {
+        path: "achievements",
+        component: AchievementsComponent
+      },
+      {
+        path: "contact",
+        component: ContactComponent
+      },
+      {
+        path: "legal",
+        loadChildren: () => import('./components/base/legal/legal.module').then(m => m.LegalModule)
+      }
+    ]
   },
   {
     path: "admin",
     loadChildren: () => import('./components/base/admin/admin.module').then(m => m.AdminModule)
   },
   {
-    path: "**", component: ErrorComponent
+    path: "**",
+    component: ErrorComponent
   }
 ]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [LanguageGuard]
 })
 export class AppRoutingModule {
 }
 
 export const routingComponents = [
   HomeComponent, AboutComponent, ContactComponent, AchievementsComponent, LegalComponent, CgvComponent,
-  AuthComponent, ErrorComponent
+  ErrorComponent
 ]

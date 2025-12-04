@@ -2,14 +2,24 @@ import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-contact-skeletons',
-  standalone: false,
+  standalone: true,
   template: `
-    <div class="space-y-8">
-      <div class="h-10 w-full bg-gray-300 rounded {{shimmer}}"></div>
-      <div class="h-10 w-full bg-gray-300 rounded {{shimmer}}"></div>
-      <div class="h-32 w-full bg-gray-300 rounded {{shimmer}}"></div>
+    <div class="space-y-6">
+      <!-- Name field skeleton -->
+      <div>
+        <div class="h-12 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 {{shimmer}}"></div>
+      </div>
+
+      <!-- Email field skeleton -->
+      <div>
+        <div class="h-12 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 {{shimmer}}"></div>
+      </div>
+
+      <!-- Message field skeleton -->
+      <div>
+        <div class="h-32 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 {{shimmer}}"></div>
+      </div>
     </div>
-    <div class="h-12 w-full bg-gray-300 rounded {{shimmer}} mt-8"></div>
   `
 })
 export class ContactSkeletonsComponent {

@@ -1,44 +1,44 @@
 <app-templadmin>
   <div class="flex-1 p-8">
-    <h1 class="text-3xl font-bold mb-6">Proxy List</h1>
-    <p class="text-gray-600 mb-4">
+    <h1 class="text-3xl font-bold mb-6 text-white">Proxy List</h1>
+    <p class="text-gray-300 mb-4">
       Last refresh:
       <span *ngIf="isLoading">loading...</span>
       <span *ngIf="!isLoading">{{ lastRefresh }}</span>
     </p>
     <div class="flex space-x-4 mb-6">
-      <button (click)="showServers = true" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+      <button (click)="showServers = true" class="bg-green-400/80 hover:bg-green-400 text-black font-semibold px-4 py-2 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
         Show Scanning Servers status
       </button>
 
-      <button (click)="showProxy = true" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+      <button (click)="showProxy = true" class="bg-green-400/80 hover:bg-green-400 text-black font-semibold px-4 py-2 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
         Open Proxy Checker
       </button>
     </div>
 
-    <div *ngIf="showServers" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-      <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-2/3 lg:w-1/2">
-        <div class="flex justify-between items-center border-b pb-2">
-          <h2 class="text-2xl font-semibold text-gray-800">Scanning Servers</h2>
-          <button (click)="showServers = false" class="text-gray-600 hover:text-gray-800 text-2xl">&times;</button>
+    <div *ngIf="showServers" class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
+      <div class="bg-black/20 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-6 w-11/12 md:w-2/3 lg:w-1/2">
+        <div class="flex justify-between items-center border-b border-white/20 pb-2">
+          <h2 class="text-2xl font-semibold text-white">Scanning Servers</h2>
+          <button (click)="showServers = false" class="text-white hover:text-gray-200 text-2xl transition-colors">&times;</button>
         </div>
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div *ngFor="let server of scanningServers" class="p-4 border rounded-lg shadow-sm bg-white cursor-pointer duration-300 hover:shadow-lg hover:shadow-green-600/30"
+          <div *ngFor="let server of scanningServers" class="p-4 border border-white/20 rounded-xl shadow-sm bg-white/10 backdrop-blur-md cursor-pointer duration-300 hover:bg-white/20 hover:shadow-lg hover:shadow-green-600/30 text-white"
                (click)="navigateToDetails(server.id)">
             <div class="flex items-center justify-between">
               <span class="text-lg font-bold">Server {{ server.id }}</span>
-              <span [ngClass]="{'text-green-600': server.status === 'online', 'text-red-600': server.status !== 'online'}" class="font-semibold">
+              <span [ngClass]="{'text-green-400': server.status === 'online', 'text-red-400': server.status !== 'online'}" class="font-semibold">
                 {{ server.status }}
               </span>
             </div>
             <div class="mt-2">
-              <p class="text-sm text-gray-600">CPU: <span class="font-medium">{{ server.cpu }}%</span></p>
-              <p class="text-sm text-gray-600">RAM: <span class="font-medium">{{ server.ram }}%</span></p>
+              <p class="text-sm text-gray-200">CPU: <span class="font-medium">{{ server.cpu }}%</span></p>
+              <p class="text-sm text-gray-200">RAM: <span class="font-medium">{{ server.ram }}%</span></p>
             </div>
           </div>
         </div>
         <div class="mt-4 flex justify-end">
-          <button (click)="showServers = false" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+          <button (click)="showServers = false" class="bg-green-400/80 hover:bg-green-400 text-black font-semibold px-4 py-2 rounded-xl transition-all duration-300">
             Close
           </button>
         </div>
@@ -46,32 +46,32 @@
     </div>
 
     <!-- Popup Proxy Checker -->
-    <div *ngIf="showProxy" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-      <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-2/3 lg:w-1/2">
-        <div class="flex justify-between items-center border-b pb-2">
-          <h2 class="text-2xl font-semibold text-gray-800">Proxy Checker</h2>
-          <button (click)="closeProxyChecker()" class="text-gray-600 hover:text-gray-800 text-2xl">&times;</button>
+    <div *ngIf="showProxy" class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
+      <div class="bg-black/20 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-6 w-11/12 md:w-2/3 lg:w-1/2">
+        <div class="flex justify-between items-center border-b border-white/20 pb-2">
+          <h2 class="text-2xl font-semibold text-white">Proxy Checker</h2>
+          <button (click)="closeProxyChecker()" class="text-white hover:text-gray-200 text-2xl transition-colors">&times;</button>
         </div>
         <div class="mt-4">
           <form (submit)="checkProxy($event)">
             <div class="mb-4">
-              <label class="block text-sm font-semibold mb-1">Protocol</label>
-              <select [(ngModel)]="proxyProtocol" name="protocol" class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">>
+              <label class="block text-sm font-semibold mb-1 text-white">Protocol</label>
+              <select [(ngModel)]="proxyProtocol" name="protocol" style="color-scheme: dark;" class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
                 <option value="http">HTTP</option>
                 <option value="socks5">SOCKS5</option>
               </select>
             </div>
             <div class="mb-4">
-              <label class="block text-sm font-semibold mb-1">Host</label>
-              <input type="text" [(ngModel)]="proxyHost" name="host" placeholder="Proxy host" class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+              <label class="block text-sm font-semibold mb-1 text-white">Host</label>
+              <input type="text" [(ngModel)]="proxyHost" name="host" placeholder="Proxy host" class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300">
             </div>
             <div class="mb-4">
-              <label class="block text-sm font-semibold mb-1">Port</label>
-              <input type="number" [(ngModel)]="proxyPort" name="port" placeholder="Proxy port" class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+              <label class="block text-sm font-semibold mb-1 text-white">Port</label>
+              <input type="number" [(ngModel)]="proxyPort" name="port" placeholder="Proxy port" class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300">
             </div>
             <div class="mb-4">
-              <label class="block text-sm font-semibold mb-1">Server</label>
-              <select [(ngModel)]="serverToCheck" name="server" class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+              <label class="block text-sm font-semibold mb-1 text-white">Server</label>
+              <select [(ngModel)]="serverToCheck" name="server" style="color-scheme: dark;" class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
                 <option value="random">Random</option>
                 <option *ngFor="let server of scanningServers" [value]="server.id">
                   Server {{ server.id }} - CPU: {{ server.cpu }}%, RAM: {{ server.ram }}% ({{ server.status }})
@@ -79,19 +79,19 @@
               </select>
             </div>
             <div class="flex justify-end">
-              <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" *ngIf="!isCheckerLoading">
+              <button type="submit" class="bg-green-400/80 hover:bg-green-400 text-black font-semibold px-4 py-2 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1" *ngIf="!isCheckerLoading">
                 Check Proxy
               </button>
-              <div *ngIf="isCheckerLoading" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+              <div *ngIf="isCheckerLoading" class="bg-green-400/80 text-black font-semibold px-4 py-2 rounded-xl">
                 Checking...
               </div>
             </div>
           </form>
-          <div *ngIf="proxyCheckResult" class="mt-4 p-4 border rounded">
-            <p *ngIf="proxyCheckResult.success" class="text-green-600">
+          <div *ngIf="proxyCheckResult" class="mt-4 p-4 border border-white/20 rounded-xl bg-white/10 backdrop-blur-md">
+            <p *ngIf="proxyCheckResult.success" class="text-green-400">
               Proxy is functional. Data: {{ proxyCheckResult.data | json }}
             </p>
-            <p *ngIf="!proxyCheckResult.success" class="text-red-600">
+            <p *ngIf="!proxyCheckResult.success" class="text-red-400">
               Proxy failed: {{ proxyCheckResult.error }}
             </p>
           </div>
@@ -101,11 +101,11 @@
 
     <div class="flex flex-col md:flex-row justify-center md:justify-between">
       <div class="w-1/2 p-4">
-        <h2 class="text-2xl font-bold mb-4">HTTP Proxies</h2>
-        <div class="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg min-h-[120px] overflow-auto" *ngIf="!isLoading">
-          <ul>
-            <li *ngFor="let proxy of httpProxies.slice(0, 15)">{{ proxy.host }}:{{ proxy.port }}</li>
-            <li class="italic pt-2">... {{ httpProxies.length }} more</li>
+        <h2 class="text-2xl font-bold mb-4 text-white">HTTP Proxies</h2>
+        <div class="w-full bg-white/10 backdrop-blur-md text-white mt-2 p-3 rounded-xl border border-white/20 min-h-[120px] overflow-auto" *ngIf="!isLoading">
+          <ul class="space-y-1">
+            <li *ngFor="let proxy of httpProxies.slice(0, 15)" class="font-mono text-sm">{{ proxy.host }}:{{ proxy.port }}</li>
+            <li class="italic pt-2 text-gray-300">... {{ httpProxies.length }} more</li>
           </ul>
         </div>
         <div *ngIf="isLoading">
@@ -113,11 +113,11 @@
         </div>
       </div>
       <div class="w-1/2 p-4">
-        <h2 class="text-2xl font-bold mb-4">SOCKS5 Proxies</h2>
-        <div class="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg min-h-[120px] overflow-auto" *ngIf="!isLoading">
-          <ul>
-            <li *ngFor="let proxy of socks5Proxies.slice(0, 15)">{{ proxy.host }}:{{ proxy.port }}</li>
-            <li class="italic pt-2">... {{ socks5Proxies.length }} more</li>
+        <h2 class="text-2xl font-bold mb-4 text-white">SOCKS5 Proxies</h2>
+        <div class="w-full bg-white/10 backdrop-blur-md text-white mt-2 p-3 rounded-xl border border-white/20 min-h-[120px] overflow-auto" *ngIf="!isLoading">
+          <ul class="space-y-1">
+            <li *ngFor="let proxy of socks5Proxies.slice(0, 15)" class="font-mono text-sm">{{ proxy.host }}:{{ proxy.port }}</li>
+            <li class="italic pt-2 text-gray-300">... {{ socks5Proxies.length }} more</li>
           </ul>
         </div>
         <div *ngIf="isLoading">
@@ -126,14 +126,16 @@
       </div>
     </div>
 
-    <div class="w-full p-4 mt-6 rounded-lg">
-      <h2 class="text-2xl font-bold mb-4">Download Proxies with Filters</h2>
+    <div class="w-full p-4 mt-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
+      <h2 class="text-2xl font-bold mb-4 text-white">Download Proxies with Filters</h2>
       <div class="flex flex-col md:flex-row gap-4">
         <div class="w-full md:w-1/3">
-          <label class="block text-sm font-semibold mb-1">Select Country</label>
+          <label class="block text-sm font-semibold mb-1 text-white">Select Country</label>
           <div *ngFor="let filter of countryFilters; let i = index" class="flex items-center gap-2 mb-2">
             <select [(ngModel)]="countryFilters[i]" (ngModelChange)="updateProxyLimit()"
-                    class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+                    [name]="'countryFilter' + i"
+                    style="color-scheme: dark;"
+                    class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
               <ng-container *ngIf="countryFilters.length > 1; else singleSelect">
                 <option *ngFor="let country of filteredCountries" [value]="country">{{ country }}</option>
 
@@ -143,37 +145,39 @@
               </ng-template>
             </select>
             <button *ngIf="countryFilters.length > 1" (click)="removeCountryFilter(i)"
-                    class="px-4 py-2 bg-red-500 text-white rounded">-</button>
+                    class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">-</button>
           </div>
           <button (click)="addCountryFilter()" *ngIf="countryFilters[0] !== 'All'"
-                  class="px-4 py-2 bg-green-500 hover:bg-green-600 rounded">
+                  class="px-4 py-2 bg-green-400/80 hover:bg-green-400 text-black font-semibold rounded-xl transition-all duration-300">
             +
           </button>
         </div>
 
         <div class="w-full md:w-1/3">
-          <label class="block text-sm font-semibold mb-1">Proxy Type</label>
+          <label class="block text-sm font-semibold mb-1 text-white">Proxy Type</label>
           <div class="relative">
             <select [(ngModel)]="selectedProxyType" (ngModelChange)="updateAvailableCountries()"
-                    class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+                    name="selectedProxyType"
+                    style="color-scheme: dark;"
+                    class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
               <option value="http">HTTP</option>
               <option value="socks5">SOCKS5</option>
             </select>
-            <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+            <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-white">
               ▼
             </div>
           </div>
         </div>
 
         <div class="w-full md:w-1/3">
-          <label class="block text-sm font-semibold mb-1">Number of Proxy</label>
-          <input type="number" [(ngModel)]="proxyLimit" min="1" max="1000"
-                 class="w-full bg-gray-300 text-gray-900 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <label class="block text-sm font-semibold mb-1 text-white">Number of Proxy</label>
+          <input type="number" [(ngModel)]="proxyLimit" name="proxyLimit" min="1" max="1000"
+                 class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300" />
         </div>
       </div>
 
       <button (click)="downloadFilteredProxies()"
-              class="px-4 py-2 mt-4 bg-blue-500 hover:bg-blue-600 duration-300 text-white rounded-md w-full transition">
+              class="px-4 py-2 mt-4 bg-green-400/80 hover:bg-green-400 text-black font-semibold rounded-xl w-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
         Download Filtered Proxies
       </button>
     </div>

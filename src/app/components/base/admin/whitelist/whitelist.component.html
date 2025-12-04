@@ -2,15 +2,15 @@
   <div class="flex-1 p-4">
     <div class="flex flex-col md:flex-row md:justify-between md:space-x-8 space-y-8 md:space-y-0">
       <form (ngSubmit)="processForm()" class="w-full md:w-1/2 p-4">
-        <h2 class="text-2xl font-bold mb-4">Whitelist IP Address</h2>
+        <h2 class="text-2xl font-bold mb-4 text-white">Whitelist IP Address</h2>
         <div class="mb-4">
-          <label class="block text-sm font-semibold mb-1">IP</label>
+          <label class="block text-sm font-semibold mb-1 text-white">IP</label>
           <label>
             <input
               #nameInput="ngModel"
               *ngIf="!isAdding"
               [(ngModel)]="address"
-              class="input w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="input w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300"
               minlength="3"
               name="address"
               placeholder="address"
@@ -20,10 +20,12 @@
           </label>
         </div>
         <div class="mb-4">
-          <label class="block text-sm font-semibold mb-1">Server</label>
+          <label class="block text-sm font-semibold mb-1 text-white">Server</label>
           <div class="relative">
             <select [(ngModel)]="server"
-                    class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+                    name="server"
+                    style="color-scheme: dark;"
+                    class="w-full bg-white/10 backdrop-blur-md text-white mt-2 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
@@ -32,27 +34,31 @@
             </div>
           </div>
         </div>
-        <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 duration-300 text-white rounded-md" type="submit">
+        <button class="px-4 py-2 bg-green-400/80 hover:bg-green-400 text-black font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1" type="submit">
           WL
         </button>
       </form>
 
       <div class="w-full md:w-1/2 p-4">
-        <h2 class="text-2xl font-bold mb-4">All IP whitelisted</h2>
+        <h2 class="text-2xl font-bold mb-4 text-white">All IP whitelisted</h2>
         <div *ngIf="isLoading">
           <app-whitelisted-ips-skeletons></app-whitelisted-ips-skeletons>
         </div>
         <div *ngIf="!isLoading">
-          <div *ngFor="let ip of whitelistedIPs">
-            <div *ngIf="ip !== '127.0.0.1' && removingIp !== ip"
-                 class="flex items-center justify-between border-b border-gray-300 py-2">
-              <div>{{ ip }}</div>
-              <button (click)="removeWhitelistedIP(ip)" class="px-4 py-2 bg-red-500 text-white rounded-md">
-                Remove
-              </button>
+          @if (!hasWhitelistedIPs) {
+            <p class="text-gray-300 text-sm">No whitelisted IPs</p>
+          } @else {
+            <div *ngFor="let ip of whitelistedIPs">
+              <div *ngIf="ip !== '127.0.0.1' && removingIp !== ip"
+                   class="flex items-center justify-between bg-white/10 backdrop-blur-md rounded-xl border border-white/20 px-4 py-3 mb-2 text-white hover:bg-white/20 transition-colors">
+                <div class="font-mono">{{ ip }}</div>
+                <button (click)="removeWhitelistedIP(ip)" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
+                  Remove
+                </button>
+              </div>
+              <app-remove-ip-skeletons *ngIf="ip !== '127.0.0.1' && removingIp === ip"></app-remove-ip-skeletons>
             </div>
-            <app-remove-ip-skeletons *ngIf="ip !== '127.0.0.1' && removingIp === ip"></app-remove-ip-skeletons>
-          </div>
+          }
         </div>
       </div>
     </div>

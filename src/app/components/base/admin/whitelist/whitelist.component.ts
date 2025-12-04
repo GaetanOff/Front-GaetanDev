@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {AdminService} from '../../../../services/admin/admin.service';
 import {toast} from 'ngx-sonner';
 import {interval, Subject} from 'rxjs';
@@ -36,7 +36,7 @@ export class WhitelistComponent implements OnInit, OnDestroy {
   protected readonly toast = toast;
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private adminService: AdminService) {
+  constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -71,7 +71,6 @@ export class WhitelistComponent implements OnInit, OnDestroy {
     }
 
     this.isAdding = true;
-    await new Promise(resolve => setTimeout(resolve, 1000));
 
     this.adminService.addWhitelistedIP(this.address).subscribe({
       next: (): void => {
@@ -86,6 +85,10 @@ export class WhitelistComponent implements OnInit, OnDestroy {
     });
   }
 
+  get hasWhitelistedIPs(): boolean {
+    return this.whitelistedIPs.filter(ip => ip !== '127.0.0.1').length > 0;
+  }
+
   async removeWhitelistedIP(ip: string): Promise<void> {
     if (this.removingIp) {
       this.toast.error("An IP removal is already in progress.");
@@ -93,7 +96,6 @@ export class WhitelistComponent implements OnInit, OnDestroy {
     }
 
     this.removingIp = ip;
-    await new Promise(resolve => setTimeout(resolve, 1000));
 
     this.adminService.removeWhitelistedIP(ip).subscribe({
       next: (): void => {
@@ -114,19 +116,21 @@ export class WhitelistComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
     const loadingToast: string | number = this.toast.loading("Refreshing whitelist...");
-    await new Promise(resolve => setTimeout(resolve, 1000));
 
     this.adminService.getWhitelistedIPs().subscribe({
-      next: (response: string[]): void => {
+      next: async (response: string[]): Promise<void> => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
         this.whitelistedIPs = response;
+        this.isLoading = false;
+        this.cdr.detectChanges();
         this.toast.success("Whitelist refreshed", {id: loadingToast});
       },
-      error: (error): void => {
+      error: async (error): Promise<void> => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        this.isLoading = false;
+        this.cdr.detectChanges();
         this.toast.error("Error fetching whitelisted IPs");
         console.error("Error fetching whitelisted IPs:", error);
-      },
-      complete: (): void => {
-        this.isLoading = false;
       }
     });
   }
