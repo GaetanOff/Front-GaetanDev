@@ -4,7 +4,7 @@ import { toast } from 'ngx-sonner';
 import { interval, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { z } from 'zod';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+
 import { EmailsLoadingSkeletonsComponent } from '../../../include/skeletons/emails-loading-skeletons/emails-loading-skeletons.component';
 import { AddEmailSkeletonsComponent } from '../../../include/skeletons/add-email-skeletons/add-email-skeletons.component';
 import { TempladminComponent } from '../../../include/admin/templadmin/templadmin.component';
@@ -24,15 +24,12 @@ interface WordsResponse {
 @Component({
   selector: 'app-email',
   imports: [
-    CommonModule,
     FormsModule,
-    NgFor,
-    NgIf,
     TempladminComponent,
     EmailsLoadingSkeletonsComponent,
     AddEmailSkeletonsComponent,
     RemoveEmailSkeletonsComponent
-  ],
+],
   templateUrl: './email.component.html',
 })
 export class EmailComponent implements OnInit, OnDestroy {

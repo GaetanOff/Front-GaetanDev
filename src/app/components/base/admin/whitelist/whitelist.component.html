@@ -6,26 +6,29 @@
         <div class="mb-4">
           <label class="block text-sm font-semibold mb-1 text-white">IP</label>
           <label>
-            <input
-              #nameInput="ngModel"
-              *ngIf="!isAdding"
-              [(ngModel)]="address"
-              class="input w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300"
-              minlength="3"
-              name="address"
-              placeholder="address"
-              required
-              type="text">
-            <app-add-ip-skeletons *ngIf="isAdding"></app-add-ip-skeletons>
+            @if (!isAdding) {
+              <input
+                #nameInput="ngModel"
+                [(ngModel)]="address"
+                class="input w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300"
+                minlength="3"
+                name="address"
+                placeholder="address"
+                required
+                type="text">
+            }
+            @if (isAdding) {
+              <app-add-ip-skeletons></app-add-ip-skeletons>
+            }
           </label>
         </div>
         <div class="mb-4">
           <label class="block text-sm font-semibold mb-1 text-white">Server</label>
           <div class="relative">
             <select [(ngModel)]="server"
-                    name="server"
-                    style="color-scheme: dark;"
-                    class="w-full bg-white/10 backdrop-blur-md text-white mt-2 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
+              name="server"
+              style="color-scheme: dark;"
+              class="w-full bg-white/10 backdrop-blur-md text-white mt-2 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
@@ -41,25 +44,35 @@
 
       <div class="w-full md:w-1/2 p-4">
         <h2 class="text-2xl font-bold mb-4 text-white">All IP whitelisted</h2>
-        <div *ngIf="isLoading">
-          <app-whitelisted-ips-skeletons></app-whitelisted-ips-skeletons>
-        </div>
-        <div *ngIf="!isLoading">
-          @if (!hasWhitelistedIPs) {
-            <p class="text-gray-300 text-sm">No whitelisted IPs</p>
-          } @else {
-            <div *ngFor="let ip of whitelistedIPs">
-              <div *ngIf="ip !== '127.0.0.1' && removingIp !== ip"
-                   class="flex items-center justify-between bg-white/10 backdrop-blur-md rounded-xl border border-white/20 px-4 py-3 mb-2 text-white hover:bg-white/20 transition-colors">
-                <div class="font-mono">{{ ip }}</div>
-                <button (click)="removeWhitelistedIP(ip)" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
-                  Remove
-                </button>
-              </div>
-              <app-remove-ip-skeletons *ngIf="ip !== '127.0.0.1' && removingIp === ip"></app-remove-ip-skeletons>
-            </div>
-          }
-        </div>
+        @if (isLoading) {
+          <div>
+            <app-whitelisted-ips-skeletons></app-whitelisted-ips-skeletons>
+          </div>
+        }
+        @if (!isLoading) {
+          <div>
+            @if (!hasWhitelistedIPs) {
+              <p class="text-gray-300 text-sm">No whitelisted IPs</p>
+            } @else {
+              @for (ip of whitelistedIPs; track ip) {
+                <div>
+                  @if (ip !== '127.0.0.1' && removingIp !== ip) {
+                    <div
+                      class="flex items-center justify-between bg-white/10 backdrop-blur-md rounded-xl border border-white/20 px-4 py-3 mb-2 text-white hover:bg-white/20 transition-colors">
+                      <div class="font-mono">{{ ip }}</div>
+                      <button (click)="removeWhitelistedIP(ip)" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
+                        Remove
+                      </button>
+                    </div>
+                  }
+                  @if (ip !== '127.0.0.1' && removingIp === ip) {
+                    <app-remove-ip-skeletons></app-remove-ip-skeletons>
+                  }
+                </div>
+              }
+            }
+          </div>
+        }
       </div>
     </div>
   </div>

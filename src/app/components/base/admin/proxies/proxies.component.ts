@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { TempladminComponent } from "../../../include/admin/templadmin/templadmin.component";
-import { CommonModule, NgFor, NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { AdminService } from "../../../../services/admin/admin.service";
 import { interval, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -30,13 +30,11 @@ export interface ProxyCheckResponse {
 @Component({
   selector: 'app-proxies',
   imports: [
-    NgFor,
-    NgIf,
     FormsModule,
     CommonModule,
     TempladminComponent,
     RefreshProxiesWhitelistComponent
-  ],
+],
   templateUrl: './proxies.component.html'
 })
 export class ProxiesComponent implements OnInit, OnDestroy {
