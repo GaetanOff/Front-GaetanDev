@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import {ActivatedRoute, RouterLink} from "@angular/router";
-import {NgClass, NgIf} from "@angular/common";
+import { NgClass } from "@angular/common";
 import {TempladminComponent} from "../../../../include/admin/templadmin/templadmin.component";
 import {
   DetailsServerSkeletonsComponent
@@ -15,11 +15,10 @@ import {takeUntil} from "rxjs/operators";
   selector: 'app-detailserver',
   imports: [
     NgClass,
-    NgIf,
     RouterLink,
     TempladminComponent,
     DetailsServerSkeletonsComponent
-  ],
+],
   templateUrl: './detailserver.component.html'
 })
 export class DetailserverComponent {
