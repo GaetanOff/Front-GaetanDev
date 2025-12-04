@@ -24,7 +24,7 @@ export class AdminService {
   login(formData: FormData): Observable<boolean> {
     return this.httpClient.post('https://api.gaetandev.fr/auth', formData, {responseType: 'text'}).pipe(
       map((response: string) => {
-        if (response === 'true') {
+        if (response === 'true' || response.trim() === 'true') {
           this.localStorage.get.setItem('adminUsername', formData.get('username') as string);
           this.localStorage.get.setItem('adminPassword', formData.get('password') as string);
           this.isLogged = true;
