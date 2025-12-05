@@ -14,7 +14,7 @@ export class ExperienceComponent {
       {
         name: 'Freelance',
         date: this.i18n.isEnglish() ? "October 2021 - Today" : "Octobre 2021 - Aujourd'hui",
-        description: this.i18n.isEnglish() ? "Full-Stack Developer & DevOps" : "Développeur Full-Stack & DevOps",
+        description: this.i18n.isEnglish() ? "Full-Stack Developer & DevOps | AI & MLOps" : "Développeur Full-Stack & DevOps | IA & MLOps",
         active: true
       },
       {
