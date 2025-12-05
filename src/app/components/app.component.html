@@ -10,10 +10,10 @@
     <nav class="bg-white/20 backdrop-blur-lg rounded-2xl md:rounded-full shadow-lg px-4 py-2 w-full md:w-auto overflow-hidden">
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center justify-center space-x-4 md:space-x-6">
-        <a [routerLink]="getLocalizedRoute('/')" routerLinkActive="font-bold scale-110" [routerLinkActiveOptions]="{exact: true}" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().navbar.home }}</a>
-        <a [routerLink]="getLocalizedRoute('/about')" routerLinkActive="font-bold scale-110" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().navbar.about }}</a>
-        <a [routerLink]="getLocalizedRoute('/achievements')" routerLinkActive="font-bold scale-110" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().navbar.achievements }}</a>
-        <a [routerLink]="getLocalizedRoute('/contact')" routerLinkActive="font-bold scale-110" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().contact.title }}</a>
+        <a [routerLink]="localeRoute.getLocalizedRoute('/')" routerLinkActive="font-bold scale-110" [routerLinkActiveOptions]="{exact: true}" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().navbar.home }}</a>
+        <a [routerLink]="localeRoute.getLocalizedRoute('/about')" routerLinkActive="font-bold scale-110" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().navbar.about }}</a>
+        <a [routerLink]="localeRoute.getLocalizedRoute('/achievements')" routerLinkActive="font-bold scale-110" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().navbar.achievements }}</a>
+        <a [routerLink]="localeRoute.getLocalizedRoute('/contact')" routerLinkActive="font-bold scale-110" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().contact.title }}</a>
         <button (click)="onSwitchLanguage()" class="w-8 h-8 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 transition-transform transform hover:scale-110">
           <img [src]="languageImg()" alt="Language flag" class="w-full h-full object-cover rounded-full">
         </button>
@@ -38,10 +38,10 @@
       <!-- Mobile Menu Dropdown -->
       @if (isMenuOpen()) {
         <div class="md:hidden mt-4 pb-2 space-y-2">
-          <a [routerLink]="getLocalizedRoute('/')" routerLinkActive="font-bold scale-110" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().navbar.home }}</a>
-          <a [routerLink]="getLocalizedRoute('/about')" routerLinkActive="font-bold scale-110" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().navbar.about }}</a>
-          <a [routerLink]="getLocalizedRoute('/achievements')" routerLinkActive="font-bold scale-110" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().navbar.achievements }}</a>
-          <a [routerLink]="getLocalizedRoute('/contact')" routerLinkActive="font-bold scale-110" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().contact.title }}</a>
+          <a [routerLink]="localeRoute.getLocalizedRoute('/')" routerLinkActive="font-bold scale-110" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().navbar.home }}</a>
+          <a [routerLink]="localeRoute.getLocalizedRoute('/about')" routerLinkActive="font-bold scale-110" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().navbar.about }}</a>
+          <a [routerLink]="localeRoute.getLocalizedRoute('/achievements')" routerLinkActive="font-bold scale-110" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().navbar.achievements }}</a>
+          <a [routerLink]="localeRoute.getLocalizedRoute('/contact')" routerLinkActive="font-bold scale-110" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().contact.title }}</a>
         </div>
       }
     </nav>
@@ -68,8 +68,8 @@
         </div>
         <div class="flex justify-center space-x-6 mb-2">
           <a href="https://status.gaetandev.fr" target="_blank" class="text-sm text-gray-300 hover:text-white transition-colors">Status</a>
-          <a [routerLink]="getLocalizedRoute('/legal')" class="text-sm text-gray-300 hover:text-white transition-colors">{{ i18n.text().footer.legal }}</a>
-          <a [routerLink]="getLocalizedRoute('/legal/cgv')" class="text-sm text-gray-300 hover:text-white transition-colors">{{ i18n.text().footer.cgv }}</a>
+          <a [routerLink]="localeRoute.getLocalizedRoute('/legal')" class="text-sm text-gray-300 hover:text-white transition-colors">{{ i18n.text().footer.legal }}</a>
+          <a [routerLink]="localeRoute.getLocalizedRoute('/legal/cgv')" class="text-sm text-gray-300 hover:text-white transition-colors">{{ i18n.text().footer.cgv }}</a>
         </div>
         <p class="text-xs text-gray-400 flex items-center justify-center">
           <a href="https://www.gaetandev.fr/assets/files/00084228-1_ApplicationWeb_GaetanDev.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors mr-1">©</a>

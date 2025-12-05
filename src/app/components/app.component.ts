@@ -3,6 +3,7 @@ import {RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd} from 
 import {I18nService} from "../services/i18n/i18n.service";
 import {NgxSonnerToaster} from "ngx-sonner";
 import {filter} from 'rxjs/operators';
+import {LocalerouteService} from '../services/route/localeroute.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import {filter} from 'rxjs/operators';
 })
 export class AppComponent {
   public i18n = inject(I18nService);
+  public localeRoute = inject(LocalerouteService);
   private router = inject(Router);
   private _isMenuOpen = signal<boolean>(false);
   public isMenuOpen = computed(() => this._isMenuOpen());
@@ -61,21 +63,6 @@ export class AppComponent {
       return match[2] || '';
     }
     return url;
-  }
-
-  public getLocalizedRoute(route: string): string {
-    const currentUrl = this.router.url;
-    const hasLangPrefix = /^\/(fr|en)(\/|$)/.test(currentUrl);
-    
-    if (hasLangPrefix) {
-      // If current URL has language prefix, keep it in the route
-      const lang = this.currentLang();
-      const cleanRoute = route.startsWith('/') ? route.substring(1) : route;
-      return `/${lang}/${cleanRoute}`;
-    } else {
-      // If current URL has no language prefix, return route without prefix
-      return route.startsWith('/') ? route : `/${route}`;
-    }
   }
 
   onSwitchLanguage(): void {

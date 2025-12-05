@@ -13,7 +13,7 @@
           <li>{{ item }}</li>
         }
       </ul>
-      <a routerLink="/contact" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold py-3 px-6 rounded-xl border border-white/30 transition-all duration-300 shadow-md w-full block">
+      <a [routerLink]="localeRoute.getLocalizedRoute('/contact')" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold py-3 px-6 rounded-xl border border-white/30 transition-all duration-300 shadow-md w-full block">
         {{ i18n.text().services.contactButton }}
       </a>
     </div>
@@ -28,7 +28,7 @@
           <li>{{ item }}</li>
         }
       </ul>
-      <a routerLink="/contact" class="bg-green-400/80 hover:bg-green-400 backdrop-blur-md text-black font-bold py-3 px-6 rounded-xl border border-green-300/50 transition-all duration-300 shadow-lg w-full block">
+      <a [routerLink]="localeRoute.getLocalizedRoute('/contact')" class="bg-green-400/80 hover:bg-green-400 backdrop-blur-md text-black font-bold py-3 px-6 rounded-xl border border-green-300/50 transition-all duration-300 shadow-lg w-full block">
         {{ i18n.text().services.contactButton }}
       </a>
     </div>
@@ -42,7 +42,7 @@
           <li>{{ item }}</li>
         }
       </ul>
-      <a routerLink="/contact" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold py-3 px-6 rounded-xl border border-white/30 transition-all duration-300 shadow-md w-full block">
+      <a [routerLink]="localeRoute.getLocalizedRoute('/contact')" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold py-3 px-6 rounded-xl border border-white/30 transition-all duration-300 shadow-md w-full block">
         {{ i18n.text().services.contactButton }}
       </a>
     </div>

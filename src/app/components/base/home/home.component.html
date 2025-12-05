@@ -8,10 +8,10 @@
     {{ i18n.text().desc }}
   </p>
   <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-    <a [routerLink]="getLocalizedRoute('/contact')" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold py-3 px-8 rounded-xl border border-white/30 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 w-full sm:w-auto text-center">
+    <a [routerLink]="localeRoute.getLocalizedRoute('/contact')" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold py-3 px-8 rounded-xl border border-white/30 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 w-full sm:w-auto text-center">
       <span>{{ i18n.text().home.contactButton }}</span>
     </a>
-    <a [routerLink]="getLocalizedRoute('/about')" class="bg-transparent hover:bg-white/10 backdrop-blur-md text-white font-semibold py-3 px-8 rounded-xl border border-white/30 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 w-full sm:w-auto text-center">
+    <a [routerLink]="localeRoute.getLocalizedRoute('/about')" class="bg-transparent hover:bg-white/10 backdrop-blur-md text-white font-semibold py-3 px-8 rounded-xl border border-white/30 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 w-full sm:w-auto text-center">
       <span>{{ i18n.text().learnMoreButton }}</span>
     </a>
   </div>
