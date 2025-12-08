@@ -40,6 +40,7 @@
             <div class="h-5 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent mx-3"></div>
 
             <button (click)="onSwitchLanguage()"
+                    [attr.aria-label]="(i18n.isEnglish() ? 'Switch to French' : 'Passer en anglais')"
                     class="w-10 h-10 p-0.5 rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300 hover:rotate-12 active:scale-90 hover:shadow-lg">
               <img [src]="languageImg()" alt="Language flag" class="w-full h-full object-cover rounded-full">
             </button>
@@ -49,12 +50,17 @@
             <span class="text-white/80 font-bold tracking-wide text-sm">Menu</span>
 
             <div class="flex items-center gap-3">
-                <button (click)="onSwitchLanguage()" class="w-8 h-8 rounded-full border border-white/10 active:scale-90 transition-transform">
+                <button (click)="onSwitchLanguage()" 
+                        [attr.aria-label]="(i18n.isEnglish() ? 'Switch to French' : 'Passer en anglais')"
+                        class="w-8 h-8 rounded-full border border-white/10 active:scale-90 transition-transform">
                     <img [src]="languageImg()" alt="Language flag" class="w-full h-full object-cover rounded-full">
                 </button>
 
-                <button (click)="toggleMenu()" class="text-white p-2 rounded-full hover:bg-white/10 active:bg-white/20 transition-colors">
-                <svg class="w-6 h-6 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button (click)="toggleMenu()" 
+                        [attr.aria-label]="(isMenuOpen() ? (i18n.isEnglish() ? 'Close menu' : 'Fermer le menu') : (i18n.isEnglish() ? 'Open menu' : 'Ouvrir le menu'))"
+                        [attr.aria-expanded]="isMenuOpen()"
+                        class="text-white p-2 rounded-full hover:bg-white/10 active:bg-white/20 transition-colors">
+                <svg class="w-6 h-6 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     @if (!isMenuOpen()) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
                     } @else {
