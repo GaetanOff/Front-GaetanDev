@@ -5,7 +5,8 @@ html, body {
 }
 
 body {
-  background-color: white;
+  background: linear-gradient(to bottom right, #111827, #155e75, #15803d);
+  background-attachment: fixed;
   background-position: center;
   color: #2d3436;
 }
