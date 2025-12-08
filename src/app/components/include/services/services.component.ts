@@ -6,6 +6,7 @@ import { LocalerouteService } from 'src/app/services/route/localeroute.service';
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
+  styleUrl: './services.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink

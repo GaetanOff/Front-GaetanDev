@@ -1,0 +1,14 @@
+@keyframes ping-light {
+  0%, 100% {
+    border-color: rgba(74, 222, 128, 1);
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.3), 0 0 0 4px rgba(74, 222, 128, 0.1);
+  }
+  50% {
+    border-color: rgba(74, 222, 128, 0.8);
+    box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.4), 0 0 0 6px rgba(74, 222, 128, 0.15);
+  }
+}
+
+.animate-ping-light {
+  animation: ping-light 3s ease-in-out infinite;
+}

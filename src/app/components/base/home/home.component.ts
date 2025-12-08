@@ -8,6 +8,7 @@ import { LocalerouteService } from 'src/app/services/route/localeroute.service';
   selector: 'app-home',
   imports: [RouterLink],
   templateUrl: './home.component.html',
+  styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
