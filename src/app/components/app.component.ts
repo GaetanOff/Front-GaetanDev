@@ -41,7 +41,7 @@ export class AppComponent {
         this.i18n.setLanguage(lang);
       }
       // Scroll to top on route change
-      window.scrollTo({ top: 0, behavior: 'instant' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     // Check initial route
     this.isAdminRoute.set(this.router.url.startsWith('/admin'));
@@ -68,7 +68,7 @@ export class AppComponent {
   onSwitchLanguage(): void {
     const currentUrl = this.router.url;
     const langMatch = currentUrl.match(/^\/(fr|en)(\/.*)?$/);
-    
+
     if (langMatch) {
       // Current URL has language prefix - switch it
       const currentPath = langMatch[2] || '';
