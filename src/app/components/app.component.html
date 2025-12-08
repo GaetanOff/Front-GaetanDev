@@ -6,45 +6,96 @@
     <div class="absolute top-0 -right-4 w-72 h-72 bg-teal-300 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-blob animation-delay-2000"></div>
     <div class="absolute bottom-0 left-20 w-72 h-72 bg-lime-400 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-blob animation-delay-4000"></div>
 
-    <header class="fixed top-4 md:top-6 z-50 w-full px-4 max-w-full flex justify-center">
-    <nav class="bg-white/20 backdrop-blur-lg rounded-2xl md:rounded-full shadow-lg px-4 py-2 w-full md:w-auto overflow-hidden">
-      <!-- Desktop Menu -->
-      <div class="hidden md:flex items-center justify-center space-x-4 md:space-x-6">
-        <a [routerLink]="localeRoute.getLocalizedRoute('/')" routerLinkActive="font-bold scale-110" [routerLinkActiveOptions]="{exact: true}" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().navbar.home }}</a>
-        <a [routerLink]="localeRoute.getLocalizedRoute('/about')" routerLinkActive="font-bold scale-110" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().navbar.about }}</a>
-        <a [routerLink]="localeRoute.getLocalizedRoute('/achievements')" routerLinkActive="font-bold scale-110" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().navbar.achievements }}</a>
-        <a [routerLink]="localeRoute.getLocalizedRoute('/contact')" routerLinkActive="font-bold scale-110" class="text-white hover:text-gray-200 transition-all duration-300 px-2 transform">{{ i18n.text().contact.title }}</a>
-        <button (click)="onSwitchLanguage()" class="w-8 h-8 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 transition-transform transform hover:scale-110">
-          <img [src]="languageImg()" alt="Language flag" class="w-full h-full object-cover rounded-full">
-        </button>
-      </div>
+    <header class="fixed top-4 md:top-6 z-50 w-full px-4 max-w-full flex justify-center perspective-1000">
+      <nav class="group transition-all duration-500 ease-out px-2 py-2 md:px-3 md:py-2 w-full md:w-auto min-w-[320px] border border-white/20 backdrop-blur-xl rounded-3xl ">
 
-      <!-- Mobile Menu Button -->
-      <div class="md:hidden flex items-center justify-between">
-        <button (click)="toggleMenu()" class="text-white focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg p-2">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            @if (!isMenuOpen()) {
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            } @else {
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            }
-          </svg>
-        </button>
-        <button (click)="onSwitchLanguage()" class="w-8 h-8 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 transition-transform transform hover:scale-110">
-          <img [src]="languageImg()" alt="Language flag" class="w-full h-full object-cover rounded-full">
-        </button>
-      </div>
+        <div class="flex items-center justify-between md:justify-center relative z-10">
 
-      <!-- Mobile Menu Dropdown -->
-      @if (isMenuOpen()) {
-        <div class="md:hidden mt-4 pb-2 space-y-2">
-          <a [routerLink]="localeRoute.getLocalizedRoute('/')" routerLinkActive="font-bold scale-110" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().navbar.home }}</a>
-          <a [routerLink]="localeRoute.getLocalizedRoute('/about')" routerLinkActive="font-bold scale-110" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().navbar.about }}</a>
-          <a [routerLink]="localeRoute.getLocalizedRoute('/achievements')" routerLinkActive="font-bold scale-110" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().navbar.achievements }}</a>
-          <a [routerLink]="localeRoute.getLocalizedRoute('/contact')" routerLinkActive="font-bold scale-110" (click)="closeMenu()" class="block text-white hover:text-gray-200 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-white/10">{{ i18n.text().contact.title }}</a>
+          <div class="hidden md:flex items-center justify-center space-x-1">
+            <a [routerLink]="localeRoute.getLocalizedRoute('/')"
+               routerLinkActive="bg-white/20 shadow-inner font-semibold text-white"
+               [routerLinkActiveOptions]="{exact: true}"
+               class="px-4 py-2 rounded-full text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95">
+               {{ i18n.text().navbar.home }}
+            </a>
+
+            <a [routerLink]="localeRoute.getLocalizedRoute('/about')"
+               routerLinkActive="bg-white/20 shadow-inner font-semibold text-white"
+               class="px-4 py-2 rounded-full text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95">
+               {{ i18n.text().navbar.about }}
+            </a>
+
+            <a [routerLink]="localeRoute.getLocalizedRoute('/achievements')"
+               routerLinkActive="bg-white/20 shadow-inner font-semibold text-white"
+               class="px-4 py-2 rounded-full text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95">
+               {{ i18n.text().navbar.achievements }}
+            </a>
+
+            <a [routerLink]="localeRoute.getLocalizedRoute('/contact')"
+               routerLinkActive="bg-white/20 shadow-inner font-semibold text-white"
+               class="px-4 py-2 rounded-full text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95">
+               {{ i18n.text().contact.title }}
+            </a>
+
+            <div class="h-5 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent mx-3"></div>
+
+            <button (click)="onSwitchLanguage()"
+                    class="w-10 h-10 p-0.5 rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300 hover:rotate-12 active:scale-90 hover:shadow-lg">
+              <img [src]="languageImg()" alt="Language flag" class="w-full h-full object-cover rounded-full">
+            </button>
+          </div>
+
+          <div class="md:hidden flex w-full items-center justify-between pl-2">
+            <span class="text-white/80 font-bold tracking-wide text-sm">Menu</span>
+
+            <div class="flex items-center gap-3">
+                <button (click)="onSwitchLanguage()" class="w-8 h-8 rounded-full border border-white/10 active:scale-90 transition-transform">
+                    <img [src]="languageImg()" alt="Language flag" class="w-full h-full object-cover rounded-full">
+                </button>
+
+                <button (click)="toggleMenu()" class="text-white p-2 rounded-full hover:bg-white/10 active:bg-white/20 transition-colors">
+                <svg class="w-6 h-6 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    @if (!isMenuOpen()) {
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path>
+                    } @else {
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                    }
+                </svg>
+                </button>
+            </div>
+          </div>
         </div>
-      }
-    </nav>
+
+        @if (isMenuOpen()) {
+          <div class="md:hidden mt-2 pt-2 border-t border-white/10 space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
+            <a [routerLink]="localeRoute.getLocalizedRoute('/')"
+               routerLinkActive="bg-white/20 text-white font-bold"
+               [routerLinkActiveOptions]="{exact: true}"
+               (click)="closeMenu()"
+               class="block text-white/80 px-4 py-3 rounded-xl hover:bg-white/15 transition-all active:scale-98">
+               {{ i18n.text().navbar.home }}
+            </a>
+            <a [routerLink]="localeRoute.getLocalizedRoute('/about')"
+               routerLinkActive="bg-white/20 text-white font-bold"
+               (click)="closeMenu()"
+               class="block text-white/80 px-4 py-3 rounded-xl hover:bg-white/15 transition-all active:scale-98">
+               {{ i18n.text().navbar.about }}
+            </a>
+            <a [routerLink]="localeRoute.getLocalizedRoute('/achievements')"
+               routerLinkActive="bg-white/20 text-white font-bold"
+               (click)="closeMenu()"
+               class="block text-white/80 px-4 py-3 rounded-xl hover:bg-white/15 transition-all active:scale-98">
+               {{ i18n.text().navbar.achievements }}
+            </a>
+            <a [routerLink]="localeRoute.getLocalizedRoute('/contact')"
+               routerLinkActive="bg-white/20 text-white font-bold"
+               (click)="closeMenu()"
+               class="block text-white/80 px-4 py-3 rounded-xl hover:bg-white/15 transition-all active:scale-98">
+               {{ i18n.text().contact.title }}
+            </a>
+          </div>
+        }
+      </nav>
     </header>
 
     <main class="relative z-10 w-full max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mt-20 md:mt-24 mb-12 flex-grow">
@@ -55,6 +106,7 @@
 
     <footer class="relative z-10 w-full max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mb-4">
       <div class="bg-black/20 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 px-6 py-4 text-white text-center">
+
         <!-- Social Icons -->
         <div class="flex justify-center space-x-6 mb-4">
           <a href="https://github.com/GaetanOff" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">
@@ -75,7 +127,7 @@
           <a href="https://www.gaetandev.fr/assets/files/00084228-1_ApplicationWeb_GaetanDev.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors mr-1">©</a>
           <span>{{ i18n.text().footer.devWithLove }}</span>
         </p>
-      </div>
+        </div>
     </footer>
   }
 

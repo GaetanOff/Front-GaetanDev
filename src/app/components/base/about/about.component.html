@@ -1,14 +1,14 @@
-<section class="text-white">
-  <div class="text-center">
-    <h2 class="text-4xl lg:text-5xl font-bold transition-transform transform hover:scale-105 duration-300">
+<section class="text-white relative">
+  <div class="text-center relative z-10">
+    <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
       {{ i18n.text().about.title }}
     </h2>
-    <div class="mt-4 text-xl text-gray-200">
+    <div class="mt-4 text-gray-300/80 max-w-2xl mx-auto font-medium leading-relaxed">
       <p>{{ i18n.text().about.role }}</p>
       <p>{{ i18n.text().desc }}</p>
     </div>
     <div class="mt-8">
-      <button (click)="processForm()" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold py-3 px-6 rounded-xl border border-white/30 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 inline-flex items-center">
+      <button (click)="processForm()" class="ios-btn text-white font-semibold py-3 px-6 rounded-xl inline-flex items-center tracking-wide">
         <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/>
         </svg>
