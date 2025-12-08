@@ -1,6 +1,8 @@
-<div class="text-white">
-  <div class="text-center">
-    <h1 class="text-4xl lg:text-5xl font-bold mb-8">{{ i18n.text().contact.title }}</h1>
+<div class="text-white relative">
+  <div class="text-center mb-8 relative z-10">
+    <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
+      {{ i18n.text().contact.title }}
+    </h1>
   </div>
 
   <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate class="space-y-6">
