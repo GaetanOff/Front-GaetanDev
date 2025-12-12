@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal, computed, AfterViewInit, OnDestroy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, AfterViewInit, OnDestroy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import {I18nService} from "../../../services/i18n/i18n.service";
@@ -6,13 +6,13 @@ import {LimitService} from "../../../services/limit/limit.service";
 import {toast} from 'ngx-sonner';
 import {z} from "zod";
 import { debounceTime } from 'rxjs/operators';
-import { NgxTurnstileModule } from 'ngx-turnstile';
+import { CustomCaptchaComponent } from '../../include/captcha/custom-captcha.component';
 
 import emailjs from '@emailjs/browser';
 
 @Component({
   selector: 'app-contact',
-  imports: [ReactiveFormsModule, NgxTurnstileModule],
+  imports: [ReactiveFormsModule, CustomCaptchaComponent],
   templateUrl: './contact.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -32,8 +32,8 @@ export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
   public formValid = signal(false);
   public siteKey: string = "0x4AAAAAAAQVPyoNLB-x1-gG";
 
-  // Computed signal to check if all fields are valid and filled
-  public showTurnstile = computed(() => this.formValid());
+  // Always show Turnstile
+  public showTurnstile = signal(true);
 
   private getFormSchema() {
     return z.object({
@@ -136,6 +136,8 @@ export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
         this.contactForm.reset();
         this.formValid.set(false);
         this.captchaToken.set(null);
+        // Reset captcha visibility
+        this.showTurnstile.set(true);
       })
       .catch(() => {
         toast.error(this.i18n.text().contact.form.server, {id: lastToast});

@@ -69,17 +69,13 @@
       }
     </div>
 
-      <!-- Turnstile CAPTCHA -->
-      @if (showTurnstile()) {
-        <div class="flex justify-center">
-          <ngx-turnstile
-            (resolved)="onTurnstileResolved($event)"
-            [siteKey]="siteKey"
-            [tabIndex]="0"
-            theme="light">
-          </ngx-turnstile>
-        </div>
-      }
+    <div class="flex justify-center">
+      <app-custom-captcha
+        [siteKey]="siteKey"
+        (tokenResolved)="onTurnstileResolved($event)">
+      </app-custom-captcha>
+    </div>
+
 
       <!-- Submit Button -->
       <div>

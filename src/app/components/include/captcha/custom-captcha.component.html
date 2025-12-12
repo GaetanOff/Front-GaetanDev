@@ -1,0 +1,83 @@
+<div class="w-full flex justify-center">
+  <div #turnstileContainer class="absolute opacity-0 pointer-events-none -z-10"></div>
+  
+  <div class="relative inline-flex items-center gap-3 px-4 py-2 w-[240px] min-h-[44px] bg-white/10 backdrop-blur-md rounded-lg border border-white/20 transition-all duration-300 hover:border-green-400/50"
+       [class.border-green-400/60]="state() === 'verified'"
+       [class.border-red-400/60]="state() === 'error'"
+       [class.shadow-lg]="state() === 'verified'"
+       [class.shadow-green-400/20]="state() === 'verified'">
+    
+    <div class="absolute bottom-1 right-2 text-white/30 text-[5px] pointer-events-none">
+      {{ captchaTexts.poweredBy }}
+    </div>
+    
+    @if (state() === 'idle') {
+      <button 
+        type="button"
+        (click)="verify()"
+        class="flex items-center gap-3 transition-all duration-300 group w-full min-h-[44px]">
+        <div class="w-8 h-8 flex-shrink-0 rounded bg-gradient-to-br from-green-400/20 to-green-400/10 border border-green-400/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-4 h-4 text-green-400 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+          </svg>
+        </div>
+        <span class="text-white text-sm font-medium group-hover:text-green-400 transition-colors duration-300 line-clamp-2 text-left">
+          {{ captchaTexts.verify }}
+        </span>
+      </button>
+    }
+    
+    @if (state() === 'verifying') {
+      <div class="flex items-center gap-3 w-full min-h-[44px]">
+        <div class="relative w-8 h-8 flex-shrink-0">
+          <div class="w-8 h-8 rounded bg-gradient-to-br from-green-400/20 to-green-400/10 border border-green-400/30 flex items-center justify-center">
+            <svg class="animate-spin h-4 w-4 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
+        </div>
+        <span class="text-white text-sm font-medium line-clamp-2 text-left">
+          {{ captchaTexts.verifying }}
+        </span>
+      </div>
+    }
+    
+    @if (state() === 'verified') {
+      <div class="flex items-center gap-3 w-full min-h-[44px]">
+        <div class="relative w-8 h-8 flex-shrink-0">
+          <div class="w-8 h-8 rounded bg-gradient-to-br from-green-400/30 to-green-400/20 border-2 border-green-400/50 flex items-center justify-center shadow-lg shadow-green-400/20">
+            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+        </div>
+        <span class="text-green-400 text-sm font-medium line-clamp-2 text-left">
+          {{ captchaTexts.verified }}
+        </span>
+      </div>
+    }
+    
+    @if (state() === 'error') {
+      <div class="flex items-center gap-2 w-full min-h-[44px]">
+        <div class="w-8 h-8 flex-shrink-0 rounded bg-gradient-to-br from-red-400/20 to-red-400/10 border border-red-400/30 flex items-center justify-center">
+          <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </div>
+        <div class="flex flex-col gap-1 min-w-0 flex-1">
+          <span class="text-red-400 text-sm font-medium line-clamp-2 text-left">
+            {{ captchaTexts.error }}
+          </span>
+          <button 
+            type="button"
+            (click)="reset(); verify()"
+            class="text-red-400/70 hover:text-red-400 text-xs underline transition-colors duration-300 self-start">
+            {{ captchaTexts.retry }}
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+ 
