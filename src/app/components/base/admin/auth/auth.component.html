@@ -30,8 +30,10 @@
         </div>
 
         <div class="mt-5 flex justify-center">
-          <ngx-turnstile (resolved)="hgfyjbvfddibbdguo($event)" [siteKey]="mpmkmpkbgyijnhipm" [tabIndex]="0"
-                         theme="light"></ngx-turnstile>
+          <app-custom-captcha
+            [siteKey]="mpmkmpkbgyijnhipm"
+            (tokenResolved)="hgfyjbvfddibbdguo($event)">
+          </app-custom-captcha>
         </div>
 
         <div class="mt-4">

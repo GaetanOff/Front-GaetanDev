@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Router} from "@angular/router";
-import {NgxTurnstileModule} from 'ngx-turnstile';
 import {toast} from 'ngx-sonner';
 import {AdminService} from "../../../../services/admin/admin.service";
 import {z} from "zod";
+import { CustomCaptchaComponent } from '../../../include/captcha/custom-captcha.component';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [FormsModule, NgxTurnstileModule],
+  imports: [FormsModule, CustomCaptchaComponent],
   templateUrl: './auth.component.html',
 })
 export class AuthComponent implements OnInit {
