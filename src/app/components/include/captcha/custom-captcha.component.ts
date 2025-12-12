@@ -36,7 +36,8 @@ export class CustomCaptchaComponent implements AfterViewInit, OnDestroy {
       verifiedSubtext: "Vous pouvez continuer",
       error: "Erreur de vérification",
       errorSubtext: "Une erreur est survenue",
-      retry: "Réessayer"
+      retry: "Réessayer",
+      poweredBy: "Propulsé par Cloudflare Turnstile"
     };
   }
   

@@ -91,6 +91,7 @@ export class I18nService {
           "error": (isEnglish ? "Verification failed" : "Erreur de vérification"),
           "errorSubtext": (isEnglish ? "An error occurred" : "Une erreur est survenue"),
           "retry": (isEnglish ? "Try again" : "Réessayer"),
+          "poweredBy": (isEnglish ? "Powered by Cloudflare Turnstile" : "Propulsé par Cloudflare Turnstile"),
         },
         "validation": {
           "nameRequired": (isEnglish ? "Your name is required." : "Votre nom est requis."),

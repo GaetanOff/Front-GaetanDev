@@ -7,6 +7,10 @@
        [class.shadow-lg]="state() === 'verified'"
        [class.shadow-green-400/20]="state() === 'verified'">
     
+    <div class="absolute bottom-1 right-2 text-white/30 text-[5px] pointer-events-none">
+      {{ captchaTexts.poweredBy }}
+    </div>
+    
     @if (state() === 'idle') {
       <button 
         type="button"
@@ -76,3 +80,4 @@
     }
   </div>
 </div>
+ 
