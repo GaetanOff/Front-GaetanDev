@@ -30,7 +30,6 @@ export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public captchaToken = signal<string | null>(null);
   public formValid = signal(false);
-  public siteKey: string = "0x4AAAAAAAQVPyoNLB-x1-gG";
 
   // Always show Turnstile
   public showTurnstile = signal(true);
