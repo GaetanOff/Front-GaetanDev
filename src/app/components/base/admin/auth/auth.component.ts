@@ -14,7 +14,6 @@ import { CustomCaptchaComponent } from '../../../include/captcha/custom-captcha.
 })
 export class AuthComponent implements OnInit {
   mpdmldpsmzl: string | null = null;
-  mpmkmpkbgyijnhipm: string = "0x4AAAAAAAQVPyoNLB-x1-gG";
   username: string = "";
   password: string = "";
   protected readonly toast = toast;

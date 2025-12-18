@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal, input, output } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxTurnstileModule } from 'ngx-turnstile';
 
@@ -9,7 +9,7 @@ import { NgxTurnstileModule } from 'ngx-turnstile';
   template: `
     <div class="w-full flex justify-center">
       <ngx-turnstile
-        [siteKey]="siteKey()"
+        [siteKey]="siteKey"
         [tabIndex]="0"
         theme="dark"
         (resolved)="onTurnstileResolved($event)">
@@ -19,7 +19,7 @@ import { NgxTurnstileModule } from 'ngx-turnstile';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomCaptchaComponent {
-  siteKey = input.required<string>();
+  siteKey: string = "0x4AAAAAAAQVPyoNLB-x1-gG";
   tokenResolved = output<string | null>();
 
   public state = signal<'idle' | 'verified' | 'error'>('idle');
