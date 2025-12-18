@@ -81,18 +81,6 @@ export class I18nService {
         "messageLabel": "Message",
         "sendButton": (isEnglish ? "Send Message" : "Envoyer le message"),
         "sendingButton": (isEnglish ? "Sending..." : "Envoi en cours..."),
-        "captcha": {
-          "verify": (isEnglish ? "Verify you're not a robot" : "Vérifier que vous n'êtes pas un robot"),
-          "verifySubtext": (isEnglish ? "Click to verify" : "Cliquez pour vérifier"),
-          "verifying": (isEnglish ? "Verifying..." : "Vérification en cours..."),
-          "verifyingSubtext": (isEnglish ? "Please wait..." : "Veuillez patienter..."),
-          "verified": (isEnglish ? "Verification successful" : "Vérification réussie"),
-          "verifiedSubtext": (isEnglish ? "You can continue" : "Vous pouvez continuer"),
-          "error": (isEnglish ? "Verification failed" : "Erreur de vérification"),
-          "errorSubtext": (isEnglish ? "An error occurred" : "Une erreur est survenue"),
-          "retry": (isEnglish ? "Try again" : "Réessayer"),
-          "poweredBy": (isEnglish ? "Powered by Cloudflare Turnstile" : "Propulsé par Cloudflare Turnstile"),
-        },
         "validation": {
           "nameRequired": (isEnglish ? "Your name is required." : "Votre nom est requis."),
           "nameMinLength": (isEnglish ? "Your name must be at least 3 characters long." : "Votre nom doit comporter au moins 3 caractères."),
