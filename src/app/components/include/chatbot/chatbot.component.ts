@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { I18nService } from '../../../services/i18n/i18n.service';
+import { CustomCaptchaComponent } from '../captcha/custom-captcha.component';
 
 interface ChatMessage {
   content: string;
@@ -18,7 +19,7 @@ interface HistoryMessage {
 @Component({
   selector: 'app-chatbot',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CustomCaptchaComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button
@@ -51,7 +52,7 @@ interface HistoryMessage {
             <button
               (click)="clearConversation()"
               [attr.aria-label]="i18n.text().chatbot.clear"
-              [disabled]="messages().length <= 1"
+              [disabled]="messages().length <= 1 || !isCaptchaVerified()"
               class="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
               <svg class="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -69,33 +70,55 @@ interface HistoryMessage {
         </div>
 
         <div #messagesContainer class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin">
-          @for (message of messages(); track $index) {
-            <div class="flex" [class.justify-end]="message.isUser" [class.justify-start]="!message.isUser">
-              <div 
-                class="max-w-[80%] px-4 py-2.5 rounded-2xl text-sm"
-                [class.bg-gradient-to-r]="message.isUser"
-                [class.from-teal-500]="message.isUser"
-                [class.to-green-500]="message.isUser"
-                [class.text-white]="message.isUser"
-                [class.bg-white/10]="!message.isUser"
-                [class.text-white/90]="!message.isUser"
-                [class.rounded-br-md]="message.isUser"
-                [class.rounded-bl-md]="!message.isUser">
-                <p class="whitespace-pre-wrap break-words">{{ message.content }}</p>
+          @if (!isCaptchaVerified()) {
+            <div class="flex flex-col items-center justify-center h-full space-y-4 px-2">
+              <div class="w-16 h-16 rounded-full bg-gradient-to-br from-teal-400/20 to-green-500/20 flex items-center justify-center mb-2">
+                <svg class="w-8 h-8 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
               </div>
-            </div>
-          }
+              <h4 class="text-white font-medium text-center">{{ i18n.text().chatbot.captchaTitle }}</h4>
+              <p class="text-white/60 text-sm text-center leading-relaxed">{{ i18n.text().chatbot.captchaDescription }}</p>
+              
+              <div class="pt-2 w-full flex justify-center">
+                <app-custom-captcha
+                  (tokenResolved)="onCaptchaResolved($event)">
+                </app-custom-captcha>
+              </div>
 
-          @if (isLoading()) {
-            <div class="flex justify-start">
-              <div class="bg-white/10 px-4 py-3 rounded-2xl rounded-bl-md">
-                <div class="flex gap-1.5">
-                  <span class="w-2 h-2 bg-white/60 rounded-full animate-bounce" style="animation-delay: 0ms"></span>
-                  <span class="w-2 h-2 bg-white/60 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
-                  <span class="w-2 h-2 bg-white/60 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
+              @if (captchaError()) {
+                <p class="text-red-400 text-sm text-center">{{ i18n.text().chatbot.captchaError }}</p>
+              }
+            </div>
+          } @else {
+            @for (message of messages(); track $index) {
+              <div class="flex" [class.justify-end]="message.isUser" [class.justify-start]="!message.isUser">
+                <div 
+                  class="max-w-[80%] px-4 py-2.5 rounded-2xl text-sm"
+                  [class.bg-gradient-to-r]="message.isUser"
+                  [class.from-teal-500]="message.isUser"
+                  [class.to-green-500]="message.isUser"
+                  [class.text-white]="message.isUser"
+                  [class.bg-white/10]="!message.isUser"
+                  [class.text-white/90]="!message.isUser"
+                  [class.rounded-br-md]="message.isUser"
+                  [class.rounded-bl-md]="!message.isUser">
+                  <p class="whitespace-pre-wrap break-words">{{ message.content }}</p>
                 </div>
               </div>
-            </div>
+            }
+
+            @if (isLoading()) {
+              <div class="flex justify-start">
+                <div class="bg-white/10 px-4 py-3 rounded-2xl rounded-bl-md">
+                  <div class="flex gap-1.5">
+                    <span class="w-2 h-2 bg-white/60 rounded-full animate-bounce" style="animation-delay: 0ms"></span>
+                    <span class="w-2 h-2 bg-white/60 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
+                    <span class="w-2 h-2 bg-white/60 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
+                  </div>
+                </div>
+              </div>
+            }
           }
         </div>
 
@@ -105,13 +128,13 @@ interface HistoryMessage {
               type="text"
               [(ngModel)]="userInput"
               name="userInput"
-              [placeholder]="i18n.text().chatbot.placeholder"
-              [disabled]="isLoading()"
+              [placeholder]="isCaptchaVerified() ? i18n.text().chatbot.placeholder : i18n.text().chatbot.captchaPlaceholder"
+              [disabled]="isLoading() || !isCaptchaVerified()"
               class="flex-1 bg-white/10 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white/30 focus:bg-white/15 transition-all disabled:opacity-50"
             />
             <button
               type="submit"
-              [disabled]="isLoading() || !userInput.trim()"
+              [disabled]="isLoading() || !userInput.trim() || !isCaptchaVerified()"
               [attr.aria-label]="i18n.text().chatbot.send"
               class="w-10 h-10 rounded-xl bg-gradient-to-r from-teal-500 to-green-500 flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,9 +174,16 @@ export class ChatbotComponent implements AfterViewChecked {
   
   private _chatHistory = signal<HistoryMessage[]>([]);
   
+  // Captcha state
+  private _isCaptchaVerified = signal<boolean>(false);
+  private _captchaToken = signal<string | null>(null);
+  private _captchaError = signal<boolean>(false);
+  
   public isOpen = computed(() => this._isOpen());
   public messages = computed(() => this._messages());
   public isLoading = computed(() => this._isLoading());
+  public isCaptchaVerified = computed(() => this._isCaptchaVerified());
+  public captchaError = computed(() => this._captchaError());
   
   public userInput = '';
   
@@ -188,6 +218,25 @@ export class ChatbotComponent implements AfterViewChecked {
     });
   }
 
+  onCaptchaResolved(token: string | null): void {
+    if (token) {
+      this._captchaToken.set(token);
+      this._captchaError.set(false);
+      this._isCaptchaVerified.set(true);
+      
+      // Add welcome message after captcha verification
+      this._messages.set([{
+        content: this.i18n.text().chatbot.welcome,
+        isUser: false,
+        timestamp: new Date()
+      }]);
+      this.shouldScroll = true;
+    } else {
+      this._captchaError.set(true);
+      this._isCaptchaVerified.set(false);
+    }
+  }
+
   ngAfterViewChecked(): void {
     if (this.shouldScroll) {
       this.scrollToBottom();
@@ -197,16 +246,7 @@ export class ChatbotComponent implements AfterViewChecked {
 
   toggleChat(): void {
     this._isOpen.update(value => !value);
-    
-    // Add welcome message if opening for first time
-    if (this._isOpen() && this._messages().length === 0) {
-      this._messages.set([{
-        content: this.i18n.text().chatbot.welcome,
-        isUser: false,
-        timestamp: new Date()
-      }]);
-      this.shouldScroll = true;
-    }
+    // Welcome message is now added after captcha verification in onCaptchaResolved()
   }
 
   clearConversation(): void {
@@ -221,9 +261,9 @@ export class ChatbotComponent implements AfterViewChecked {
 
   async sendMessage(): Promise<void> {
     const message = this.userInput.trim();
-    if (!message || this._isLoading()) return;
+    if (!message || this._isLoading() || !this._isCaptchaVerified()) return;
 
-        // Add user message
+    // Add user message
     this._messages.update(messages => [...messages, {
       content: message,
       isUser: true,
@@ -237,7 +277,8 @@ export class ChatbotComponent implements AfterViewChecked {
     try {
       const response = await this.http.post<{ reply: string }>(this.API_URL, {
         message: message,
-        history: this._chatHistory()
+        history: this._chatHistory(),
+        captchaToken: this._captchaToken()
       }).toPromise();
 
       if (response?.reply) {
@@ -255,13 +296,23 @@ export class ChatbotComponent implements AfterViewChecked {
           { role: 'model', parts: [{ text: botReply }] }
         ]);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Chatbot API error:', error);
-      this._messages.update(messages => [...messages, {
-        content: this.i18n.text().chatbot.error,
-        isUser: false,
-        timestamp: new Date()
-      }]);
+      
+      // Si erreur 403 (captcha invalide), réafficher le captcha
+      if (error?.status === 403) {
+        this._isCaptchaVerified.set(false);
+        this._captchaToken.set(null);
+        this._captchaError.set(true);
+        // Retirer le dernier message utilisateur (celui qui a échoué)
+        this._messages.update(messages => messages.slice(0, -1));
+      } else {
+        this._messages.update(messages => [...messages, {
+          content: this.i18n.text().chatbot.error,
+          isUser: false,
+          timestamp: new Date()
+        }]);
+      }
     } finally {
       this._isLoading.set(false);
       this.shouldScroll = true;

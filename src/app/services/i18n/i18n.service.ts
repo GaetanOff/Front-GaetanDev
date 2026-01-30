@@ -291,9 +291,13 @@ export class I18nService {
         "close": (isEnglish ? "Close chat" : "Fermer le chat"),
         "clear": (isEnglish ? "Clear conversation" : "Effacer la conversation"),
         "placeholder": (isEnglish ? "Type your message..." : "Tapez votre message..."),
+        "captchaPlaceholder": (isEnglish ? "Complete verification first..." : "Complétez la vérification..."),
         "send": (isEnglish ? "Send" : "Envoyer"),
         "welcome": (isEnglish ? "Hello! I'm Gaëtan's AI assistant. How can I help you today?" : "Bonjour ! Je suis l'assistant IA de Gaëtan. Comment puis-je vous aider ?"),
         "error": (isEnglish ? "Sorry, an error occurred. Please try again." : "Désolé, une erreur s'est produite. Veuillez réessayer."),
+        "captchaTitle": (isEnglish ? "Quick verification" : "Vérification rapide"),
+        "captchaDescription": (isEnglish ? "Please complete this quick verification to start chatting with the AI assistant." : "Merci de compléter cette vérification rapide pour pouvoir discuter avec l'assistant IA."),
+        "captchaError": (isEnglish ? "Verification failed. Please try again." : "La vérification a échoué. Veuillez réessayer."),
       },
       "error": {
         "notfound": {
