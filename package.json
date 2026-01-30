@@ -23,6 +23,7 @@
     "@emailjs/browser": "^3.11.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "marked": "^17.0.1",
     "ngx-sonner": "3.0.0",
     "ngx-turnstile": "^0.2.4",
     "rxjs": "~6.6.0",

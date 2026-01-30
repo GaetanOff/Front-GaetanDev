@@ -2,8 +2,10 @@ import { Component, signal, computed, inject, ChangeDetectionStrategy, ElementRe
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { I18nService } from '../../../services/i18n/i18n.service';
 import { CustomCaptchaComponent } from '../captcha/custom-captcha.component';
+import { marked } from 'marked';
 
 interface ChatMessage {
   content: string;
@@ -114,7 +116,11 @@ interface HistoryMessage {
                   [class.text-white/90]="!message.isUser"
                   [class.rounded-br-md]="message.isUser"
                   [class.rounded-bl-md]="!message.isUser">
-                  <p class="whitespace-pre-wrap break-words">{{ message.content }}</p>
+                  @if (message.isUser) {
+                    <p class="whitespace-pre-wrap break-words">{{ message.content }}</p>
+                  } @else {
+                    <div class="chat-markdown break-words" [innerHTML]="parseMarkdown(message.content)"></div>
+                  }
                 </div>
               </div>
             }
@@ -172,6 +178,64 @@ interface HistoryMessage {
     .scrollbar-thin::-webkit-scrollbar-thumb:hover {
       background: rgba(255, 255, 255, 0.3);
     }
+    
+    /* Markdown styles */
+    :host ::ng-deep .chat-markdown p {
+      margin: 0 0 0.5em 0;
+    }
+    :host ::ng-deep .chat-markdown p:last-child {
+      margin-bottom: 0;
+    }
+    :host ::ng-deep .chat-markdown strong {
+      font-weight: 600;
+      color: white;
+    }
+    :host ::ng-deep .chat-markdown em {
+      font-style: italic;
+    }
+    :host ::ng-deep .chat-markdown ul,
+    :host ::ng-deep .chat-markdown ol {
+      margin: 0.5em 0;
+      padding-left: 1.2em;
+    }
+    :host ::ng-deep .chat-markdown li {
+      margin: 0.25em 0;
+    }
+    :host ::ng-deep .chat-markdown code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.1em 0.3em;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    :host ::ng-deep .chat-markdown pre {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.75em;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 0.5em 0;
+    }
+    :host ::ng-deep .chat-markdown pre code {
+      background: transparent;
+      padding: 0;
+    }
+    :host ::ng-deep .chat-markdown a {
+      color: #5eead4;
+      text-decoration: underline;
+    }
+    :host ::ng-deep .chat-markdown h1,
+    :host ::ng-deep .chat-markdown h2,
+    :host ::ng-deep .chat-markdown h3,
+    :host ::ng-deep .chat-markdown h4 {
+      font-weight: 600;
+      color: white;
+      margin: 0.75em 0 0.5em 0;
+    }
+    :host ::ng-deep .chat-markdown h1:first-child,
+    :host ::ng-deep .chat-markdown h2:first-child,
+    :host ::ng-deep .chat-markdown h3:first-child,
+    :host ::ng-deep .chat-markdown h4:first-child {
+      margin-top: 0;
+    }
   `]
 })
 export class ChatbotComponent implements AfterViewChecked {
@@ -179,6 +243,7 @@ export class ChatbotComponent implements AfterViewChecked {
   
   public i18n = inject(I18nService);
   private http = inject(HttpClient);
+  private sanitizer = inject(DomSanitizer);
   
   private _isOpen = signal<boolean>(false);
   private _messages = signal<ChatMessage[]>([]);
@@ -352,6 +417,11 @@ export class ChatbotComponent implements AfterViewChecked {
       this._isLoading.set(false);
       this.shouldScroll = true;
     }
+  }
+
+  parseMarkdown(content: string): SafeHtml {
+    const html = marked.parse(content, { async: false }) as string;
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   private scrollToBottom(): void {
