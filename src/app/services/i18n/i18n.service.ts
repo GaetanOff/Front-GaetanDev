@@ -300,6 +300,7 @@ export class I18nService {
         "captchaDescription": (isEnglish ? "Please complete this quick verification to start chatting with the AI assistant." : "Merci de compléter cette vérification rapide pour pouvoir discuter avec l'assistant IA."),
         "captchaError": (isEnglish ? "Verification failed. Please try again." : "La vérification a échoué. Veuillez réessayer."),
         "captchaExpired": (isEnglish ? "Your session has expired. Please verify again." : "Votre session a expiré. Veuillez vous revérifier."),
+        "disclaimer": (isEnglish ? "AI can make mistakes. Please verify important information." : "L'IA peut commettre des erreurs. Il est recommandé de vérifier les informations importantes."),
       },
       "error": {
         "notfound": {
