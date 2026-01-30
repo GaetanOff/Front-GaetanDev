@@ -292,7 +292,7 @@ export class I18nService {
         "clear": (isEnglish ? "Clear conversation" : "Effacer la conversation"),
         "placeholder": (isEnglish ? "Type your message..." : "Tapez votre message..."),
         "send": (isEnglish ? "Send" : "Envoyer"),
-        "welcome": (isEnglish ? "Hello! I'm Gaetan's AI assistant. How can I help you today?" : "Bonjour ! Je suis l'assistant IA de Gaetan. Comment puis-je vous aider ?"),
+        "welcome": (isEnglish ? "Hello! I'm Gaëtan's AI assistant. How can I help you today?" : "Bonjour ! Je suis l'assistant IA de Gaëtan. Comment puis-je vous aider ?"),
         "error": (isEnglish ? "Sorry, an error occurred. Please try again." : "Désolé, une erreur s'est produite. Veuillez réessayer."),
       },
       "error": {
