@@ -153,6 +153,7 @@ interface HistoryMessage {
               </svg>
             </button>
           </form>
+          <p class="text-white/50 text-[10px] text-center mt-2 italic">{{ i18n.text().chatbot.disclaimer }}</p>
         </div>
       </div>
     }
