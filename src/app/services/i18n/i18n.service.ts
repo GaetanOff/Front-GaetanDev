@@ -296,8 +296,10 @@ export class I18nService {
         "welcome": (isEnglish ? "Hello! I'm Gaëtan's AI assistant. How can I help you today?" : "Bonjour ! Je suis l'assistant IA de Gaëtan. Comment puis-je vous aider ?"),
         "error": (isEnglish ? "Sorry, an error occurred. Please try again." : "Désolé, une erreur s'est produite. Veuillez réessayer."),
         "captchaTitle": (isEnglish ? "Quick verification" : "Vérification rapide"),
+        "captchaVerifying": (isEnglish ? "Verifying..." : "Vérification en cours..."),
         "captchaDescription": (isEnglish ? "Please complete this quick verification to start chatting with the AI assistant." : "Merci de compléter cette vérification rapide pour pouvoir discuter avec l'assistant IA."),
         "captchaError": (isEnglish ? "Verification failed. Please try again." : "La vérification a échoué. Veuillez réessayer."),
+        "captchaExpired": (isEnglish ? "Your session has expired. Please verify again." : "Votre session a expiré. Veuillez vous revérifier."),
       },
       "error": {
         "notfound": {
