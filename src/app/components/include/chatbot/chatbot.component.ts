@@ -10,6 +10,11 @@ interface ChatMessage {
   timestamp: Date;
 }
 
+interface HistoryMessage {
+  role: 'user' | 'model';
+  parts: { text: string }[];
+}
+
 @Component({
   selector: 'app-chatbot',
   standalone: true,
@@ -144,6 +149,8 @@ export class ChatbotComponent implements AfterViewChecked {
   private _messages = signal<ChatMessage[]>([]);
   private _isLoading = signal<boolean>(false);
   
+  private _chatHistory = signal<HistoryMessage[]>([]);
+  
   public isOpen = computed(() => this._isOpen());
   public messages = computed(() => this._messages());
   public isLoading = computed(() => this._isLoading());
@@ -208,6 +215,7 @@ export class ChatbotComponent implements AfterViewChecked {
       isUser: false,
       timestamp: new Date()
     }]);
+    this._chatHistory.set([]);
     this.shouldScroll = true;
   }
 
@@ -215,7 +223,7 @@ export class ChatbotComponent implements AfterViewChecked {
     const message = this.userInput.trim();
     if (!message || this._isLoading()) return;
 
-    // Add user message
+        // Add user message
     this._messages.update(messages => [...messages, {
       content: message,
       isUser: true,
@@ -228,15 +236,24 @@ export class ChatbotComponent implements AfterViewChecked {
 
     try {
       const response = await this.http.post<{ reply: string }>(this.API_URL, {
-        message: message
+        message: message,
+        history: this._chatHistory()
       }).toPromise();
 
       if (response?.reply) {
+        const botReply = response.reply.trim();
+        
         this._messages.update(messages => [...messages, {
-          content: response.reply.trim(),
+          content: botReply,
           isUser: false,
           timestamp: new Date()
         }]);
+
+        this._chatHistory.update(history => [
+          ...history,
+          { role: 'user', parts: [{ text: message }] },
+          { role: 'model', parts: [{ text: botReply }] }
+        ]);
       }
     } catch (error) {
       console.error('Chatbot API error:', error);
