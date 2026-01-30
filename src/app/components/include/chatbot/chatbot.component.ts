@@ -73,18 +73,29 @@ interface HistoryMessage {
           @if (!isCaptchaVerified()) {
             <div class="flex flex-col items-center justify-center h-full space-y-4 px-2">
               <div class="w-16 h-16 rounded-full bg-gradient-to-br from-teal-400/20 to-green-500/20 flex items-center justify-center mb-2">
-                <svg class="w-8 h-8 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                </svg>
+                @if (captchaLoading()) {
+                  <svg class="w-8 h-8 text-teal-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                } @else {
+                  <svg class="w-8 h-8 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                  </svg>
+                }
               </div>
-              <h4 class="text-white font-medium text-center">{{ i18n.text().chatbot.captchaTitle }}</h4>
+              <h4 class="text-white font-medium text-center">
+                {{ captchaLoading() ? i18n.text().chatbot.captchaVerifying : i18n.text().chatbot.captchaTitle }}
+              </h4>
               <p class="text-white/60 text-sm text-center leading-relaxed">{{ i18n.text().chatbot.captchaDescription }}</p>
               
-              <div class="pt-2 w-full flex justify-center">
-                <app-custom-captcha
-                  (tokenResolved)="onCaptchaResolved($event)">
-                </app-custom-captcha>
-              </div>
+              @if (!captchaLoading()) {
+                <div class="pt-2 w-full flex justify-center">
+                  <app-custom-captcha
+                    (tokenResolved)="onCaptchaResolved($event)">
+                  </app-custom-captcha>
+                </div>
+              }
 
               @if (captchaError()) {
                 <p class="text-red-400 text-sm text-center">{{ i18n.text().chatbot.captchaError }}</p>
@@ -174,16 +185,18 @@ export class ChatbotComponent implements AfterViewChecked {
   
   private _chatHistory = signal<HistoryMessage[]>([]);
   
-  // Captcha state
+  // Captcha & session state
   private _isCaptchaVerified = signal<boolean>(false);
-  private _captchaToken = signal<string | null>(null);
   private _captchaError = signal<boolean>(false);
+  private _captchaLoading = signal<boolean>(false);
+  private _sessionToken = signal<string | null>(null);
   
   public isOpen = computed(() => this._isOpen());
   public messages = computed(() => this._messages());
   public isLoading = computed(() => this._isLoading());
   public isCaptchaVerified = computed(() => this._isCaptchaVerified());
   public captchaError = computed(() => this._captchaError());
+  public captchaLoading = computed(() => this._captchaLoading());
   
   public userInput = '';
   
@@ -218,22 +231,43 @@ export class ChatbotComponent implements AfterViewChecked {
     });
   }
 
-  onCaptchaResolved(token: string | null): void {
-    if (token) {
-      this._captchaToken.set(token);
-      this._captchaError.set(false);
-      this._isCaptchaVerified.set(true);
-      
-      // Add welcome message after captcha verification
-      this._messages.set([{
-        content: this.i18n.text().chatbot.welcome,
-        isUser: false,
-        timestamp: new Date()
-      }]);
-      this.shouldScroll = true;
-    } else {
+  async onCaptchaResolved(token: string | null): Promise<void> {
+    if (!token) {
       this._captchaError.set(true);
       this._isCaptchaVerified.set(false);
+      return;
+    }
+
+    this._captchaLoading.set(true);
+    this._captchaError.set(false);
+
+    try {
+      // Échanger le token Turnstile contre un token de session (valide 30 min)
+      const response = await this.http.post<{ sessionToken: string }>(
+        `${this.API_URL}/verify`,
+        { captchaToken: token }
+      ).toPromise();
+
+      if (response?.sessionToken) {
+        this._sessionToken.set(response.sessionToken);
+        this._isCaptchaVerified.set(true);
+        
+        // Add welcome message after captcha verification
+        this._messages.set([{
+          content: this.i18n.text().chatbot.welcome,
+          isUser: false,
+          timestamp: new Date()
+        }]);
+        this.shouldScroll = true;
+      } else {
+        this._captchaError.set(true);
+      }
+    } catch (error) {
+      console.error('Captcha verification error:', error);
+      this._captchaError.set(true);
+      this._isCaptchaVerified.set(false);
+    } finally {
+      this._captchaLoading.set(false);
     }
   }
 
@@ -278,7 +312,7 @@ export class ChatbotComponent implements AfterViewChecked {
       const response = await this.http.post<{ reply: string }>(this.API_URL, {
         message: message,
         history: this._chatHistory(),
-        captchaToken: this._captchaToken()
+        sessionToken: this._sessionToken()
       }).toPromise();
 
       if (response?.reply) {
@@ -299,10 +333,10 @@ export class ChatbotComponent implements AfterViewChecked {
     } catch (error: any) {
       console.error('Chatbot API error:', error);
       
-      // Si erreur 403 (captcha invalide), réafficher le captcha
+      // Si erreur 403 (session expirée ou invalide), réafficher le captcha
       if (error?.status === 403) {
         this._isCaptchaVerified.set(false);
-        this._captchaToken.set(null);
+        this._sessionToken.set(null);
         this._captchaError.set(true);
         // Retirer le dernier message utilisateur (celui qui a échoué)
         this._messages.update(messages => messages.slice(0, -1));
