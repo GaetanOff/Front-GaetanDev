@@ -284,6 +284,17 @@ export class I18nService {
         "months": (isEnglish ? "months" : "mois"),
         "and": (isEnglish ? "and" : "et"),
       },
+      "chatbot": {
+        "title": (isEnglish ? "AI Assistant" : "Assistant IA"),
+        "subtitle": (isEnglish ? "Ask me anything!" : "Posez-moi vos questions !"),
+        "toggle": (isEnglish ? "Open chat" : "Ouvrir le chat"),
+        "close": (isEnglish ? "Close chat" : "Fermer le chat"),
+        "clear": (isEnglish ? "Clear conversation" : "Effacer la conversation"),
+        "placeholder": (isEnglish ? "Type your message..." : "Tapez votre message..."),
+        "send": (isEnglish ? "Send" : "Envoyer"),
+        "welcome": (isEnglish ? "Hello! I'm Gaetan's AI assistant. How can I help you today?" : "Bonjour ! Je suis l'assistant IA de Gaetan. Comment puis-je vous aider ?"),
+        "error": (isEnglish ? "Sorry, an error occurred. Please try again." : "Désolé, une erreur s'est produite. Veuillez réessayer."),
+      },
       "error": {
         "notfound": {
           "title": (isEnglish ? "Page not found" : "Page introuvable"),
