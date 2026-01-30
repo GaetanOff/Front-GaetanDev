@@ -4,13 +4,14 @@ import {I18nService} from "../services/i18n/i18n.service";
 import {NgxSonnerToaster} from "ngx-sonner";
 import {filter} from 'rxjs/operators';
 import {LocalerouteService} from '../services/route/localeroute.service';
+import {ChatbotComponent} from './include/chatbot/chatbot.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgxSonnerToaster],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgxSonnerToaster, ChatbotComponent],
 })
 export class AppComponent {
   public i18n = inject(I18nService);

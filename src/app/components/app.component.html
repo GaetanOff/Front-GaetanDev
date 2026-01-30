@@ -2,6 +2,8 @@
   <ngx-sonner-toaster position="bottom-left" richColors />
 
   @if (!isAdminRoute()) {
+    <app-chatbot></app-chatbot>
+
     <div class="absolute top-0 -right-4 w-72 h-72 bg-teal-300 rounded-full filter blur-3xl opacity-10"></div>
     <div class="absolute bottom-0 left-20 w-72 h-72 bg-lime-400 rounded-full filter blur-3xl opacity-5"></div>
 
