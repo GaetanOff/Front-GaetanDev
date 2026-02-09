@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import {I18nService} from "../../../services/i18n/i18n.service";
-import {RouterLink} from "@angular/router";
+import { I18nService } from "../../../services/i18n/i18n.service";
+import { RouterLink } from "@angular/router";
 import { LocalerouteService } from 'src/app/services/route/localeroute.service';
 
 @Component({

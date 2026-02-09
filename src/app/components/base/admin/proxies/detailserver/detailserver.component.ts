@@ -1,15 +1,13 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { NgClass } from "@angular/common";
-import {TempladminComponent} from "../../../../include/admin/templadmin/templadmin.component";
-import {
-  DetailsServerSkeletonsComponent
-} from "../../../../include/skeletons/details-server-skeletons/details-server-skeletons.component";
+import { TempladminComponent } from "../../../../include/admin/templadmin/templadmin.component";
+import { SkeletonComponent } from "../../../../include/skeletons/skeleton.component";
 import { toast } from 'ngx-sonner';
-import {interval, Subject} from "rxjs";
-import {AdminService} from "../../../../../services/admin/admin.service";
-import {ScanningServer} from "../../../../../types";
-import {takeUntil} from "rxjs/operators";
+import { interval, Subject } from "rxjs";
+import { AdminService } from "../../../../../services/admin/admin.service";
+import { ScanningServer } from "../../../../../types";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
   selector: 'app-detailserver',
@@ -17,19 +15,19 @@ import {takeUntil} from "rxjs/operators";
     NgClass,
     RouterLink,
     TempladminComponent,
-    DetailsServerSkeletonsComponent
-],
+    SkeletonComponent
+  ],
   templateUrl: './detailserver.component.html'
 })
 export class DetailserverComponent {
   isLoading: boolean = true;
   serverId!: number;
-  serverDetails : ScanningServer | null = null;
+  serverDetails: ScanningServer | null = null;
   showIp: boolean = false;
   private unsubscribe$ = new Subject<void>();
   protected readonly toast = toast;
 
-  constructor(private route: ActivatedRoute, private adminService: AdminService, private cdr: ChangeDetectorRef) {}
+  constructor(private route: ActivatedRoute, private adminService: AdminService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

@@ -7,28 +7,22 @@
           <label class="block text-sm font-semibold mb-1 text-white">Alias</label>
           <div class="flex items-center">
             @if (!isSubmitting) {
-              <input
-                #emailNameInput="ngModel"
-                [(ngModel)]="emailName"
-                class="input w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-l-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300"
-                minlength="3"
-                name="emailName"
-                placeholder="Alias"
-                required
-                type="text">
+            <input #emailNameInput="ngModel" [(ngModel)]="emailName"
+              class="input w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-l-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300"
+              minlength="3" name="emailName" placeholder="Alias" required type="text">
             }
             @if (!isSubmitting) {
-              <span class="bg-white/10 backdrop-blur-md text-white mt-2 p-3 rounded-r-xl border-t border-r border-b border-white/20">
-                &#64;cf.gaetandev.fr
-              </span>
+            <span
+              class="bg-white/10 backdrop-blur-md text-white mt-2 p-3 rounded-r-xl border-t border-r border-b border-white/20">
+              &#64;cf.gaetandev.fr
+            </span>
             }
           </div>
           @if (isSubmitting) {
-            <app-add-email-skeletons></app-add-email-skeletons>
+          <app-skeleton variant="input"></app-skeleton>
           }
           <div class="mt-2">
-            <button type="button"
-              (click)="generateRandomAlias()"
+            <button type="button" (click)="generateRandomAlias()"
               class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md">
               Générer un alias aléatoire
             </button>
@@ -37,19 +31,18 @@
         <div class="mb-4">
           <label class="block text-sm font-semibold mb-1 text-white">Description</label>
           @if (!isSubmitting) {
-            <textarea
-              [(ngModel)]="description"
-              name="description"
-              class="input w-full h-12 bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300"
-              placeholder="Description"
-              required>
+          <textarea [(ngModel)]="description" name="description"
+            class="input w-full h-12 bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300"
+            placeholder="Description" required>
             </textarea>
           }
           @if (isSubmitting) {
-            <app-add-email-skeletons></app-add-email-skeletons>
+          <app-skeleton variant="input"></app-skeleton>
           }
         </div>
-        <button class="px-4 py-2 bg-green-400/80 hover:bg-green-400 text-black font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1" type="submit">
+        <button
+          class="px-4 py-2 bg-green-400/80 hover:bg-green-400 text-black font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
+          type="submit">
           Ajouter
         </button>
       </form>
@@ -59,45 +52,43 @@
         <!-- Champ de filtre -->
         <div class="mb-4">
           <label class="block text-sm font-semibold mb-1 text-white">Filter aliases</label>
-          <input
-            type="text"
-            [(ngModel)]="filterText"
-            name="filterText"
-            placeholder="Search alias or description"
+          <input type="text" [(ngModel)]="filterText" name="filterText" placeholder="Search alias or description"
             class="input w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300">
+        </div>
+        @if (isLoadingEmails) {
+        <div>
+          <app-skeleton variant="list"></app-skeleton>
+        </div>
+        }
+        @if (!isLoadingEmails) {
+        <div>
+          @if (filteredEmails.length === 0) {
+          <p class="text-gray-300 text-sm">No aliases found</p>
+          } @else {
+          @for (email of filteredEmails; track email) {
+          <div>
+            @if (removingEmail !== email.nom) {
+            <div
+              class="flex items-center justify-between bg-white/10 backdrop-blur-md rounded-xl border border-white/20 px-4 py-3 mb-2 text-white hover:bg-white/20 transition-colors">
+              <div>
+                <strong>{{ email.nom }}&#64;cf.gaetandev.fr</strong>
+                <p class="text-sm text-gray-200">{{ email.description }}</p>
+              </div>
+              <button (click)="removeEmail(email)"
+                class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
+                Delete
+              </button>
+            </div>
+            }
+            @if (removingEmail === email.nom) {
+            <app-skeleton variant="input-small"></app-skeleton>
+            }
           </div>
-          @if (isLoadingEmails) {
-            <div>
-              <app-emails-loading-skeletons></app-emails-loading-skeletons>
-            </div>
           }
-          @if (!isLoadingEmails) {
-            <div>
-              @if (filteredEmails.length === 0) {
-                <p class="text-gray-300 text-sm">No aliases found</p>
-              } @else {
-                @for (email of filteredEmails; track email) {
-                  <div>
-                    @if (removingEmail !== email.nom) {
-                      <div class="flex items-center justify-between bg-white/10 backdrop-blur-md rounded-xl border border-white/20 px-4 py-3 mb-2 text-white hover:bg-white/20 transition-colors">
-                        <div>
-                          <strong>{{ email.nom }}&#64;cf.gaetandev.fr</strong>
-                          <p class="text-sm text-gray-200">{{ email.description }}</p>
-                        </div>
-                        <button (click)="removeEmail(email)" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
-                          Delete
-                        </button>
-                      </div>
-                    }
-                    @if (removingEmail === email.nom) {
-                      <app-remove-email-skeletons></app-remove-email-skeletons>
-                    }
-                  </div>
-                }
-              }
-            </div>
           }
         </div>
+        }
       </div>
     </div>
-  </app-templadmin>
+  </div>
+</app-templadmin>

@@ -240,49 +240,43 @@ interface HistoryMessage {
 })
 export class ChatbotComponent implements AfterViewChecked {
   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
-  
+
   public i18n = inject(I18nService);
   private http = inject(HttpClient);
   private sanitizer = inject(DomSanitizer);
-  
+
   private _isOpen = signal<boolean>(false);
   private _messages = signal<ChatMessage[]>([]);
   private _isLoading = signal<boolean>(false);
-  
+
   private _chatHistory = signal<HistoryMessage[]>([]);
-  
+
   // Captcha & session state
   private _isCaptchaVerified = signal<boolean>(false);
   private _captchaError = signal<boolean>(false);
   private _captchaLoading = signal<boolean>(false);
   private _sessionToken = signal<string | null>(null);
-  
+
   public isOpen = computed(() => this._isOpen());
   public messages = computed(() => this._messages());
   public isLoading = computed(() => this._isLoading());
   public isCaptchaVerified = computed(() => this._isCaptchaVerified());
   public captchaError = computed(() => this._captchaError());
   public captchaLoading = computed(() => this._captchaLoading());
-  
+
   public userInput = '';
-  
+
   private readonly API_URL = 'https://api-ia-chatbot-portfolio.gaetandev.fr';
   private shouldScroll = false;
 
   constructor() {
-    // Update welcome message when language changes
     effect(() => {
-      // Access i18n.text() to track changes
       const currentText = this.i18n.text();
       const currentMessages = this._messages();
-      
-      // If there's at least one message and it's the welcome message (first message, not from user)
+
       if (currentMessages.length > 0 && !currentMessages[0].isUser) {
-        // Check if it's the welcome message by comparing with current welcome text
-        // We'll update it if the language changed
         const newWelcomeMessage = currentText.chatbot.welcome;
         if (currentMessages[0].content !== newWelcomeMessage) {
-          // Update the first message (welcome message) with new language
           this._messages.update(messages => {
             const updated = [...messages];
             updated[0] = {
@@ -308,7 +302,6 @@ export class ChatbotComponent implements AfterViewChecked {
     this._captchaError.set(false);
 
     try {
-      // Échanger le token Turnstile contre un token de session (valide 30 min)
       const response = await this.http.post<{ sessionToken: string }>(
         `${this.API_URL}/verify`,
         { captchaToken: token }
@@ -317,8 +310,7 @@ export class ChatbotComponent implements AfterViewChecked {
       if (response?.sessionToken) {
         this._sessionToken.set(response.sessionToken);
         this._isCaptchaVerified.set(true);
-        
-        // Add welcome message after captcha verification
+
         this._messages.set([{
           content: this.i18n.text().chatbot.welcome,
           isUser: false,
@@ -346,7 +338,6 @@ export class ChatbotComponent implements AfterViewChecked {
 
   toggleChat(): void {
     this._isOpen.update(value => !value);
-    // Welcome message is now added after captcha verification in onCaptchaResolved()
   }
 
   clearConversation(): void {
@@ -363,13 +354,12 @@ export class ChatbotComponent implements AfterViewChecked {
     const message = this.userInput.trim();
     if (!message || this._isLoading() || !this._isCaptchaVerified()) return;
 
-    // Add user message
     this._messages.update(messages => [...messages, {
       content: message,
       isUser: true,
       timestamp: new Date()
     }]);
-    
+
     this.userInput = '';
     this._isLoading.set(true);
     this.shouldScroll = true;
@@ -383,7 +373,7 @@ export class ChatbotComponent implements AfterViewChecked {
 
       if (response?.reply) {
         const botReply = response.reply.trim();
-        
+
         this._messages.update(messages => [...messages, {
           content: botReply,
           isUser: false,
@@ -398,7 +388,7 @@ export class ChatbotComponent implements AfterViewChecked {
       }
     } catch (error: any) {
       console.error('Chatbot API error:', error);
-      
+
       // Si erreur 403 (session expirée ou invalide), réafficher le captcha
       if (error?.status === 403) {
         this._isCaptchaVerified.set(false);

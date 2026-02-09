@@ -10,7 +10,7 @@ describe('ProxiesComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ProxiesComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ProxiesComponent);
     component = fixture.componentInstance;

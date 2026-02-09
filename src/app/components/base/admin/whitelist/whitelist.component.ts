@@ -1,27 +1,21 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {AdminService} from '../../../../services/admin/admin.service';
-import {toast} from 'ngx-sonner';
-import {interval, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {z} from "zod";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AdminService } from '../../../../services/admin/admin.service';
+import { toast } from 'ngx-sonner';
+import { interval, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { z } from "zod";
 
-import {RemoveIpSkeletonsComponent} from "../../../include/skeletons/remove-ip-skeletons/remove-ip-skeletons.component";
-import {FormsModule, NgModel} from "@angular/forms";
-import {
-  WhitelistedIpsSkeletonsComponent
-} from "../../../include/skeletons/whitelisted-ips-skeletons/whitelisted-ips-skeletons.component";
-import {AddIpSkeletonsComponent} from "../../../include/skeletons/add-ip-skeletons/add-ip-skeletons.component";
-import {TempladminComponent} from "../../../include/admin/templadmin/templadmin.component";
+import { SkeletonComponent } from "../../../include/skeletons/skeleton.component";
+import { FormsModule } from "@angular/forms";
+import { TempladminComponent } from "../../../include/admin/templadmin/templadmin.component";
 
 @Component({
   selector: 'app-whitelist',
   imports: [
     FormsModule,
     TempladminComponent,
-    WhitelistedIpsSkeletonsComponent,
-    AddIpSkeletonsComponent,
-    RemoveIpSkeletonsComponent
-],
+    SkeletonComponent
+  ],
   templateUrl: './whitelist.component.html',
 })
 export class WhitelistComponent implements OnInit, OnDestroy {
@@ -58,9 +52,9 @@ export class WhitelistComponent implements OnInit, OnDestroy {
 
     const ipSchema = z
       .string()
-      .ip({version: "v4"})
-      .refine(ip => ip !== '127.0.0.1', {message: "You cannot add 127.0.0.1 to the whitelist."})
-      .refine(ip => !this.whitelistedIPs.includes(ip), {message: "IP already whitelisted."});
+      .ip({ version: "v4" })
+      .refine(ip => ip !== '127.0.0.1', { message: "You cannot add 127.0.0.1 to the whitelist." })
+      .refine(ip => !this.whitelistedIPs.includes(ip), { message: "IP already whitelisted." });
 
     const result = ipSchema.safeParse(this.address);
     if (!result.success) {
@@ -121,7 +115,7 @@ export class WhitelistComponent implements OnInit, OnDestroy {
         this.whitelistedIPs = response;
         this.isLoading = false;
         this.cdr.detectChanges();
-        this.toast.success("Whitelist refreshed", {id: loadingToast});
+        this.toast.success("Whitelist refreshed", { id: loadingToast });
       },
       error: async (error): Promise<void> => {
         await new Promise(resolve => setTimeout(resolve, 1000));

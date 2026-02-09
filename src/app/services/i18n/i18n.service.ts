@@ -20,18 +20,16 @@ export class I18nService {
   }
 
   private getInitialLanguage(): boolean {
-    // First, try to detect from URL if language prefix is present
     if (typeof window !== 'undefined') {
       const urlMatch = window.location.pathname.match(/^\/(fr|en)(\/|$)/);
       if (urlMatch) {
         return urlMatch[1] === 'en';
       }
     }
-    
-    // If no language prefix in URL, use localStorage or default to French
+
     try {
       const storedLang = localStorage.getItem('isEnglish');
-      return storedLang ? JSON.parse(storedLang) : false; // Default to French
+      return storedLang ? JSON.parse(storedLang) : false;
     } catch (e) {
       console.error('Could not access localStorage.', e);
       return false;
@@ -57,8 +55,8 @@ export class I18nService {
       },
       "learnMoreButton": (isEnglish ? "Learn more" : "En savoir plus"),
       "desc": (isEnglish ?
-          "I am a Fullstack and DevOps developer, passionate about automation, Cloud and integrating AI into concrete solutions." :
-          "Je suis développeur Fullstack et DevOps, passionné par l'automatisation, le Cloud et l'intégration de l'IA dans des solutions concrètes."
+        "I am a Fullstack and DevOps developer, passionate about automation, Cloud and integrating AI into concrete solutions." :
+        "Je suis développeur Fullstack et DevOps, passionné par l'automatisation, le Cloud et l'intégration de l'IA dans des solutions concrètes."
       ),
       "navbar": {
         "home": (isEnglish ? "Home" : "Accueil"),

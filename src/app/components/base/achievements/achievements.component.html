@@ -1,7 +1,8 @@
 <div class="text-white relative">
 
   <div class="text-center mb-8 relative z-10">
-    <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
+    <h1
+      class="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
       {{ i18n.text().achievements.title }}
     </h1>
     <p class="mt-4 text-gray-300/80 max-w-2xl mx-auto font-medium leading-relaxed">
@@ -12,19 +13,20 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
     @for (project of displayedList(); track project.name) {
 
-      <ng-container *ngTemplateOutlet="cardContent; context: { $implicit: project }"></ng-container>
+    <ng-container *ngTemplateOutlet="cardContent; context: { $implicit: project }"></ng-container>
 
-      <ng-template #cardContent let-p>
-        @if (p.redirect && p.redirect !== '') {
-          <a [href]="p.redirect" target="_blank" rel="noopener noreferrer" class="ios-card group flex flex-col p-5 h-full relative overflow-hidden">
-            <ng-container *ngTemplateOutlet="innerCard; context: { $implicit: p, isLink: true }"></ng-container>
-          </a>
-        } @else {
-          <div class="ios-card group flex flex-col p-5 h-full relative overflow-hidden">
-            <ng-container *ngTemplateOutlet="innerCard; context: { $implicit: p, isLink: false }"></ng-container>
-          </div>
-        }
-      </ng-template>
+    <ng-template #cardContent let-p>
+      @if (p.redirect && p.redirect !== '') {
+      <a [href]="p.redirect" target="_blank" rel="noopener noreferrer"
+        class="ios-card group flex flex-col p-5 h-full relative overflow-hidden">
+        <ng-container *ngTemplateOutlet="innerCard; context: { $implicit: p, isLink: true }"></ng-container>
+      </a>
+      } @else {
+      <div class="ios-card group flex flex-col p-5 h-full relative overflow-hidden">
+        <ng-container *ngTemplateOutlet="innerCard; context: { $implicit: p, isLink: false }"></ng-container>
+      </div>
+      }
+    </ng-template>
 
     }
   </div>
@@ -32,25 +34,35 @@
   <ng-template #innerCard let-p let-isLink="isLink">
 
     @if (p.image) {
-      <div class="mb-5 flex justify-center items-center h-40 bg-black/20 rounded-2xl group-hover:bg-black/30 transition-colors duration-300 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-        <img [src]="p.image" [alt]="p.name" class="max-h-28 max-w-[80%] object-contain drop-shadow-xl transform group-hover:scale-110 transition-transform duration-500">
+    <div
+      class="mb-5 flex justify-center items-center h-40 bg-black/20 rounded-2xl group-hover:bg-black/30 transition-colors duration-300 relative overflow-hidden">
+      <div
+        class="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
       </div>
+      <img [src]="p.image" [alt]="p.name"
+        class="max-h-28 max-w-[80%] object-contain drop-shadow-xl transform group-hover:scale-110 transition-transform duration-500">
+    </div>
     }
 
     <div class="flex items-center mb-3">
       <div class="relative flex h-3 w-3 mr-3">
         @if(isLink) {
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_8px_rgba(74,222,128,0.6)]"></span>
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+        <span
+          class="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_8px_rgba(74,222,128,0.6)]"></span>
         } @else {
-          <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-400/80 shadow-[0_0_8px_rgba(96,165,250,0.4)]"></span>
+        <span
+          class="relative inline-flex rounded-full h-3 w-3 bg-blue-400/80 shadow-[0_0_8px_rgba(96,165,250,0.4)]"></span>
         }
       </div>
       <h2 class="text-xl font-bold text-white tracking-wide group-hover:text-white/90">{{ p.name }}</h2>
 
       @if(isLink) {
-        <svg class="w-4 h-4 ml-auto text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+      <svg class="w-4 h-4 ml-auto text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all"
+        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+      </svg>
       }
     </div>
 
@@ -61,18 +73,14 @@
 
   <div class="text-center mt-16 flex justify-center gap-6">
     @if (hasMore()) {
-      <button
-        (click)="showMore()"
-        class="ios-btn px-8 py-3 rounded-xl text-white font-semibold text-sm tracking-wide">
-        {{ i18n.isEnglish() ? "Show More" : "Voir Plus" }}
-      </button>
+    <button (click)="showMore()" class="ios-btn px-8 py-3 rounded-xl text-white font-semibold text-sm tracking-wide">
+      {{ i18n.isEnglish() ? "Show More" : "Voir Plus" }}
+    </button>
     }
     @if (hasLess()) {
-      <button
-        (click)="showLess()"
-        class="ios-btn px-8 py-3 rounded-xl text-white font-semibold text-sm tracking-wide">
-        {{ i18n.isEnglish() ? "Show Less" : "Voir Moins" }}
-      </button>
+    <button (click)="showLess()" class="ios-btn px-8 py-3 rounded-xl text-white font-semibold text-sm tracking-wide">
+      {{ i18n.isEnglish() ? "Show Less" : "Voir Moins" }}
+    </button>
     }
   </div>
 

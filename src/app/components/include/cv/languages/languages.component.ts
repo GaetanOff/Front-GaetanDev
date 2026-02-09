@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import {I18nService} from "../../../../services/i18n/i18n.service";
+import { I18nService } from "../../../../services/i18n/i18n.service";
 
 @Component({
   selector: 'app-languages',

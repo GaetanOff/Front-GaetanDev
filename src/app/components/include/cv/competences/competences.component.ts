@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import {I18nService} from "../../../../services/i18n/i18n.service";
+import { I18nService } from "../../../../services/i18n/i18n.service";
 
 @Component({
   selector: 'app-competences',
@@ -9,7 +9,7 @@ import {I18nService} from "../../../../services/i18n/i18n.service";
 export class CompetencesComponent {
   public i18n = inject(I18nService);
 
-  competencesList: {name: string, image: string}[] = [
+  competencesList: { name: string, image: string }[] = [
     { name: 'Java', image: 'assets/img/comp/JVM.webp' },
     { name: 'C#', image: 'assets/img/comp/CSharp.webp' },
     { name: 'Go', image: 'assets/img/comp/Go.webp' },

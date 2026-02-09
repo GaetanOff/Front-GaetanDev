@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import {I18nService} from "../../../services/i18n/i18n.service";
+import { I18nService } from "../../../services/i18n/i18n.service";
 
 @Component({
   selector: 'app-legal',

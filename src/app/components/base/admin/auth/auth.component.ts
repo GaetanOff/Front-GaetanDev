@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {Router} from "@angular/router";
-import {toast} from 'ngx-sonner';
-import {AdminService} from "../../../../services/admin/admin.service";
-import {z} from "zod";
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router } from "@angular/router";
+import { toast } from 'ngx-sonner';
+import { AdminService } from "../../../../services/admin/admin.service";
+import { z } from "zod";
 import { CustomCaptchaComponent } from '../../../include/captcha/custom-captcha.component';
 
 @Component({
@@ -23,7 +23,7 @@ export class AuthComponent implements OnInit {
     password: z.string()
       .min(6, "Password must be at least 6 characters long."),
     captcha: z.string().nullable()
-      .refine(value => value !== null, {message: "Please verify the captcha."})
+      .refine(value => value !== null, { message: "Please verify the captcha." })
   });
 
   constructor(private adminService: AdminService, private router: Router) {
@@ -37,9 +37,9 @@ export class AuthComponent implements OnInit {
   }
 
   async processForm(): Promise<void> {
-    const {username, password, mpdmldpsmzl} = this;
+    const { username, password, mpdmldpsmzl } = this;
 
-    const validationResult = this.authSchema.safeParse({username, password, captcha: mpdmldpsmzl});
+    const validationResult = this.authSchema.safeParse({ username, password, captcha: mpdmldpsmzl });
 
     if (!validationResult.success) {
       validationResult.error.errors.forEach(err => {
@@ -56,10 +56,10 @@ export class AuthComponent implements OnInit {
 
     this.adminService.login(formData).subscribe((success: boolean) => {
       if (success) {
-        toast.success("Successfully connected.", {id: lastToast});
+        toast.success("Successfully connected.", { id: lastToast });
         this.router.navigate(['/admin']).then(() => console.log('Navigated to admin'));
       } else {
-        toast.error("Failed to connect.", {id: lastToast});
+        toast.error("Failed to connect.", { id: lastToast });
       }
     });
   }

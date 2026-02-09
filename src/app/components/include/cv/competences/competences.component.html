@@ -1,13 +1,16 @@
 <div class="pt-20 text-center">
-  <h2 class="mb-10 text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
+  <h2
+    class="mb-10 text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
     {{ i18n.text().cv.competences.title }}
   </h2>
   <div class="flex flex-wrap justify-center gap-4">
     @for (competence of competencesList; track competence.name) {
-      <div class="ios-card group flex flex-col justify-center items-center gap-2 p-4 w-32 h-32 relative overflow-hidden">
-        <img [src]="competence.image" [alt]="competence.name + ' logo'" class="h-12 w-12 object-contain transform group-hover:scale-110 transition-transform duration-500">
-        <h3 class="font-bold text-center text-sm text-white tracking-wide group-hover:text-white/90 transition-colors">{{ competence.name }}</h3>
-      </div>
+    <div class="ios-card group flex flex-col justify-center items-center gap-2 p-4 w-32 h-32 relative overflow-hidden">
+      <img [src]="competence.image" [alt]="competence.name + ' logo'"
+        class="h-12 w-12 object-contain transform group-hover:scale-110 transition-transform duration-500">
+      <h3 class="font-bold text-center text-sm text-white tracking-wide group-hover:text-white/90 transition-colors">{{
+        competence.name }}</h3>
+    </div>
     }
   </div>
 </div>

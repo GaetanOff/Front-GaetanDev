@@ -5,11 +5,9 @@ import { interval, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { z } from 'zod';
 
-import { EmailsLoadingSkeletonsComponent } from '../../../include/skeletons/emails-loading-skeletons/emails-loading-skeletons.component';
-import { AddEmailSkeletonsComponent } from '../../../include/skeletons/add-email-skeletons/add-email-skeletons.component';
+import { SkeletonComponent } from '../../../include/skeletons/skeleton.component';
 import { TempladminComponent } from '../../../include/admin/templadmin/templadmin.component';
 import { FormsModule } from '@angular/forms';
-import { RemoveEmailSkeletonsComponent } from '../../../include/skeletons/remove-email-skeletons/remove-email-skeletons.component';
 
 interface Email {
   nom: string;
@@ -26,10 +24,8 @@ interface WordsResponse {
   imports: [
     FormsModule,
     TempladminComponent,
-    EmailsLoadingSkeletonsComponent,
-    AddEmailSkeletonsComponent,
-    RemoveEmailSkeletonsComponent
-],
+    SkeletonComponent
+  ],
   templateUrl: './email.component.html',
 })
 export class EmailComponent implements OnInit, OnDestroy {
@@ -47,7 +43,7 @@ export class EmailComponent implements OnInit, OnDestroy {
   secondWords: string[] = [];
   wordsLoaded: boolean = false;
 
-  constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) {}
+  constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.updateEmails().catch(err =>

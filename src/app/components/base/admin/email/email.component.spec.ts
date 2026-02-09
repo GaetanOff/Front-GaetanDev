@@ -10,7 +10,7 @@ describe('EmailComponent', () => {
     await TestBed.configureTestingModule({
       imports: [EmailComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(EmailComponent);
     component = fixture.componentInstance;

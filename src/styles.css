@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-html, body {
+html,
+body {
   overflow-x: hidden;
   width: 100%;
 }
@@ -40,6 +41,7 @@ html {
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100%);
   }
@@ -48,6 +50,7 @@ html {
 .animation-delay-2000 {
   animation-delay: 2s;
 }
+
 .animation-delay-4000 {
   animation-delay: 4s;
 }
@@ -64,9 +67,9 @@ html {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
 
   transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
-              background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
-              box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
-              border-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+    border-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   will-change: transform;
 }
 
@@ -88,6 +91,7 @@ html {
   transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
   will-change: transform;
 }
+
 .ios-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: scale(1.05);
