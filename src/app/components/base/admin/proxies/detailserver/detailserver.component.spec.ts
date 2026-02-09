@@ -10,7 +10,7 @@ describe('DetailserverComponent', () => {
     await TestBed.configureTestingModule({
       imports: [DetailserverComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(DetailserverComponent);
     component = fixture.componentInstance;

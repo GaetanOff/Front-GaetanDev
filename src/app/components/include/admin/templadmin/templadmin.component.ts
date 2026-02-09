@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {NavService} from "../../../../services/nav/nav.service";
-import {AdminService} from "../../../../services/admin/admin.service";
-import {toast} from 'ngx-sonner';
+import { Component, OnInit } from '@angular/core';
+import { NavService } from "../../../../services/nav/nav.service";
+import { AdminService } from "../../../../services/admin/admin.service";
+import { toast } from 'ngx-sonner';
 
-import {RouterLink, RouterLinkActive} from "@angular/router";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 
 @Component({
   selector: 'app-templadmin',
   imports: [
     RouterLink,
     RouterLinkActive
-],
+  ],
   templateUrl: './templadmin.component.html'
 })
 export class TempladminComponent implements OnInit {
@@ -30,7 +30,7 @@ export class TempladminComponent implements OnInit {
     const loadingToast: string | number = this.toast.loading("Logging out...");
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    this.toast.success('Successfully logged out', {id: loadingToast});
+    this.toast.success('Successfully logged out', { id: loadingToast });
     await this.adminService.logout();
   }
 

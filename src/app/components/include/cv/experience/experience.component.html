@@ -1,28 +1,30 @@
 <div class="pt-20">
-  <h2 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm text-center mb-12">
+  <h2
+    class="text-3xl lg:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm text-center mb-12">
     {{ i18n.text().cv.experience.title }}
   </h2>
   <div class="relative max-w-4xl mx-auto px-4 md:px-6">
     <div class="absolute z-0 w-0.5 h-full bg-white/20 shadow-md left-1/2 -translate-x-1/2 top-0"></div>
     @for (exp of experiencesList(); track exp.name; let i = $index) {
-      <div class="relative z-10 mb-8 flex items-center">
-        <div class="timeline-marker-container">
-          @if (exp.active) {
-            <div class="timeline-marker-ping"></div>
-          }
-          <div class="timeline-marker-dot" [class.bg-green-400]="exp.active" [class.bg-gray-400]="!exp.active"></div>
-        </div>
-        <div class="timeline-item" [class.timeline-item-left]="i % 2 === 0" [class.timeline-item-right]="i % 2 !== 0">
-          <div class="ios-card group flex flex-col p-6 w-full relative overflow-hidden">
-            <p class="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
-              {{ exp.date }}
-              <span class="font-semibold">({{ calculateDuration(exp.date) }})</span>
-            </p>
-            <h3 class="text-xl font-bold mt-1 text-white tracking-wide group-hover:text-white/90 transition-colors">{{ exp.name }}</h3>
-            <p class="text-gray-300 mt-1 group-hover:text-gray-200 transition-colors">{{ exp.description }}</p>
-          </div>
+    <div class="relative z-10 mb-8 flex items-center">
+      <div class="timeline-marker-container">
+        @if (exp.active) {
+        <div class="timeline-marker-ping"></div>
+        }
+        <div class="timeline-marker-dot" [class.bg-green-400]="exp.active" [class.bg-gray-400]="!exp.active"></div>
+      </div>
+      <div class="timeline-item" [class.timeline-item-left]="i % 2 === 0" [class.timeline-item-right]="i % 2 !== 0">
+        <div class="ios-card group flex flex-col p-6 w-full relative overflow-hidden">
+          <p class="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+            {{ exp.date }}
+            <span class="font-semibold">({{ calculateDuration(exp.date) }})</span>
+          </p>
+          <h3 class="text-xl font-bold mt-1 text-white tracking-wide group-hover:text-white/90 transition-colors">{{
+            exp.name }}</h3>
+          <p class="text-gray-300 mt-1 group-hover:text-gray-200 transition-colors">{{ exp.description }}</p>
         </div>
       </div>
+    </div>
     }
   </div>
 </div>

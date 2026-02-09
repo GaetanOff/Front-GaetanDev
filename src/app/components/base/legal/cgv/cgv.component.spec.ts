@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {CgvComponent} from './cgv.component';
+import { CgvComponent } from './cgv.component';
 
 describe('CgvComponent', () => {
   let component: CgvComponent;

@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {CertifComponent} from './certif.component';
+import { CertifComponent } from './certif.component';
 
 describe('CertifComponent', () => {
   let component: CertifComponent;

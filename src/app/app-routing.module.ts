@@ -1,12 +1,12 @@
-import {Routes} from "@angular/router";
-import {HomeComponent} from "./components/base/home/home.component";
-import {AchievementsComponent} from "./components/base/achievements/achievements.component";
-import {ContactComponent} from "./components/base/contact/contact.component";
-import {LegalComponent} from "./components/base/legal/legal.component";
-import {CgvComponent} from "./components/base/legal/cgv/cgv.component";
-import {AboutComponent} from "./components/base/about/about.component";
-import {ErrorComponent} from "./components/base/error/error.component";
-import {LanguageGuard} from "./guards/language.guard";
+import { Routes } from "@angular/router";
+import { HomeComponent } from "./components/base/home/home.component";
+import { AchievementsComponent } from "./components/base/achievements/achievements.component";
+import { ContactComponent } from "./components/base/contact/contact.component";
+import { LegalComponent } from "./components/base/legal/legal.component";
+import { CgvComponent } from "./components/base/legal/cgv/cgv.component";
+import { AboutComponent } from "./components/base/about/about.component";
+import { ErrorComponent } from "./components/base/error/error.component";
+import { LanguageGuard } from "./guards/language.guard";
 
 export const routes: Routes = [
   {

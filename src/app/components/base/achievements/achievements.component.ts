@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, computed, signal, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import {I18nService} from "../../../services/i18n/i18n.service";
-import {NgTemplateOutlet} from "@angular/common";
+import { I18nService } from "../../../services/i18n/i18n.service";
+import { NgTemplateOutlet } from "@angular/common";
 
 @Component({
   selector: 'app-achievements',

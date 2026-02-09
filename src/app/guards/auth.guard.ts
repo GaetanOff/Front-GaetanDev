@@ -1,6 +1,6 @@
-import {inject} from "@angular/core";
-import {AdminService} from "../services/admin/admin.service";
-import {Router} from "@angular/router";
+import { inject } from "@angular/core";
+import { AdminService } from "../services/admin/admin.service";
+import { Router } from "@angular/router";
 
 export const AuthGuard = () => {
   const auth = inject(AdminService);

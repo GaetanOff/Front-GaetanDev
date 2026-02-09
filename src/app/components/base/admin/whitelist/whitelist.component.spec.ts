@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {WhitelistComponent} from './whitelist.component';
+import { WhitelistComponent } from './whitelist.component';
 
 describe('WhitelistComponent', () => {
   let component: WhitelistComponent;

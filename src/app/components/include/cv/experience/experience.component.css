@@ -29,17 +29,17 @@
   .timeline-item {
     @apply w-full pl-10 pr-0;
   }
-  
+
   .timeline-item-left,
   .timeline-item-right {
     @apply ml-0 mr-0 pl-10 pr-0;
   }
-  
+
   .timeline-marker-container {
     @apply left-0;
     transform: translate(-50%, -50%);
   }
-  
+
   .absolute.z-0 {
     @apply left-0 -translate-x-0;
   }

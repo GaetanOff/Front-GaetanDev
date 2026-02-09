@@ -5,10 +5,10 @@ import { AdminService } from "../../../../services/admin/admin.service";
 import { interval, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { toast } from 'ngx-sonner';
-import { RefreshProxiesWhitelistComponent } from "../../../include/skeletons/refresh-proxies-whitelist/refresh-proxies-whitelist.component";
+import { SkeletonComponent } from "../../../include/skeletons/skeleton.component";
 import { FormsModule } from "@angular/forms";
-import {Router} from "@angular/router";
-import {ScanningServer} from "../../../../types";
+import { Router } from "@angular/router";
+import { ScanningServer } from "../../../../types";
 
 export interface ProxyDetails {
   protocol: string;
@@ -33,8 +33,8 @@ export interface ProxyCheckResponse {
     FormsModule,
     CommonModule,
     TempladminComponent,
-    RefreshProxiesWhitelistComponent
-],
+    SkeletonComponent
+  ],
   templateUrl: './proxies.component.html'
 })
 export class ProxiesComponent implements OnInit, OnDestroy {
@@ -65,7 +65,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
   proxyPort: number = 0;
   proxyCheckResult: ProxyCheckResponse | null = null;
 
-  constructor(private adminService: AdminService, private router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(private adminService: AdminService, private router: Router, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -260,16 +260,16 @@ export class ProxiesComponent implements OnInit, OnDestroy {
 
     this.adminService.checkProxy(this.proxyProtocol, this.proxyHost, this.proxyPort, this.serverToCheck).subscribe({
       next: (response: any) => {
-        if(response.success) {
-          this.toast.success("Proxy checked successfully.", {id: lastToast});
+        if (response.success) {
+          this.toast.success("Proxy checked successfully.", { id: lastToast });
         } else {
-          this.toast.error("Proxy check failed.", {id: lastToast});
+          this.toast.error("Proxy check failed.", { id: lastToast });
         }
         this.isCheckerLoading = false;
         this.proxyCheckResult = response;
       },
       error: () => {
-        this.toast.error("Error checking proxy.", {id: lastToast});
+        this.toast.error("Error checking proxy.", { id: lastToast });
         this.isCheckerLoading = false;
       }
     });

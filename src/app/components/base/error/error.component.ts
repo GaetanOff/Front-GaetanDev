@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, computed, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import {I18nService} from "../../../services/i18n/i18n.service";
+import { I18nService } from "../../../services/i18n/i18n.service";
 
 @Component({
   selector: 'app-error',
@@ -23,7 +23,7 @@ export class ErrorComponent implements OnInit {
     if (typeof window !== 'undefined') {
       const currentUrl = window.location.pathname;
       const hasLangPrefix = /^\/(fr|en)(\/|$)/.test(currentUrl);
-      
+
       if (hasLangPrefix) {
         const lang = this.currentLang();
         const cleanRoute = route.startsWith('/') ? route.substring(1) : route;

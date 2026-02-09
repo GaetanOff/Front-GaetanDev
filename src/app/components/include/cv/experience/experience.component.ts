@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
-import {I18nService} from "../../../../services/i18n/i18n.service";
+import { I18nService } from "../../../../services/i18n/i18n.service";
 
 @Component({
   selector: 'app-experience',
@@ -11,43 +11,43 @@ export class ExperienceComponent {
   public i18n = inject(I18nService);
 
   public experiencesList = computed(() => [
-      {
-        name: 'Freelance',
-        date: this.i18n.isEnglish() ? "October 2021 - Today" : "Octobre 2021 - Aujourd'hui",
-        description: this.i18n.isEnglish() ? "Full-Stack Developer & DevOps | AI & MLOps" : "Développeur Full-Stack & DevOps | IA & MLOps",
-        active: true
-      },
-      {
-        name: 'FirstSky / PixelmonGo',
-        date: this.i18n.isEnglish() ? "September 2021 - September 2024" : "Septembre 2021 - Septembre 2024",
-        description: this.i18n.isEnglish() ? 'Management of all server infrastructure' : "Gestion de l'infrastructure de l'ensemble des serveurs",
-        active: false
-      },
-      {
-        name: 'JobMe',
-        date: this.i18n.isEnglish() ? 'May 2023 - August 2023' : 'Mai 2023 - Août 2023',
-        description: this.i18n.isEnglish() ? "Full-Stack Developer & DevOps" : "Développeur Full-Stack & DevOps",
-        active: false
-      },
-      {
-        name: 'Ubisoft',
-        date: this.i18n.isEnglish() ? 'January 2020 - January 2020' : 'Janvier 2020 - Janvier 2020',
-        description: this.i18n.isEnglish() ? 'Internship: Software Architect & DevOps' : 'Stage: Architecte logiciel & DevOps',
-        active: false
-      },
-      {
-        name: 'Université de Montpellier',
-        date: this.i18n.isEnglish() ? 'January 2019 - January 2020' : 'Janvier 2019 - Janvier 2020',
-        description: this.i18n.isEnglish() ? 'Internship: Software Architect & DevOps' : 'Stage: Architecte logiciel & DevOps',
-        active: false
-      },
-      {
-        name: 'Université de Montpellier',
-        date: this.i18n.isEnglish() ? 'January 2017 - January 2018' : 'Janvier 2017 - Janvier 2018',
-        description: this.i18n.isEnglish() ? 'Internship: Software Architect & DevOps' : 'Stage: Architecte logiciel & DevOps',
-        active: false
-      }
-    ]
+    {
+      name: 'Freelance',
+      date: this.i18n.isEnglish() ? "October 2021 - Today" : "Octobre 2021 - Aujourd'hui",
+      description: this.i18n.isEnglish() ? "Full-Stack Developer & DevOps | AI & MLOps" : "Développeur Full-Stack & DevOps | IA & MLOps",
+      active: true
+    },
+    {
+      name: 'FirstSky / PixelmonGo',
+      date: this.i18n.isEnglish() ? "September 2021 - September 2024" : "Septembre 2021 - Septembre 2024",
+      description: this.i18n.isEnglish() ? 'Management of all server infrastructure' : "Gestion de l'infrastructure de l'ensemble des serveurs",
+      active: false
+    },
+    {
+      name: 'JobMe',
+      date: this.i18n.isEnglish() ? 'May 2023 - August 2023' : 'Mai 2023 - Août 2023',
+      description: this.i18n.isEnglish() ? "Full-Stack Developer & DevOps" : "Développeur Full-Stack & DevOps",
+      active: false
+    },
+    {
+      name: 'Ubisoft',
+      date: this.i18n.isEnglish() ? 'January 2020 - January 2020' : 'Janvier 2020 - Janvier 2020',
+      description: this.i18n.isEnglish() ? 'Internship: Software Architect & DevOps' : 'Stage: Architecte logiciel & DevOps',
+      active: false
+    },
+    {
+      name: 'Université de Montpellier',
+      date: this.i18n.isEnglish() ? 'January 2019 - January 2020' : 'Janvier 2019 - Janvier 2020',
+      description: this.i18n.isEnglish() ? 'Internship: Software Architect & DevOps' : 'Stage: Architecte logiciel & DevOps',
+      active: false
+    },
+    {
+      name: 'Université de Montpellier',
+      date: this.i18n.isEnglish() ? 'January 2017 - January 2018' : 'Janvier 2017 - Janvier 2018',
+      description: this.i18n.isEnglish() ? 'Internship: Software Architect & DevOps' : 'Stage: Architecte logiciel & DevOps',
+      active: false
+    }
+  ]
   );
 
   public calculateDuration(dateRange: string): string {

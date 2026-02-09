@@ -7,31 +7,19 @@
       <form (ngSubmit)="processForm()" class="space-y-6">
         <div>
           <label class="block text-sm font-bold text-white mb-2 uppercase">Username</label>
-          <input
-            #nameInput="ngModel"
-            [(ngModel)]="username"
-            name="username"
+          <input #nameInput="ngModel" [(ngModel)]="username" name="username"
             class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:ring-2 focus:ring-green-400 focus:outline-none transition-all duration-300"
-            minlength="3"
-            placeholder="Username"
-            required
-            type="text">
+            minlength="3" placeholder="Username" required type="text">
         </div>
         <div>
           <label class="block text-sm font-bold text-white mb-2 uppercase">Password</label>
-          <input
-            #emailInput="ngModel"
-            [(ngModel)]="password"
+          <input #emailInput="ngModel" [(ngModel)]="password"
             class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:ring-2 focus:ring-green-400 focus:outline-none transition-all duration-300"
-            name="password"
-            placeholder="Password"
-            required
-            type="password">
+            name="password" placeholder="Password" required type="password">
         </div>
 
         <div class="mt-5 flex justify-center">
-          <app-custom-captcha
-            (tokenResolved)="hgfyjbvfddibbdguo($event)">
+          <app-custom-captcha (tokenResolved)="hgfyjbvfddibbdguo($event)">
           </app-custom-captcha>
         </div>
 

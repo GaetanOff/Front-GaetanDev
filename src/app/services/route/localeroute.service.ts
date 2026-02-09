@@ -11,13 +11,13 @@ export class LocalerouteService {
   constructor(
     private router: Router,
     private i18nService: I18nService
-  ) {}
+  ) { }
 
 
   public getLocalizedRoute(route: string): string {
     const currentUrl = this.router.url;
     const hasLangPrefix = /^\/(fr|en)(\/|$)/.test(currentUrl);
-    
+
     if (hasLangPrefix) {
       const lang = this.currentLang();
       const cleanRoute = route.startsWith('/') ? route.substring(1) : route;

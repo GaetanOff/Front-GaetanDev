@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {LanguagesComponent} from './languages.component';
+import { LanguagesComponent } from './languages.component';
 
 describe('LanguagesComponent', () => {
   let component: LanguagesComponent;

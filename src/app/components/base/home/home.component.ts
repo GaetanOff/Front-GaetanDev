@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, computed, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import {I18nService} from "../../../services/i18n/i18n.service";
+import { I18nService } from "../../../services/i18n/i18n.service";
 import { LocalerouteService } from 'src/app/services/route/localeroute.service';
 
 @Component({

@@ -1,0 +1,49 @@
+@switch (variant) {
+@case ('input') {
+<div class="h-10 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 mb-4" [class]="shimmer"></div>
+}
+@case ('input-small') {
+<div class="h-8 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 mb-4" [class]="shimmer"></div>
+}
+@case ('list') {
+<div>
+    <div class="h-8 bg-white/10 backdrop-blur-md rounded-xl mb-2 border border-white/20" [class]="shimmer"></div>
+    <div class="h-8 bg-white/10 backdrop-blur-md rounded-xl mb-2 border border-white/20" [class]="shimmer"></div>
+    <div class="h-8 bg-white/10 backdrop-blur-md rounded-xl mb-2 border border-white/20" [class]="shimmer"></div>
+</div>
+}
+@case ('text-area') {
+<div class="h-40 w-full bg-gray-300 rounded-lg" [class]="shimmer"></div>
+}
+@case ('details') {
+<div class="max-w-4xl mx-auto shadow-lg rounded-lg p-8">
+    <div class="flex justify-center">
+        <div class="h-8 w-1/3 text-center bg-white/10 backdrop-blur-md rounded-xl border border-white/20 mb-6"
+            [class]="shimmer"></div>
+    </div>
+    <div class="text-center">
+        <div class="h-6 w-1/4 bg-white/10 backdrop-blur-md rounded-full inline-block border border-white/20"
+            [class]="shimmer"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div class="h-16 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-4" [class]="shimmer"></div>
+        <div class="h-16 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-4" [class]="shimmer"></div>
+        <div class="h-24 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-4" [class]="shimmer"></div>
+        <div class="h-24 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-4" [class]="shimmer"></div>
+        <div class="h-24 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-4" [class]="shimmer"></div>
+        <div class="h-24 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-4" [class]="shimmer"></div>
+        <div class="h-24 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-4" [class]="shimmer"></div>
+        <div class="h-24 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-4" [class]="shimmer"></div>
+        <div class="h-24 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-4 col-span-2"
+            [class]="shimmer"></div>
+    </div>
+    <div class="mt-8 text-center">
+        <div class="h-10 w-1/3 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 inline-block"
+            [class]="shimmer"></div>
+    </div>
+</div>
+}
+@case ('panel') {
+<div class="h-[400px] w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20" [class]="shimmer"></div>
+}
+}

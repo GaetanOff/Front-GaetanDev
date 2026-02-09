@@ -1,6 +1,7 @@
 <div class="text-white relative">
   <div class="text-center mb-8 relative z-10">
-    <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
+    <h1
+      class="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
       {{ i18n.text().contact.title }}
     </h1>
   </div>
@@ -8,87 +9,104 @@
   <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate class="space-y-6">
     <!-- Name Field -->
     <div>
-      <label for="name" class="block mb-2 font-medium text-white tracking-wide">{{ i18n.text().contact.nameLabel }}</label>
+      <label for="name" class="block mb-2 font-medium text-white tracking-wide">{{ i18n.text().contact.nameLabel
+        }}</label>
       @if (loading()) {
-        <div>
-          <div class="h-12 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent"></div>
+      <div>
+        <div
+          class="h-12 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent">
         </div>
+      </div>
       } @else {
-        <input id="name" type="text" formControlName="name" class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none focus:border-green-400/50 transition-all duration-300" placeholder="{{ i18n.text().contact.nameLabel }}" />
-        @if (name?.invalid && (name?.dirty || name?.touched)) {
-          <div class="text-red-400 mt-2 text-sm">
-            @if (name?.errors?.['required']) {
-              <p>{{ i18n.text().contact.validation.nameRequired }}</p>
-            }
-            @if (name?.errors?.['minlength']) {
-              <p>{{ i18n.text().contact.validation.nameMinLength }}</p>
-            }
-          </div>
+      <input id="name" type="text" formControlName="name"
+        class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none focus:border-green-400/50 transition-all duration-300"
+        placeholder="{{ i18n.text().contact.nameLabel }}" />
+      @if (name?.invalid && (name?.dirty || name?.touched)) {
+      <div class="text-red-400 mt-2 text-sm">
+        @if (name?.errors?.['required']) {
+        <p>{{ i18n.text().contact.validation.nameRequired }}</p>
         }
+        @if (name?.errors?.['minlength']) {
+        <p>{{ i18n.text().contact.validation.nameMinLength }}</p>
+        }
+      </div>
+      }
       }
     </div>
 
     <!-- Email Field -->
     <div>
-      <label for="email" class="block mb-2 font-medium text-white tracking-wide">{{ i18n.text().contact.emailLabel }}</label>
+      <label for="email" class="block mb-2 font-medium text-white tracking-wide">{{ i18n.text().contact.emailLabel
+        }}</label>
       @if (loading()) {
-        <div>
-          <div class="h-12 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent"></div>
+      <div>
+        <div
+          class="h-12 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent">
         </div>
+      </div>
       } @else {
-        <input id="email" type="email" formControlName="email" class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none focus:border-green-400/50 transition-all duration-300" placeholder="{{ i18n.text().contact.emailLabel }}" />
-        @if (email?.invalid && (email?.dirty || email?.touched)) {
-          <div class="text-red-400 mt-2 text-sm">
-            @if (email?.errors?.['required']) {
-              <p>{{ i18n.text().contact.validation.emailRequired }}</p>
-            }
-            @if (email?.errors?.['email']) {
-              <p>{{ i18n.text().contact.validation.emailInvalid }}</p>
-            }
-          </div>
+      <input id="email" type="email" formControlName="email"
+        class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none focus:border-green-400/50 transition-all duration-300"
+        placeholder="{{ i18n.text().contact.emailLabel }}" />
+      @if (email?.invalid && (email?.dirty || email?.touched)) {
+      <div class="text-red-400 mt-2 text-sm">
+        @if (email?.errors?.['required']) {
+        <p>{{ i18n.text().contact.validation.emailRequired }}</p>
         }
+        @if (email?.errors?.['email']) {
+        <p>{{ i18n.text().contact.validation.emailInvalid }}</p>
+        }
+      </div>
+      }
       }
     </div>
 
     <!-- Message Field -->
     <div>
-      <label for="message" class="block mb-2 font-medium text-white tracking-wide">{{ i18n.text().contact.messageLabel }}</label>
+      <label for="message" class="block mb-2 font-medium text-white tracking-wide">{{ i18n.text().contact.messageLabel
+        }}</label>
       @if (loading()) {
-        <div>
-          <div class="h-32 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent"></div>
+      <div>
+        <div
+          class="h-32 w-full bg-white/10 backdrop-blur-md rounded-xl border border-white/20 relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent">
         </div>
+      </div>
       } @else {
-        <textarea id="message" formControlName="message" rows="5" class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none focus:border-green-400/50 transition-all duration-300 resize-none" placeholder="{{ i18n.text().contact.messageLabel }}"></textarea>
-        @if (message?.invalid && (message?.dirty || message?.touched)) {
-          <div class="text-red-400 mt-2 text-sm">
-            @if (message?.errors?.['required']) {
-              <p>{{ i18n.text().contact.validation.messageRequired }}</p>
-            }
-          </div>
+      <textarea id="message" formControlName="message" rows="5"
+        class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none focus:border-green-400/50 transition-all duration-300 resize-none"
+        placeholder="{{ i18n.text().contact.messageLabel }}"></textarea>
+      @if (message?.invalid && (message?.dirty || message?.touched)) {
+      <div class="text-red-400 mt-2 text-sm">
+        @if (message?.errors?.['required']) {
+        <p>{{ i18n.text().contact.validation.messageRequired }}</p>
         }
+      </div>
+      }
       }
     </div>
 
     <div class="flex justify-center">
-      <app-custom-captcha
-        (tokenResolved)="onTurnstileResolved($event)">
+      <app-custom-captcha (tokenResolved)="onTurnstileResolved($event)">
       </app-custom-captcha>
     </div>
 
 
-      <!-- Submit Button -->
-      <div>
-        <button type="submit" [disabled]="loading()" class="w-full bg-green-400/80 hover:bg-green-400 text-black font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center tracking-wide">
-          @if (loading()) {
-            <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <span>{{ i18n.text().contact.sendingButton }}</span>
-          } @else {
-            <span>{{ i18n.text().contact.sendButton }}</span>
-          }
-        </button>
-      </div>
-    </form>
+    <!-- Submit Button -->
+    <div>
+      <button type="submit" [disabled]="loading()"
+        class="w-full bg-green-400/80 hover:bg-green-400 text-black font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center tracking-wide">
+        @if (loading()) {
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+          </path>
+        </svg>
+        <span>{{ i18n.text().contact.sendingButton }}</span>
+        } @else {
+        <span>{{ i18n.text().contact.sendButton }}</span>
+        }
+      </button>
+    </div>
+  </form>
 </div>

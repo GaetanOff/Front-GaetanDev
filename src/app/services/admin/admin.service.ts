@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {LocalstorageService} from "../localstorage/localstorage.service";
-import {Router} from "@angular/router";
-import {Observable, of} from 'rxjs';
-import {catchError, map} from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { LocalstorageService } from "../localstorage/localstorage.service";
+import { Router } from "@angular/router";
+import { Observable, of } from 'rxjs';
+import { catchError, map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class AdminService {
   }
 
   login(formData: FormData): Observable<boolean> {
-    return this.httpClient.post('https://api.gaetandev.fr/auth', formData, {responseType: 'text'}).pipe(
+    return this.httpClient.post('https://api.gaetandev.fr/auth', formData, { responseType: 'text' }).pipe(
       map((response: string) => {
         if (response === 'true' || response.trim() === 'true') {
           this.localStorage.get.setItem('adminUsername', formData.get('username') as string);
@@ -51,7 +51,7 @@ export class AdminService {
     formData.append('username', this.formData.get('username') as string);
     formData.append('password', this.formData.get('password') as string);
 
-    return this.httpClient.post('https://api.gaetandev.fr/proxies', this.formData, {responseType: 'json'});
+    return this.httpClient.post('https://api.gaetandev.fr/proxies', this.formData, { responseType: 'json' });
   }
 
   getScanningProxyServers(): Observable<any> {
@@ -61,7 +61,7 @@ export class AdminService {
     formData.append('username', this.formData.get('username') as string);
     formData.append('password', this.formData.get('password') as string);
 
-    return this.httpClient.post('https://api.gaetandev.fr/proxies/servers', this.formData, {responseType: 'json'});
+    return this.httpClient.post('https://api.gaetandev.fr/proxies/servers', this.formData, { responseType: 'json' });
   }
 
   getScanningProxyServersDetails(id: number): Observable<any> {
@@ -72,7 +72,7 @@ export class AdminService {
     formData.append('password', this.formData.get('password') as string);
     formData.append('id', id.toString());
 
-    return this.httpClient.post('https://api.gaetandev.fr/proxies/servers/details', formData, {responseType: 'json'});
+    return this.httpClient.post('https://api.gaetandev.fr/proxies/servers/details', formData, { responseType: 'json' });
   }
 
   checkProxy(protocol: string, host: string, port: number, serverToCheck: string): Observable<any> {
@@ -84,13 +84,13 @@ export class AdminService {
     formData.append('port', port.toString());
     formData.append('server', serverToCheck);
 
-    return this.httpClient.post('https://api.gaetandev.fr/proxies/check', formData, {responseType: 'json'});
+    return this.httpClient.post('https://api.gaetandev.fr/proxies/check', formData, { responseType: 'json' });
   }
 
   getWhitelistedIPs(): Observable<any> {
     this.checkAdminStatus();
 
-    return this.httpClient.post('https://api.gaetandev.fr/whitelisted', this.formData, {responseType: 'json'});
+    return this.httpClient.post('https://api.gaetandev.fr/whitelisted', this.formData, { responseType: 'json' });
   }
 
   addWhitelistedIP(ip: string): Observable<string> {
@@ -99,7 +99,7 @@ export class AdminService {
     formData.append('username', this.formData.get('username') as string);
     formData.append('password', this.formData.get('password') as string);
 
-    return this.httpClient.post('https://api.gaetandev.fr/whitelisted/add', formData, {responseType: 'text'});
+    return this.httpClient.post('https://api.gaetandev.fr/whitelisted/add', formData, { responseType: 'text' });
   }
 
   removeWhitelistedIP(ip: string): Observable<string> {
@@ -108,7 +108,7 @@ export class AdminService {
     formData.append('username', this.formData.get('username') as string);
     formData.append('password', this.formData.get('password') as string);
 
-    return this.httpClient.post('https://api.gaetandev.fr/whitelisted/delete', formData, {responseType: 'text'});
+    return this.httpClient.post('https://api.gaetandev.fr/whitelisted/delete', formData, { responseType: 'text' });
   }
 
   private checkAdminStatus(login?: boolean) {

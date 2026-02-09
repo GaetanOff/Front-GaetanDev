@@ -1,6 +1,7 @@
 <div class="text-white relative">
   <div class="text-center mb-8 relative z-10">
-    <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
+    <h1
+      class="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
       {{ i18n.text().title.legal }}
     </h1>
   </div>
@@ -10,7 +11,7 @@
       <h2 class="text-2xl font-bold text-white tracking-wide mb-4">{{ i18n.text().legal.declaration }}</h2>
       <div class="space-y-3 text-gray-300">
         @for (text of i18n.text().legal.declarationText; track text) {
-          <p class="leading-relaxed">{{ text }}</p>
+        <p class="leading-relaxed">{{ text }}</p>
         }
       </div>
     </section>

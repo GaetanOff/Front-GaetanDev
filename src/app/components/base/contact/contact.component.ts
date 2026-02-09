@@ -1,10 +1,10 @@
 import { Component, ChangeDetectionStrategy, inject, signal, AfterViewInit, OnDestroy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import {I18nService} from "../../../services/i18n/i18n.service";
-import {LimitService} from "../../../services/limit/limit.service";
-import {toast} from 'ngx-sonner';
-import {z} from "zod";
+import { I18nService } from "../../../services/i18n/i18n.service";
+import { LimitService } from "../../../services/limit/limit.service";
+import { toast } from 'ngx-sonner';
+import { z } from "zod";
 import { debounceTime } from 'rxjs/operators';
 import { CustomCaptchaComponent } from '../../include/captcha/custom-captcha.component';
 
@@ -43,7 +43,7 @@ export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
       message: z.string()
         .min(3, this.i18n.text().contact.form.messageInvalid),
       captcha: z.string().nullable()
-        .refine(value => value !== null, {message: this.i18n.text().contact.form.captchaInvalid})
+        .refine(value => value !== null, { message: this.i18n.text().contact.form.captchaInvalid })
     });
   }
 
@@ -83,8 +83,8 @@ export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
     const message = this.message?.value;
 
     const isValid = !!(name && name.length >= 3 &&
-                       email && this.email?.valid &&
-                       message && message.length >= 3);
+      email && this.email?.valid &&
+      message && message.length >= 3);
 
     this.formValid.set(isValid);
     this.cdr.detectChanges();
@@ -98,7 +98,7 @@ export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
   async onSubmit(): Promise<void> {
     this.contactForm.markAllAsTouched();
 
-    const {name, email, message} = this.contactForm.value;
+    const { name, email, message } = this.contactForm.value;
     const formSchema = this.getFormSchema();
     const validationResult = formSchema.safeParse({
       name: name || '',
@@ -130,7 +130,7 @@ export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
 
     emailjs.send('service_katu34t', 'template_3rprude', templateParams, 'SsUfOyd0KywiMRRLl')
       .then(() => {
-        toast.success(this.i18n.text().contact.form.success, {id: lastToast});
+        toast.success(this.i18n.text().contact.form.success, { id: lastToast });
         this.limitService.setLimit({ hours: 0, minutes: 10 });
         this.contactForm.reset();
         this.formValid.set(false);
@@ -139,10 +139,10 @@ export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
         this.showTurnstile.set(true);
       })
       .catch(() => {
-        toast.error(this.i18n.text().contact.form.server, {id: lastToast});
+        toast.error(this.i18n.text().contact.form.server, { id: lastToast });
       }).finally(() => {
-      this.loading.set(false);
-      this.captchaToken.set(null);
-    });
+        this.loading.set(false);
+        this.captchaToken.set(null);
+      });
   }
 }
