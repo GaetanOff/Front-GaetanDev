@@ -1,66 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
-import { AdminService } from "../../../../services/admin/admin.service";
-import { z } from "zod";
-import { CustomCaptchaComponent } from '../../../include/captcha/custom-captcha.component';
+import { SsoService } from '../../../../services/sso/sso.service';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [FormsModule, CustomCaptchaComponent],
+  imports: [],
   templateUrl: './auth.component.html',
 })
 export class AuthComponent implements OnInit {
-  mpdmldpsmzl: string | null = null;
-  username: string = "";
-  password: string = "";
-  protected readonly toast = toast;
-  private authSchema = z.object({
-    username: z.string()
-      .min(3, "Username must be at least 3 characters long."),
-    password: z.string()
-      .min(6, "Password must be at least 6 characters long."),
-    captcha: z.string().nullable()
-      .refine(value => value !== null, { message: "Please verify the captcha." })
-  });
+  loading = false;
 
-  constructor(private adminService: AdminService, private router: Router) {
-  }
+  constructor(private ssoService: SsoService, private router: Router) {}
 
   ngOnInit(): void {
-  }
-
-  hgfyjbvfddibbdguo(event: string | null) {
-    this.mpdmldpsmzl = event;
-  }
-
-  async processForm(): Promise<void> {
-    const { username, password, mpdmldpsmzl } = this;
-
-    const validationResult = this.authSchema.safeParse({ username, password, captcha: mpdmldpsmzl });
-
-    if (!validationResult.success) {
-      validationResult.error.errors.forEach(err => {
-        this.toast.error(err.message);
-      });
-      return;
+    if (this.ssoService.isAuthenticated) {
+      this.router.navigate(['/admin']);
     }
+  }
 
-    const lastToast: string | number = toast.loading("Connecting...");
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', password);
-    formData.append('captcha', mpdmldpsmzl || '');
-
-    this.adminService.login(formData).subscribe((success: boolean) => {
-      if (success) {
-        toast.success("Successfully connected.", { id: lastToast });
-        this.router.navigate(['/admin']).then(() => console.log('Navigated to admin'));
-      } else {
-        toast.error("Failed to connect.", { id: lastToast });
-      }
-    });
+  async loginWithSSO(): Promise<void> {
+    this.loading = true;
+    toast.loading('Redirecting to SSO...');
+    await this.ssoService.initiateLogin();
   }
 }

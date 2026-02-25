@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from "@angular/router";
 import { AdminComponent } from "./admin.component";
 import { AuthComponent } from "./auth/auth.component";
+import { CallbackComponent } from "./auth/callback/callback.component";
 import { WhitelistComponent } from "./whitelist/whitelist.component";
 import { AuthGuard } from "../../../guards/auth.guard";
 import { ProxiesComponent } from "./proxies/proxies.component";
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: "auth",
     component: AuthComponent,
+  },
+  {
+    path: "auth/callback",
+    component: CallbackComponent,
   },
   {
     path: "whitelist",
