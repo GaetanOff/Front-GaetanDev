@@ -3,7 +3,14 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  sso: {
+    baseUrl: 'http://localhost:3000',
+    clientId: 'REPLACE_WITH_CLIENT_ID',
+    redirectUri: 'http://localhost:4200/admin/auth/callback',
+    scopes: 'openid profile email',
+  },
+  apiBaseUrl: 'https://api.gaetandev.fr',
 };
 
 /*

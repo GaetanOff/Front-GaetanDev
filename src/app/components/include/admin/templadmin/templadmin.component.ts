@@ -28,8 +28,6 @@ export class TempladminComponent implements OnInit {
 
   async logout(): Promise<void> {
     const loadingToast: string | number = this.toast.loading("Logging out...");
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
     this.toast.success('Successfully logged out', { id: loadingToast });
     await this.adminService.logout();
   }
