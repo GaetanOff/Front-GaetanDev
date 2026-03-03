@@ -119,6 +119,13 @@ export class I18nService {
             "categories": ["DEV"]
           },
           {
+            "name": "LZCorp",
+            "description": (isEnglish ? "Web application for a digital agency." : "Application web pour une agence digitale."),
+            "image": "assets/img/achievements/lzcorp-logo.webp",
+            "redirect": "https://lzcorp.fr",
+            "categories": ["DEV"]
+          },
+          {
             "name": "TMConseils",
             "description": (!isEnglish ? "Application web pour une entreprise d'accompagnement stratégique sur mesure." : "Web application for a customized strategic coaching company."),
             "image": "assets/img/achievements/tmconseils.webp",
