@@ -11,14 +11,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^21.1.3",
-    "@angular/common": "^21.1.3",
-    "@angular/compiler": "^21.1.3",
-    "@angular/core": "^21.1.3",
-    "@angular/forms": "^21.1.3",
-    "@angular/platform-browser": "^21.1.3",
-    "@angular/platform-browser-dynamic": "^21.1.3",
-    "@angular/router": "^21.1.3",
+    "@angular/animations": "^21.2.17",
+    "@angular/common": "^21.2.17",
+    "@angular/compiler": "^21.2.17",
+    "@angular/core": "^21.2.17",
+    "@angular/forms": "^21.2.17",
+    "@angular/platform-browser": "^21.2.17",
+    "@angular/platform-browser-dynamic": "^21.2.17",
+    "@angular/router": "^21.2.17",
     "@babel/runtime": "^7.26.10",
     "@emailjs/browser": "^3.11.0",
     "@ngx-translate/core": "^13.0.0",
@@ -32,9 +32,9 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular/build": "^21.1.3",
-    "@angular/cli": "^21.1.3",
-    "@angular/compiler-cli": "^21.1.3",
+    "@angular/build": "^21.2.16",
+    "@angular/cli": "^21.2.16",
+    "@angular/compiler-cli": "^21.2.17",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^25.2.2",
     "jasmine-core": "~3.8.0",
@@ -51,10 +51,14 @@
     "qs": "^6.15.2",
     "tar": "^7.5.16",
     "@isaacs/brace-expansion": "^5.0.1",
+    "@babel/core": "^7.29.6",
     "@babel/helpers": "^7.26.10",
     "lodash": "^4.17.23",
     "brace-expansion": "^2.0.2",
-    "tmp": "^0.2.4",
+    "tmp": "^0.2.6",
+    "undici": "^7.28.0",
+    "piscina": "^5.2.0",
+    "vite": "^7.3.5",
     "ws": "^8.18.0",
     "webpack": "^5.105.0",
     "webpack-dev-server": "^5.2.1",
@@ -80,7 +84,7 @@
       "lodash@>=4.0.0 <=4.17.22": ">=4.17.23",
       "brace-expansion@>=1.0.0 <=1.1.11": ">=1.1.12",
       "brace-expansion@>=2.0.0 <=2.0.1": ">=2.0.2",
-      "tmp@<=0.2.3": ">=0.2.4"
+      "tmp@<=0.2.5": ">=0.2.6"
     }
   }
 }
