@@ -1,0 +1,29 @@
+# GaetanDev — Gaëtan Faucher
+
+> Portfolio et services de Gaëtan Faucher, développeur Fullstack & DevOps freelance basé à Montpellier (France), spécialisé en IA & MLOps : automatisation, Cloud, CI/CD et intégration de l'intelligence artificielle dans des solutions concrètes.
+
+Gaëtan Faucher est entrepreneur individuel (SIRET 91028598000017). Le site est bilingue français/anglais (préfixes d'URL /fr et /en). Une version détaillée de ce fichier est disponible sur /llms-full.txt.
+
+## Pages
+
+- [Accueil](https://gaetandev.fr/): présentation de Gaëtan Faucher, développeur Fullstack & DevOps spécialisé en IA & MLOps
+- [À propos](https://gaetandev.fr/about): parcours, compétences, expériences professionnelles, certifications et services proposés
+- [Réalisations](https://gaetandev.fr/achievements): projets publics — applications web, infrastructures Cloud, pipelines MLOps, outils open-source
+- [Contact](https://gaetandev.fr/contact): formulaire de contact
+
+## Services (freelance, sur devis)
+
+- Développement : développement sur mesure, multi-plateforme, conseil
+- DevOps : pipelines CI/CD, conteneurisation (Docker/Kubernetes), Infrastructure as Code
+- Solutions IA : intégration de modèles, automatisation de workflows, audit & stratégie IA
+
+## Contact
+
+- Email : contact@gaetandev.fr
+- GitHub : https://github.com/GaetanOff
+- Localisation : Montpellier, France
+
+## Optional
+
+- [Mentions légales](https://gaetandev.fr/legal)
+- [CGU/CGV](https://gaetandev.fr/legal/cgv)

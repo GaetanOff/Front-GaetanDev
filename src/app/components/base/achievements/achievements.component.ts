@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy, inject, computed, signal, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Component, ChangeDetectionStrategy, inject, computed, signal, effect } from '@angular/core';
 import { I18nService } from "../../../services/i18n/i18n.service";
+import { SeoService } from "../../../services/seo/seo.service";
 import { NgTemplateOutlet } from "@angular/common";
 
 @Component({
@@ -11,13 +11,37 @@ import { NgTemplateOutlet } from "@angular/common";
     NgTemplateOutlet
   ]
 })
-export class AchievementsComponent implements OnInit {
+export class AchievementsComponent {
   public i18n = inject(I18nService);
-  private titleService = inject(Title);
+  private seo = inject(SeoService);
   private displayedCount = signal<number>(3);
 
-  ngOnInit(): void {
-    this.titleService.setTitle("Gaetan • " + this.i18n.text().title.achievements);
+  constructor() {
+    effect(() => {
+      const text = this.i18n.text();
+      const seoText = text.seo.achievements;
+      this.seo.update({
+        title: seoText.title,
+        description: seoText.description,
+        path: '/achievements',
+        jsonLd: [{
+          '@type': 'ItemList',
+          'name': text.achievements.title,
+          'description': text.achievements.description,
+          'itemListElement': text.achievements.list.map((project, index) => ({
+            '@type': 'ListItem',
+            'position': index + 1,
+            'item': {
+              '@type': 'CreativeWork',
+              'name': project.name,
+              'description': project.description,
+              ...(project.redirect ? { 'url': project.redirect } : {}),
+              'author': { '@id': `${SeoService.BASE_URL}/#person` }
+            }
+          }))
+        }]
+      });
+    });
   }
 
   public displayedList = computed(() => {

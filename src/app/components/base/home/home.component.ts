@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, inject, computed, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 import { I18nService } from "../../../services/i18n/i18n.service";
 import { LocalerouteService } from 'src/app/services/route/localeroute.service';
+import { SeoService } from 'src/app/services/seo/seo.service';
 
 @Component({
   selector: 'app-home',
@@ -11,13 +11,25 @@ import { LocalerouteService } from 'src/app/services/route/localeroute.service';
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   public i18n = inject(I18nService);
   public localeRoute = inject(LocalerouteService);
-  private titleService = inject(Title);
+  private seo = inject(SeoService);
   public currentLang = computed(() => this.i18n.isEnglish() ? 'en' : 'fr');
 
-  ngOnInit(): void {
-    this.titleService.setTitle("Gaetan • DevOps & Développeur Fullstack | IA & MLOps");
+  constructor() {
+    effect(() => {
+      const seoText = this.i18n.text().seo.home;
+      this.seo.update({
+        title: seoText.title,
+        description: seoText.description,
+        path: '',
+        type: 'profile',
+        jsonLd: [{
+          '@type': 'ProfilePage',
+          'mainEntity': { '@id': `${SeoService.BASE_URL}/#person` }
+        }]
+      });
+    });
   }
 }
