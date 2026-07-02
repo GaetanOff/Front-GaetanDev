@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject, signal, AfterViewInit, OnDestroy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, AfterViewInit, OnDestroy, ChangeDetectorRef, effect } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
 import { I18nService } from "../../../services/i18n/i18n.service";
+import { SeoService } from "../../../services/seo/seo.service";
 import { LimitService } from "../../../services/limit/limit.service";
 import { toast } from 'ngx-sonner';
 import { z } from "zod";
@@ -16,14 +16,25 @@ import emailjs from '@emailjs/browser';
   templateUrl: './contact.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContactComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ContactComponent implements AfterViewInit, OnDestroy {
   public i18n = inject(I18nService);
   private limitService = inject(LimitService);
   private cdr = inject(ChangeDetectorRef);
-  private titleService = inject(Title);
+  private seo = inject(SeoService);
 
-  ngOnInit(): void {
-    this.titleService.setTitle("Gaetan • Contact");
+  constructor() {
+    effect(() => {
+      const seoText = this.i18n.text().seo.contact;
+      this.seo.update({
+        title: seoText.title,
+        description: seoText.description,
+        path: '/contact',
+        jsonLd: [{
+          '@type': 'ContactPage',
+          'mainEntity': { '@id': `${SeoService.BASE_URL}/#person` }
+        }]
+      });
+    });
   }
 
   public loading = signal(false);

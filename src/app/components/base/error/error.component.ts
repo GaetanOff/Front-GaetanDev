@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject, computed, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 import { I18nService } from "../../../services/i18n/i18n.service";
+import { SeoService } from "../../../services/seo/seo.service";
 
 @Component({
   selector: 'app-error',
@@ -9,13 +9,21 @@ import { I18nService } from "../../../services/i18n/i18n.service";
   templateUrl: './error.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ErrorComponent implements OnInit {
+export class ErrorComponent {
   public i18n = inject(I18nService);
-  private titleService = inject(Title);
+  private seo = inject(SeoService);
   public currentLang = computed(() => this.i18n.isEnglish() ? 'en' : 'fr');
 
-  ngOnInit(): void {
-    this.titleService.setTitle("Gaetan • " + this.i18n.text().error.notfound.title);
+  constructor() {
+    effect(() => {
+      const seoText = this.i18n.text().seo.error;
+      this.seo.update({
+        title: seoText.title,
+        description: seoText.description,
+        path: '',
+        noindex: true
+      });
+    });
   }
 
   public getLocalizedRoute(route: string): string {

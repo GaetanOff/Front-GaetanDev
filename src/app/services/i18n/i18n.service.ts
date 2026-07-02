@@ -53,6 +53,50 @@ export class I18nService {
         "cgv": (isEnglish ? "TOS/CGV" : "CGU/CGV"),
         "legal": (isEnglish ? "Legal mention" : "Mention légales"),
       },
+      "seo": {
+        "home": {
+          "title": (isEnglish ? "Gaetan Faucher • DevOps & Fullstack Developer | AI & MLOps" : "Gaetan Faucher • DevOps & Développeur Fullstack | IA & MLOps"),
+          "description": (isEnglish ?
+            "Gaëtan Faucher, freelance Fullstack & DevOps developer based in Montpellier (France), specialized in AI & MLOps. Automation, Cloud, CI/CD and integration of AI into concrete solutions." :
+            "Gaëtan Faucher, développeur Fullstack & DevOps freelance basé à Montpellier, spécialisé en IA & MLOps. Automatisation, Cloud, CI/CD et intégration de l'IA dans des solutions concrètes."),
+        },
+        "about": {
+          "title": (isEnglish ? "About Gaëtan Faucher • Skills, Experience & Services" : "À propos de Gaëtan Faucher • Compétences, Expériences & Services"),
+          "description": (isEnglish ?
+            "Discover the background of Gaëtan Faucher: skills (DevOps, Fullstack, AI/MLOps), professional experience, certifications and freelance services — custom development, CI/CD pipelines, containerization and AI solutions." :
+            "Découvrez le parcours de Gaëtan Faucher : compétences (DevOps, Fullstack, IA/MLOps), expériences professionnelles, certifications et services freelance — développement sur mesure, pipelines CI/CD, conteneurisation et solutions IA."),
+        },
+        "achievements": {
+          "title": (isEnglish ? "Achievements & Projects • Gaëtan Faucher" : "Réalisations & Projets • Gaëtan Faucher"),
+          "description": (isEnglish ?
+            "Projects and achievements by Gaëtan Faucher: web applications, Cloud infrastructures, MLOps pipelines, CDN, open-source tools and game server infrastructures." :
+            "Projets et réalisations de Gaëtan Faucher : applications web, infrastructures Cloud, pipelines MLOps, CDN, outils open-source et infrastructures de serveurs de jeux."),
+        },
+        "contact": {
+          "title": (isEnglish ? "Contact Gaëtan Faucher • Freelance DevOps & Fullstack" : "Contacter Gaëtan Faucher • Freelance DevOps & Fullstack"),
+          "description": (isEnglish ?
+            "Contact Gaëtan Faucher, freelance Fullstack & DevOps developer, for your development, Cloud, DevOps or AI projects. Response within 48 hours." :
+            "Contactez Gaëtan Faucher, développeur Fullstack & DevOps freelance, pour vos projets de développement, Cloud, DevOps ou IA. Réponse sous 48h."),
+        },
+        "legal": {
+          "title": (isEnglish ? "Legal Notice • GaetanDev" : "Mentions légales • GaetanDev"),
+          "description": (isEnglish ?
+            "Legal notice of gaetandev.fr: publisher, hosting and intellectual property." :
+            "Mentions légales de gaetandev.fr : éditeur, hébergement et propriété intellectuelle."),
+        },
+        "cgv": {
+          "title": (isEnglish ? "Terms of Service & Sale • GaetanDev" : "CGU/CGV • GaetanDev"),
+          "description": (isEnglish ?
+            "Terms of use and terms of sale of gaetandev.fr services." :
+            "Conditions générales d'utilisation et de vente des services de gaetandev.fr."),
+        },
+        "error": {
+          "title": (isEnglish ? "Page not found • GaetanDev" : "Page introuvable • GaetanDev"),
+          "description": (isEnglish ?
+            "The page you are looking for does not exist or has been moved." :
+            "La page que vous cherchez n'existe pas ou a été déplacée."),
+        },
+      },
       "learnMoreButton": (isEnglish ? "Learn more" : "En savoir plus"),
       "desc": (isEnglish ?
         "I am a Fullstack and DevOps developer, passionate about automation, Cloud and integrating AI into concrete solutions." :

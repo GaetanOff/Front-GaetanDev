@@ -28,7 +28,10 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/robots.txt"
+              "src/robots.txt",
+              "src/sitemap.xml",
+              "src/llms.txt",
+              "src/llms-full.txt"
             ],
             "styles": [
               "src/styles.css"

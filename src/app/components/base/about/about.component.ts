@@ -1,12 +1,12 @@
 
-import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Component, ChangeDetectionStrategy, inject, effect } from '@angular/core';
 import { ServicesComponent } from "../../include/services/services.component";
 import { CompetencesComponent } from "../../include/cv/competences/competences.component";
 import { ExperienceComponent } from "../../include/cv/experience/experience.component";
 import { CertifComponent } from "../../include/cv/certif/certif.component";
 import { LanguagesComponent } from "../../include/cv/languages/languages.component";
 import { I18nService } from "../../../services/i18n/i18n.service";
+import { SeoService } from "../../../services/seo/seo.service";
 import { toast } from 'ngx-sonner';
 
 @Component({
@@ -21,12 +21,54 @@ import { toast } from 'ngx-sonner';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent {
   public i18n = inject(I18nService);
-  private titleService = inject(Title);
+  private seo = inject(SeoService);
 
-  ngOnInit(): void {
-    this.titleService.setTitle("Gaetan • " + this.i18n.text().title.about);
+  constructor() {
+    effect(() => {
+      const text = this.i18n.text();
+      const seoText = text.seo.about;
+      this.seo.update({
+        title: seoText.title,
+        description: seoText.description,
+        path: '/about',
+        type: 'profile',
+        jsonLd: [{
+          '@type': 'OfferCatalog',
+          'name': text.services.title,
+          'itemListElement': [
+            {
+              '@type': 'Offer',
+              'itemOffered': {
+                '@type': 'Service',
+                'name': text.services.devTitle,
+                'description': text.services.dev.join(', '),
+                'provider': { '@id': `${SeoService.BASE_URL}/#person` }
+              }
+            },
+            {
+              '@type': 'Offer',
+              'itemOffered': {
+                '@type': 'Service',
+                'name': text.services.devopsTitle,
+                'description': text.services.devops.join(', '),
+                'provider': { '@id': `${SeoService.BASE_URL}/#person` }
+              }
+            },
+            {
+              '@type': 'Offer',
+              'itemOffered': {
+                '@type': 'Service',
+                'name': text.services.iaTitle,
+                'description': text.services.ia.join(', '),
+                'provider': { '@id': `${SeoService.BASE_URL}/#person` }
+              }
+            }
+          ]
+        }]
+      });
+    });
   }
 
   processForm(): void {

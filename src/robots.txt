@@ -1,2 +1,107 @@
+# robots.txt — https://gaetandev.fr
+# Search engines AND AI crawlers are welcome (GEO friendly).
+# Machine-readable site summary for LLMs: https://gaetandev.fr/llms.txt
+
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+
+# --- Search engine bots ---
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+
+# --- AI / LLM crawlers (explicitly allowed) ---
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+
+User-agent: Claude-User
+Allow: /
+Disallow: /admin
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /admin
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /admin
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /admin
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+
+User-agent: GoogleOther
+Allow: /
+Disallow: /admin
+
+User-agent: Gemini-Deep-Research
+Allow: /
+Disallow: /admin
+
+User-agent: Applebot
+Allow: /
+Disallow: /admin
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+
+User-agent: Amazonbot
+Allow: /
+Disallow: /admin
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin
+
+User-agent: cohere-ai
+Allow: /
+Disallow: /admin
+
+User-agent: meta-externalagent
+Allow: /
+Disallow: /admin
+
+User-agent: FacebookBot
+Allow: /
+Disallow: /admin
+
+User-agent: DuckAssistBot
+Allow: /
+Disallow: /admin
+
+User-agent: MistralAI-User
+Allow: /
+Disallow: /admin
+
+User-agent: xAI-Bot
+Allow: /
+Disallow: /admin
+
+Sitemap: https://gaetandev.fr/sitemap.xml
