@@ -6,7 +6,6 @@
     "start": "ng serve",
     "build": "ng build --configuration production --optimization true",
     "watch": "ng build --watch --configuration development",
-    "tailwind": "npx tailwindcss -i ./tailwind.css -o src/assets/css/output.css --watch",
     "test": "ng test"
   },
   "private": true,
