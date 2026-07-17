@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
+import { isEnglishPath, matchLocaleFromPath } from '../../utils/locale.utils';
 
 export interface SeoData {
   title: string;
@@ -71,13 +72,13 @@ export class SeoService {
   }
 
   private isEnglishUrl(): boolean {
-    return /^\/en(\/|$)/.test(this.router.url);
+    return isEnglishPath(this.router.url);
   }
 
   private canonicalUrl(path: string): string {
-    const match = this.router.url.match(/^\/(fr|en)(\/|$)/);
+    const match = matchLocaleFromPath(this.router.url);
     if (match) {
-      return `${SeoService.BASE_URL}/${match[1]}${path}`;
+      return `${SeoService.BASE_URL}/${match}${path}`;
     }
     return `${SeoService.BASE_URL}${path || '/'}`;
   }

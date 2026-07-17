@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build --configuration production --optimization true",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessCI"
   },
   "private": true,
   "dependencies": {
@@ -20,12 +21,11 @@
     "@angular/router": "^21.2.17",
     "@babel/runtime": "^7.26.10",
     "@emailjs/browser": "^3.11.0",
-    "@ngx-translate/core": "^13.0.0",
-    "@ngx-translate/http-loader": "^6.0.0",
+    "dompurify": "^3.4.12",
     "marked": "^17.0.1",
     "ngx-sonner": "3.0.0",
     "ngx-turnstile": "^0.2.4",
-    "rxjs": "~6.6.0",
+    "rxjs": "^7.8.2",
     "tslib": "^2.2.0",
     "zod": "^3.24.1",
     "zone.js": "~0.15.0"
@@ -34,6 +34,7 @@
     "@angular/build": "^21.2.17",
     "@angular/cli": "^21.2.17",
     "@angular/compiler-cli": "^21.2.17",
+    "@types/dompurify": "^3.0.5",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^25.2.2",
     "jasmine-core": "~3.8.0",
@@ -46,6 +47,9 @@
     "typescript": "~5.9.3"
   },
   "overrides": {
+    "karma": {
+      "glob": "7.2.3"
+    },
     "glob": "^10.5.0",
     "qs": "^6.15.2",
     "tar": "^7.5.16",
@@ -90,5 +94,9 @@
     "engine.io": "^6.6.4",
     "body-parser": "^2.2.0",
     "express": "^5.1.0"
+  },
+  "optionalDependencies": {
+    "@emnapi/core": "1.11.2",
+    "@emnapi/runtime": "1.11.2"
   }
 }

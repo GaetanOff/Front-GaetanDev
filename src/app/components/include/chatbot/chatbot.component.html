@@ -91,7 +91,7 @@
         @if (message.isUser) {
         <p class="whitespace-pre-wrap break-words">{{ message.content }}</p>
         } @else {
-        <div class="chat-markdown break-words" [innerHTML]="parseMarkdown(message.content)"></div>
+        <div class="chat-markdown break-words" [innerHTML]="message.htmlContent"></div>
         }
       </div>
     </div>

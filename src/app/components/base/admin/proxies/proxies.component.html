@@ -3,36 +3,36 @@
     <h1 class="text-3xl font-bold mb-6 text-white">Proxy List</h1>
     <p class="text-gray-300 mb-4">
       Last refresh:
-      @if (isLoading) {
+      @if (isLoading()) {
       <span>loading...</span>
       }
-      @if (!isLoading) {
-      <span>{{ lastRefresh }}</span>
+      @if (!isLoading()) {
+      <span>{{ lastRefresh() }}</span>
       }
     </p>
     <div class="flex space-x-4 mb-6">
-      <button (click)="showServers = true"
+      <button (click)="showServers.set(true)"
         class="bg-green-400/80 hover:bg-green-400 text-black font-semibold px-4 py-2 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
         Show Scanning Servers status
       </button>
 
-      <button (click)="showProxy = true"
+      <button (click)="showProxy.set(true)"
         class="bg-green-400/80 hover:bg-green-400 text-black font-semibold px-4 py-2 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
         Open Proxy Checker
       </button>
     </div>
 
-    @if (showServers) {
+    @if (showServers()) {
     <div class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
       <div
         class="bg-black/20 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-6 w-11/12 md:w-2/3 lg:w-1/2">
         <div class="flex justify-between items-center border-b border-white/20 pb-2">
           <h2 class="text-2xl font-semibold text-white">Scanning Servers</h2>
-          <button (click)="showServers = false"
+          <button (click)="showServers.set(false)"
             class="text-white hover:text-gray-200 text-2xl transition-colors">&times;</button>
         </div>
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-          @for (server of scanningServers; track server) {
+          @for (server of scanningServers(); track server) {
           <div
             class="p-4 border border-white/20 rounded-xl shadow-sm bg-white/10 backdrop-blur-md cursor-pointer duration-300 hover:bg-white/20 hover:shadow-lg hover:shadow-green-600/30 text-white"
             (click)="navigateToDetails(server.id)">
@@ -52,7 +52,7 @@
           }
         </div>
         <div class="mt-4 flex justify-end">
-          <button (click)="showServers = false"
+          <button (click)="showServers.set(false)"
             class="bg-green-400/80 hover:bg-green-400 text-black font-semibold px-4 py-2 rounded-xl transition-all duration-300">
             Close
           </button>
@@ -61,8 +61,7 @@
     </div>
     }
 
-    <!-- Popup Proxy Checker -->
-    @if (showProxy) {
+    @if (showProxy()) {
     <div class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
       <div
         class="bg-black/20 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-6 w-11/12 md:w-2/3 lg:w-1/2">
@@ -96,7 +95,7 @@
               <select [(ngModel)]="serverToCheck" name="server" style="color-scheme: dark;"
                 class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
                 <option value="random">Random</option>
-                @for (server of scanningServers; track server) {
+                @for (server of scanningServers(); track server) {
                 <option [value]="server.id">
                   Server {{ server.id }} - CPU: {{ server.cpu }}%, RAM: {{ server.ram }}% ({{ server.status }})
                 </option>
@@ -104,29 +103,29 @@
               </select>
             </div>
             <div class="flex justify-end">
-              @if (!isCheckerLoading) {
+              @if (!isCheckerLoading()) {
               <button type="submit"
                 class="bg-green-400/80 hover:bg-green-400 text-black font-semibold px-4 py-2 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
                 Check Proxy
               </button>
               }
-              @if (isCheckerLoading) {
+              @if (isCheckerLoading()) {
               <div class="bg-green-400/80 text-black font-semibold px-4 py-2 rounded-xl">
                 Checking...
               </div>
               }
             </div>
           </form>
-          @if (proxyCheckResult) {
+          @if (proxyCheckResult(); as result) {
           <div class="mt-4 p-4 border border-white/20 rounded-xl bg-white/10 backdrop-blur-md">
-            @if (proxyCheckResult.success) {
+            @if (result.success) {
             <p class="text-green-400">
-              Proxy is functional. Data: {{ proxyCheckResult.data | json }}
+              Proxy is functional. Data: {{ result.data | json }}
             </p>
             }
-            @if (!proxyCheckResult.success) {
+            @if (!result.success) {
             <p class="text-red-400">
-              Proxy failed: {{ proxyCheckResult.error }}
+              Proxy failed: {{ result.error }}
             </p>
             }
           </div>
@@ -139,18 +138,18 @@
     <div class="flex flex-col md:flex-row justify-center md:justify-between">
       <div class="w-1/2 p-4">
         <h2 class="text-2xl font-bold mb-4 text-white">HTTP Proxies</h2>
-        @if (!isLoading) {
+        @if (!isLoading()) {
         <div
           class="w-full bg-white/10 backdrop-blur-md text-white mt-2 p-3 rounded-xl border border-white/20 min-h-[120px] overflow-auto">
           <ul class="space-y-1">
-            @for (proxy of httpProxies.slice(0, 15); track proxy) {
+            @for (proxy of httpProxies().slice(0, 15); track proxy) {
             <li class="font-mono text-sm">{{ proxy.host }}:{{ proxy.port }}</li>
             }
-            <li class="italic pt-2 text-gray-300">... {{ httpProxies.length }} more</li>
+            <li class="italic pt-2 text-gray-300">... {{ httpProxies().length }} more</li>
           </ul>
         </div>
         }
-        @if (isLoading) {
+        @if (isLoading()) {
         <div>
           <app-skeleton variant="panel"></app-skeleton>
         </div>
@@ -158,18 +157,18 @@
       </div>
       <div class="w-1/2 p-4">
         <h2 class="text-2xl font-bold mb-4 text-white">SOCKS5 Proxies</h2>
-        @if (!isLoading) {
+        @if (!isLoading()) {
         <div
           class="w-full bg-white/10 backdrop-blur-md text-white mt-2 p-3 rounded-xl border border-white/20 min-h-[120px] overflow-auto">
           <ul class="space-y-1">
-            @for (proxy of socks5Proxies.slice(0, 15); track proxy) {
+            @for (proxy of socks5Proxies().slice(0, 15); track proxy) {
             <li class="font-mono text-sm">{{ proxy.host }}:{{ proxy.port }}</li>
             }
-            <li class="italic pt-2 text-gray-300">... {{ socks5Proxies.length }} more</li>
+            <li class="italic pt-2 text-gray-300">... {{ socks5Proxies().length }} more</li>
           </ul>
         </div>
         }
-        @if (isLoading) {
+        @if (isLoading()) {
         <div>
           <app-skeleton variant="panel"></app-skeleton>
         </div>
@@ -182,28 +181,28 @@
       <div class="flex flex-col md:flex-row gap-4">
         <div class="w-full md:w-1/3">
           <label class="block text-sm font-semibold mb-1 text-white">Select Country</label>
-          @for (filter of countryFilters; track filter; let i = $index) {
+          @for (filter of countryFilters(); track $index; let i = $index) {
           <div class="flex items-center gap-2 mb-2">
-            <select [(ngModel)]="countryFilters[i]" (ngModelChange)="updateProxyLimit()" [name]="'countryFilter' + i"
+            <select [ngModel]="filter" (ngModelChange)="setCountryFilter(i, $event)" [name]="'countryFilter' + i"
               style="color-scheme: dark;"
               class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
-              @if (countryFilters.length > 1) {
+              @if (countryFilters().length > 1) {
               @for (country of filteredCountries; track country) {
               <option [value]="country">{{ country }}</option>
               }
               } @else {
-              @for (country of countries; track country) {
+              @for (country of countries(); track country) {
               <option [value]="country">{{ country }}</option>
               }
               }
             </select>
-            @if (countryFilters.length > 1) {
+            @if (countryFilters().length > 1) {
             <button (click)="removeCountryFilter(i)"
               class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">-</button>
             }
           </div>
           }
-          @if (countryFilters[0] !== 'All') {
+          @if (countryFilters()[0] !== 'All') {
           <button (click)="addCountryFilter()"
             class="px-4 py-2 bg-green-400/80 hover:bg-green-400 text-black font-semibold rounded-xl transition-all duration-300">
             +
@@ -214,7 +213,7 @@
         <div class="w-full md:w-1/3">
           <label class="block text-sm font-semibold mb-1 text-white">Proxy Type</label>
           <div class="relative">
-            <select [(ngModel)]="selectedProxyType" (ngModelChange)="updateAvailableCountries()"
+            <select [(ngModel)]="selectedProxyType" (ngModelChange)="onProxyTypeChange()"
               name="selectedProxyType" style="color-scheme: dark;"
               class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
               <option value="http">HTTP</option>
@@ -228,7 +227,8 @@
 
         <div class="w-full md:w-1/3">
           <label class="block text-sm font-semibold mb-1 text-white">Number of Proxy</label>
-          <input type="number" [(ngModel)]="proxyLimit" name="proxyLimit" min="1" max="1000"
+          <input type="number" [ngModel]="proxyLimit()" (ngModelChange)="proxyLimit.set(+$event)" name="proxyLimit"
+            min="1" max="1000"
             class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300" />
         </div>
       </div>

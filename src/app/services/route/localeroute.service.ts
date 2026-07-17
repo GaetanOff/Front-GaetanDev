@@ -1,6 +1,7 @@
 import { Injectable, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { I18nService } from '../i18n/i18n.service';
+import { hasLocalePrefix } from '../../utils/locale.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -13,17 +14,15 @@ export class LocalerouteService {
     private i18nService: I18nService
   ) { }
 
-
   public getLocalizedRoute(route: string): string {
     const currentUrl = this.router.url;
-    const hasLangPrefix = /^\/(fr|en)(\/|$)/.test(currentUrl);
 
-    if (hasLangPrefix) {
+    if (hasLocalePrefix(currentUrl)) {
       const lang = this.currentLang();
       const cleanRoute = route.startsWith('/') ? route.substring(1) : route;
       return `/${lang}/${cleanRoute}`;
-    } else {
-      return route.startsWith('/') ? route : `/${route}`;
     }
+
+    return route.startsWith('/') ? route : `/${route}`;
   }
 }

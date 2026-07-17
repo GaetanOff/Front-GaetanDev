@@ -8,7 +8,7 @@ describe('CertifComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CertifComponent]
+      imports: [CertifComponent]
     })
       .compileComponents();
   });
