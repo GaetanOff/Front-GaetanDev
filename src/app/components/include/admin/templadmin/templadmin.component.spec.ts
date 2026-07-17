@@ -8,7 +8,7 @@ describe('TempladminComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TempladminComponent]
+      imports: [TempladminComponent]
     })
       .compileComponents();
 

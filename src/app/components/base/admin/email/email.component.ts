@@ -8,16 +8,7 @@ import { z } from 'zod';
 import { SkeletonComponent } from '../../../include/skeletons/skeleton.component';
 import { TempladminComponent } from '../../../include/admin/templadmin/templadmin.component';
 import { FormsModule } from '@angular/forms';
-
-interface Email {
-  nom: string;
-  description: string;
-}
-
-interface WordsResponse {
-  firstWords: string[];
-  secondWords: string[];
-}
+import { AdminEmail, AdminMutationResponse, EmailWordsResponse } from '../../../../types';
 
 @Component({
   selector: 'app-email',
@@ -31,7 +22,7 @@ interface WordsResponse {
 export class EmailComponent implements OnInit, OnDestroy {
   emailName: string = '';
   description: string = '';
-  emails: Email[] = [];
+  emails: AdminEmail[] = [];
   filterText: string = '';
   isLoadingEmails: boolean = false;
   isSubmitting: boolean = false;
@@ -51,14 +42,13 @@ export class EmailComponent implements OnInit, OnDestroy {
     );
 
     this.adminService.getEmailsWords().subscribe({
-      next: (response: WordsResponse) => {
+      next: (response: EmailWordsResponse) => {
         this.firstWords = response.firstWords;
         this.secondWords = response.secondWords;
         this.wordsLoaded = true;
       },
       error: (error) => {
         console.error("Error fetching email words:", error);
-        // Vous pouvez éventuellement définir un fallback ici
       }
     });
 
@@ -72,7 +62,7 @@ export class EmailComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  get filteredEmails(): Email[] {
+  get filteredEmails(): AdminEmail[] {
     if (!this.filterText.trim()) {
       return this.emails.slice().reverse();
     }
@@ -116,7 +106,7 @@ export class EmailComponent implements OnInit, OnDestroy {
     const loadingToast = this.toast.loading("Creating alias email...");
 
     this.adminService.addEmail(this.emailName.trim(), this.description.trim()).subscribe({
-      next: (response: any) => {
+      next: (response: AdminMutationResponse) => {
         if (response && response.success) {
           this.emails.push({
             nom: this.emailName.trim(),
@@ -137,7 +127,7 @@ export class EmailComponent implements OnInit, OnDestroy {
     });
   }
 
-  async removeEmail(emailToRemove: Email): Promise<void> {
+  async removeEmail(emailToRemove: AdminEmail): Promise<void> {
     if (this.removingEmail) {
       this.toast.error("An email removal is already in progress.");
       return;
@@ -147,7 +137,7 @@ export class EmailComponent implements OnInit, OnDestroy {
     const loadingToast = this.toast.loading("Deleting alias email...");
 
     this.adminService.removeEmail(emailToRemove.nom).subscribe({
-      next: (response: any) => {
+      next: (response: AdminMutationResponse) => {
         if (response && response.success) {
           this.emails = this.emails.filter(email => email.nom !== emailToRemove.nom);
           this.toast.success("Alias email deleted successfully.", { id: loadingToast });
@@ -170,15 +160,13 @@ export class EmailComponent implements OnInit, OnDestroy {
     const loadingToast = this.toast.loading("Refreshing alias emails...");
 
     this.adminService.getEmails().subscribe({
-      next: async (response: Email[]) => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      next: (response: AdminEmail[]) => {
         this.emails = response || [];
         this.isLoadingEmails = false;
         this.cdr.detectChanges();
         this.toast.success("Alias emails refreshed", { id: loadingToast });
       },
-      error: async (error) => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      error: (error) => {
         this.isLoadingEmails = false;
         this.cdr.detectChanges();
         this.toast.error("Error fetching alias emails");
@@ -189,11 +177,14 @@ export class EmailComponent implements OnInit, OnDestroy {
 
   generateRandomAlias(): void {
     const separators = ["-", ".", "_"];
+    const maxAttempts = 100;
 
     let alias = "";
     let isUnique = false;
+    let attempts = 0;
 
-    while (!isUnique) {
+    while (!isUnique && attempts < maxAttempts) {
+      attempts++;
       const A = this.firstWords[Math.floor(Math.random() * this.firstWords.length)];
       const B = this.secondWords[Math.floor(Math.random() * this.secondWords.length)];
       const sep = separators[Math.floor(Math.random() * separators.length)];
@@ -213,6 +204,11 @@ export class EmailComponent implements OnInit, OnDestroy {
       if (!this.emails.some(e => e.nom.toLowerCase() === alias.toLowerCase())) {
         isUnique = true;
       }
+    }
+
+    if (!isUnique) {
+      this.toast.error("Unable to generate a unique alias.");
+      return;
     }
 
     this.emailName = alias;

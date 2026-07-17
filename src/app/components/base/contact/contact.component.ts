@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy, inject, signal, AfterViewInit, OnDestroy, ChangeDetectorRef, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, AfterViewInit, ChangeDetectorRef, effect, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { I18nService } from "../../../services/i18n/i18n.service";
 import { SeoService } from "../../../services/seo/seo.service";
@@ -7,6 +8,7 @@ import { toast } from 'ngx-sonner';
 import { z } from "zod";
 import { debounceTime } from 'rxjs/operators';
 import { CustomCaptchaComponent } from '../../include/captcha/custom-captcha.component';
+import { environment } from '../../../../environments/environment';
 
 import emailjs from '@emailjs/browser';
 
@@ -16,11 +18,12 @@ import emailjs from '@emailjs/browser';
   templateUrl: './contact.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContactComponent implements AfterViewInit, OnDestroy {
+export class ContactComponent implements AfterViewInit {
   public i18n = inject(I18nService);
   private limitService = inject(LimitService);
   private cdr = inject(ChangeDetectorRef);
   private seo = inject(SeoService);
+  private destroyRef = inject(DestroyRef);
 
   constructor() {
     effect(() => {
@@ -69,23 +72,19 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
   get message() { return this.contactForm.get('message'); }
 
   ngAfterViewInit() {
-    // Subscribe to form value changes to show/hide Turnstile
     this.contactForm.valueChanges.pipe(
-      debounceTime(300)
+      debounceTime(300),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe(() => {
       this.checkFormValidity();
     });
 
-    // Also check on status changes (for validation state)
     this.contactForm.statusChanges.pipe(
-      debounceTime(300)
+      debounceTime(300),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe(() => {
       this.checkFormValidity();
     });
-  }
-
-  ngOnDestroy() {
-    // No cleanup needed with ngx-turnstile component
   }
 
   private checkFormValidity() {
@@ -139,14 +138,15 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
       message: message || '',
     };
 
-    emailjs.send('service_katu34t', 'template_3rprude', templateParams, 'SsUfOyd0KywiMRRLl')
+    const { serviceId, templateId, publicKey } = environment.emailjs;
+
+    emailjs.send(serviceId, templateId, templateParams, publicKey)
       .then(() => {
         toast.success(this.i18n.text().contact.form.success, { id: lastToast });
         this.limitService.setLimit({ hours: 0, minutes: 10 });
         this.contactForm.reset();
         this.formValid.set(false);
         this.captchaToken.set(null);
-        // Reset captcha visibility
         this.showTurnstile.set(true);
       })
       .catch(() => {

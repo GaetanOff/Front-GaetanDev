@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, throwError, firstValueFrom } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
@@ -129,9 +129,11 @@ export class SsoService {
 
     if (refreshToken || accessToken) {
       try {
-        await this.http.post(`${this.API_BASE}/auth/sso/logout`, {
-          token: refreshToken || accessToken,
-        }).toPromise();
+        await firstValueFrom(
+          this.http.post(`${this.API_BASE}/auth/sso/logout`, {
+            token: refreshToken || accessToken,
+          })
+        );
       } catch {
         // Best-effort revocation
       }

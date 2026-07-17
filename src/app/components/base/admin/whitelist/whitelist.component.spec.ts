@@ -8,7 +8,7 @@ describe('WhitelistComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WhitelistComponent]
+      imports: [WhitelistComponent]
     })
       .compileComponents();
 

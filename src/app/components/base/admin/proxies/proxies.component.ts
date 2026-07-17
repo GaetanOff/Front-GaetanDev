@@ -8,24 +8,7 @@ import { toast } from 'ngx-sonner';
 import { SkeletonComponent } from "../../../include/skeletons/skeleton.component";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
-import { ScanningServer } from "../../../../types";
-
-export interface ProxyDetails {
-  protocol: string;
-  host: string;
-  port: number;
-  geolocation: {
-    country: {
-      iso_code: string;
-    }
-  }
-}
-
-export interface ProxyCheckResponse {
-  success: boolean;
-  data?: any;
-  error?: string;
-}
+import { ProxyCheckResponse, ProxyDetails, ScanningServer } from "../../../../types";
 
 @Component({
   selector: 'app-proxies',
@@ -107,8 +90,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     const loadingToast = this.toast.loading("Refreshing proxies...");
 
     this.adminService.getProxies().subscribe({
-      next: async response => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      next: response => {
         this.httpProxies = response.http;
         this.socks5Proxies = response.socks5;
         this.lastRefresh = response.lastRefresh;
@@ -136,8 +118,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
         this.toast.success("Proxies refreshed", { id: loadingToast });
       },
-      error: async () => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      error: () => {
         this.isLoading = false;
         this.cdr.detectChanges();
         this.toast.error("Failed to refresh proxies.");
@@ -259,7 +240,7 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     const lastToast: string | number = this.toast.loading("Checking proxy...");
 
     this.adminService.checkProxy(this.proxyProtocol, this.proxyHost, this.proxyPort, this.serverToCheck).subscribe({
-      next: (response: any) => {
+      next: (response: ProxyCheckResponse) => {
         if (response.success) {
           this.toast.success("Proxy checked successfully.", { id: lastToast });
         } else {

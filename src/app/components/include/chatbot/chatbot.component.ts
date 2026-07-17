@@ -3,12 +3,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { firstValueFrom } from 'rxjs';
+import DOMPurify from 'dompurify';
+import { marked } from 'marked';
 import { I18nService } from '../../../services/i18n/i18n.service';
 import { CustomCaptchaComponent } from '../captcha/custom-captcha.component';
-import { marked } from 'marked';
+import { environment } from '../../../../environments/environment';
 
 interface ChatMessage {
   content: string;
+  htmlContent?: SafeHtml;
   isUser: boolean;
   timestamp: Date;
 }
@@ -54,7 +58,7 @@ export class ChatbotComponent implements AfterViewChecked {
 
   public userInput = '';
 
-  private readonly API_URL = 'https://api-ia-chatbot-portfolio.gaetandev.fr';
+  private readonly API_URL = environment.chatbotApiUrl;
   private shouldScroll = false;
 
   constructor() {
@@ -67,11 +71,7 @@ export class ChatbotComponent implements AfterViewChecked {
         if (currentMessages[0].content !== newWelcomeMessage) {
           this._messages.update(messages => {
             const updated = [...messages];
-            updated[0] = {
-              content: newWelcomeMessage,
-              isUser: false,
-              timestamp: new Date()
-            };
+            updated[0] = this.createBotMessage(newWelcomeMessage);
             return updated;
           });
         }
@@ -90,20 +90,18 @@ export class ChatbotComponent implements AfterViewChecked {
     this._captchaError.set(false);
 
     try {
-      const response = await this.http.post<{ sessionToken: string }>(
-        `${this.API_URL}/verify`,
-        { captchaToken: token }
-      ).toPromise();
+      const response = await firstValueFrom(
+        this.http.post<{ sessionToken: string }>(
+          `${this.API_URL}/verify`,
+          { captchaToken: token }
+        )
+      );
 
       if (response?.sessionToken) {
         this._sessionToken.set(response.sessionToken);
         this._isCaptchaVerified.set(true);
 
-        this._messages.set([{
-          content: this.i18n.text().chatbot.welcome,
-          isUser: false,
-          timestamp: new Date()
-        }]);
+        this._messages.set([this.createBotMessage(this.i18n.text().chatbot.welcome)]);
         this.shouldScroll = true;
       } else {
         this._captchaError.set(true);
@@ -129,11 +127,7 @@ export class ChatbotComponent implements AfterViewChecked {
   }
 
   clearConversation(): void {
-    this._messages.set([{
-      content: this.i18n.text().chatbot.welcome,
-      isUser: false,
-      timestamp: new Date()
-    }]);
+    this._messages.set([this.createBotMessage(this.i18n.text().chatbot.welcome)]);
     this._chatHistory.set([]);
     this.shouldScroll = true;
   }
@@ -153,20 +147,18 @@ export class ChatbotComponent implements AfterViewChecked {
     this.shouldScroll = true;
 
     try {
-      const response = await this.http.post<{ reply: string }>(this.API_URL, {
-        message: message,
-        history: this._chatHistory(),
-        sessionToken: this._sessionToken()
-      }).toPromise();
+      const response = await firstValueFrom(
+        this.http.post<{ reply: string }>(this.API_URL, {
+          message: message,
+          history: this._chatHistory(),
+          sessionToken: this._sessionToken()
+        })
+      );
 
       if (response?.reply) {
         const botReply = response.reply.trim();
 
-        this._messages.update(messages => [...messages, {
-          content: botReply,
-          isUser: false,
-          timestamp: new Date()
-        }]);
+        this._messages.update(messages => [...messages, this.createBotMessage(botReply)]);
 
         this._chatHistory.update(history => [
           ...history,
@@ -174,22 +166,20 @@ export class ChatbotComponent implements AfterViewChecked {
           { role: 'model', parts: [{ text: botReply }] }
         ]);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Chatbot API error:', error);
 
-      // Si erreur 403 (session expirée ou invalide), réafficher le captcha
-      if (error?.status === 403) {
+      const status = (error as { status?: number })?.status;
+      if (status === 403) {
         this._isCaptchaVerified.set(false);
         this._sessionToken.set(null);
         this._captchaError.set(true);
-        // Retirer le dernier message utilisateur (celui qui a échoué)
         this._messages.update(messages => messages.slice(0, -1));
       } else {
-        this._messages.update(messages => [...messages, {
-          content: this.i18n.text().chatbot.error,
-          isUser: false,
-          timestamp: new Date()
-        }]);
+        this._messages.update(messages => [
+          ...messages,
+          this.createBotMessage(this.i18n.text().chatbot.error)
+        ]);
       }
     } finally {
       this._isLoading.set(false);
@@ -197,9 +187,18 @@ export class ChatbotComponent implements AfterViewChecked {
     }
   }
 
-  parseMarkdown(content: string): SafeHtml {
+  private createBotMessage(content: string): ChatMessage {
+    return {
+      content,
+      htmlContent: this.toSafeHtml(content),
+      isUser: false,
+      timestamp: new Date()
+    };
+  }
+
+  private toSafeHtml(content: string): SafeHtml {
     const html = marked.parse(content, { async: false }) as string;
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+    return this.sanitizer.bypassSecurityTrustHtml(DOMPurify.sanitize(html));
   }
 
   private scrollToBottom(): void {

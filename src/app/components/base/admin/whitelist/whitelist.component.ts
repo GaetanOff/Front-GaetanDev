@@ -110,15 +110,13 @@ export class WhitelistComponent implements OnInit, OnDestroy {
     const loadingToast: string | number = this.toast.loading("Refreshing whitelist...");
 
     this.adminService.getWhitelistedIPs().subscribe({
-      next: async (response: string[]): Promise<void> => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      next: (response: string[]): void => {
         this.whitelistedIPs = response;
         this.isLoading = false;
         this.cdr.detectChanges();
         this.toast.success("Whitelist refreshed", { id: loadingToast });
       },
-      error: async (error): Promise<void> => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      error: (error): void => {
         this.isLoading = false;
         this.cdr.detectChanges();
         this.toast.error("Error fetching whitelisted IPs");

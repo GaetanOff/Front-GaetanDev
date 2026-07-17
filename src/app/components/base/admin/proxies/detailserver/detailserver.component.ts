@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { NgClass } from "@angular/common";
 import { TempladminComponent } from "../../../../include/admin/templadmin/templadmin.component";
@@ -19,27 +19,33 @@ import { takeUntil } from "rxjs/operators";
   ],
   templateUrl: './detailserver.component.html'
 })
-export class DetailserverComponent {
+export class DetailserverComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   serverId!: number;
   serverDetails: ScanningServer | null = null;
   showIp: boolean = false;
   private unsubscribe$ = new Subject<void>();
+  private pollingStop$ = new Subject<void>();
   protected readonly toast = toast;
 
   constructor(private route: ActivatedRoute, private adminService: AdminService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.serverId = +params['id'];
-      this.subscribeToServer(this.serverId);
-      interval(5000)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(() => this.subscribeToServer(this.serverId));
-    });
+    this.route.params
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(params => {
+        this.pollingStop$.next();
+        this.serverId = +params['id'];
+        this.subscribeToServer(this.serverId);
+        interval(5000)
+          .pipe(takeUntil(this.pollingStop$), takeUntil(this.unsubscribe$))
+          .subscribe(() => this.subscribeToServer(this.serverId));
+      });
   }
 
   ngOnDestroy(): void {
+    this.pollingStop$.next();
+    this.pollingStop$.complete();
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
@@ -47,14 +53,12 @@ export class DetailserverComponent {
   private subscribeToServer(serverId: number): void {
     this.isLoading = true;
     this.adminService.getScanningProxyServersDetails(serverId).subscribe({
-      next: async (response) => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      next: (response) => {
         this.serverDetails = response;
         this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: async (error) => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      error: (error) => {
         this.isLoading = false;
         this.cdr.detectChanges();
         this.toast.error("Error fetching server details");

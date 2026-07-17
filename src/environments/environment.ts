@@ -11,6 +11,12 @@ export const environment = {
     scopes: 'openid profile email',
   },
   apiBaseUrl: 'https://api.gaetandev.fr',
+  chatbotApiUrl: 'https://api-ia-chatbot-portfolio.gaetandev.fr',
+  emailjs: {
+    serviceId: 'service_katu34t',
+    templateId: 'template_3rprude',
+    publicKey: 'SsUfOyd0KywiMRRLl',
+  },
 };
 
 /*
