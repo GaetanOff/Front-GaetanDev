@@ -31,24 +31,62 @@ export class SsoService {
   private readonly API_BASE = environment.apiBaseUrl;
 
   private readonly STORAGE_KEYS = {
-    accessToken: 'sso_access_token',
     refreshToken: 'sso_refresh_token',
-    expiresAt: 'sso_token_expires_at',
     state: 'sso_state',
     codeVerifier: 'sso_code_verifier',
   };
 
-  constructor(private http: HttpClient, private router: Router) {}
+  /** Legacy keys previously stored in localStorage — wiped on init. */
+  private readonly LEGACY_LOCAL_KEYS = [
+    'sso_access_token',
+    'sso_refresh_token',
+    'sso_token_expires_at',
+  ];
+
+  /** Short-lived access token kept in memory only (not readable via XSS storage APIs after navigation). */
+  private accessToken: string | null = null;
+  private expiresAt = 0;
+  private restorePromise: Promise<boolean> | null = null;
+
+  constructor(private http: HttpClient, private router: Router) {
+    this.clearLegacyLocalStorage();
+  }
 
   get isAuthenticated(): boolean {
-    const token = this.getAccessToken();
-    const expiresAt = localStorage.getItem(this.STORAGE_KEYS.expiresAt);
-    if (!token || !expiresAt) return false;
-    return Date.now() < parseInt(expiresAt, 10);
+    return !!this.accessToken && Date.now() < this.expiresAt;
   }
 
   getAccessToken(): string | null {
-    return localStorage.getItem(this.STORAGE_KEYS.accessToken);
+    if (!this.accessToken || Date.now() >= this.expiresAt) {
+      return null;
+    }
+    return this.accessToken;
+  }
+
+  /**
+   * Restores an access token from the sessionStorage refresh token when needed
+   * (e.g. after a full page reload).
+   */
+  ensureAuthenticated(): Promise<boolean> {
+    if (this.isAuthenticated) {
+      return Promise.resolve(true);
+    }
+
+    const refreshToken = sessionStorage.getItem(this.STORAGE_KEYS.refreshToken);
+    if (!refreshToken) {
+      return Promise.resolve(false);
+    }
+
+    if (!this.restorePromise) {
+      this.restorePromise = firstValueFrom(this.refreshAccessToken())
+        .then(tokens => !!tokens?.access_token)
+        .catch(() => false)
+        .finally(() => {
+          this.restorePromise = null;
+        });
+    }
+
+    return this.restorePromise;
   }
 
   async initiateLogin(): Promise<void> {
@@ -102,7 +140,7 @@ export class SsoService {
   }
 
   refreshAccessToken(): Observable<TokenResponse | null> {
-    const refreshToken = localStorage.getItem(this.STORAGE_KEYS.refreshToken);
+    const refreshToken = sessionStorage.getItem(this.STORAGE_KEYS.refreshToken);
     if (!refreshToken) {
       return of(null);
     }
@@ -124,8 +162,8 @@ export class SsoService {
   }
 
   async logout(): Promise<void> {
-    const refreshToken = localStorage.getItem(this.STORAGE_KEYS.refreshToken);
-    const accessToken = this.getAccessToken();
+    const refreshToken = sessionStorage.getItem(this.STORAGE_KEYS.refreshToken);
+    const accessToken = this.accessToken;
 
     if (refreshToken || accessToken) {
       try {
@@ -144,17 +182,25 @@ export class SsoService {
   }
 
   private storeTokens(tokens: TokenResponse): void {
-    localStorage.setItem(this.STORAGE_KEYS.accessToken, tokens.access_token);
-    localStorage.setItem(this.STORAGE_KEYS.refreshToken, tokens.refresh_token);
-    const expiresAt = Date.now() + tokens.expires_in * 1000;
-    localStorage.setItem(this.STORAGE_KEYS.expiresAt, expiresAt.toString());
+    this.accessToken = tokens.access_token;
+    this.expiresAt = Date.now() + tokens.expires_in * 1000;
+    sessionStorage.setItem(this.STORAGE_KEYS.refreshToken, tokens.refresh_token);
+    this.clearLegacyLocalStorage();
   }
 
   private clearTokens(): void {
-    Object.values(this.STORAGE_KEYS).forEach(key => {
+    this.accessToken = null;
+    this.expiresAt = 0;
+    sessionStorage.removeItem(this.STORAGE_KEYS.refreshToken);
+    sessionStorage.removeItem(this.STORAGE_KEYS.state);
+    sessionStorage.removeItem(this.STORAGE_KEYS.codeVerifier);
+    this.clearLegacyLocalStorage();
+  }
+
+  private clearLegacyLocalStorage(): void {
+    for (const key of this.LEGACY_LOCAL_KEYS) {
       localStorage.removeItem(key);
-      sessionStorage.removeItem(key);
-    });
+    }
   }
 
   private generateRandomString(length: number): string {

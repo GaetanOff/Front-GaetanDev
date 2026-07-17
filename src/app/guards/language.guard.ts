@@ -1,25 +1,21 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { I18nService } from '../services/i18n/i18n.service';
+import { matchLocaleFromPath } from '../utils/locale.utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageGuard implements CanActivate {
-  constructor(
-    private i18n: I18nService,
-    private router: Router
-  ) { }
+  constructor(private i18n: I18nService) { }
 
   canActivate(
-    route: ActivatedRouteSnapshot,
+    _route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    const url = state.url;
-    const langMatch = url.match(/^\/(fr|en)(\/|$)/);
+    const lang = matchLocaleFromPath(state.url);
 
-    if (langMatch) {
-      const lang = langMatch[1] as 'fr' | 'en';
+    if (lang) {
       this.i18n.setLanguage(lang);
       return true;
     }
@@ -28,10 +24,9 @@ export class LanguageGuard implements CanActivate {
       const storedLang = localStorage.getItem('isEnglish');
       const isEnglish = storedLang ? JSON.parse(storedLang) : false;
       this.i18n.setLanguage(isEnglish ? 'en' : 'fr');
-    } catch (e) {
+    } catch {
       this.i18n.setLanguage('fr');
     }
     return true;
   }
 }
-

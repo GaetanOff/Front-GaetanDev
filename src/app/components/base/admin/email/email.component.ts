@@ -1,14 +1,21 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+  signal,
+} from '@angular/core';
 import { AdminService } from 'src/app/services/admin/admin.service';
 import { toast } from 'ngx-sonner';
-import { interval, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { z } from 'zod';
 
 import { SkeletonComponent } from '../../../include/skeletons/skeleton.component';
 import { TempladminComponent } from '../../../include/admin/templadmin/templadmin.component';
 import { FormsModule } from '@angular/forms';
 import { AdminEmail, AdminMutationResponse, EmailWordsResponse } from '../../../../types';
+import { runRefreshLoad, startPolling } from '../../../../utils/polling.utils';
 
 @Component({
   selector: 'app-email',
@@ -18,64 +25,61 @@ import { AdminEmail, AdminMutationResponse, EmailWordsResponse } from '../../../
     SkeletonComponent
   ],
   templateUrl: './email.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmailComponent implements OnInit, OnDestroy {
   emailName: string = '';
   description: string = '';
-  emails: AdminEmail[] = [];
   filterText: string = '';
-  isLoadingEmails: boolean = false;
-  isSubmitting: boolean = false;
-  removingEmail: string | null = null;
+
+  readonly emails = signal<AdminEmail[]>([]);
+  readonly isLoadingEmails = signal(false);
+  readonly isSubmitting = signal(false);
+  readonly removingEmail = signal<string | null>(null);
+  readonly wordsLoaded = signal(false);
+
+  private firstWords: string[] = [];
+  private secondWords: string[] = [];
+
+  get filteredEmails(): AdminEmail[] {
+    const list = this.emails();
+    const filter = this.filterText.trim().toLowerCase();
+    if (!filter) {
+      return list.slice().reverse();
+    }
+    const matching = list.filter(email =>
+      email.nom.toLowerCase().includes(filter) ||
+      email.description.toLowerCase().includes(filter)
+    );
+    const nonMatching = list.filter(email =>
+      !(email.nom.toLowerCase().includes(filter) ||
+        email.description.toLowerCase().includes(filter))
+    );
+    return matching.reverse().concat(nonMatching.reverse());
+  }
+
   protected readonly toast = toast;
   private unsubscribe$ = new Subject<void>();
-
-  firstWords: string[] = [];
-  secondWords: string[] = [];
-  wordsLoaded: boolean = false;
-
-  constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) { }
+  private adminService = inject(AdminService);
 
   ngOnInit(): void {
-    this.updateEmails().catch(err =>
-      console.error('Error fetching alias emails:', err)
-    );
-
     this.adminService.getEmailsWords().subscribe({
       next: (response: EmailWordsResponse) => {
         this.firstWords = response.firstWords;
         this.secondWords = response.secondWords;
-        this.wordsLoaded = true;
+        this.wordsLoaded.set(true);
       },
       error: (error) => {
         console.error("Error fetching email words:", error);
       }
     });
 
-    interval(60000)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => this.updateEmails());
+    startPolling(60000, this.unsubscribe$, () => this.updateEmails());
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-  }
-
-  get filteredEmails(): AdminEmail[] {
-    if (!this.filterText.trim()) {
-      return this.emails.slice().reverse();
-    }
-    const filterLower = this.filterText.trim().toLowerCase();
-    const matching = this.emails.filter(email =>
-      email.nom.toLowerCase().includes(filterLower) ||
-      email.description.toLowerCase().includes(filterLower)
-    );
-    const nonMatching = this.emails.filter(email =>
-      !(email.nom.toLowerCase().includes(filterLower) ||
-        email.description.toLowerCase().includes(filterLower))
-    );
-    return matching.reverse().concat(nonMatching.reverse());
   }
 
   async processForm(): Promise<void> {
@@ -84,13 +88,14 @@ export class EmailComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const currentEmails = this.emails();
     const aliasSchema = z
       .string()
       .min(1, { message: "Alias cannot be empty" })
       .regex(/^[a-zA-Z0-9._-]+$/, { message: "Invalid alias format" })
       .refine(
         (alias) =>
-          !this.emails.some(
+          !currentEmails.some(
             (e) => e.nom.toLowerCase() === alias.toLowerCase()
           ),
         { message: "Alias already exists." }
@@ -102,44 +107,44 @@ export class EmailComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isSubmitting = true;
+    this.isSubmitting.set(true);
     const loadingToast = this.toast.loading("Creating alias email...");
 
     this.adminService.addEmail(this.emailName.trim(), this.description.trim()).subscribe({
       next: (response: AdminMutationResponse) => {
         if (response && response.success) {
-          this.emails.push({
+          this.emails.update(emails => [...emails, {
             nom: this.emailName.trim(),
             description: this.description.trim(),
-          });
+          }]);
           this.toast.success("Alias email created successfully.", { id: loadingToast });
           this.emailName = '';
           this.description = '';
         } else {
           this.toast.error("Failed to create alias email.", { id: loadingToast });
         }
-        this.isSubmitting = false;
+        this.isSubmitting.set(false);
       },
       error: () => {
         this.toast.error("Error occurred while creating alias email.", { id: loadingToast });
-        this.isSubmitting = false;
+        this.isSubmitting.set(false);
       }
     });
   }
 
   async removeEmail(emailToRemove: AdminEmail): Promise<void> {
-    if (this.removingEmail) {
+    if (this.removingEmail()) {
       this.toast.error("An email removal is already in progress.");
       return;
     }
 
-    this.removingEmail = emailToRemove.nom;
+    this.removingEmail.set(emailToRemove.nom);
     const loadingToast = this.toast.loading("Deleting alias email...");
 
     this.adminService.removeEmail(emailToRemove.nom).subscribe({
       next: (response: AdminMutationResponse) => {
         if (response && response.success) {
-          this.emails = this.emails.filter(email => email.nom !== emailToRemove.nom);
+          this.emails.update(emails => emails.filter(email => email.nom !== emailToRemove.nom));
           this.toast.success("Alias email deleted successfully.", { id: loadingToast });
         } else {
           this.toast.error("Failed to delete alias email.", { id: loadingToast });
@@ -149,35 +154,36 @@ export class EmailComponent implements OnInit, OnDestroy {
         this.toast.error("Error occurred while deleting alias email.", { id: loadingToast });
       },
       complete: () => {
-        this.removingEmail = null;
+        this.removingEmail.set(null);
       }
     });
   }
 
-  private async updateEmails(): Promise<void> {
-    if (this.isLoadingEmails) return;
-    this.isLoadingEmails = true;
+  private updateEmails(): void {
+    if (this.isLoadingEmails()) return;
+
     const loadingToast = this.toast.loading("Refreshing alias emails...");
 
-    this.adminService.getEmails().subscribe({
-      next: (response: AdminEmail[]) => {
-        this.emails = response || [];
-        this.isLoadingEmails = false;
-        this.cdr.detectChanges();
-        this.toast.success("Alias emails refreshed", { id: loadingToast });
+    runRefreshLoad({
+      isBusy: () => this.isLoadingEmails(),
+      setBusy: (busy) => this.isLoadingEmails.set(busy),
+      request: () => this.adminService.getEmails(),
+      onSuccess: (response) => {
+        this.emails.set(response || []);
       },
-      error: (error) => {
-        this.isLoadingEmails = false;
-        this.cdr.detectChanges();
-        this.toast.error("Error fetching alias emails");
+      onError: (error) => {
         console.error("Error fetching alias emails:", error);
-      }
+      },
+      loadingToast,
+      successToast: (id) => this.toast.success("Alias emails refreshed", { id }),
+      errorToast: () => this.toast.error("Error fetching alias emails"),
     });
   }
 
   generateRandomAlias(): void {
     const separators = ["-", ".", "_"];
     const maxAttempts = 100;
+    const currentEmails = this.emails();
 
     let alias = "";
     let isUnique = false;
@@ -201,7 +207,7 @@ export class EmailComponent implements OnInit, OnDestroy {
         alias = A + sep + B + sep + random2;
       }
 
-      if (!this.emails.some(e => e.nom.toLowerCase() === alias.toLowerCase())) {
+      if (!currentEmails.some(e => e.nom.toLowerCase() === alias.toLowerCase())) {
         isUnique = true;
       }
     }

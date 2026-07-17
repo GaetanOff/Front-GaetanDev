@@ -1,85 +1,84 @@
 <app-templadmin>
   <div class="flex-1 p-8">
 
-    @if (isLoading) {
+    @if (isLoading()) {
     <div>
       <app-skeleton variant="details"></app-skeleton>
     </div>
     } @else {
     <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
       <h1 class="text-4xl font-extrabold text-gray-900 text-center mb-6">Server Details</h1>
-      @if (serverDetails) {
+      @if (serverDetails(); as details) {
       <div>
         <div class="text-center">
           <span class="inline-block px-4 py-2 rounded-full text-white text-sm font-semibold"
-            [ngClass]="{'bg-green-500': serverDetails.status === 'online', 'bg-red-500': serverDetails.status !== 'online'}">
-            {{ serverDetails.status.toUpperCase() }}
+            [ngClass]="{'bg-green-500': details.status === 'online', 'bg-red-500': details.status !== 'online'}">
+            {{ details.status.toUpperCase() }}
           </span>
         </div>
-        <!-- Info Card -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">Server ID</h2>
-            <p class="text-gray-600">{{ serverDetails.id }}</p>
+            <p class="text-gray-600">{{ details.id }}</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">Location</h2>
-            <p class="text-gray-600">{{ serverDetails.location }}</p>
+            <p class="text-gray-600">{{ details.location }}</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">CPU Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
-              <div class="h-full" [ngClass]="getLoadBarColor(serverDetails.cpu)" [style.width.%]="serverDetails.cpu">
+              <div class="h-full" [ngClass]="getLoadBarColor(details.cpu)" [style.width.%]="details.cpu">
               </div>
             </div>
-            <p class="text-gray-600 mt-2">{{ serverDetails.cpu }}%</p>
+            <p class="text-gray-600 mt-2">{{ details.cpu }}%</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">RAM Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
-              <div class="h-full" [ngClass]="getLoadBarColor(serverDetails.ram)" [style.width.%]="serverDetails.ram">
+              <div class="h-full" [ngClass]="getLoadBarColor(details.ram)" [style.width.%]="details.ram">
               </div>
             </div>
-            <p class="text-gray-600 mt-2">{{ serverDetails.ram }}%</p>
+            <p class="text-gray-600 mt-2">{{ details.ram }}%</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">DISK Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
-              <div class="h-full" [ngClass]="getLoadBarColor(serverDetails.disk)" [style.width.%]="serverDetails.disk">
+              <div class="h-full" [ngClass]="getLoadBarColor(details.disk)" [style.width.%]="details.disk">
               </div>
             </div>
-            <p class="text-gray-600 mt-2">{{ serverDetails.disk }}%</p>
+            <p class="text-gray-600 mt-2">{{ details.disk }}%</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">SWAP Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
-              <div class="h-full" [ngClass]="getLoadBarColor(serverDetails.swap)" [style.width.%]="serverDetails.swap">
+              <div class="h-full" [ngClass]="getLoadBarColor(details.swap)" [style.width.%]="details.swap">
               </div>
             </div>
-            <p class="text-gray-600 mt-2">{{ serverDetails.swap }}%</p>
+            <p class="text-gray-600 mt-2">{{ details.swap }}%</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">Incoming Network</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
-              <div class="h-full" [ngClass]="getLoadBarColor((serverDetails.incomingNetwork / 10000) * 100)"
-                [style.width.%]="(serverDetails.incomingNetwork / 10000) * 100"></div>
+              <div class="h-full" [ngClass]="getLoadBarColor((details.incomingNetwork / 10000) * 100)"
+                [style.width.%]="(details.incomingNetwork / 10000) * 100"></div>
             </div>
-            <p class="text-gray-600">{{ serverDetails.incomingNetwork }}/10000 Mbps</p>
+            <p class="text-gray-600">{{ details.incomingNetwork }}/10000 Mbps</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
             <h2 class="text-lg font-semibold text-gray-800">Outgoing Network</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
-              <div class="h-full" [ngClass]="getLoadBarColor((serverDetails.outgoingNetwork / 10000) * 100)"
-                [style.width.%]="(serverDetails.outgoingNetwork / 10000) * 100"></div>
+              <div class="h-full" [ngClass]="getLoadBarColor((details.outgoingNetwork / 10000) * 100)"
+                [style.width.%]="(details.outgoingNetwork / 10000) * 100"></div>
             </div>
-            <p class="text-gray-600">{{ serverDetails.outgoingNetwork }}/10000 Mbps</p>
+            <p class="text-gray-600">{{ details.outgoingNetwork }}/10000 Mbps</p>
           </div>
           <div class="bg-gray-100 p-4 rounded-lg shadow-sm col-span-2">
             <h2 class="text-lg font-semibold text-gray-800">IP Address</h2>
-            @if (this.showIp) {
-            <p class="text-gray-600">{{ serverDetails.addressIp }}</p>
+            @if (showIp()) {
+            <p class="text-gray-600">{{ details.addressIp }}</p>
             }
-            @if (!this.showIp) {
+            @if (!showIp()) {
             <p class="text-gray-600">IP address is hidden</p>
             }
             <button (click)="toggleIp()" class="mt-2 text-sm text-blue-500 hover:text-blue-600">Toggle IP</button>

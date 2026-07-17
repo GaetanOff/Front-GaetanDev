@@ -14,9 +14,9 @@ export class AuthComponent implements OnInit {
 
   constructor(private ssoService: SsoService, private router: Router) {}
 
-  ngOnInit(): void {
-    if (this.ssoService.isAuthenticated) {
-      this.router.navigate(['/admin']);
+  async ngOnInit(): Promise<void> {
+    if (await this.ssoService.ensureAuthenticated()) {
+      await this.router.navigate(['/admin']);
     }
   }
 

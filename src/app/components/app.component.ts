@@ -5,6 +5,7 @@ import { NgxSonnerToaster } from "ngx-sonner";
 import { filter } from 'rxjs/operators';
 import { LocalerouteService } from '../services/route/localeroute.service';
 import { ChatbotComponent } from './include/chatbot/chatbot.component';
+import { matchLocaleFromPath, stripLocalePrefix } from '../utils/locale.utils';
 
 @Component({
   selector: 'app-root',
@@ -22,21 +23,18 @@ export class AppComponent {
   public isAdminRoute = signal<boolean>(false);
 
   constructor() {
-    const initialUrl = this.router.url;
-    const langMatch = initialUrl.match(/^\/(fr|en)(\/|$)/);
-    if (langMatch) {
-      const lang = langMatch[1] as 'fr' | 'en';
-      this.i18n.setLanguage(lang);
+    const initialLang = matchLocaleFromPath(this.router.url);
+    if (initialLang) {
+      this.i18n.setLanguage(initialLang);
     }
 
     this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event) => {
       this.isAdminRoute.set(event.url.startsWith('/admin'));
-      const urlMatch = event.url.match(/^\/(fr|en)(\/|$)/);
-      if (urlMatch) {
-        const lang = urlMatch[1] as 'fr' | 'en';
-        this.i18n.setLanguage(lang);
+      const urlLang = matchLocaleFromPath(event.url);
+      if (urlLang) {
+        this.i18n.setLanguage(urlLang);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -51,24 +49,14 @@ export class AppComponent {
 
   public currentLang = computed(() => this.i18n.isEnglish() ? 'en' : 'fr');
 
-  private getCurrentPath(): string {
-    const url = this.router.url;
-    const match = url.match(/^\/(fr|en)(\/.*)?$/);
-    if (match) {
-      return match[2] || '';
-    }
-    return url;
-  }
-
   onSwitchLanguage(): void {
     const currentUrl = this.router.url;
-    const langMatch = currentUrl.match(/^\/(fr|en)(\/.*)?$/);
+    const lang = matchLocaleFromPath(currentUrl);
 
-    if (langMatch) {
-      const currentPath = langMatch[2] || '';
+    if (lang) {
+      const currentPath = stripLocalePrefix(currentUrl);
       const newLang = this.i18n.isEnglish() ? 'fr' : 'en';
-      const newPath = `/${newLang}${currentPath}`;
-      this.router.navigate([newPath]);
+      this.router.navigate([`/${newLang}${currentPath}`]);
     } else {
       this.i18n.toggleLanguage();
     }

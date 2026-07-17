@@ -5,7 +5,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 
 import { AppComponent } from './app/components/app.component';
-import { routes } from './app/app-routing.module';
+import { routes } from './app/app.routes';
 import { environment } from './environments/environment';
 import { authInterceptor } from './app/interceptors/auth.interceptor';
 

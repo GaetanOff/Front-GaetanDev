@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build --configuration production --optimization true",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessCI"
   },
   "private": true,
   "dependencies": {
@@ -46,6 +47,9 @@
     "typescript": "~5.9.3"
   },
   "overrides": {
+    "karma": {
+      "glob": "7.2.3"
+    },
     "glob": "^10.5.0",
     "qs": "^6.15.2",
     "tar": "^7.5.16",
