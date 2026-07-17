@@ -1,0 +1,403 @@
+{
+  "lang": "Language changed to english.",
+  "title": {
+    "about": "About Me",
+    "achievements": "Achievements",
+    "cgv": "TOS/CGV",
+    "legal": "Legal mention"
+  },
+  "seo": {
+    "home": {
+      "title": "Gaetan Faucher • DevOps & Fullstack Developer | AI & MLOps",
+      "description": "Gaëtan Faucher, freelance Fullstack & DevOps developer based in Montpellier (France), specialized in AI & MLOps. Automation, Cloud, CI/CD and integration of AI into concrete solutions."
+    },
+    "about": {
+      "title": "About Gaëtan Faucher • Skills, Experience & Services",
+      "description": "Discover the background of Gaëtan Faucher: skills (DevOps, Fullstack, AI/MLOps), professional experience, certifications and freelance services — custom development, CI/CD pipelines, containerization and AI solutions."
+    },
+    "achievements": {
+      "title": "Achievements & Projects • Gaëtan Faucher",
+      "description": "Projects and achievements by Gaëtan Faucher: web applications, Cloud infrastructures, MLOps pipelines, CDN, open-source tools and game server infrastructures."
+    },
+    "contact": {
+      "title": "Contact Gaëtan Faucher • Freelance DevOps & Fullstack",
+      "description": "Contact Gaëtan Faucher, freelance Fullstack & DevOps developer, for your development, Cloud, DevOps or AI projects. Response within 48 hours."
+    },
+    "legal": {
+      "title": "Legal Notice • GaetanDev",
+      "description": "Legal notice of gaetandev.fr: publisher, hosting and intellectual property."
+    },
+    "cgv": {
+      "title": "Terms of Service & Sale • GaetanDev",
+      "description": "Terms of use and terms of sale of gaetandev.fr services."
+    },
+    "error": {
+      "title": "Page not found • GaetanDev",
+      "description": "The page you are looking for does not exist or has been moved."
+    }
+  },
+  "learnMoreButton": "Learn more",
+  "desc": "I am a Fullstack and DevOps developer, passionate about automation, Cloud and integrating AI into concrete solutions.",
+  "navbar": {
+    "home": "Home",
+    "about": "About Me",
+    "achievements": "Achievements"
+  },
+  "footer": {
+    "legal": "Legal mention",
+    "cgv": "TOS/CGV",
+    "devWithLove": "Developed and designed with ❤️ by Gaëtan Faucher"
+  },
+  "home": {
+    "welcome": "Hello, I'm Gaëtan",
+    "contactButton": "Contact me"
+  },
+  "contact": {
+    "title": "Contact me",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "sendButton": "Send Message",
+    "sendingButton": "Sending...",
+    "validation": {
+      "nameRequired": "Your name is required.",
+      "nameMinLength": "Your name must be at least 3 characters long.",
+      "emailRequired": "Your email is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "messageRequired": "A message is required.",
+      "captchaInvalid": "Verification failed. Please confirm you're not a robot."
+    },
+    "form": {
+      "nameInvalid": "Your name must be at least 3 characters long.",
+      "mailInvalid": "Please enter a valid email address.",
+      "messageInvalid": "A message is required.",
+      "captchaInvalid": "Verification failed. Please confirm you're not a robot.",
+      "limit": "Please wait a moment before sending another message.",
+      "loading": "Sending...",
+      "success": "Your message has been sent successfully! I'll get back to you soon.",
+      "server": "An error occurred. Please try again later."
+    },
+    "limitMessage": "Please wait a moment before sending another message.",
+    "successMessage": "Your message has been sent successfully! I'll get back to you soon.",
+    "errorMessage": "An error occurred. Please try again later."
+  },
+  "about": {
+    "title": "About me",
+    "role": "Hello, I am Gaëtan Faucher.",
+    "cvButton": "Download my CV",
+    "cvNotAvailable": "CV is not available at the moment."
+  },
+  "achievements": {
+    "title": "My Achievements",
+    "description": "Here's a list of my accomplishments that I am allowed to showcase publicly. Please note that some of my accomplishments are not included on this list due to non-disclosure agreements in effect.",
+    "list": [
+      {
+        "name": "llmops-finetune-pipeline",
+        "description": "End-to-end MLOps pipeline for fine-tuning and deploying small open-source LLMs with LoRA.",
+        "image": "assets/img/achievements/llmops-finetune-pipeline.webp",
+        "redirect": "https://github.com/GaetanOff/llmops-finetune-pipeline",
+        "categories": [
+          "DEV"
+        ]
+      },
+      {
+        "name": "LZCorp",
+        "description": "Web application for a digital agency.",
+        "image": "assets/img/achievements/lzcorp-logo.webp",
+        "redirect": "https://lzcorp.fr",
+        "categories": [
+          "DEV"
+        ]
+      },
+      {
+        "name": "TMConseils",
+        "description": "Web application for a customized strategic coaching company.",
+        "image": "assets/img/achievements/tmconseils.webp",
+        "redirect": "https://tm-conseils.net/",
+        "categories": [
+          "DEV"
+        ]
+      },
+      {
+        "name": "LookAway",
+        "description": "A macOS menu-bar application to protect your eyes by prompting regular breaks.",
+        "image": "assets/img/achievements/lookaway.webp",
+        "redirect": "https://github.com/GaetanOff/LookAway",
+        "categories": [
+          "DEV"
+        ]
+      },
+      {
+        "name": "Content Delivery Network",
+        "description": "My content distribution network to be able to have a fast and reliable distribution.",
+        "image": "assets/img/achievements/cdn.webp",
+        "redirect": "https://cdn.gaetandev.fr/",
+        "categories": [
+          "SYS",
+          "DO"
+        ]
+      },
+      {
+        "name": "TCPing",
+        "description": "A lightweight TCP connection testing tool.",
+        "image": "assets/img/achievements/tcping.webp",
+        "redirect": "https://github.com/GaetanOff/TCPing",
+        "categories": [
+          "SYS",
+          "DO"
+        ]
+      },
+      {
+        "name": "PixelmonGo",
+        "description": "Management of the infrastructure of the entire server.",
+        "image": "assets/img/achievements/pixelmongo.webp",
+        "redirect": "https://pixelmongo.fr/",
+        "categories": [
+          "SYS"
+        ]
+      },
+      {
+        "name": "FirstSky",
+        "description": "Management of the infrastructure of the entire server.",
+        "image": "assets/img/achievements/firstsky.webp",
+        "redirect": "https://firstsky.net/",
+        "categories": [
+          "SYS"
+        ]
+      },
+      {
+        "name": "Hôtel Neptune",
+        "description": "School project for creating a web application for a fictitious hotel.",
+        "image": "assets/img/achievements/neptune.webp",
+        "redirect": "https://github.com/Projet-Hotel-Neptune-GLJQR/Application",
+        "categories": [
+          "DEV",
+          "DO"
+        ]
+      },
+      {
+        "name": "FoxFood",
+        "description": "School project for creating a fictitious company.",
+        "image": "assets/img/achievements/foxfood.svg",
+        "redirect": "https://github.com/Fox-Food",
+        "categories": [
+          "DEV",
+          "DO"
+        ]
+      },
+      {
+        "name": "ImmoCT",
+        "description": "Web application for an independent real estate agent that allows them to showcase their listings.",
+        "image": "assets/img/achievements/immoct.webp",
+        "redirect": "https://www.immoct.fr/",
+        "categories": [
+          "DEV",
+          "DO"
+        ]
+      },
+      {
+        "name": "CT-Energetique",
+        "description": "Web application for a Chinese medicine company.",
+        "image": "assets/img/achievements/ctenergetique.webp",
+        "redirect": "https://www.ct-energetique.fr/",
+        "categories": [
+          "DEV",
+          "DO"
+        ]
+      },
+      {
+        "name": "HeavyCloud",
+        "description": "Creation of a hosting provider offering VPS as well as Anti-DDoS solutions.",
+        "image": "assets/img/achievements/heavycloud.webp",
+        "redirect": "",
+        "categories": [
+          "DEV"
+        ]
+      },
+      {
+        "name": "ChloeCM",
+        "description": "Web application to showcase the journey of a Master's degree student.",
+        "image": "assets/img/achievements/chloecm.webp",
+        "redirect": "https://www.chloecm.fr/",
+        "categories": [
+          "DEV"
+        ]
+      },
+      {
+        "name": "VitaPot",
+        "description": "Management of the development of an practice minecraft server.",
+        "image": "assets/img/achievements/VitaPot.webp",
+        "redirect": "https://twitter.com/vitapot",
+        "categories": [
+          "DEV",
+          "SYS"
+        ]
+      },
+      {
+        "name": "PvPIng",
+        "description": "Development of an practice minecraft server.",
+        "image": "assets/img/achievements/pvping.webp",
+        "redirect": "https://twitter.com/ServeurPvPing",
+        "categories": [
+          "DEV",
+          "SYS"
+        ]
+      },
+      {
+        "name": "RealMC",
+        "description": "Creation/Management/Development of a practice minecraft server.",
+        "image": "assets/img/achievements/realmc.webp",
+        "redirect": "https://youtu.be/SD1547llpvI",
+        "categories": [
+          "DEV",
+          "SYS"
+        ]
+      },
+      {
+        "name": "LiptonPvP",
+        "description": "Creation/Management/Development of a practice minecraft server.",
+        "image": "assets/img/achievements/liptonpvp.webp",
+        "redirect": "https://youtu.be/l5aYEVQmop8",
+        "categories": [
+          "DEV",
+          "SYS"
+        ]
+      }
+    ]
+  },
+  "services": {
+    "title": "What I offer",
+    "devis": "Quotation",
+    "contactButton": "Contact me",
+    "perDay": "/day",
+    "devTitle": "Development",
+    "dev": [
+      "Custom development",
+      "Multi-platform",
+      "Advice"
+    ],
+    "devopsTitle": "DevOps",
+    "devops": [
+      "CI/CD Pipelines",
+      "Containerization (Docker/K8s)",
+      "Infrastructure as Code"
+    ],
+    "iaTitle": "AI Solutions",
+    "ia": [
+      "Model integration",
+      "Workflow automation",
+      "AI audit & strategy"
+    ]
+  },
+  "cv": {
+    "competences": {
+      "title": "Main technologies used"
+    },
+    "certif": {
+      "title": "Certificates"
+    },
+    "experience": {
+      "title": "Experiences"
+    },
+    "languages": {
+      "title": "Languages",
+      "langList": [
+        "French",
+        "English"
+      ]
+    },
+    "today": "Today",
+    "unknownDuration": "Unknown duration",
+    "lessThanMonth": "Less than a month",
+    "year": "year",
+    "years": "years",
+    "month": "month",
+    "months": "months",
+    "and": "and"
+  },
+  "chatbot": {
+    "title": "AI Assistant",
+    "subtitle": "Ask me anything!",
+    "toggle": "Open chat",
+    "close": "Close chat",
+    "clear": "Clear conversation",
+    "placeholder": "Type your message...",
+    "captchaPlaceholder": "Complete verification first...",
+    "send": "Send",
+    "welcome": "Hello! I'm Gaëtan's AI assistant. How can I help you today?",
+    "error": "Sorry, an error occurred. Please try again.",
+    "captchaTitle": "Quick verification",
+    "captchaVerifying": "Verifying...",
+    "captchaDescription": "Please complete this quick verification to start chatting with the AI assistant.",
+    "captchaError": "Verification failed. Please try again.",
+    "captchaExpired": "Your session has expired. Please verify again.",
+    "disclaimer": "AI can make mistakes. Please verify important information."
+  },
+  "error": {
+    "notfound": {
+      "title": "Page not found",
+      "description": "The page you are looking for does not exist.",
+      "moved": "It might have been moved or deleted.",
+      "button": "Go to the home page"
+    }
+  },
+  "legal": {
+    "declaration": "Statement",
+    "declarationText": [
+      "GaetanDev.fr edited by: FAUCHER Gaëtan Individual entrepreneur",
+      "Siret: 91028598000017, CFE URSSAF 34",
+      "Adress: 509 RUE DE BUGAREL 34070 MONTPELLIER",
+      "Director of publication: Gaëtan Faucher - contact@gaetandev.fr"
+    ],
+    "host": "Host",
+    "hostText": "The gaetandev.fr site is hosted on the servers of Amazon Web Services Inc, PO Box 81226, Seattle, WA 981808-1226 – USA. https://aws.amazon.com/en/compliance/eu-data-protection/.",
+    "reproductionTitle": "Reproduction",
+    "reproductionText": "This entire site is subject to international legislation on copyright and intellectual property.",
+    "copyrightText": "All reproduction rights are reserved.",
+    "preamble": "Preamble",
+    "preambleText": [
+      "Access to the gaetandev.fr site is free, with no obligation to purchase.",
+      "The gaetandev.fr site reserves the right to modify",
+      "without notice or announcement of these general conditions of sale which must",
+      "be consulted before any purchase. The user must be of legal age or",
+      "have authorization from their manager before making a purchase."
+    ],
+    "definitions": "Definitions",
+    "definitionsText": [
+      "The services belonging to gaetandev.fr constitute all the services available at the URL https://gaetandev.fr/."
+    ],
+    "cgu": "Terms of use",
+    "cguText": [
+      "All items offered on the gaetandev.fr website remain the exclusive property of",
+      "gaetandev.fr. As such, no one has the right to sell or resell the content belonging to",
+      "gaetandev.fr without permission. Failure to comply with the conditions of use or sale may lead to",
+      "proceedings and a ban on the use of all gaetandev.fr services."
+    ],
+    "command": "Order process",
+    "commandText": [
+      "Any validated order constitutes an irrevocable acceptance of the general conditions of sale and the",
+      "payment and validate your transaction. The data recorded by gaetandev.fr constitute the proof",
+      "of all transactions made by gaetandev.fr and its customers. The data recorded by",
+      "the payment system constitutes proof of financial transactions."
+    ],
+    "payment": "Payment",
+    "paymentText": [
+      "Payment is made online through Paypal.",
+      "Personal information and credit card numbers never circulate",
+      "in plain text between the browser and the server, the data is encrypted and transmitted by the SSL protocol."
+    ],
+    "retractation": "Right to retract",
+    "retractationText": [
+      "Notwithstanding article L. 121-20-2 of the French Consumer Code,",
+      "the customer no longer has the right of withdrawal",
+      "from the date and time of provision of services. By way of derogation from article",
+      "L. 121-20-1 of the French Consumer Code, the customer has a right of withdrawal of 7 (seven) days if the service has not yet been delivered.",
+      "This right of withdrawal is made by message to the email address: contact@gaetandev.fr"
+    ],
+    "price": "Prices",
+    "priceText": [
+      "The rates are communicated to the customer through a quote and an invoice.",
+      "The gaetandev.fr site reserves the right to modify its prices at any time."
+    ]
+  }
+}

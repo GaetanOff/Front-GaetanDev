@@ -1,13 +1,21 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { AdminService } from '../../../../services/admin/admin.service';
 import { toast } from 'ngx-sonner';
-import { interval, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { z } from "zod";
 
 import { SkeletonComponent } from "../../../include/skeletons/skeleton.component";
 import { FormsModule } from "@angular/forms";
 import { TempladminComponent } from "../../../include/admin/templadmin/templadmin.component";
+import { runRefreshLoad, startPolling } from '../../../../utils/polling.utils';
 
 @Component({
   selector: 'app-whitelist',
@@ -17,26 +25,27 @@ import { TempladminComponent } from "../../../include/admin/templadmin/templadmi
     SkeletonComponent
   ],
   templateUrl: './whitelist.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WhitelistComponent implements OnInit, OnDestroy {
   address: string | undefined;
   server: number | undefined;
-  whitelistedIPs: string[] = [];
-  isLoading: boolean = false
-  isAdding: boolean = false
-  removingIp: string | null = null
+
+  readonly whitelistedIPs = signal<string[]>([]);
+  readonly isLoading = signal(false);
+  readonly isAdding = signal(false);
+  readonly removingIp = signal<string | null>(null);
+
+  readonly hasWhitelistedIPs = computed(() =>
+    this.whitelistedIPs().filter(ip => ip !== '127.0.0.1').length > 0
+  );
+
   protected readonly toast = toast;
   private unsubscribe$ = new Subject<void>();
-
-  constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) {
-  }
+  private adminService = inject(AdminService);
 
   ngOnInit(): void {
-    this.updateWhitelistedIPs().catch(() => console.error('Error fetching whitelisted IPs'));
-
-    interval(60000)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => this.updateWhitelistedIPs());
+    startPolling(60000, this.unsubscribe$, () => this.updateWhitelistedIPs());
   }
 
   ngOnDestroy(): void {
@@ -50,11 +59,12 @@ export class WhitelistComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const currentIps = this.whitelistedIPs();
     const ipSchema = z
       .string()
       .ip({ version: "v4" })
       .refine(ip => ip !== '127.0.0.1', { message: "You cannot add 127.0.0.1 to the whitelist." })
-      .refine(ip => !this.whitelistedIPs.includes(ip), { message: "IP already whitelisted." });
+      .refine(ip => !currentIps.includes(ip), { message: "IP already whitelisted." });
 
     const result = ipSchema.safeParse(this.address);
     if (!result.success) {
@@ -62,68 +72,63 @@ export class WhitelistComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isAdding = true;
+    this.isAdding.set(true);
 
     this.adminService.addWhitelistedIP(this.address).subscribe({
       next: (): void => {
         this.toast.success('IP whitelisted.');
-        if (this.address) this.whitelistedIPs.push(this.address);
-        this.isAdding = false;
+        if (this.address) {
+          this.whitelistedIPs.update(ips => [...ips, this.address!]);
+        }
+        this.isAdding.set(false);
       },
       error: (): void => {
         this.toast.error("Error adding IP.");
-        this.isAdding = false;
+        this.isAdding.set(false);
       }
     });
   }
 
-  get hasWhitelistedIPs(): boolean {
-    return this.whitelistedIPs.filter(ip => ip !== '127.0.0.1').length > 0;
-  }
-
   async removeWhitelistedIP(ip: string): Promise<void> {
-    if (this.removingIp) {
+    if (this.removingIp()) {
       this.toast.error("An IP removal is already in progress.");
       return;
     }
 
-    this.removingIp = ip;
+    this.removingIp.set(ip);
 
     this.adminService.removeWhitelistedIP(ip).subscribe({
       next: (): void => {
         this.toast.success('IP removed from whitelist');
-        this.whitelistedIPs = this.whitelistedIPs.filter(value => value !== ip);
+        this.whitelistedIPs.update(ips => ips.filter(value => value !== ip));
       },
       error: (): void => {
         this.toast.error("Error removing IP.");
       },
       complete: (): void => {
-        this.removingIp = null;
+        this.removingIp.set(null);
       }
     });
   }
 
-  private async updateWhitelistedIPs(): Promise<void> {
-    if (this.isLoading) return;
+  private updateWhitelistedIPs(): void {
+    if (this.isLoading()) return;
 
-    this.isLoading = true;
-    const loadingToast: string | number = this.toast.loading("Refreshing whitelist...");
+    const loadingToast = this.toast.loading("Refreshing whitelist...");
 
-    this.adminService.getWhitelistedIPs().subscribe({
-      next: async (response: string[]): Promise<void> => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        this.whitelistedIPs = response;
-        this.isLoading = false;
-        this.cdr.detectChanges();
-        this.toast.success("Whitelist refreshed", { id: loadingToast });
+    runRefreshLoad({
+      isBusy: () => this.isLoading(),
+      setBusy: (busy) => this.isLoading.set(busy),
+      request: () => this.adminService.getWhitelistedIPs(),
+      onSuccess: (response) => {
+        this.whitelistedIPs.set(response);
       },
-      error: async (error): Promise<void> => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        this.isLoading = false;
-        this.cdr.detectChanges();
-        this.toast.error("Error fetching whitelisted IPs");
+      onError: (error) => {
         console.error("Error fetching whitelisted IPs:", error);
-      }
+      },
+      loadingToast,
+      successToast: (id) => this.toast.success("Whitelist refreshed", { id }),
+      errorToast: () => this.toast.error("Error fetching whitelisted IPs"),
     });
   }
 }

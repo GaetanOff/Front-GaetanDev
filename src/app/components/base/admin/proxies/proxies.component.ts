@@ -1,31 +1,22 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+  signal,
+} from '@angular/core';
 import { TempladminComponent } from "../../../include/admin/templadmin/templadmin.component";
 import { CommonModule } from "@angular/common";
 import { AdminService } from "../../../../services/admin/admin.service";
-import { interval, Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { ProxyFilterService } from "../../../../services/admin/proxy-filter.service";
+import { Subject } from "rxjs";
 import { toast } from 'ngx-sonner';
 import { SkeletonComponent } from "../../../include/skeletons/skeleton.component";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
-import { ScanningServer } from "../../../../types";
-
-export interface ProxyDetails {
-  protocol: string;
-  host: string;
-  port: number;
-  geolocation: {
-    country: {
-      iso_code: string;
-    }
-  }
-}
-
-export interface ProxyCheckResponse {
-  success: boolean;
-  data?: any;
-  error?: string;
-}
+import { ProxyCheckResponse, ProxyDetails, ScanningServer } from "../../../../types";
+import { runRefreshLoad, startPolling } from "../../../../utils/polling.utils";
 
 @Component({
   selector: 'app-proxies',
@@ -35,50 +26,42 @@ export interface ProxyCheckResponse {
     TempladminComponent,
     SkeletonComponent
   ],
-  templateUrl: './proxies.component.html'
+  templateUrl: './proxies.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProxiesComponent implements OnInit, OnDestroy {
-  scanningServers: ScanningServer[] = [];
-  httpProxies: ProxyDetails[] = [];
-  socks5Proxies: ProxyDetails[] = [];
-  lastRefresh: string = '';
-  isLoading: boolean = false;
-  isCheckerLoading: boolean = false;
+  readonly scanningServers = signal<ScanningServer[]>([]);
+  readonly httpProxies = signal<ProxyDetails[]>([]);
+  readonly socks5Proxies = signal<ProxyDetails[]>([]);
+  readonly lastRefresh = signal('');
+  readonly isLoading = signal(false);
+  readonly isCheckerLoading = signal(false);
+  readonly countries = signal<string[]>([]);
+  readonly countryFilters = signal<string[]>(['All']);
+  readonly proxyLimit = signal(10);
+  readonly proxyCheckResult = signal<ProxyCheckResponse | null>(null);
+  readonly showServers = signal(false);
+  readonly showProxy = signal(false);
+
+  selectedProxyType: 'http' | 'socks5' = 'http';
+  proxyProtocol: string = 'http';
+  serverToCheck: string = 'random';
+  proxyHost: string = '';
+  proxyPort: number = 0;
+
+  private httpCountries: string[] = [];
+  private socks5Countries: string[] = [];
   private unsubscribe$ = new Subject<void>();
   protected readonly toast = toast;
 
-  selectedProxyType: 'http' | 'socks5' = 'http';
-  proxyLimit: number = 10;
-
-  countries: string[] = [];
-  httpCountries: string[] = [];
-  socks5Countries: string[] = [];
-
-  countryFilters: string[] = ['All'];
-
-  showServers: boolean = false;
-  showProxy: boolean = false;
-
-  proxyProtocol: string = 'http';
-  serverToCheck: string = 'random'
-  proxyHost: string = '';
-  proxyPort: number = 0;
-  proxyCheckResult: ProxyCheckResponse | null = null;
-
-  constructor(private adminService: AdminService, private router: Router, private cdr: ChangeDetectorRef) { }
+  private adminService = inject(AdminService);
+  private proxyFilter = inject(ProxyFilterService);
+  private router = inject(Router);
 
   ngOnInit() {
     window.scrollTo(0, 0);
-
-    this.refreshServersStatus().catch(() => this.toast.error("Failed to fetch scanning servers."));
-    interval(5000)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => this.refreshServersStatus());
-
-    this.refreshProxies().catch(() => this.toast.error("Failed to refresh proxies."));
-    interval(60000)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => this.refreshProxies());
+    startPolling(5000, this.unsubscribe$, () => this.refreshServersStatus());
+    startPolling(60000, this.unsubscribe$, () => this.refreshProxies());
   }
 
   ngOnDestroy(): void {
@@ -87,13 +70,13 @@ export class ProxiesComponent implements OnInit, OnDestroy {
   }
 
   get filteredCountries(): string[] {
-    return this.countries.filter(c => c !== 'All');
+    return this.countries().filter(c => c !== 'All');
   }
 
-  async refreshServersStatus(): Promise<void> {
+  refreshServersStatus(): void {
     this.adminService.getScanningProxyServers().subscribe({
       next: (response: ScanningServer[]) => {
-        this.scanningServers = response;
+        this.scanningServers.set(response);
       },
       error: () => {
         this.toast.error("Failed to fetch scanning servers.");
@@ -101,121 +84,96 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     });
   }
 
-  async refreshProxies(): Promise<void> {
-    if (this.isLoading) return;
-    this.isLoading = true;
+  refreshProxies(): void {
+    if (this.isLoading()) return;
+
     const loadingToast = this.toast.loading("Refreshing proxies...");
 
-    this.adminService.getProxies().subscribe({
-      next: async response => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        this.httpProxies = response.http;
-        this.socks5Proxies = response.socks5;
-        this.lastRefresh = response.lastRefresh;
-
-        const httpCountrySet = new Set<string>();
-        this.httpProxies.forEach((proxy: ProxyDetails) => {
-          if (proxy.geolocation?.country?.iso_code) {
-            httpCountrySet.add(proxy.geolocation.country.iso_code);
-          }
-        });
-        this.httpCountries = Array.from(httpCountrySet).sort();
-
-        const socks5CountrySet = new Set<string>();
-        this.socks5Proxies.forEach((proxy: ProxyDetails) => {
-          if (proxy.geolocation?.country?.iso_code) {
-            socks5CountrySet.add(proxy.geolocation.country.iso_code);
-          }
-        });
-        this.socks5Countries = Array.from(socks5CountrySet).sort();
-
+    runRefreshLoad({
+      isBusy: () => this.isLoading(),
+      setBusy: (busy) => this.isLoading.set(busy),
+      request: () => this.adminService.getProxies(),
+      onSuccess: (response) => {
+        this.httpProxies.set(response.http);
+        this.socks5Proxies.set(response.socks5);
+        this.lastRefresh.set(response.lastRefresh);
+        this.httpCountries = this.proxyFilter.collectCountries(response.http);
+        this.socks5Countries = this.proxyFilter.collectCountries(response.socks5);
         this.updateAvailableCountries();
         this.updateProxyLimit();
-
-        this.isLoading = false;
-        this.cdr.detectChanges();
-        this.toast.success("Proxies refreshed", { id: loadingToast });
       },
-      error: async () => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        this.isLoading = false;
-        this.cdr.detectChanges();
-        this.toast.error("Failed to refresh proxies.");
-      }
+      loadingToast,
+      successToast: (id) => this.toast.success("Proxies refreshed", { id }),
+      errorToast: () => this.toast.error("Failed to refresh proxies."),
     });
   }
 
   updateAvailableCountries(): void {
-    if (this.selectedProxyType === 'http') {
-      this.countries = ['All', ...this.httpCountries];
+    const nextCountries = this.selectedProxyType === 'http'
+      ? ['All', ...this.httpCountries]
+      : ['All', ...this.socks5Countries];
+    this.countries.set(nextCountries);
+
+    const filters = this.countryFilters();
+    if (filters.length > 1) {
+      this.countryFilters.set(filters.map(filter =>
+        filter === 'All' ? (nextCountries.filter(c => c !== 'All')[0] || nextCountries[0]) : filter
+      ));
     } else {
-      this.countries = ['All', ...this.socks5Countries];
-    }
-    if (this.countryFilters.length > 1) {
-      this.countryFilters = this.countryFilters.map(filter =>
-        filter === 'All' ? (this.countries.filter(c => c !== 'All')[0] || this.countries[0]) : filter
-      );
-    } else {
-      this.countryFilters = this.countryFilters.map(filter =>
-        this.countries.includes(filter) ? filter : 'All'
-      );
+      this.countryFilters.set(filters.map(filter =>
+        nextCountries.includes(filter) ? filter : 'All'
+      ));
     }
 
     this.updateProxyLimit();
   }
 
   updateProxyLimit(): void {
-    const duplicates = this.getDuplicateISO(this.countryFilters);
+    const filters = this.countryFilters();
+    const duplicates = this.proxyFilter.getDuplicateISO(filters);
     if (duplicates.length > 0) {
       this.toast.error("Duplicate ISO code selected: " + duplicates.join(', '));
       return;
     }
-    let filteredProxies: ProxyDetails[];
-    if (this.selectedProxyType === 'http') {
-      filteredProxies = this.httpProxies;
-    } else {
-      filteredProxies = this.socks5Proxies;
-    }
-    if (!(this.countryFilters.length === 1 && this.countryFilters[0] === 'All')) {
-      filteredProxies = filteredProxies.filter(
-        proxy => this.countryFilters.includes(proxy.geolocation?.country?.iso_code)
-      );
-    }
-    this.proxyLimit = filteredProxies.length;
+    const source = this.selectedProxyType === 'http' ? this.httpProxies() : this.socks5Proxies();
+    const filteredProxies = this.proxyFilter.filterProxies(source, filters);
+    this.proxyLimit.set(filteredProxies.length);
+  }
+
+  onProxyTypeChange(): void {
+    this.updateAvailableCountries();
+    this.updateProxyLimit();
   }
 
   addCountryFilter(): void {
-    this.countryFilters.push('All');
+    this.countryFilters.update(filters => [...filters, 'All']);
     this.updateAvailableCountries();
     this.updateProxyLimit();
   }
 
   removeCountryFilter(index: number): void {
-    if (this.countryFilters.length > 1) {
-      this.countryFilters.splice(index, 1);
+    if (this.countryFilters().length > 1) {
+      this.countryFilters.update(filters => filters.filter((_, i) => i !== index));
       this.updateAvailableCountries();
       this.updateProxyLimit();
     }
   }
 
+  setCountryFilter(index: number, value: string): void {
+    this.countryFilters.update(filters => filters.map((f, i) => i === index ? value : f));
+    this.updateProxyLimit();
+  }
+
   downloadFilteredProxies(): void {
-    const duplicates = this.getDuplicateISO(this.countryFilters);
+    const filters = this.countryFilters();
+    const duplicates = this.proxyFilter.getDuplicateISO(filters);
     if (duplicates.length > 0) {
       this.toast.error("Duplicate ISO code selected: " + duplicates.join(', '));
       return;
     }
-    let filteredProxies: ProxyDetails[];
-    if (this.selectedProxyType === 'http') {
-      filteredProxies = this.httpProxies;
-    } else {
-      filteredProxies = this.socks5Proxies;
-    }
-    if (!(this.countryFilters.length === 1 && this.countryFilters[0] === 'All')) {
-      filteredProxies = filteredProxies.filter(
-        proxy => this.countryFilters.includes(proxy.geolocation?.country?.iso_code)
-      );
-    }
-    filteredProxies = filteredProxies.slice(0, this.proxyLimit);
+
+    const source = this.selectedProxyType === 'http' ? this.httpProxies() : this.socks5Proxies();
+    const filteredProxies = this.proxyFilter.filterProxies(source, filters, this.proxyLimit());
 
     if (filteredProxies.length === 0) {
       this.toast.error("No proxies available for selected criteria.");
@@ -223,66 +181,48 @@ export class ProxiesComponent implements OnInit, OnDestroy {
     }
 
     const lines = filteredProxies.map(proxy => `${proxy.host}:${proxy.port}`);
-    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `${this.selectedProxyType}-proxies-${this.countryFilters.join('_')}.txt`;
-    a.click();
-    URL.revokeObjectURL(a.href);
+    this.proxyFilter.downloadAsTextFile(
+      lines,
+      `${this.selectedProxyType}-proxies-${filters.join('_')}.txt`
+    );
     this.toast.success("Proxies downloaded successfully.");
-  }
-
-  private getDuplicateISO(filters: string[]): string[] {
-    const seen = new Set<string>();
-    const duplicates = new Set<string>();
-    for (const code of filters) {
-      if (seen.has(code)) {
-        duplicates.add(code);
-      } else {
-        seen.add(code);
-      }
-    }
-    return Array.from(duplicates);
   }
 
   async checkProxy(event: Event): Promise<void> {
     event.preventDefault();
-    this.proxyCheckResult = null;
+    this.proxyCheckResult.set(null);
 
     if (!this.proxyHost || !this.proxyPort) {
       this.toast.error("Please enter a valid proxy host and port.");
       return;
     }
 
-    this.isCheckerLoading = true;
-
+    this.isCheckerLoading.set(true);
     const lastToast: string | number = this.toast.loading("Checking proxy...");
 
     this.adminService.checkProxy(this.proxyProtocol, this.proxyHost, this.proxyPort, this.serverToCheck).subscribe({
-      next: (response: any) => {
+      next: (response: ProxyCheckResponse) => {
         if (response.success) {
           this.toast.success("Proxy checked successfully.", { id: lastToast });
         } else {
           this.toast.error("Proxy check failed.", { id: lastToast });
         }
-        this.isCheckerLoading = false;
-        this.proxyCheckResult = response;
+        this.isCheckerLoading.set(false);
+        this.proxyCheckResult.set(response);
       },
       error: () => {
         this.toast.error("Error checking proxy.", { id: lastToast });
-        this.isCheckerLoading = false;
+        this.isCheckerLoading.set(false);
       }
     });
   }
 
   closeProxyChecker(): void {
-    this.showProxy = false;
-    this.proxyCheckResult = null;
+    this.showProxy.set(false);
+    this.proxyCheckResult.set(null);
   }
 
   navigateToDetails(serverId: number) {
     this.router.navigate(['/admin/proxies/details', serverId]);
   }
-
-
 }

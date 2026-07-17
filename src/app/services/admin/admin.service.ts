@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { SsoService } from '../sso/sso.service';
 import { environment } from '../../../environments/environment';
+import {
+  AdminEmail,
+  AdminMutationResponse,
+  EmailWordsResponse,
+  ProxiesResponse,
+  ProxyCheckResponse,
+  ScanningServer,
+} from '../../types';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +20,6 @@ export class AdminService {
 
   constructor(
     private httpClient: HttpClient,
-    private router: Router,
     private ssoService: SsoService,
   ) {}
 
@@ -26,73 +31,51 @@ export class AdminService {
     await this.ssoService.logout();
   }
 
-  getProxies(): Observable<any> {
-    return this.httpClient.get(`${this.API_BASE}/proxies`, { responseType: 'json' }).pipe(
-      catchError(() => of(null))
-    );
+  getProxies(): Observable<ProxiesResponse> {
+    return this.httpClient.get<ProxiesResponse>(`${this.API_BASE}/proxies`);
   }
 
-  getScanningProxyServers(): Observable<any> {
-    return this.httpClient.get(`${this.API_BASE}/proxies/servers`, { responseType: 'json' }).pipe(
-      catchError(() => of(null))
-    );
+  getScanningProxyServers(): Observable<ScanningServer[]> {
+    return this.httpClient.get<ScanningServer[]>(`${this.API_BASE}/proxies/servers`);
   }
 
-  getScanningProxyServersDetails(id: number): Observable<any> {
-    return this.httpClient.get(`${this.API_BASE}/proxies/servers/details?id=${id}`, { responseType: 'json' }).pipe(
-      catchError(() => of(null))
-    );
+  getScanningProxyServersDetails(id: number): Observable<ScanningServer> {
+    return this.httpClient.get<ScanningServer>(`${this.API_BASE}/proxies/servers/details?id=${id}`);
   }
 
-  checkProxy(protocol: string, host: string, port: number, serverToCheck: string): Observable<any> {
-    return this.httpClient.post(`${this.API_BASE}/proxies/check`, {
+  checkProxy(protocol: string, host: string, port: number, serverToCheck: string): Observable<ProxyCheckResponse> {
+    return this.httpClient.post<ProxyCheckResponse>(`${this.API_BASE}/proxies/check`, {
       protocol, host, port: port.toString(), server: serverToCheck,
-    }, { responseType: 'json' }).pipe(
-      catchError(() => of(null))
-    );
+    });
   }
 
-  getWhitelistedIPs(): Observable<any> {
-    return this.httpClient.get(`${this.API_BASE}/whitelisted`, { responseType: 'json' }).pipe(
-      catchError(() => of(null))
-    );
+  getWhitelistedIPs(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.API_BASE}/whitelisted`);
   }
 
   addWhitelistedIP(ip: string): Observable<string> {
-    return this.httpClient.post(`${this.API_BASE}/whitelisted/add`, { address: ip }, { responseType: 'text' }).pipe(
-      catchError(() => of('false'))
-    );
+    return this.httpClient.post(`${this.API_BASE}/whitelisted/add`, { address: ip }, { responseType: 'text' });
   }
 
   removeWhitelistedIP(ip: string): Observable<string> {
-    return this.httpClient.post(`${this.API_BASE}/whitelisted/delete`, { address: ip }, { responseType: 'text' }).pipe(
-      catchError(() => of('false'))
-    );
+    return this.httpClient.post(`${this.API_BASE}/whitelisted/delete`, { address: ip }, { responseType: 'text' });
   }
 
-  getEmails(): Observable<any> {
-    return this.httpClient.get(`${this.API_BASE}/mail/getEmails`, { responseType: 'json' }).pipe(
-      catchError(() => of([]))
-    );
+  getEmails(): Observable<AdminEmail[]> {
+    return this.httpClient.get<AdminEmail[]>(`${this.API_BASE}/mail/getEmails`);
   }
 
-  addEmail(nom: string, description: string): Observable<any> {
-    return this.httpClient.post(`${this.API_BASE}/mail`, { nom, description }, { responseType: 'json' }).pipe(
-      catchError(() => of({ success: false }))
-    );
+  addEmail(nom: string, description: string): Observable<AdminMutationResponse> {
+    return this.httpClient.post<AdminMutationResponse>(`${this.API_BASE}/mail`, { nom, description });
   }
 
-  removeEmail(nom: string): Observable<any> {
-    return this.httpClient.request('delete', `${this.API_BASE}/mail`, {
-      body: { nom }, responseType: 'json'
-    }).pipe(
-      catchError(() => of({ success: false }))
-    );
+  removeEmail(nom: string): Observable<AdminMutationResponse> {
+    return this.httpClient.request<AdminMutationResponse>('delete', `${this.API_BASE}/mail`, {
+      body: { nom },
+    });
   }
 
-  getEmailsWords(): Observable<any> {
-    return this.httpClient.get(`${this.API_BASE}/mail/getWords`, { responseType: 'json' }).pipe(
-      catchError(() => of(null))
-    );
+  getEmailsWords(): Observable<EmailWordsResponse> {
+    return this.httpClient.get<EmailWordsResponse>(`${this.API_BASE}/mail/getWords`);
   }
 }

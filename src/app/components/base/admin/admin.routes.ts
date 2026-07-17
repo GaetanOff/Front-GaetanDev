@@ -1,6 +1,4 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 import { AdminComponent } from "./admin.component";
 import { AuthComponent } from "./auth/auth.component";
 import { CallbackComponent } from "./auth/callback/callback.component";
@@ -10,7 +8,7 @@ import { ProxiesComponent } from "./proxies/proxies.component";
 import { DetailserverComponent } from "./proxies/detailserver/detailserver.component";
 import { EmailComponent } from "./email/email.component";
 
-const routes: Routes = [
+export const adminRoutes: Routes = [
   {
     path: '',
     component: AdminComponent,
@@ -44,14 +42,4 @@ const routes: Routes = [
     component: DetailserverComponent,
     canActivate: [AuthGuard]
   },
-]
-
-@NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes)
-  ]
-})
-export class AdminModule {
-}
+];

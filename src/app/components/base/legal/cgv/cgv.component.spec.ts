@@ -8,7 +8,7 @@ describe('CgvComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CgvComponent]
+      imports: [CgvComponent]
     })
       .compileComponents();
   });

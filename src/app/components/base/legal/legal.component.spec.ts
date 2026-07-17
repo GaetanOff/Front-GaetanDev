@@ -8,7 +8,7 @@ describe('LegalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LegalComponent]
+      imports: [LegalComponent]
     })
       .compileComponents();
   });

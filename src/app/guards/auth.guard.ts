@@ -1,14 +1,15 @@
 import { inject } from "@angular/core";
+import { CanActivateFn, Router } from "@angular/router";
 import { SsoService } from "../services/sso/sso.service";
-import { Router } from "@angular/router";
 
-export const AuthGuard = () => {
+export const AuthGuard: CanActivateFn = async () => {
   const sso = inject(SsoService);
   const router = inject(Router);
 
-  if (!sso.isAuthenticated) {
-    router.navigate(['/admin/auth']);
-    return false;
+  if (await sso.ensureAuthenticated()) {
+    return true;
   }
-  return true;
-}
+
+  await router.navigate(['/admin/auth']);
+  return false;
+};
