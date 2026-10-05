@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NavService } from "../../../../services/nav/nav.service";
 import { AdminService } from "../../../../services/admin/admin.service";
 import { toast } from 'ngx-sonner';
@@ -11,6 +11,7 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
     RouterLink,
     RouterLinkActive
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './templadmin.component.html'
 })
 export class TempladminComponent implements OnInit {
