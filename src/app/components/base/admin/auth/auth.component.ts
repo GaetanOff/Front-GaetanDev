@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { SsoService } from '../../../../services/sso/sso.service';
@@ -7,6 +7,7 @@ import { SsoService } from '../../../../services/sso/sso.service';
   selector: 'app-auth',
   standalone: true,
   imports: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './auth.component.html',
 })
 export class AuthComponent implements OnInit {

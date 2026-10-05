@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { TempladminComponent } from "../../include/admin/templadmin/templadmin.component";
 
 @Component({
@@ -7,6 +7,7 @@ import { TempladminComponent } from "../../include/admin/templadmin/templadmin.c
   imports: [
     TempladminComponent
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class AdminComponent implements OnInit {

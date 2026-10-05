@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 export type SkeletonVariant = 'input' | 'input-small' | 'list' | 'details' | 'text-area' | 'panel';
 
 @Component({
      selector: 'app-skeleton',
+     changeDetection: ChangeDetectionStrategy.Eager,
      templateUrl: './skeleton.component.html',
 })
 export class SkeletonComponent {
