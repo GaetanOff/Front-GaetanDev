@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ContactComponent } from './contact.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { LimitService } from '../../../services/limit/limit.service';
 import emailjs from '@emailjs/browser';
 
@@ -12,7 +12,7 @@ describe('ContactComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ContactComponent],
       providers: [
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         {
           provide: LimitService,
           useValue: {

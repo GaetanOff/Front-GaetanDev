@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { SsoService } from '../../../../../services/sso/sso.service';
@@ -6,6 +6,7 @@ import { SsoService } from '../../../../../services/sso/sso.service';
 @Component({
   selector: 'app-sso-callback',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="min-h-screen flex items-center justify-center p-4">
       <div class="text-center">
