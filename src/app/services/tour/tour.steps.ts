@@ -9,6 +9,8 @@ export interface TourStep {
   route: string;
   /** Value of the `data-tour` attribute to spotlight, if any. */
   target?: string;
+  /** Scrolls slowly through the target while the step is narrated, for targets taller than the screen. */
+  scroll?: boolean;
 }
 
 export const TOUR_STEPS: readonly TourStep[] = [
@@ -19,7 +21,7 @@ export const TOUR_STEPS: readonly TourStep[] = [
   { id: 'skills', route: '/about', target: 'competences' },
   { id: 'experience', route: '/about', target: 'experience' },
   { id: 'certifications', route: '/about', target: 'certif' },
-  { id: 'achievements', route: '/achievements', target: 'achievements' },
+  { id: 'achievements', route: '/achievements', target: 'achievements', scroll: true },
   { id: 'contact', route: '/contact', target: 'contact-form' },
   { id: 'assistant', route: '/contact', target: 'chatbot' },
   { id: 'outro', route: '/', target: 'hero' },

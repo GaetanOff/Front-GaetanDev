@@ -55,6 +55,10 @@ export class TourComponent {
 
   private frame = 0;
   private lastTick = 0;
+  /** Auto-scroll of the current step: where it goes from and to, unless the user took over. */
+  private scrollStep = -1;
+  private scrollRange: { from: number; to: number } | null = null;
+  private userScrolled = false;
   private level = 0;
   private spin = 0;
 
@@ -65,7 +69,18 @@ export class TourComponent {
       }
     });
 
-    inject(DestroyRef).onDestroy(() => cancelAnimationFrame(this.frame));
+    // Any manual scroll hands the page back to the user until the next step.
+    const takeOver = () => this.userScrolled = true;
+    this.zone.runOutsideAngular(() => {
+      window.addEventListener('wheel', takeOver, { passive: true });
+      window.addEventListener('touchmove', takeOver, { passive: true });
+    });
+
+    inject(DestroyRef).onDestroy(() => {
+      cancelAnimationFrame(this.frame);
+      window.removeEventListener('wheel', takeOver);
+      window.removeEventListener('touchmove', takeOver);
+    });
   }
 
   onKeydown(event: KeyboardEvent): void {
@@ -98,6 +113,7 @@ export class TourComponent {
           this.frame = 0;
           return;
         }
+        this.updateScroll();
         this.updateSpotlight();
         this.updateCaptions();
         this.updateOrb(now);
@@ -105,6 +121,36 @@ export class TourComponent {
       };
       this.frame = requestAnimationFrame(tick);
     });
+  }
+
+  /** Follows the narration down a tall target, so its end is shown when the voice ends. */
+  private updateScroll(): void {
+    const index = this.tour.index();
+    if (index !== this.scrollStep) {
+      this.scrollStep = index;
+      this.scrollRange = null;
+      this.userScrolled = false;
+    }
+
+    const step = this.tour.step();
+    const progress = this.tour.progress();
+    if (!step.scroll || !step.target || this.userScrolled || progress <= 0) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    if (!this.scrollRange) {
+      const el = document.querySelector<HTMLElement>(`[data-tour="${step.target}"]`);
+      if (!el) return;
+      // Stop once the bottom of the target sits right above the caption card.
+      const cardHeight = this.card()?.nativeElement.offsetHeight ?? 0;
+      const from = window.scrollY;
+      const end = from + el.getBoundingClientRect().bottom + SPOT_PADDING - (window.innerHeight - cardHeight - CARD_OFFSET);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      this.scrollRange = { from, to: Math.max(from, Math.min(end, max)) };
+    }
+
+    const { from, to } = this.scrollRange;
+    const eased = progress < 0.5 ? 2 * progress * progress : 1 - (-2 * progress + 2) ** 2 / 2;
+    window.scrollTo({ top: from + (to - from) * eased, behavior: 'instant' });
   }
 
   private updateSpotlight(): void {
