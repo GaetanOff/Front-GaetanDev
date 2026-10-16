@@ -1,4 +1,4 @@
-<button (click)="toggleChat()" [attr.aria-label]="i18n.text().chatbot.toggle"
+<button data-tour="chatbot" (click)="toggleChat()" [attr.aria-label]="i18n.text().chatbot.toggle"
   class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full ios-btn flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group"
   [class.scale-0]="isOpen()" [class.scale-100]="!isOpen()">
   <svg class="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor"
