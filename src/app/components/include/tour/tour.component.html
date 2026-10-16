@@ -2,7 +2,11 @@
   [attr.aria-label]="tour.active() ? t().stop : t().start" [class.is-on]="tour.active()" [class.is-new]="!tour.seen()"
   class="tour-toggle fixed bottom-6 left-6 z-[60] flex items-center gap-3 rounded-full py-2 pl-2 pr-3 sm:pr-4 text-left">
   <span class="tour-orb tour-orb--sm" aria-hidden="true">
-    <span class="tour-orb__core"></span>
+    <span class="tour-orb__core">
+      <span class="tour-orb__blob"></span>
+      <span class="tour-orb__blob"></span>
+      <span class="tour-orb__blob"></span>
+    </span>
   </span>
   <span class="hidden sm:flex flex-col leading-tight">
     <span class="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/50">{{ t().badge }}</span>
@@ -21,12 +25,12 @@
   <div class="tour-card__inner rounded-3xl p-5 sm:p-6">
 
     <div class="flex items-center gap-4">
-      <div #orb class="tour-orb" aria-hidden="true">
-        <span class="tour-orb__core"></span>
-        <span class="tour-orb__bars">
-          @for (bar of bars; track $index) {
-          <span #bar class="tour-orb__bar"></span>
-          }
+      <div #orb class="tour-orb tour-orb--live" aria-hidden="true">
+        <span class="tour-orb__ring"></span>
+        <span class="tour-orb__core">
+          <span class="tour-orb__blob"></span>
+          <span class="tour-orb__blob"></span>
+          <span class="tour-orb__blob"></span>
         </span>
       </div>
 

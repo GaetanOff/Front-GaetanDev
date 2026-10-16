@@ -166,7 +166,17 @@ html {
   transform: translateX(0.9rem);
 }
 
-/* Siri-like orb: a spinning aurora halo around a glass core. */
+/*
+ * Voice orb: colored lights swirl inside a glass sphere. --spin drives the swirl
+ * (a CSS animation at rest, the voice in the card) and --level, the voice energy
+ * from 0 to 1, swells the sphere, its halo and its ripple.
+ */
+@property --spin {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
 .tour-orb {
   --level: 0;
   position: relative;
@@ -177,27 +187,12 @@ html {
   height: 3rem;
   border-radius: 999px;
   isolation: isolate;
+  animation: tour-orb-spin 16s linear infinite;
 }
 
-.tour-orb::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  z-index: -1;
-  border-radius: inherit;
-  background: conic-gradient(from 0deg, #2dd4bf, #a3e635, #22d3ee, #818cf8, #2dd4bf);
-  filter: blur(6px);
-  opacity: calc(0.45 + var(--level) * 0.55);
-  scale: calc(1 + var(--level) * 0.22);
-  animation: tour-spin 6s linear infinite;
-}
-
-.tour-orb__core {
-  position: absolute;
-  inset: 2px;
-  border-radius: inherit;
-  background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.35), rgba(15, 23, 42, 0.95) 62%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+/* Driven frame by frame from the voice (see TourComponent.updateOrb). */
+.tour-orb--live {
+  animation: none;
 }
 
 .tour-orb--sm {
@@ -205,30 +200,86 @@ html {
   height: 2.25rem;
 }
 
-.tour-toggle.is-on .tour-orb::before {
-  animation-duration: 2.5s;
-  opacity: 0.9;
+.tour-orb::before {
+  content: '';
+  position: absolute;
+  inset: -45%;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(closest-side, rgba(45, 212, 191, 0.5), rgba(163, 230, 53, 0.14) 60%, transparent);
+  opacity: calc(0.3 + var(--level) * 0.7);
+  scale: calc(0.75 + var(--level) * 0.45);
+  transition: opacity 0.4s ease, scale 0.4s ease;
+}
+
+.tour-orb__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1.5px solid rgba(94, 234, 212, 0.75);
+  opacity: calc(var(--level) * 0.9);
+  scale: calc(1.06 + var(--level) * 0.38);
+}
+
+.tour-orb__core {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  clip-path: circle(50%);
+  background: radial-gradient(circle at 50% 80%, #115e59, #020617 78%);
+  scale: calc(1 + var(--level) * 0.08);
+}
+
+/* Bright heart lighting up with the voice. */
+.tour-orb__core::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 40% 40% at 50% 55%, #ccfbf1, transparent);
+  opacity: calc(var(--level) * 0.7);
+}
+
+/* Glass: specular highlight, rim and shading drawn over the lights. */
+.tour-orb__core::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse 20% 13% at 38% 20%, rgba(255, 255, 255, 0.8), transparent);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18), inset 0 -0.35rem 0.6rem rgba(2, 6, 23, 0.6);
+}
+
+.tour-orb__blob {
+  position: absolute;
+  inset: -20%;
+  mix-blend-mode: screen;
+  filter: blur(3px) saturate(1.3);
+}
+
+.tour-orb__blob:nth-child(1) {
+  background: radial-gradient(ellipse 40% 40% at 32% 38%, #14b8a6, transparent);
+  rotate: var(--spin);
+  scale: calc(1 + var(--level) * 0.18);
+}
+
+.tour-orb__blob:nth-child(2) {
+  background: radial-gradient(ellipse 34% 34% at 70% 44%, #84cc16, transparent);
+  rotate: calc(var(--spin) * -2);
+  scale: calc(1 + var(--level) * 0.3);
+}
+
+.tour-orb__blob:nth-child(3) {
+  background: radial-gradient(ellipse 38% 38% at 48% 72%, #6366f1, transparent);
+  rotate: calc(var(--spin) * 3);
+  scale: calc(1 + var(--level) * 0.24);
+}
+
+.tour-toggle.is-on .tour-orb {
+  --level: 0.45;
 }
 
 .tour-toggle.is-new .tour-orb::before {
-  animation: tour-spin 6s linear infinite, tour-breathe 2.4s ease-in-out infinite;
-}
-
-.tour-orb__bars {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  height: 1.25rem;
-}
-
-.tour-orb__bar {
-  width: 3px;
-  height: 100%;
-  border-radius: 3px;
-  background: linear-gradient(#ecfeff, #5eead4);
-  transform: scaleY(0.18);
-  transition: transform 80ms linear;
+  animation: tour-breathe 2.4s ease-in-out infinite;
 }
 
 /* Spotlight: a transparent hole whose huge shadow dims the rest of the page. */
@@ -342,15 +393,15 @@ html {
   transform-origin: left;
 }
 
-@keyframes tour-spin {
+@keyframes tour-orb-spin {
   to {
-    rotate: 360deg;
+    --spin: 360deg;
   }
 }
 
 @keyframes tour-breathe {
   50% {
-    scale: 1.25;
+    scale: 1.1;
     opacity: 1;
   }
 }
@@ -387,9 +438,13 @@ html {
   .tour-spotlight::before,
   .tour-spotlight::after,
   .tour-card,
-  .tour-orb::before,
-  .tour-orb__bar {
+  .tour-orb,
+  .tour-orb::before {
     animation: none !important;
     transition: none !important;
+  }
+
+  .tour-orb {
+    --spin: 0deg !important;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, DestroyRef, ElementRef, NgZone, computed, effect, inject, signal, untracked, viewChild, viewChildren } from '@angular/core';
+import { Component, ChangeDetectionStrategy, DestroyRef, ElementRef, NgZone, computed, effect, inject, signal, untracked, viewChild } from '@angular/core';
 import { I18nService } from '../../../services/i18n/i18n.service';
 import { TourService } from '../../../services/tour/tour.service';
 
@@ -10,8 +10,14 @@ const VIEWPORT_MARGIN = 8;
 const NAVBAR_HEIGHT = 96;
 /** Distance between the caption card and the viewport bottom (see .tour-card). */
 const CARD_OFFSET = 104;
-/** Frequency bins (out of 32) driving each bar of the orb. */
-const BAR_BINS = [2, 4, 6, 9, 13];
+/** Frequency bins (out of 32) averaged into the voice level driving the orb. */
+const VOICE_BINS = { from: 1, to: 10 };
+/** Average energy of those bins between words, and its span up to a loud syllable. */
+const VOICE_FLOOR = 0.2;
+const VOICE_RANGE = 0.5;
+/** Swirl speed of the orb, in degrees per millisecond, at rest and per unit of voice level. */
+const SPIN_IDLE = 0.02;
+const SPIN_VOICE = 0.22;
 
 @Component({
   selector: 'app-tour',
@@ -27,7 +33,6 @@ export class TourComponent {
   private zone = inject(NgZone);
 
   public t = computed(() => this.i18n.text().tour);
-  public bars = BAR_BINS;
   public counter = computed(() => {
     const pad = (n: number) => String(n).padStart(2, '0');
     return `${pad(this.tour.index() + 1)} / ${pad(this.tour.steps.length)}`;
@@ -47,9 +52,11 @@ export class TourComponent {
   private card = viewChild<ElementRef<HTMLElement>>('card');
   private orb = viewChild<ElementRef<HTMLElement>>('orb');
   private fill = viewChild<ElementRef<HTMLElement>>('fill');
-  private barEls = viewChildren<ElementRef<HTMLElement>>('bar');
 
   private frame = 0;
+  private lastTick = 0;
+  private level = 0;
+  private spin = 0;
 
   constructor() {
     effect(() => {
@@ -155,22 +162,27 @@ export class TourComponent {
   private updateOrb(now: number): void {
     const levels = this.tour.readLevels();
     const speaking = !this.tour.paused() && this.tour.progress() > 0 && this.tour.progress() < 1;
-    let sum = 0;
 
-    this.barEls().forEach((bar, i) => {
-      let value: number;
-      if (levels) {
-        value = levels[BAR_BINS[i]] / 255;
-      } else if (speaking) {
-        // No analyser data (captions-only mode): synthesize a voice-like motion.
-        value = 0.35 + 0.3 * Math.sin(now / 170 + i * 1.4) * Math.sin(now / 420 + i);
-      } else {
-        value = 0.08;
-      }
-      sum += value;
-      bar.nativeElement.style.transform = `scaleY(${0.18 + value * 0.82})`;
-    });
+    let target = 0;
+    if (levels) {
+      let sum = 0;
+      for (let i = VOICE_BINS.from; i <= VOICE_BINS.to; i++) sum += levels[i];
+      const average = sum / (VOICE_BINS.to - VOICE_BINS.from + 1) / 255;
+      target = Math.min(1, Math.max(0, (average - VOICE_FLOOR) / VOICE_RANGE));
+    } else if (speaking) {
+      // No analyser data (captions-only mode): synthesize a voice-like motion.
+      target = 0.4 + 0.3 * Math.sin(now / 170) * Math.sin(now / 420);
+    }
 
-    this.orb()?.nativeElement.style.setProperty('--level', (sum / BAR_BINS.length).toFixed(3));
+    // Rise fast and fall slowly, like a VU meter, so the orb doesn't flicker.
+    this.level += (target - this.level) * (target > this.level ? 0.3 : 0.07);
+
+    const elapsed = this.lastTick ? Math.min(now - this.lastTick, 100) : 0;
+    this.lastTick = now;
+    this.spin = (this.spin + elapsed * (SPIN_IDLE + this.level * SPIN_VOICE)) % 360;
+
+    const style = this.orb()?.nativeElement.style;
+    style?.setProperty('--level', this.level.toFixed(3));
+    style?.setProperty('--spin', `${this.spin.toFixed(1)}deg`);
   }
 }
