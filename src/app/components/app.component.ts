@@ -5,6 +5,7 @@ import { NgxSonnerToaster } from "ngx-sonner";
 import { filter } from 'rxjs/operators';
 import { LocalerouteService } from '../services/route/localeroute.service';
 import { ChatbotComponent } from './include/chatbot/chatbot.component';
+import { TourComponent } from './include/tour/tour.component';
 import { matchLocaleFromPath, stripLocalePrefix } from '../utils/locale.utils';
 
 @Component({
@@ -12,7 +13,7 @@ import { matchLocaleFromPath, stripLocalePrefix } from '../utils/locale.utils';
   standalone: true,
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgxSonnerToaster, ChatbotComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgxSonnerToaster, ChatbotComponent, TourComponent],
 })
 export class AppComponent {
   public i18n = inject(I18nService);

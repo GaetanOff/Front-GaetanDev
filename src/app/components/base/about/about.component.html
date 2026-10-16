@@ -1,5 +1,5 @@
 <section class="text-white relative">
-  <div class="text-center relative z-10">
+  <div data-tour="about-intro" class="text-center relative z-10">
     <h2
       class="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
       {{ i18n.text().about.title }}
@@ -19,13 +19,13 @@
     </div>
   </div>
 
-  <app-services></app-services>
+  <app-services data-tour="services" class="block"></app-services>
 
-  <app-competences></app-competences>
+  <app-competences data-tour="competences" class="block"></app-competences>
 
-  <app-experience></app-experience>
+  <app-experience data-tour="experience" class="block"></app-experience>
 
-  <app-certif></app-certif>
+  <app-certif data-tour="certif" class="block"></app-certif>
 
   <app-languages></app-languages>
 

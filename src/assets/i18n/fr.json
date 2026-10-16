@@ -333,6 +333,65 @@
     "captchaExpired": "Votre session a expiré. Veuillez vous revérifier.",
     "disclaimer": "L'IA peut commettre des erreurs. Il est recommandé de vérifier les informations importantes."
   },
+  "tour": {
+    "badge": "Expérience vocale",
+    "label": "Visite guidée",
+    "start": "Lancer la visite guidée vocale",
+    "stop": "Arrêter la visite guidée vocale",
+    "step": "Étape",
+    "prev": "Étape précédente",
+    "next": "Étape suivante",
+    "pause": "Mettre en pause",
+    "play": "Reprendre",
+    "close": "Quitter la visite",
+    "noAudio": "Audio indisponible · sous-titres uniquement",
+    "steps": {
+      "intro": {
+        "title": "Bienvenue",
+        "text": "Bienvenue. Je vais vous accompagner pendant quelques instants, à la découverte de l'univers de Gaëtan Faucher. Développeur Fullstack, DevOps, et passionné d'intelligence artificielle. Installez-vous. On commence."
+      },
+      "navigation": {
+        "title": "Navigation",
+        "text": "Tout part d'ici. Une navigation pensée pour aller à l'essentiel : son parcours, ses réalisations, et un accès direct pour le contacter."
+      },
+      "about": {
+        "title": "À propos",
+        "text": "Voici Gaëtan. Basé à Montpellier, il conçoit des solutions qui réunissent le code, le cloud et l'automatisation. Avec une seule obsession : que la technologie serve vraiment votre projet."
+      },
+      "services": {
+        "title": "Services",
+        "text": "Trois expertises. Le développement sur mesure, multiplateforme. Le DevOps : pipelines d'intégration continue, conteneurs, et infrastructure as code. Et les solutions d'intelligence artificielle, de l'intégration de modèles jusqu'à l'automatisation de vos workflows."
+      },
+      "skills": {
+        "title": "Stack technique",
+        "text": "Sous le capot, une stack moderne. Go, Python, TypeScript. AWS, Terraform, Kubernetes. Et tout l'écosystème de la donnée et de l'IA."
+      },
+      "experience": {
+        "title": "Parcours",
+        "text": "Un parcours construit sur le terrain. Chaque expérience a forgé la même conviction : livrer vite, livrer bien, et livrer durable."
+      },
+      "certifications": {
+        "title": "Certifications",
+        "text": "Des compétences validées par des certifications reconnues. Parce que l'exigence, ça se prouve."
+      },
+      "achievements": {
+        "title": "Réalisations",
+        "text": "Place aux réalisations. Applications web, réseau de distribution de contenu, pipelines MLOps, infrastructures de serveurs de jeux. Des projets concrets, du premier commit jusqu'à la production."
+      },
+      "contact": {
+        "title": "Contact",
+        "text": "Un projet en tête ? C'est ici que tout commence. Quelques mots suffisent, et Gaëtan vous répond sous quarante-huit heures."
+      },
+      "assistant": {
+        "title": "Assistant IA",
+        "text": "Et si vous êtes pressé, son assistant IA est disponible à tout moment, juste ici. Posez-lui toutes vos questions."
+      },
+      "outro": {
+        "title": "À bientôt",
+        "text": "Merci pour votre visite. La suite, c'est à vous de l'écrire. À très vite."
+      }
+    }
+  },
   "error": {
     "notfound": {
       "title": "Page introuvable",

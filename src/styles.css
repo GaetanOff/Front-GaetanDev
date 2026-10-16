@@ -101,3 +101,295 @@ html {
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
+/* ---------- Voice guided tour ---------- */
+
+[data-tour] {
+  scroll-margin-top: 7rem;
+  scroll-margin-bottom: 7rem;
+}
+
+.tour-toggle {
+  background: rgba(10, 15, 25, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tour-toggle:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.tour-toggle:active {
+  transform: scale(0.97);
+}
+
+.tour-toggle:focus-visible {
+  outline: 2px solid #5eead4;
+  outline-offset: 3px;
+}
+
+.tour-toggle.is-on {
+  border-color: rgba(94, 234, 212, 0.45);
+  box-shadow: 0 0 0 1px rgba(94, 234, 212, 0.15), 0 0 32px -6px rgba(45, 212, 191, 0.55);
+}
+
+.tour-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  transition: background 0.3s ease;
+}
+
+.tour-switch__knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(1.35rem - 6px);
+  height: calc(1.35rem - 6px);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transition: transform 0.35s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+
+.tour-toggle.is-on .tour-switch {
+  background: linear-gradient(90deg, #2dd4bf, #a3e635);
+}
+
+.tour-toggle.is-on .tour-switch__knob {
+  transform: translateX(0.9rem);
+}
+
+/* Siri-like orb: a spinning aurora halo around a glass core. */
+.tour-orb {
+  --level: 0;
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  isolation: isolate;
+}
+
+.tour-orb::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(from 0deg, #2dd4bf, #a3e635, #22d3ee, #818cf8, #2dd4bf);
+  filter: blur(6px);
+  opacity: calc(0.45 + var(--level) * 0.55);
+  scale: calc(1 + var(--level) * 0.22);
+  animation: tour-spin 6s linear infinite;
+}
+
+.tour-orb__core {
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.35), rgba(15, 23, 42, 0.95) 62%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.tour-orb--sm {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.tour-toggle.is-on .tour-orb::before {
+  animation-duration: 2.5s;
+  opacity: 0.9;
+}
+
+.tour-toggle.is-new .tour-orb::before {
+  animation: tour-spin 6s linear infinite, tour-breathe 2.4s ease-in-out infinite;
+}
+
+.tour-orb__bars {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 1.25rem;
+}
+
+.tour-orb__bar {
+  width: 3px;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(#ecfeff, #5eead4);
+  transform: scaleY(0.18);
+  transition: transform 80ms linear;
+}
+
+/* Spotlight: a transparent hole whose huge shadow dims the rest of the page. */
+.tour-spotlight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 55;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  pointer-events: none;
+  box-shadow: 0 0 0 200vmax rgba(2, 6, 23, 0.62);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: tour-fade 0.5s ease both;
+}
+
+.tour-spotlight::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -40%;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, rgba(94, 234, 212, 0.12), transparent);
+  animation: tour-scan 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.tour-spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(94, 234, 212, 0.6);
+  box-shadow: inset 0 0 24px rgba(45, 212, 191, 0.18);
+  animation: tour-ring 2.4s ease-in-out infinite;
+}
+
+.tour-spotlight.is-empty::before,
+.tour-spotlight.is-empty::after {
+  opacity: 0;
+}
+
+.tour-card {
+  left: 50%;
+  bottom: 6.5rem;
+  translate: -50% 0;
+  animation: tour-rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.tour-card--top {
+  top: 6.5rem;
+  bottom: auto;
+}
+
+/* From this width the centered card no longer overlaps the toggle. */
+@media (min-width: 1280px) {
+  .tour-card:not(.tour-card--top) {
+    bottom: 2rem;
+  }
+}
+
+.tour-card__inner {
+  position: relative;
+  background: rgba(8, 12, 22, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.tour-card__inner::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #5eead4, #a3e635, transparent);
+}
+
+.tour-caption span {
+  color: rgba(255, 255, 255, 0.32);
+  transition: color 0.35s ease, text-shadow 0.35s ease;
+}
+
+.tour-caption span.is-spoken {
+  color: #fff;
+  text-shadow: 0 0 18px rgba(94, 234, 212, 0.25);
+}
+
+.tour-seg {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.14);
+  transition: background 0.4s ease;
+}
+
+.tour-seg.is-done {
+  background: rgba(94, 234, 212, 0.75);
+}
+
+.tour-seg__fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #2dd4bf, #a3e635);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+@keyframes tour-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes tour-breathe {
+  50% {
+    scale: 1.25;
+    opacity: 1;
+  }
+}
+
+@keyframes tour-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes tour-scan {
+  to {
+    top: 100%;
+  }
+}
+
+@keyframes tour-ring {
+  50% {
+    border-color: rgba(163, 230, 53, 0.7);
+    box-shadow: inset 0 0 36px rgba(45, 212, 191, 0.3);
+  }
+}
+
+@keyframes tour-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .tour-spotlight,
+  .tour-spotlight::before,
+  .tour-spotlight::after,
+  .tour-card,
+  .tour-orb::before,
+  .tour-orb__bar {
+    animation: none !important;
+    transition: none !important;
+  }
+}

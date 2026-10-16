@@ -333,6 +333,65 @@
     "captchaExpired": "Your session has expired. Please verify again.",
     "disclaimer": "AI can make mistakes. Please verify important information."
   },
+  "tour": {
+    "badge": "Voice experience",
+    "label": "Guided tour",
+    "start": "Start the voice guided tour",
+    "stop": "Stop the voice guided tour",
+    "step": "Step",
+    "prev": "Previous step",
+    "next": "Next step",
+    "pause": "Pause",
+    "play": "Resume",
+    "close": "Exit the tour",
+    "noAudio": "Audio unavailable · captions only",
+    "steps": {
+      "intro": {
+        "title": "Welcome",
+        "text": "Welcome. For the next few moments, I'll be your guide through the world of Gaëtan Faucher. Fullstack developer, DevOps engineer, and passionate about artificial intelligence. Sit back. Let's begin."
+      },
+      "navigation": {
+        "title": "Navigation",
+        "text": "It all starts here. A navigation designed to get straight to the point: his background, his work, and a direct line to reach him."
+      },
+      "about": {
+        "title": "About",
+        "text": "Meet Gaëtan. Based in Montpellier, he builds solutions that bring together code, cloud and automation. With one obsession: making technology truly serve your project."
+      },
+      "services": {
+        "title": "Services",
+        "text": "Three areas of expertise. Custom, cross-platform development. DevOps: continuous integration pipelines, containers, and infrastructure as code. And artificial intelligence solutions, from model integration all the way to automating your workflows."
+      },
+      "skills": {
+        "title": "Tech stack",
+        "text": "Under the hood, a modern stack. Go, Python, TypeScript. AWS, Terraform, Kubernetes. And the whole data and AI ecosystem."
+      },
+      "experience": {
+        "title": "Experience",
+        "text": "A career built in the field. Every experience has shaped the same belief: ship fast, ship well, and ship to last."
+      },
+      "certifications": {
+        "title": "Certifications",
+        "text": "Skills backed by recognized certifications. Because high standards should be proven."
+      },
+      "achievements": {
+        "title": "Achievements",
+        "text": "Now, the work. Web applications, a content delivery network, MLOps pipelines, game server infrastructures. Real projects, from the very first commit all the way to production."
+      },
+      "contact": {
+        "title": "Contact",
+        "text": "Got a project in mind? This is where it all begins. A few words are enough, and Gaëtan will get back to you within forty-eight hours."
+      },
+      "assistant": {
+        "title": "AI assistant",
+        "text": "And if you're in a hurry, his AI assistant is available anytime, right here. Ask it anything."
+      },
+      "outro": {
+        "title": "See you soon",
+        "text": "Thank you for visiting. What comes next is yours to write. See you very soon."
+      }
+    }
+  },
   "error": {
     "notfound": {
       "title": "Page not found",
