@@ -11,7 +11,7 @@
   </div>
 
   <div data-tour="achievements" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-    @for (project of displayedList(); track project.name) {
+    @for (project of i18n.text().achievements.list; track project.name) {
 
     <ng-container *ngTemplateOutlet="cardContent; context: { $implicit: project }"></ng-container>
 
@@ -70,18 +70,5 @@
       {{ p.description }}
     </p>
   </ng-template>
-
-  <div class="text-center mt-16 flex justify-center gap-6">
-    @if (hasMore()) {
-    <button (click)="showMore()" class="ios-btn px-8 py-3 rounded-xl text-white font-semibold text-sm tracking-wide">
-      {{ i18n.isEnglish() ? "Show More" : "Voir Plus" }}
-    </button>
-    }
-    @if (hasLess()) {
-    <button (click)="showLess()" class="ios-btn px-8 py-3 rounded-xl text-white font-semibold text-sm tracking-wide">
-      {{ i18n.isEnglish() ? "Show Less" : "Voir Moins" }}
-    </button>
-    }
-  </div>
 
 </div>
