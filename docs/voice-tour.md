@@ -1,3 +1,10 @@
+---
+title: Visite guidée vocale — script de narration
+sources:
+  - src/assets/audio/tour/
+updated: 2026-10-27
+---
+
 # Visite guidée vocale — script de narration
 
 Chaque étape de la visite joue un MP3 et affiche le même texte en sous-titres.
