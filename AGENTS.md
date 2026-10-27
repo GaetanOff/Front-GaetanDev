@@ -7,7 +7,7 @@ Lis ce fichier en entier avant de modifier le code, puis la page de `docs/` qui 
 
 Portfolio et vitrine commerciale de Gaëtan Faucher (gaetandev.fr) : site public bilingue FR/EN (accueil, à propos, réalisations, contact, mentions légales), chatbot IA, visite guidée vocale, et un back-office `/admin` protégé par SSO (whitelist, emails, supervision de proxies).
 
-- **Stack** : Angular 22 (composants standalone, signals, `ChangeDetectionStrategy.OnPush`), TypeScript 6, Tailwind CSS 3, RxJS 7, Zod (uniquement dans `admin/email` ; les formulaires publics utilisent les `Validators` Angular), Cloudflare Turnstile (`ngx-turnstile`), marked + DOMPurify.
+- **Stack** : Angular 22 (composants standalone, signals, `ChangeDetectionStrategy.OnPush`), TypeScript 6, Tailwind CSS 3, RxJS 7, Zod 4 (uniquement dans `admin/email` et `admin/whitelist` ; les formulaires publics utilisent les `Validators` Angular), Cloudflare Turnstile (`ngx-turnstile`), marked + DOMPurify.
 - **Pas de SSR** : application SPA buildée avec `@angular/build:application`.
 - **Backends externes** (aucun dans ce dépôt) : API admin (`environment.apiBaseUrl`), API du chatbot (`environment.chatbotApiUrl`), fournisseur SSO OIDC (`environment.sso`), EmailJS pour le formulaire de contact, Cloudflare Turnstile (captcha) et Cloudflare Web Analytics (chargé par `index.html`).
 - **Langue du projet** : français (commits, docs, commentaires). Les textes affichés sont dans `src/assets/i18n/{fr,en}.json`.

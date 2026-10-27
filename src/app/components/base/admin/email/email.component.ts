@@ -103,7 +103,7 @@ export class EmailComponent implements OnInit, OnDestroy {
 
     const result = aliasSchema.safeParse(this.emailName.trim());
     if (!result.success) {
-      this.toast.error(result.error.errors[0].message);
+      this.toast.error(result.error.issues[0].message);
       return;
     }
 
