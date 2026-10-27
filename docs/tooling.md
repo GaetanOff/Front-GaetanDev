@@ -35,7 +35,7 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 | `.editorconfig` | UTF-8, espaces, indentation 2, guillemets simples pour `*.ts`. |
 | `.github/workflows/ci.yml` | Build + tests à chaque push/PR sur certaines branches. |
 | `.github/workflows/semgrep.yml` | Analyse Semgrep et upload SARIF. |
-| `.github/dependabot.yml` | Configuration des mises à jour de version Dependabot (incomplète, voir plus bas). |
+| `.github/dependabot.yml` | Mises à jour de version Dependabot hebdomadaires pour `npm` (groupe `angular` pour les `@angular/*`) et `github-actions`, sur la branche par défaut. |
 | `scripts/docs-check.mjs` | Vérifie la couverture de `src/` par `docs/` (`npm run docs:check`). |
 
 ## Fonctionnement
@@ -108,7 +108,7 @@ L'historique (`git log --oneline`, commits `fix(deps)` et `fix(security)`) montr
 ## Points d'attention
 
 - La branche principale est `master` (aucune branche `main`) : `ci.yml` et `semgrep.yml` la ciblent toutes deux. Semgrep ne tourne pas sur `develop`.
-- **`dependabot.yml` a `package-ecosystem: ""`** (valeur vide du gabarit GitHub) : aucune mise à jour de version Dependabot n'est réellement configurée. Les alertes traitées dans les commits `fix(deps)` sont des alertes de sécurité Dependabot, distinctes de ce fichier.
+- `dependabot.yml` regroupe les `@angular/*` dans une seule PR (groupe `angular`), car ils doivent monter ensemble (voir plus haut) ; une PR de version ne relève pas les `overrides`, à vérifier à la main. Les alertes traitées dans les commits `fix(deps)` sont des alertes de sécurité Dependabot, distinctes de ce fichier.
 - **Overrides devenus inertes** : plusieurs paquets forcés n'apparaissent plus du tout dans `package-lock.json` (`tar`, `@isaacs/brace-expansion`, `@sigstore/core`, `hono`, `@hono/node-server`, `rollup`, `ip-address`, `undici`, `path-to-regexp`, `express`, `express-rate-limit`, `webpack`, `webpack-dev-server`, `http-proxy-middleware`, `js-yaml`, `loader-utils`, `node-forge`, `on-headers`). Ils sont sans effet aujourd'hui mais protègent contre un retour de ces paquets ; ne pas les retirer sans vérifier l'alerte d'origine (voir AGENTS.md).
 - **Régénérer le lock** (`npm install` après suppression du lock) sous Windows : vérifier ensuite que les entrées `@emnapi/*` sont toujours dans `package-lock.json`, sinon `npm ci` casse en CI.
 - **`src/favicon.ico` est déclaré dans les assets** (build et test) mais n'existe pas dans le dépôt ; l'icône réellement référencée par `index.html` est `assets/img/metaLogo.webp`.
