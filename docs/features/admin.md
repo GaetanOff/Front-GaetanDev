@@ -86,7 +86,7 @@ Deux pollings partagent le même `unsubscribe$` :
 
 Écran :
 
-- « Last refresh » (`lastRefresh` brut renvoyé par l'API), et pour HTTP et SOCKS5 les 15 premiers `host:port`.
+- « Last refresh » (`lastRefresh` brut renvoyé par l'API), et pour HTTP et SOCKS5 les 15 premiers `host:port`, suivis de « … N more » (N = proxies non affichés) seulement si la liste en compte plus de 15.
 - Modale « Scanning Servers » : carte par serveur (id, `status` vert si `'online'`, CPU %, RAM %) ; clic → `/admin/proxies/details/:id`.
 - Modale « Proxy Checker » : protocole (`http` / `socks5`), hôte, port, serveur (`random` ou un id de `scanningServers`) → `checkProxy(...)`. Affiche `data` (pipe `json`) si `success`, sinon `error`.
 - « Download Filtered Proxies » : type de proxy, filtres pays, nombre → fichier texte `host:port` par ligne, nommé `{type}-proxies-{filtres joints par _}.txt` (voir `ProxyFilterService`).
@@ -149,7 +149,6 @@ Autres membres : `isLogged` (getter → `SsoService.isAuthenticated`, non utilis
 
 - **Toasts de chargement orphelins** : en cas d'erreur, les callbacks `errorToast` passés à `runRefreshLoad` (whitelist, e-mails, proxies) ignorent l'id reçu et créent un nouveau toast d'erreur ; le toast « Refreshing… » correspondant n'est pas remplacé.
 - **Toasts répétés** : chaque refresh de 60 s affiche un toast de chargement puis de succès ; le statut des serveurs (5 s) affiche un toast d'erreur à chaque échec, soit un toutes les 5 s si l'API est indisponible.
-- **Compteur « … N more »** dans `proxies.component.html` : affiche la longueur totale de la liste, pas le nombre de proxies au-delà des 15 affichés.
 - **Générateur d'alias avant chargement des mots** : si `getEmailsWords()` n'a pas encore répondu (ou a échoué), `firstWords` / `secondWords` sont vides et l'alias généré contient `undefined`. Le signal `wordsLoaded` est alimenté mais n'est lu nulle part (le bouton n'est pas désactivé).
 - **Mises à jour optimistes locales** : après ajout/suppression, la liste locale est modifiée sans relecture ; le prochain polling (jusqu'à 60 s) remplace l'état par celui du serveur.
 - Les requêtes HTTP lancées par un tick ne sont pas annulées à la destruction du composant : seul le polling s'arrête.
