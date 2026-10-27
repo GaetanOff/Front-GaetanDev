@@ -51,7 +51,7 @@ sequenceDiagram
   T->>C: tokenResolved(token)
   C->>API: POST /verify { captchaToken }
   API-->>C: { sessionToken }
-  C->>C: messages = [message de bienvenue]
+  C->>C: messages = [message de bienvenue], history = []
   U->>C: sendMessage()
   C->>API: POST / { message, history, sessionToken }
   API-->>C: { reply }
@@ -67,6 +67,7 @@ sequenceDiagram
 - `_messages` : ce qui est affiché (`ChatMessage` : `content`, `htmlContent?`, `isUser`, `timestamp`).
 - `_chatHistory` : ce qui est envoyé au backend (`HistoryMessage` : `{ role: 'user' | 'model', parts: [{ text }] }`). Seuls les échanges réussis y sont ajoutés (paire user + model après réception de `reply`) ; les messages d'erreur et le message de bienvenue n'y figurent jamais.
 - L'historique entier est renvoyé à chaque requête, sans limite de taille côté front.
+- Une vérification captcha réussie (`onCaptchaResolved()`, y compris après un 403) et `clearConversation()` repartent d'une conversation vide : `_messages` = message de bienvenue seul, `_chatHistory` = `[]`. Le backend ne reçoit donc jamais une conversation que l'utilisateur ne voit plus.
 - **Aucune persistance** : rien en `localStorage`/`sessionStorage`. Un rechargement de page vide la conversation et impose de refaire le captcha.
 
 ### Rendu markdown
@@ -112,14 +113,17 @@ Les erreurs sont aussi loguées via `console.error`.
 - DOMPurify est utilisé avec sa configuration par défaut : les liens du markdown sont conservés mais sans `target="_blank"`, un clic quitte donc le site dans le même onglet.
 - `.chat-markdown` est stylé avec `:host ::ng-deep` parce que le HTML injecté via `[innerHTML]` ne reçoit pas les attributs d'encapsulation d'Angular. Garde ces sélecteurs préfixés par `:host` pour ne pas fuiter sur le reste du site. Budget CSS de composant : 4 kb en production.
 - Renommer ou retirer `data-tour="chatbot"` casse l'étape `assistant` de la visite (elle attend la cible 3 s puis continue sans projecteur).
-- Après un 403 puis une nouvelle vérification, `onCaptchaResolved()` remplace les messages affichés par le seul message de bienvenue mais **ne vide pas `_chatHistory`** : le backend reçoit encore l'ancienne conversation alors que l'utilisateur voit une conversation neuve.
 - Sur 403, c'est `chatbot.captchaError` (« La vérification a échoué ») qui s'affiche, pas `chatbot.captchaExpired`.
 - La clé de site Turnstile est codée en dur dans `CustomCaptchaComponent`, pas dans `environment`. Le script Turnstile est chargé par ce composant (voir [contact.md](./contact.md)).
 - Le composant utilise encore `@ViewChild` + `AfterViewChecked` et `CommonModule` (et non `viewChild()`), contrairement au style signal du reste du code.
 
 ## Tests
 
-Aucun fichier `.spec.ts` pour ce composant : ni la vérification captcha, ni les appels HTTP, ni l'assainissement ne sont testés. Pour en ajouter un, utilise `provideHttpClient(withXhr())` + `provideHttpClientTesting()` comme les autres specs, et lance `npm run test:ci`.
+`chatbot.component.spec.ts` (`provideHttpClient(withXhr())` + `provideHttpClientTesting()`, panneau fermé donc sans widget Turnstile) : après un échange, un 403 puis une nouvelle vérification, la requête suivante part avec `history: []` et le nouveau `sessionToken`. Non couverts : échec de `/verify`, erreurs autres que 403, `clearConversation()`, changement de langue, assainissement du markdown.
+
+```bash
+npx ng test --watch=false --browsers=ChromeHeadlessCI --include src/app/components/include/chatbot
+```
 
 ## Recettes
 

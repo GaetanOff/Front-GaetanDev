@@ -102,6 +102,7 @@ export class ChatbotComponent implements AfterViewChecked {
         this._isCaptchaVerified.set(true);
 
         this._messages.set([this.createBotMessage(this.i18n.text().chatbot.welcome)]);
+        this._chatHistory.set([]);
         this.shouldScroll = true;
       } else {
         this._captchaError.set(true);
