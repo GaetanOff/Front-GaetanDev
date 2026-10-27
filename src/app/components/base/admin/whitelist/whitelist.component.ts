@@ -61,14 +61,13 @@ export class WhitelistComponent implements OnInit, OnDestroy {
 
     const currentIps = this.whitelistedIPs();
     const ipSchema = z
-      .string()
-      .ip({ version: "v4" })
+      .ipv4()
       .refine(ip => ip !== '127.0.0.1', { message: "You cannot add 127.0.0.1 to the whitelist." })
       .refine(ip => !currentIps.includes(ip), { message: "IP already whitelisted." });
 
     const result = ipSchema.safeParse(this.address);
     if (!result.success) {
-      this.toast.error(result.error.errors[0].message);
+      this.toast.error(result.error.issues[0].message);
       return;
     }
 
