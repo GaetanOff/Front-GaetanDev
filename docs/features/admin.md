@@ -64,7 +64,7 @@ Tous les composants sont importés statiquement dans `admin.routes.ts` : le chun
 
 - Au chargement puis toutes les **60 s** : `getWhitelistedIPs()` via `runRefreshLoad`, avec toasts « Refreshing whitelist… » / « Whitelist refreshed ».
 - La liste masque toujours `127.0.0.1` (et `hasWhitelistedIPs` l'ignore pour le message « No whitelisted IPs »).
-- Ajout : validation Zod (`z.string().ip({ version: "v4" })`, refus de `127.0.0.1`, refus d'un doublon de la liste courante), puis `addWhitelistedIP(address)`. En cas de succès, l'IP est ajoutée localement sans recharger la liste ; le champ n'est pas vidé.
+- Ajout : validation Zod 4 (`z.ipv4()`, refus de `127.0.0.1`, refus d'un doublon de la liste courante), puis `addWhitelistedIP(address)`. En cas de succès, l'IP est ajoutée localement sans recharger la liste ; le champ n'est pas vidé.
 - Suppression : une seule à la fois (`removingIp`), `removeWhitelistedIP(ip)`, retrait local en cas de succès.
 - Le `<select>` « Server » (valeurs 1 / 2, lié à `server`) n'est envoyé à aucun appel.
 

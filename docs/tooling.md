@@ -87,7 +87,7 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 ### CI GitHub Actions
 
 - **`ci.yml`** (job `build-and-test`, `ubuntu-latest`, Node 22 avec cache npm) : `npm ci`, `npm run build`, `npm run test:ci`. Déclenché par `push` sur `develop`, `master`, `refactor/**` et par `pull_request` vers `develop`, `master`. Permissions : `contents: read`.
-- **`semgrep.yml`** : `push` et `pull_request` sur `master`, plus un cron hebdomadaire (`36 11 * * 3`, mercredi 11:36 UTC). Utilise `returntocorp/semgrep-action` épinglé par SHA, avec les secrets `SEMGREP_APP_TOKEN` et `SEMGREP_DEPLOYMENT_ID`, puis `github/codeql-action/upload-sarif@v3` (`semgrep.sarif`, même en cas d'échec).
+- **`semgrep.yml`** : `push` et `pull_request` sur `master`, plus un cron hebdomadaire (`36 11 * * 3`, mercredi 11:36 UTC). Utilise `returntocorp/semgrep-action` épinglé par SHA, avec les secrets `SEMGREP_APP_TOKEN` et `SEMGREP_DEPLOYMENT_ID`, puis `github/codeql-action/upload-sarif@v4` (`semgrep.sarif`, même en cas d'échec).
 
 ### Politique des dépendances et des `overrides`
 
