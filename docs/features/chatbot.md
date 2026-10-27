@@ -114,7 +114,7 @@ Les erreurs sont aussi loguées via `console.error`.
 - Renommer ou retirer `data-tour="chatbot"` casse l'étape `assistant` de la visite (elle attend la cible 3 s puis continue sans projecteur).
 - Après un 403 puis une nouvelle vérification, `onCaptchaResolved()` remplace les messages affichés par le seul message de bienvenue mais **ne vide pas `_chatHistory`** : le backend reçoit encore l'ancienne conversation alors que l'utilisateur voit une conversation neuve.
 - Sur 403, c'est `chatbot.captchaError` (« La vérification a échoué ») qui s'affiche, pas `chatbot.captchaExpired`.
-- La clé de site Turnstile est codée en dur dans `CustomCaptchaComponent`, pas dans `environment`. Le script Turnstile est chargé par `src/index.html` (voir [../seo.md](../seo.md)).
+- La clé de site Turnstile est codée en dur dans `CustomCaptchaComponent`, pas dans `environment`. Le script Turnstile est chargé par ce composant (voir [contact.md](./contact.md)).
 - Le composant utilise encore `@ViewChild` + `AfterViewChecked` et `CommonModule` (et non `viewChild()`), contrairement au style signal du reste du code.
 
 ## Tests

@@ -3,6 +3,8 @@ import { ContactComponent } from './contact.component';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { LimitService } from '../../../services/limit/limit.service';
 import emailjs from '@emailjs/browser';
+import { By } from '@angular/platform-browser';
+import { CustomCaptchaComponent } from '../../include/captcha/custom-captcha.component';
 
 describe('ContactComponent', () => {
   let component: ContactComponent;
@@ -55,4 +57,31 @@ describe('ContactComponent', () => {
 
     expect(sendSpy).not.toHaveBeenCalled();
   });
+
+  for (const outcome of ['success', 'failure'] as const) {
+    it(`should reset the captcha after a send ${outcome}`, async () => {
+      const send = outcome === 'success'
+        ? Promise.resolve({} as never)
+        : Promise.reject(new Error('EmailJS down'));
+      spyOn(emailjs, 'send').and.returnValue(send);
+      const captcha = fixture.debugElement
+        .query(By.directive(CustomCaptchaComponent))
+        .componentInstance as CustomCaptchaComponent;
+      const resetSpy = spyOn(captcha, 'reset');
+
+      component.contactForm.setValue({
+        name: 'Gaetan',
+        email: 'test@example.com',
+        message: 'Hello world',
+      });
+      component.captchaToken.set('token');
+
+      await component.onSubmit();
+      await send.catch(() => undefined);
+      await fixture.whenStable();
+
+      expect(resetSpy).toHaveBeenCalledTimes(1);
+      expect(component.captchaToken()).toBeNull();
+    });
+  }
 });
