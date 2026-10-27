@@ -86,7 +86,7 @@ Après un login réussi, la navigation va toujours vers `/admin` : l'URL initial
 - **Qui reçoit le Bearer** : toute requête dont l'URL commence par `environment.apiBaseUrl`, **sauf** si l'URL contient `/auth/sso/exchange`, `/auth/sso/refresh` ou `/auth/sso/logout`. `/auth/sso/userinfo` reçoit donc le Bearer. Les autres hôtes (API chatbot `environment.chatbotApiUrl`, EmailJS, assets) ne le reçoivent jamais. Si `getAccessToken()` renvoie `null`, la requête part sans en-tête.
 - **401 sur une requête API non-auth** → `refreshAndRetry` :
   - premier 401 : passe le drapeau module `isRefreshing` à `true`, appelle `refreshAccessToken()` ; si un `access_token` revient, publie `true` sur `refreshDone$` et rejoue la requête avec le nouveau Bearer ; sinon appelle `ssoService.logout()` (non attendu) et propage `Error('Token refresh failed')` ;
-  - 401 pendant un refresh en cours : la requête attend `refreshDone$ === true` puis est rejouée avec `getAccessToken()`.
+  - 401 pendant un refresh en cours : la requête attend l'issue publiée sur `refreshDone$` (`null` tant que le refresh tourne). Succès (`true`) → rejouée avec `getAccessToken()` ; échec (`false`) → elle échoue avec son `HttpErrorResponse` 401 d'origine.
 - Le rejeu passe par `next(...)`, donc il ne repasse pas par le `catchError` de l'intercepteur : un second 401 est propagé tel quel (pas de boucle).
 - Toute autre erreur (403, 5xx, 401 sur un endpoint `/auth/sso/*`) est propagée sans traitement.
 
@@ -150,7 +150,6 @@ Aucune redirection vers un endpoint de fin de session du fournisseur SSO : la se
 - `generateRandomString` tire des octets avec `crypto.getRandomValues` et applique un modulo sur un alphabet de 66 caractères non réservés (RFC 7636) : léger biais statistique, acceptable mais à garder en tête si tu réutilises la fonction pour autre chose. `crypto.subtle` exige un contexte sécurisé (HTTPS ou `localhost`).
 - **Exclusion des endpoints d'auth** par `url.includes(...)` : si tu ajoutes un endpoint d'auth qui ne doit pas porter le Bearer ou ne doit pas déclencher de refresh, ajoute-le à `isAuthEndpoint`, sinon un 401 sur cet endpoint relancera un refresh.
 - **État global de l'intercepteur** : `isRefreshing` et `refreshDone$` sont des variables de module, partagées par toute l'application (et entre tests d'une même exécution Karma).
-- **Requêtes en attente bloquées** : si le refresh échoue, `refreshDone$` reçoit `false` et les requêtes qui attendaient (`filter(done => done)`) ne se terminent jamais ; elles ne seraient rejouées qu'au prochain refresh réussi.
 - Le refresh de l'intercepteur et celui d'`ensureAuthenticated()` ne sont pas mutualisés : deux refresh concurrents peuvent partir avec le même refresh token (problématique si le fournisseur fait de la rotation stricte).
 - `fetchUserInfo()` n'est appelé nulle part dans le code actuel.
 - En dev, `environment.ts` pointe le SSO vers `localhost:3000` avec un `clientId` placeholder, mais l'API reste celle de prod : l'échange du code se fait contre `https://api.gaetandev.fr` avec une `redirectUri` `localhost`.
@@ -160,9 +159,9 @@ Aucune redirection vers un endpoint de fin de session du fournisseur SSO : la se
 ## Tests
 
 - `src/app/services/sso/sso.service.spec.ts` : après `refreshAccessToken()`, access token en mémoire, refresh token en `sessionStorage`, rien en `localStorage` ; purge des clés legacy au constructeur.
-- `src/app/interceptors/auth.interceptor.spec.ts` : ajout du Bearer sur `{apiBaseUrl}/proxies` ; 401 → refresh (espionné) → rejeu avec le nouveau Bearer.
+- `src/app/interceptors/auth.interceptor.spec.ts` : ajout du Bearer sur `{apiBaseUrl}/proxies` ; 401 → refresh (espionné) → rejeu avec le nouveau Bearer ; deux requêtes concurrentes en 401 → un seul refresh, puis rejeu des deux (succès) ou échec des deux, la requête en attente recevant son 401 (échec du refresh).
 - `src/app/components/base/admin/auth/auth.component.spec.ts` : création du composant uniquement.
-- Non couverts : `initiateLogin` (PKCE, URL d'autorisation), `handleCallback` (state invalide, verifier manquant, échec d'échange), `CallbackComponent` (aucune spec), `AuthGuard` (aucune spec), `logout`, requêtes concurrentes pendant un refresh, échec de refresh dans l'intercepteur, non-ajout du Bearer sur les endpoints `/auth/sso/*` et les autres hôtes.
+- Non couverts : `initiateLogin` (PKCE, URL d'autorisation), `handleCallback` (state invalide, verifier manquant, échec d'échange), `CallbackComponent` (aucune spec), `AuthGuard` (aucune spec), `logout`, non-ajout du Bearer sur les endpoints `/auth/sso/*` et les autres hôtes.
 - Lancement ciblé : `npx ng test --watch=false --browsers=ChromeHeadlessCI --include src/app/services/sso --include src/app/interceptors`.
 
 ## Recettes
