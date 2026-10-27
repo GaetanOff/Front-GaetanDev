@@ -101,7 +101,7 @@ Règles des filtres pays (`ProxiesComponent` + `ProxyFilterService`) :
 
 ### Détail serveur (`/admin/proxies/details/:id`)
 
-- S'abonne à `route.params` ; à chaque `id`, arrête le polling précédent (`pollingStop$`) et en démarre un nouveau à **5 s** sur `getScanningProxyServersDetails(id)`.
+- S'abonne à `route.params` ; à chaque `id`, arrête le polling précédent (`pollingStop$`), vide `serverDetails`, passe `isLoading` à `true` (skeleton) et démarre un nouveau polling à **5 s** sur `getScanningProxyServersDetails(id)`. La première réponse (ou erreur) remet `isLoading` à `false` ; les ticks suivants remplacent les données sans réafficher le skeleton.
 - Affiche statut, id, localisation, barres CPU / RAM / disque / swap (couleur via `getLoadBarColor` : vert < 40, jaune < 80, rouge sinon), réseau entrant / sortant rapporté à 10 000 Mbps, et l'IP (`addressIp`) masquée par défaut (bouton « Toggle IP »).
 - « Server not found. » s'affiche quand `serverDetails` est `null` (aucune réponse réussie encore).
 
@@ -149,7 +149,6 @@ Autres membres : `isLogged` (getter → `SsoService.isAuthenticated`, non utilis
 
 - **Toasts de chargement orphelins** : en cas d'erreur, les callbacks `errorToast` passés à `runRefreshLoad` (whitelist, e-mails, proxies) ignorent l'id reçu et créent un nouveau toast d'erreur ; le toast « Refreshing… » correspondant n'est pas remplacé.
 - **Toasts répétés** : chaque refresh de 60 s affiche un toast de chargement puis de succès ; le statut des serveurs (5 s) affiche un toast d'erreur à chaque échec, soit un toutes les 5 s si l'API est indisponible.
-- **Clignotement du détail serveur** : `DetailserverComponent.subscribeToServer` remet `isLoading` à `true` à chaque tick de 5 s, ce qui réaffiche le skeleton à la place des données à chaque rafraîchissement.
 - **Compteur « … N more »** dans `proxies.component.html` : affiche la longueur totale de la liste, pas le nombre de proxies au-delà des 15 affichés.
 - **Générateur d'alias avant chargement des mots** : si `getEmailsWords()` n'a pas encore répondu (ou a échoué), `firstWords` / `secondWords` sont vides et l'alias généré contient `undefined`. Le signal `wordsLoaded` est alimenté mais n'est lu nulle part (le bouton n'est pas désactivé).
 - **Mises à jour optimistes locales** : après ajout/suppression, la liste locale est modifiée sans relecture ; le prochain polling (jusqu'à 60 s) remplace l'état par celui du serveur.
@@ -162,7 +161,8 @@ Autres membres : `isLogged` (getter → `SsoService.isAuthenticated`, non utilis
 ## Tests
 
 - `src/app/services/admin/proxy-filter.service.spec.ts` : doublons ISO, collecte triée des pays, filtre `All`, filtre par pays + limite. Seule spec avec de la logique.
-- `admin.component.spec.ts`, `whitelist.component.spec.ts`, `email.component.spec.ts`, `proxies.component.spec.ts`, `detailserver.component.spec.ts` (avec `ActivatedRoute` simulé, `id: '1'`), `templadmin.component.spec.ts`, `admin.service.spec.ts` : création uniquement. Les specs de composants fournissent `provideHttpClientTesting()` mais ne vérifient aucune requête.
+- `admin.component.spec.ts`, `whitelist.component.spec.ts`, `email.component.spec.ts`, `proxies.component.spec.ts`, `templadmin.component.spec.ts`, `admin.service.spec.ts` : création uniquement.
+- `detailserver.component.spec.ts` (avec `ActivatedRoute` simulé, `id: '1'`) : création, et le skeleton n'est pas réaffiché pendant un tick de polling (`fakeAsync`, instance créée par `TestBed.runInInjectionContext` sans rendu). Les specs de composants fournissent `provideHttpClientTesting()` mais ne vérifient aucune requête.
 - Non couverts : `polling.utils.ts` (aucune spec), validations Zod, logique de filtres pays de `ProxiesComponent`, générateur d'alias, contrats HTTP d'`AdminService`, `downloadAsTextFile`.
 - Lancement ciblé : `npx ng test --watch=false --browsers=ChromeHeadlessCI --include src/app/services/admin --include src/app/components/base/admin`.
 
