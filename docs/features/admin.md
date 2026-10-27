@@ -74,7 +74,7 @@ Tous les composants sont importés statiquement dans `admin.routes.ts` : le chun
 - Affichage : la liste est montrée dans l'ordre inverse de la réponse. Le champ « Filter aliases » ne masque rien : `filteredEmails` place en tête les alias dont `nom` ou `description` contient le texte (insensible à la casse), puis les autres.
 - Création : `nom` et `description` obligatoires ; alias validé par Zod (regex `^[a-zA-Z0-9._-]+$`, unicité insensible à la casse) ; `addEmail(nom, description)`. L'alias n'est ajouté localement que si la réponse a `success === true`, puis le formulaire est vidé.
 - Suppression : une à la fois (`removingEmail`), `removeEmail(nom)`, retrait local si `success === true`.
-- Générateur (`generateRandomAlias`) : jusqu'à 100 tirages d'un alias unique au format `A{sep}{NN}B` ou `A{sep}B{sep}{xx}` (A ∈ `firstWords`, B ∈ `secondWords`, sep ∈ `-` `.` `_`, NN = 2 chiffres, xx = 2 caractères `[a-z0-9]`) ; remplit le champ alias sans rien envoyer.
+- Générateur (`generateRandomAlias`) : jusqu'à 100 tirages d'un alias unique au format `A{sep}{NN}B` ou `A{sep}B{sep}{xx}` (A ∈ `firstWords`, B ∈ `secondWords`, sep ∈ `-` `.` `_`, NN = 2 chiffres, xx = 2 caractères `[a-z0-9]`) ; remplit le champ alias sans rien envoyer. Il attend les mots de `getEmailsWords()` : `wordsLoaded` ne passe à `true` que si les deux listes reçues sont non vides, le bouton reste désactivé d'ici là, et un appel anticipé affiche un toast d'erreur sans toucher au champ.
 - Le domaine `@cf.gaetandev.fr` est écrit en dur dans le template ; l'API ne manipule que la partie locale (`nom`).
 
 ### Proxies (`/admin/proxies`)
@@ -86,7 +86,7 @@ Deux pollings partagent le même `unsubscribe$` :
 
 Écran :
 
-- « Last refresh » (`lastRefresh` brut renvoyé par l'API), et pour HTTP et SOCKS5 les 15 premiers `host:port`.
+- « Last refresh » (`lastRefresh` brut renvoyé par l'API), et pour HTTP et SOCKS5 les 15 premiers `host:port`, suivis de « … N more » (N = proxies non affichés) seulement si la liste en compte plus de 15.
 - Modale « Scanning Servers » : carte par serveur (id, `status` vert si `'online'`, CPU %, RAM %) ; clic → `/admin/proxies/details/:id`.
 - Modale « Proxy Checker » : protocole (`http` / `socks5`), hôte, port, serveur (`random` ou un id de `scanningServers`) → `checkProxy(...)`. Affiche `data` (pipe `json`) si `success`, sinon `error`.
 - « Download Filtered Proxies » : type de proxy, filtres pays, nombre → fichier texte `host:port` par ligne, nommé `{type}-proxies-{filtres joints par _}.txt` (voir `ProxyFilterService`).
@@ -101,7 +101,7 @@ Règles des filtres pays (`ProxiesComponent` + `ProxyFilterService`) :
 
 ### Détail serveur (`/admin/proxies/details/:id`)
 
-- S'abonne à `route.params` ; à chaque `id`, arrête le polling précédent (`pollingStop$`) et en démarre un nouveau à **5 s** sur `getScanningProxyServersDetails(id)`.
+- S'abonne à `route.params` ; à chaque `id`, arrête le polling précédent (`pollingStop$`), vide `serverDetails`, passe `isLoading` à `true` (skeleton) et démarre un nouveau polling à **5 s** sur `getScanningProxyServersDetails(id)`. La première réponse (ou erreur) remet `isLoading` à `false` ; les ticks suivants remplacent les données sans réafficher le skeleton.
 - Affiche statut, id, localisation, barres CPU / RAM / disque / swap (couleur via `getLoadBarColor` : vert < 40, jaune < 80, rouge sinon), réseau entrant / sortant rapporté à 10 000 Mbps, et l'IP (`addressIp`) masquée par défaut (bouton « Toggle IP »).
 - « Server not found. » s'affiche quand `serverDetails` est `null` (aucune réponse réussie encore).
 
@@ -149,9 +149,7 @@ Autres membres : `isLogged` (getter → `SsoService.isAuthenticated`, non utilis
 
 - **Toasts de chargement orphelins** : en cas d'erreur, les callbacks `errorToast` passés à `runRefreshLoad` (whitelist, e-mails, proxies) ignorent l'id reçu et créent un nouveau toast d'erreur ; le toast « Refreshing… » correspondant n'est pas remplacé.
 - **Toasts répétés** : chaque refresh de 60 s affiche un toast de chargement puis de succès ; le statut des serveurs (5 s) affiche un toast d'erreur à chaque échec, soit un toutes les 5 s si l'API est indisponible.
-- **Clignotement du détail serveur** : `DetailserverComponent.subscribeToServer` remet `isLoading` à `true` à chaque tick de 5 s, ce qui réaffiche le skeleton à la place des données à chaque rafraîchissement.
-- **Compteur « … N more »** dans `proxies.component.html` : affiche la longueur totale de la liste, pas le nombre de proxies au-delà des 15 affichés.
-- **Générateur d'alias avant chargement des mots** : si `getEmailsWords()` n'a pas encore répondu (ou a échoué), `firstWords` / `secondWords` sont vides et l'alias généré contient `undefined`. Le signal `wordsLoaded` est alimenté mais n'est lu nulle part (le bouton n'est pas désactivé).
+- Si `getEmailsWords()` échoue, il n'est pas réessayé : le générateur reste désactivé jusqu'au rechargement de la page.
 - **Mises à jour optimistes locales** : après ajout/suppression, la liste locale est modifiée sans relecture ; le prochain polling (jusqu'à 60 s) remplace l'état par celui du serveur.
 - Les requêtes HTTP lancées par un tick ne sont pas annulées à la destruction du composant : seul le polling s'arrête.
 - **Conventions non respectées dans cette zone** (à connaître avant de modifier) : `AdminComponent` et `TempladminComponent` sont en `ChangeDetectionStrategy.Eager` (les autres écrans sont en `OnPush` avec signals) ; `AdminService` et `TempladminComponent` injectent par constructeur ; tous les textes du back-office (anglais et quelques libellés français) sont en dur dans les templates et les toasts, sans passer par `I18nService` ; `email.component.ts` importe `AdminService` par le chemin non relatif `src/app/services/admin/admin.service`.
@@ -162,8 +160,10 @@ Autres membres : `isLogged` (getter → `SsoService.isAuthenticated`, non utilis
 ## Tests
 
 - `src/app/services/admin/proxy-filter.service.spec.ts` : doublons ISO, collecte triée des pays, filtre `All`, filtre par pays + limite. Seule spec avec de la logique.
-- `admin.component.spec.ts`, `whitelist.component.spec.ts`, `email.component.spec.ts`, `proxies.component.spec.ts`, `detailserver.component.spec.ts` (avec `ActivatedRoute` simulé, `id: '1'`), `templadmin.component.spec.ts`, `admin.service.spec.ts` : création uniquement. Les specs de composants fournissent `provideHttpClientTesting()` mais ne vérifient aucune requête.
-- Non couverts : `polling.utils.ts` (aucune spec), validations Zod, logique de filtres pays de `ProxiesComponent`, générateur d'alias, contrats HTTP d'`AdminService`, `downloadAsTextFile`.
+- `admin.component.spec.ts`, `whitelist.component.spec.ts`, `proxies.component.spec.ts`, `templadmin.component.spec.ts`, `admin.service.spec.ts` : création uniquement.
+- `email.component.spec.ts` : création, et le générateur ne produit rien avant la réponse de `/mail/getWords` puis un alias sans `undefined` après.
+- `detailserver.component.spec.ts` (avec `ActivatedRoute` simulé, `id: '1'`) : création, et le skeleton n'est pas réaffiché pendant un tick de polling (`fakeAsync`, instance créée par `TestBed.runInInjectionContext` sans rendu). Les specs de composants fournissent `provideHttpClientTesting()` mais ne vérifient aucune requête.
+- Non couverts : `polling.utils.ts` (aucune spec), validations Zod, logique de filtres pays de `ProxiesComponent`, contrats HTTP d'`AdminService`, `downloadAsTextFile`.
 - Lancement ciblé : `npx ng test --watch=false --browsers=ChromeHeadlessCI --include src/app/services/admin --include src/app/components/base/admin`.
 
 ## Recettes

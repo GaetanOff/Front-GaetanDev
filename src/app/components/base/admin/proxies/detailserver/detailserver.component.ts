@@ -47,6 +47,9 @@ export class DetailserverComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         this.pollingStop$.next();
         this.serverId = +params['id'];
+        // Le skeleton n'est affiché qu'au premier chargement d'un serveur, pas à chaque tick.
+        this.serverDetails.set(null);
+        this.isLoading.set(true);
         startPolling(
           5000,
           this.pollingStop$,
@@ -63,7 +66,6 @@ export class DetailserverComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToServer(serverId: number): void {
-    this.isLoading.set(true);
     this.adminService.getScanningProxyServersDetails(serverId).subscribe({
       next: (response) => {
         this.serverDetails.set(response);

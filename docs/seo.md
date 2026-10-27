@@ -21,7 +21,7 @@ Le référencement repose sur deux couches : un `src/index.html` statique (méta
 | Fichier | Responsabilité |
 | --- | --- |
 | `src/app/services/seo/seo.service.ts` | `SeoService` (root) et l'interface `SeoData` ; constante `SeoService.BASE_URL = 'https://gaetandev.fr'` |
-| `src/index.html` | Document unique de la SPA : meta par défaut (FR), Open Graph, Twitter, canonical/hreflang par défaut, JSON-LD global, style critique, scripts Cloudflare, `<noscript>` |
+| `src/index.html` | Document unique de la SPA : meta par défaut (FR), Open Graph, Twitter, canonical/hreflang par défaut, JSON-LD global, style critique, beacon Cloudflare Web Analytics, `<noscript>` |
 | `src/robots.txt` | Autorise tous les robots (moteurs et crawlers IA) sauf `/admin`, déclare le sitemap |
 | `src/sitemap.xml` | URL publiques en trois variantes (sans préfixe, `/fr`, `/en`) avec `xhtml:link` hreflang |
 | `src/llms.txt` | Résumé du site au format llms.txt (en français) destiné aux LLM |
@@ -78,7 +78,7 @@ Titres et descriptions viennent des clés i18n `seo.<page>.{title,description}` 
 - Canonical `https://gaetandev.fr/` et hreflang `fr` → `/fr`, `en` → `/en`, `x-default` → `/` : ce sont les balises que `SeoService.setLink()` retrouve et met à jour ensuite.
 - **JSON-LD global** (script sans `id`, jamais modifié) : `@graph` avec `Person` (`@id` `https://gaetandev.fr/#person`), `ProfessionalService` (`#business`, adresse, SIRET) et `WebSite` (`#website`). Les entités injectées par `SeoService` et par les pages y font référence par ces `@id`.
 - Préconnexions à `challenges.cloudflare.com` et `static.cloudflareinsights.com`.
-- Scripts tiers : Cloudflare Turnstile (`turnstile/v0/api.js?render=explicit`, `async defer`, utilisé par le captcha du contact et du chatbot) et le beacon Cloudflare Web Analytics en fin de `<body>`.
+- Script tiers : le beacon Cloudflare Web Analytics en fin de `<body>`. Le script Cloudflare Turnstile n'est pas dans `index.html` : `CustomCaptchaComponent` l'injecte à la demande (voir [features/contact.md](features/contact.md)) ; seule la préconnexion à `challenges.cloudflare.com` reste ici.
 - Style critique inline (fond dégradé de `body`, `app-root` en `display: block; min-height: 100vh`), favicon `assets/img/metaLogo.webp`.
 - `<noscript>` avec un `<h1>` et un résumé en français (activité, contact, GitHub).
 

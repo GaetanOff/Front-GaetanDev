@@ -42,7 +42,7 @@ sequenceDiagram
 ```
 
 1. **Chargement** : un `effect()` du constructeur appelle `SeoService.update()` avec `seo.contact`, `path: '/contact'` et un JSON-LD `ContactPage` pointant vers `${SeoService.BASE_URL}/#person` (voir [../seo.md](../seo.md)). Le `<form>` porte `data-tour="contact-form"`, cible de l'étape `contact` de la visite guidée ([./voice-tour.md](./voice-tour.md)).
-2. **Captcha** : `<app-custom-captcha>` rend `<ngx-turnstile>` (thème `dark`, `siteKey` en dur dans le composant). Quand Turnstile résout, `CustomCaptchaComponent.onTurnstileResolved()` émet le jeton via l'output `tokenResolved` ; `ContactComponent.onTurnstileResolved()` le stocke dans le signal `captchaToken`. À l'expiration du jeton, `ngx-turnstile` réinitialise le widget et émet `null`, ce qui vide `captchaToken`.
+2. **Captcha** : `<app-custom-captcha>` charge le script Turnstile (voir `CustomCaptchaComponent` plus bas), puis rend `<ngx-turnstile>` (thème `dark`, `siteKey` en dur dans le composant). Quand Turnstile résout, `CustomCaptchaComponent.onTurnstileResolved()` émet le jeton via l'output `tokenResolved` ; `ContactComponent.onTurnstileResolved()` le stocke dans le signal `captchaToken`. À l'expiration du jeton, `ngx-turnstile` réinitialise le widget et émet `null`, ce qui vide `captchaToken`.
 3. **Soumission** (`onSubmit()`, async), contrôles dans cet ordre, chacun s'arrêtant au premier échec :
    - **Validation** : `markAllAsTouched()` puis validateurs Angular (`Validators`, pas Zod). Si le formulaire est invalide, un seul `toast.error` est affiché pour le premier champ fautif (nom, puis email, puis message), en plus des messages en ligne.
    - **Captcha** : `captchaToken()` nul → `toast.error(contact.validation.captchaInvalid)`.
@@ -50,7 +50,7 @@ sequenceDiagram
 4. **Envoi** : `loading` passe à `true` (les champs sont remplacés par des blocs shimmer en ligne, le bouton est désactivé et affiche un spinner + `contact.sendingButton`), un `toast.loading(contact.form.loading)` est ouvert, puis `emailjs.send(serviceId, templateId, templateParams, publicKey)` avec les identifiants de `environment.emailjs`.
    - Succès : le toast de chargement est remplacé (même `id`) par `toast.success(contact.form.success)`, `setLimit({ hours: 0, minutes: 10 })`, `contactForm.reset()`.
    - Échec : `toast.error(contact.form.server)` sur le même `id`.
-   - Dans tous les cas (`finally`) : `loading` à `false` et `captchaToken` à `null`.
+   - Dans tous les cas (`finally`) : `loading` à `false`, `captchaToken` à `null` et `CustomCaptchaComponent.reset()` (lu par `viewChild`), qui présente un challenge neuf : un jeton Turnstile n'est valable qu'une fois, et un nouvel envoi exige un nouveau jeton.
 
 Les toasts viennent de `ngx-sonner` (fonction `toast` importée directement, pas de service).
 
@@ -74,7 +74,8 @@ Les messages en ligne n'apparaissent qu'après `dirty` ou `touched`. Getters pub
 
 ### `CustomCaptchaComponent`
 
-- Sélecteur `app-custom-captcha`, output `tokenResolved: string | null`.
+- Sélecteur `app-custom-captcha`, output `tokenResolved: string | null`, méthode publique `reset()` (réinitialise le widget, qui émet `null`, puis remet `state` à `'idle'`).
+- **Chargement du script** : `loadTurnstileScript()` (fonction de module) injecte une seule fois `turnstile/v0/api.js?render=explicit` avec l'`id` `ngx-turnstile` et mémorise la promesse ; `<ngx-turnstile>` n'est rendu (`@if (scriptReady())`) qu'une fois le script chargé. Raison : `ngx-turnstile` n'injecte pas son propre script si un élément porte cet `id`, et rend alors le widget immédiatement, ce qui échouerait si `window.turnstile` n'existait pas encore. Si le script échoue, `state` passe à `'error'`, la balise est retirée et le prochain captcha réessaie.
 - `siteKey` (clé de site Turnstile publique) en dur dans la classe, pas dans `environment`.
 - Signal `state` (`'idle' | 'verified' | 'error'`) mis à jour mais lu nulle part.
 
@@ -91,19 +92,18 @@ Les messages en ligne n'apparaissent qu'après `dirty` ou `touched`. Getters pub
 ## Points d'attention
 
 - **Toute la protection est côté client.** Le jeton Turnstile n'est ni envoyé à EmailJS ni vérifié par un serveur : le captcha ne fait que conditionner l'appel dans le navigateur. Quiconque appelle l'API EmailJS avec les identifiants publics du bundle contourne captcha et limite. De même, la limite de 10 minutes disparaît en vidant le `localStorage` ou en navigation privée. Une vraie protection passe par les réglages EmailJS (quotas, domaines autorisés) ou un backend qui valide le jeton, comme le fait le chatbot (il envoie `captchaToken` à son API).
-- **Le widget n'est jamais réinitialisé après un envoi.** `finally` remet `captchaToken` à `null` mais n'appelle pas le `reset()` de Turnstile, qui reste affiché comme validé. Après une erreur EmailJS, une nouvelle tentative échoue donc sur `captchaInvalid` tant que le jeton n'a pas expiré (ce qui réinitialise le widget) ou que la page n'est pas rechargée. Après un succès, le même problème masque le message de limite, puisque le captcha est contrôlé avant la limite.
 - **`minLength(3)` sur `message` sans message dédié** : un message de 1 ou 2 caractères ne montre aucune erreur en ligne, et le toast affiche `messageRequired`.
 - La limite n'est posée qu'en cas de succès ; les échecs ne sont pas limités.
 - `onSubmit()` est `async` mais n'attend pas la promesse EmailJS : la promesse retournée se résout avant la fin de l'envoi.
 - Fallback en dur `"Envoi en cours..."` si `contact.form.loading` est vide (texte français non traduit).
-- Le script Turnstile est chargé deux fois : une balise `<script>` dans `src/index.html` (sans `id`) et l'injection automatique de `ngx-turnstile`, qui ne détecte un script existant que par l'`id` `ngx-turnstile`.
+- N'ajoute pas de balise `<script>` Turnstile dans `src/index.html` : le script serait chargé deux fois (`CustomCaptchaComponent` l'injecte déjà).
 - `CustomCaptchaComponent` importe `CommonModule` sans l'utiliser et déclare `standalone: true` (redondant). L'output `errored` de `ngx-turnstile` n'est pas écouté : une erreur Turnstile ne change pas `state` et n'émet rien.
 - Les champs sont détruits et recréés pendant l'envoi (`@if (loading())`) ; les valeurs survivent car elles sont dans le `FormGroup`, mais tout état DOM (focus, sélection) est perdu.
 - Renommer `data-tour="contact-form"` casse l'étape `contact` de la visite guidée.
 
 ## Tests
 
-- `contact.component.spec.ts` : remplace `LimitService` par un stub (`checkLimit: () => false`) et espionne `emailjs.send` (`spyOn(emailjs, 'send')`). Couvre : création, absence d'appel EmailJS si le formulaire est vide, absence d'appel si `captchaToken` est `null`. Fournit `provideHttpClient(withXhr())`, inutile pour ce composant. Non couvert : chemin nominal d'envoi, toasts, pose de la limite, blocage par la limite, reset du formulaire.
+- `contact.component.spec.ts` : remplace `LimitService` par un stub (`checkLimit: () => false`) et espionne `emailjs.send` (`spyOn(emailjs, 'send')`). Couvre : création, absence d'appel EmailJS si le formulaire est vide, absence d'appel si `captchaToken` est `null`, appel de `CustomCaptchaComponent.reset()` (espionné) et `captchaToken` vidé après un envoi réussi comme après un échec. Fournit `provideHttpClient(withXhr())`, inutile pour ce composant. Non couvert : toasts, pose de la limite, blocage par la limite, reset du formulaire.
 - `limit.service.spec.ts` : vérifie seulement l'injection du service.
 - `CustomCaptchaComponent` n'a pas de spec.
 

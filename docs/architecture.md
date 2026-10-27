@@ -108,7 +108,7 @@ Aucun `APP_INITIALIZER` : la langue initiale est calculée par `I18nService` à 
 - **Le scroll en haut de page** est déclenché à chaque `NavigationEnd`, y compris les navigations qui ne changent que les query params.
 - **Le lecteur de langue initial dans le constructeur** (`matchLocaleFromPath(this.router.url)`) fait doublon avec `I18nService.getInitialLanguage()`, qui lit déjà `window.location.pathname`.
 - **Textes en dur dans le template racine**, contrairement à la convention i18n : « Menu », « Status », les `aria-label` (ternaires FR/EN dans le template) et l'`alt` « Language flag ».
-- **Classes Tailwind sans effet** dans le menu mobile : `animate-in`, `fade-in`, `slide-in-from-top-2` (issues du plugin `tailwindcss-animate`, non installé) et `active:scale-98` (`scale-98` n'existe pas dans l'échelle par défaut et `tailwind.config.js` n'étend rien). Aucune CSS n'est générée pour elles.
+- Le menu mobile utilise `motion-safe:animate-fade-in-down` et `active:scale-98`, définis dans `tailwind.config.js` (voir [tooling.md](tooling.md)) : n'utilise pas les classes de `tailwindcss-animate` (`animate-in`, `fade-in`, `slide-in-*`), le plugin n'est pas installé.
 - **Budget CSS de composant** : 2 kb en avertissement, 4 kb en erreur en production. Les styles volumineux et partagés (comme ceux de la visite vocale) vivent donc dans `src/styles.css` plutôt que dans le CSS du composant.
 
 ## Tests

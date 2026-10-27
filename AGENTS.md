@@ -22,7 +22,7 @@ npm run test:ci      # tests unitaires Karma/Jasmine en ChromeHeadless (comme la
 npm run docs:check   # vérifie que la doc couvre tout le code (voir plus bas)
 ```
 
-La CI (`.github/workflows/ci.yml`) exécute `npm ci`, `npm run build` et `npm run test:ci` sur Node 22, mais seulement pour `develop`, `main` et `refactor/**` : les PR vers `master` (branche principale) ne la déclenchent pas. Lance donc ces commandes en local : une modification n'est terminée que si elles passent.
+La CI (`.github/workflows/ci.yml`) exécute `npm ci`, `npm run build` et `npm run test:ci` sur Node 22, pour les push sur `develop`, `master` et `refactor/**` et les PR vers `develop` et `master`. Lance aussi ces commandes en local : une modification n'est terminée que si elles passent.
 
 Ne régénère pas `package-lock.json` sous Windows sans vérifier qu'il garde les entrées `@emnapi/*`, sinon `npm ci` casse en CI (voir `docs/tooling.md`).
 

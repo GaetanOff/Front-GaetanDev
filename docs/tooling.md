@@ -31,11 +31,11 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 | `tsconfig.app.json` / `tsconfig.spec.json` | Points d'entrée de compilation de l'app et des tests. |
 | `src/test.ts` | Initialise l'environnement de test Angular (`BrowserDynamicTestingModule`, `platformBrowserDynamicTesting`) après `zone.js/testing`. |
 | `karma.conf.js` | Runner Karma : Jasmine, Chrome, launcher `ChromeHeadlessCI`, couverture. |
-| `tailwind.config.js` | Chemins scannés par Tailwind 3 ; aucun thème étendu ni plugin. |
+| `tailwind.config.js` | Chemins scannés par Tailwind 3 et extensions du thème (`scale-98`, animations `fade-in-down` / `fade-in-up`) ; aucun plugin. |
 | `.editorconfig` | UTF-8, espaces, indentation 2, guillemets simples pour `*.ts`. |
 | `.github/workflows/ci.yml` | Build + tests à chaque push/PR sur certaines branches. |
 | `.github/workflows/semgrep.yml` | Analyse Semgrep et upload SARIF. |
-| `.github/dependabot.yml` | Configuration des mises à jour de version Dependabot (incomplète, voir plus bas). |
+| `.github/dependabot.yml` | Mises à jour de version Dependabot hebdomadaires pour `npm` (groupe `angular` pour les `@angular/*`) et `github-actions`, sur la branche par défaut. |
 | `scripts/docs-check.mjs` | Vérifie la couverture de `src/` par `docs/` (`npm run docs:check`). |
 
 ## Fonctionnement
@@ -81,11 +81,12 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 ### Tailwind CSS
 
 - Tailwind `^3.4.17`, configuré par `tailwind.config.js` à la racine (aucun fichier PostCSS dédié : le builder Angular détecte la config Tailwind et l'applique aux directives `@tailwind` de `src/styles.css`).
+- `theme.extend` ajoute `scale-98` (utilisé en `active:scale-98` par le menu mobile) et deux animations d'entrée de 300 ms, `animate-fade-in-down` (menu mobile, 0,5 rem depuis le haut) et `animate-fade-in-up` (panneau du chatbot, 1 rem depuis le bas), appliquées en `motion-safe:`. Aucun plugin n'est installé : les classes de `tailwindcss-animate` (`animate-in`, `fade-in`, `slide-in-*`) ne génèrent rien. Une classe inconnue de Tailwind ne provoque aucune erreur de build, elle est simplement ignorée.
 - `content` scanne `./src/*.html`, `./src/*.ts`, `./src/app/**/**/**/*.html` et `./src/app/**/**/**/*.ts`. Les `.ts` sont scannés : les classes écrites dans des chaînes TypeScript (ex. la constante `shimmer` de `SkeletonComponent`) sont générées, à condition d'être écrites en entier.
 
 ### CI GitHub Actions
 
-- **`ci.yml`** (job `build-and-test`, `ubuntu-latest`, Node 22 avec cache npm) : `npm ci`, `npm run build`, `npm run test:ci`. Déclenché par `push` sur `develop`, `main`, `refactor/**` et par `pull_request` vers `develop`, `main`. Permissions : `contents: read`.
+- **`ci.yml`** (job `build-and-test`, `ubuntu-latest`, Node 22 avec cache npm) : `npm ci`, `npm run build`, `npm run test:ci`. Déclenché par `push` sur `develop`, `master`, `refactor/**` et par `pull_request` vers `develop`, `master`. Permissions : `contents: read`.
 - **`semgrep.yml`** : `push` et `pull_request` sur `master`, plus un cron hebdomadaire (`36 11 * * 3`, mercredi 11:36 UTC). Utilise `returntocorp/semgrep-action` épinglé par SHA, avec les secrets `SEMGREP_APP_TOKEN` et `SEMGREP_DEPLOYMENT_ID`, puis `github/codeql-action/upload-sarif@v3` (`semgrep.sarif`, même en cas d'échec).
 
 ### Politique des dépendances et des `overrides`
@@ -107,8 +108,8 @@ L'historique (`git log --oneline`, commits `fix(deps)` et `fix(security)`) montr
 
 ## Points d'attention
 
-- **`ci.yml` cible `main`, mais la branche principale du dépôt est `master`** (`origin/HEAD -> origin/master` ; aucune branche `main` locale ou distante). Un push ou une PR vers `master` ne déclenche donc pas la CI de build/tests ; seules les PR vers `develop` (et les push sur `develop` / `refactor/**`) la lancent. À l'inverse, Semgrep ne tourne que sur `master`.
-- **`dependabot.yml` a `package-ecosystem: ""`** (valeur vide du gabarit GitHub) : aucune mise à jour de version Dependabot n'est réellement configurée. Les alertes traitées dans les commits `fix(deps)` sont des alertes de sécurité Dependabot, distinctes de ce fichier.
+- La branche principale est `master` (aucune branche `main`) : `ci.yml` et `semgrep.yml` la ciblent toutes deux. Semgrep ne tourne pas sur `develop`.
+- `dependabot.yml` regroupe les `@angular/*` dans une seule PR (groupe `angular`), car ils doivent monter ensemble (voir plus haut) ; une PR de version ne relève pas les `overrides`, à vérifier à la main. Les alertes traitées dans les commits `fix(deps)` sont des alertes de sécurité Dependabot, distinctes de ce fichier.
 - **Overrides devenus inertes** : plusieurs paquets forcés n'apparaissent plus du tout dans `package-lock.json` (`tar`, `@isaacs/brace-expansion`, `@sigstore/core`, `hono`, `@hono/node-server`, `rollup`, `ip-address`, `undici`, `path-to-regexp`, `express`, `express-rate-limit`, `webpack`, `webpack-dev-server`, `http-proxy-middleware`, `js-yaml`, `loader-utils`, `node-forge`, `on-headers`). Ils sont sans effet aujourd'hui mais protègent contre un retour de ces paquets ; ne pas les retirer sans vérifier l'alerte d'origine (voir AGENTS.md).
 - **Régénérer le lock** (`npm install` après suppression du lock) sous Windows : vérifier ensuite que les entrées `@emnapi/*` sont toujours dans `package-lock.json`, sinon `npm ci` casse en CI.
 - **`src/favicon.ico` est déclaré dans les assets** (build et test) mais n'existe pas dans le dépôt ; l'icône réellement référencée par `index.html` est `assets/img/metaLogo.webp`.
@@ -128,5 +129,5 @@ L'historique (`git log --oneline`, commits `fix(deps)` et `fix(security)`) montr
 - **Corriger une alerte Dependabot sur une dépendance transitive** : identifier le paquet et la version corrigée dans l'alerte, ajouter/relever l'entrée dans `overrides` de `package.json`, `npm install`, vérifier `npm audit`, puis `npm run build` **et** `npm start` (une incompatibilité Vite/Babel peut ne se voir qu'au dev-server, cf. `da397a7`) et `npm run test:ci`. Vérifier les entrées `@emnapi/*` du lock. Commit `fix(deps): …` citant les GHSA.
 - **Monter Angular** : monter tous les `@angular/*` (dépendances et devDependencies, y compris `@angular/build` et `@angular/cli`) à la même version, appliquer `ng update` pour les migrations, puis vérifier que les overrides (notamment `vite`, `esbuild`) restent compatibles avec la nouvelle chaîne.
 - **Ajouter un asset statique servi à la racine** (ex. un nouveau `.txt` pour les robots) : l'ajouter au tableau `assets` de la cible `build` dans `angular.json`. Un fichier placé dans `src/assets/` est déjà copié.
-- **Changer les branches de CI** : modifier `on.push.branches` / `on.pull_request.branches` de `.github/workflows/ci.yml` (par exemple remplacer `main` par `master`).
+- **Changer les branches de CI** : modifier `on.push.branches` / `on.pull_request.branches` de `.github/workflows/ci.yml` (la branche principale est `master`, pas `main`).
 - **Ajouter une classe Tailwind générée dynamiquement** : l'écrire en entier dans un fichier scanné (`.html` ou `.ts` sous `src/app/`), sinon elle n'est pas générée.
