@@ -67,7 +67,7 @@ export class EmailComponent implements OnInit, OnDestroy {
       next: (response: EmailWordsResponse) => {
         this.firstWords = response.firstWords;
         this.secondWords = response.secondWords;
-        this.wordsLoaded.set(true);
+        this.wordsLoaded.set(this.firstWords.length > 0 && this.secondWords.length > 0);
       },
       error: (error) => {
         console.error("Error fetching email words:", error);
@@ -181,6 +181,12 @@ export class EmailComponent implements OnInit, OnDestroy {
   }
 
   generateRandomAlias(): void {
+    // Sans mots chargés, l'alias contiendrait "undefined".
+    if (!this.wordsLoaded()) {
+      this.toast.error("Alias words are not loaded yet.");
+      return;
+    }
+
     const separators = ["-", ".", "_"];
     const maxAttempts = 100;
     const currentEmails = this.emails();

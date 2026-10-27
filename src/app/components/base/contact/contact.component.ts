@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, effect, viewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { I18nService } from "../../../services/i18n/i18n.service";
 import { SeoService } from "../../../services/seo/seo.service";
@@ -37,6 +37,7 @@ export class ContactComponent {
 
   public loading = signal(false);
   public captchaToken = signal<string | null>(null);
+  private captcha = viewChild(CustomCaptchaComponent);
 
   contactForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -101,13 +102,13 @@ export class ContactComponent {
         toast.success(this.i18n.text().contact.form.success, { id: lastToast });
         this.limitService.setLimit({ hours: 0, minutes: 10 });
         this.contactForm.reset();
-        this.captchaToken.set(null);
       })
       .catch(() => {
         toast.error(this.i18n.text().contact.form.server, { id: lastToast });
       }).finally(() => {
         this.loading.set(false);
         this.captchaToken.set(null);
+        this.captcha()?.reset();
       });
   }
 }

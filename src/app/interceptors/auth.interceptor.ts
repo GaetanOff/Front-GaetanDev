@@ -12,7 +12,8 @@ import { SsoService } from '../services/sso/sso.service';
 import { environment } from '../../environments/environment';
 
 let isRefreshing = false;
-const refreshDone$ = new BehaviorSubject<boolean>(false);
+// null tant qu'un refresh est en cours, puis son issue (true = succès, false = échec).
+const refreshDone$ = new BehaviorSubject<boolean | null>(null);
 
 function withBearer(req: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
   return req.clone({
@@ -23,11 +24,12 @@ function withBearer(req: HttpRequest<unknown>, token: string): HttpRequest<unkno
 function refreshAndRetry(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
-  ssoService: SsoService
+  ssoService: SsoService,
+  originalError: HttpErrorResponse
 ): Observable<HttpEvent<unknown>> {
   if (!isRefreshing) {
     isRefreshing = true;
-    refreshDone$.next(false);
+    refreshDone$.next(null);
 
     return ssoService.refreshAccessToken().pipe(
       switchMap(tokens => {
@@ -50,9 +52,12 @@ function refreshAndRetry(
   }
 
   return refreshDone$.pipe(
-    filter(done => done),
+    filter(done => done !== null),
     take(1),
-    switchMap(() => {
+    switchMap(done => {
+      if (!done) {
+        return throwError(() => originalError);
+      }
       const token = ssoService.getAccessToken();
       if (!token) {
         return throwError(() => new Error('No access token after refresh'));
@@ -85,7 +90,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         isApiRequest &&
         !isAuthEndpoint
       ) {
-        return refreshAndRetry(req, next, ssoService);
+        return refreshAndRetry(req, next, ssoService, error);
       }
       return throwError(() => error);
     })
