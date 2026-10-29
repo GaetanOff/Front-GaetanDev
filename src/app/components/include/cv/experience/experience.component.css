@@ -1,46 +1,86 @@
 .timeline-marker-container {
-  @apply absolute z-20 left-1/2 top-1/2;
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
 }
 
 .timeline-marker-dot {
-  @apply w-4 h-4 rounded-full border-2 border-white/30;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  border: 2px solid rgb(255 255 255 / 0.3);
 }
 
 .timeline-marker-ping {
-  @apply absolute w-4 h-4 rounded-full bg-green-400 animate-ping;
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  background-color: var(--color-green-400);
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
   top: 0;
   left: 0;
 }
 
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
 .timeline-item {
-  @apply w-full md:w-[calc(50%-2rem)];
+  width: 100%;
 }
 
 .timeline-item-left {
-  @apply mr-auto md:pr-8;
+  margin-right: auto;
 }
 
 .timeline-item-right {
-  @apply ml-auto md:pl-8;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .timeline-item {
+    width: calc(50% - 2rem);
+  }
+
+  .timeline-item-left {
+    padding-right: 2rem;
+  }
+
+  .timeline-item-right {
+    padding-left: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
   .timeline-item {
-    @apply w-full pl-10 pr-0;
+    width: 100%;
+    padding-left: 2.5rem;
+    padding-right: 0;
   }
 
   .timeline-item-left,
   .timeline-item-right {
-    @apply ml-0 mr-0 pl-10 pr-0;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 2.5rem;
+    padding-right: 0;
   }
 
   .timeline-marker-container {
-    @apply left-0;
+    left: 0;
     transform: translate(-50%, -50%);
   }
 
+  /* Vertical line: cancels its -translate-x-1/2 (Tailwind 4 uses the translate property). */
   .absolute.z-0 {
-    @apply left-0 -translate-x-0;
+    left: 0;
+    translate: 0 0;
   }
 }

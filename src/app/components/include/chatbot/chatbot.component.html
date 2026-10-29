@@ -116,7 +116,7 @@
       <input type="text" [(ngModel)]="userInput" name="userInput"
         [placeholder]="isCaptchaVerified() ? i18n.text().chatbot.placeholder : i18n.text().chatbot.captchaPlaceholder"
         [disabled]="isLoading() || !isCaptchaVerified()"
-        class="flex-1 bg-white/10 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white/30 focus:bg-white/15 transition-all disabled:opacity-50" />
+        class="flex-1 bg-white/10 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/40 focus:outline-hidden focus:border-white/30 focus:bg-white/15 transition-all disabled:opacity-50" />
       <button type="submit" [disabled]="isLoading() || !userInput.trim() || !isCaptchaVerified()"
         [attr.aria-label]="i18n.text().chatbot.send"
         class="w-10 h-10 rounded-xl bg-gradient-to-r from-teal-500 to-green-500 flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed">

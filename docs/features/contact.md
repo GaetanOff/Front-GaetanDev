@@ -4,7 +4,7 @@ sources:
   - src/app/components/base/contact/
   - src/app/components/include/captcha/
   - src/app/services/limit/
-updated: 2026-10-27
+updated: 2026-10-29
 ---
 
 # Formulaire de contact
@@ -68,7 +68,7 @@ Les messages en ligne n'apparaissent qu'après `dirty` ou `touched`. Getters pub
 
 ### EmailJS
 
-- Paquet `@emailjs/browser` (v3), appel `emailjs.send(serviceId, templateId, templateParams, publicKey)`.
+- Paquet `@emailjs/browser` (v5), appel `emailjs.send(serviceId, templateId, templateParams, publicKey)` via l'export par défaut (objet `{ init, send, sendForm }`, ce qui permet `spyOn(emailjs, 'send')` dans les specs). Le 4ᵉ argument accepte encore une clé publique en chaîne ou un objet `Options` (`publicKey`, `blockHeadless`, `limitRate`…) ; aucune de ces options n'est utilisée, la limitation d'envoi est faite par `LimitService`. Depuis la v4 l'envoi passe par `fetch` et la promesse est rejetée avec un `EmailJSResponseStatus` si la réponse n'est pas `ok`.
 - `environment.emailjs = { serviceId, templateId, publicKey }` dans `src/environments/environment.ts` et `environment.prod.ts` (mêmes valeurs dans les deux). Ce sont des identifiants publics ; voir [../architecture.md](../architecture.md).
 - `templateParams` = `{ name, email, message }` (chaînes, `''` par défaut). Le template EmailJS côté tableau de bord doit utiliser exactement les variables `{{name}}`, `{{email}}` et `{{message}}` ; le jeton Turnstile n'est **pas** transmis.
 

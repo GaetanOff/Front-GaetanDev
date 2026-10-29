@@ -5,7 +5,7 @@ sources:
   - src/app/services/sso/
   - src/app/guards/auth.guard.ts
   - src/app/interceptors/
-updated: 2026-10-27
+updated: 2026-10-29
 ---
 
 # Authentification SSO

@@ -8,11 +8,11 @@ sources:
   - tsconfig.app.json
   - tsconfig.spec.json
   - karma.conf.js
-  - tailwind.config.js
+  - .postcssrc.json
   - .editorconfig
   - .github/
   - scripts/docs-check.mjs
-updated: 2026-10-27
+updated: 2026-10-29
 ---
 
 # Outillage, build, tests et CI
@@ -31,7 +31,7 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 | `tsconfig.app.json` / `tsconfig.spec.json` | Points d'entrée de compilation de l'app et des tests. |
 | `src/test.ts` | Initialise l'environnement de test Angular (`BrowserDynamicTestingModule`, `platformBrowserDynamicTesting`) après `zone.js/testing`. |
 | `karma.conf.js` | Runner Karma : Jasmine, Chrome, launcher `ChromeHeadlessCI`, couverture. |
-| `tailwind.config.js` | Chemins scannés par Tailwind 3 et extensions du thème (`scale-98`, animations `fade-in-down` / `fade-in-up`) ; aucun plugin. |
+| `.postcssrc.json` | Branche le plugin `@tailwindcss/postcss` (Tailwind 4) sur le pipeline CSS du builder Angular. La configuration Tailwind elle-même est en CSS dans `src/styles.css`. |
 | `.editorconfig` | UTF-8, espaces, indentation 2, guillemets simples pour `*.ts`. |
 | `.github/workflows/ci.yml` | Build + tests à chaque push/PR sur certaines branches. |
 | `.github/workflows/semgrep.yml` | Analyse Semgrep et upload SARIF. |
@@ -76,13 +76,20 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 - Cible `test` : builder `@angular/build:karma`, `main: src/test.ts`, `karmaConfig: karma.conf.js`, mêmes polyfills et styles que l'app, assets `src/favicon.ico` et `src/assets`.
 - `karma.conf.js` : frameworks `jasmine` ; plugins `karma-jasmine`, `karma-chrome-launcher`, `karma-jasmine-html-reporter`, `karma-coverage` ; reporters `progress` et `kjhtml` ; launcher personnalisé **`ChromeHeadlessCI`** = `ChromeHeadless` avec `--no-sandbox --disable-gpu`, utilisé par `test:ci` et donc par la CI.
 - La couverture (`coverageReporter`, sortie `coverage/Front-Gaetan2mz-V2`, html + text-summary) n'est produite qu'avec `ng test --code-coverage` ; `istanbul-lib-instrument` est en devDependency pour cela (ajout de la migration Angular 22).
-- Versions : Jasmine `~3.8.0`, `karma-jasmine` `~4.0.0`, Karma `~6.4.4`.
+- Versions : Jasmine `~3.8.0`, `karma-jasmine` `~4.0.0`, Karma `~6.4.4`. Les types `@types/jasmine` sont en `~7.0.0`, donc **en avance sur le runtime 3.8** : une API Jasmine récente compile mais peut échouer à l'exécution (`karma-jasmine` 4 n'embarque que Jasmine 3.x).
 
 ### Tailwind CSS
 
-- Tailwind `^3.4.17`, configuré par `tailwind.config.js` à la racine (aucun fichier PostCSS dédié : le builder Angular détecte la config Tailwind et l'applique aux directives `@tailwind` de `src/styles.css`).
-- `theme.extend` ajoute `scale-98` (utilisé en `active:scale-98` par le menu mobile) et deux animations d'entrée de 300 ms, `animate-fade-in-down` (menu mobile, 0,5 rem depuis le haut) et `animate-fade-in-up` (panneau du chatbot, 1 rem depuis le bas), appliquées en `motion-safe:`. Aucun plugin n'est installé : les classes de `tailwindcss-animate` (`animate-in`, `fade-in`, `slide-in-*`) ne génèrent rien. Une classe inconnue de Tailwind ne provoque aucune erreur de build, elle est simplement ignorée.
-- `content` scanne `./src/*.html`, `./src/*.ts`, `./src/app/**/**/**/*.html` et `./src/app/**/**/**/*.ts`. Les `.ts` sont scannés : les classes écrites dans des chaînes TypeScript (ex. la constante `shimmer` de `SkeletonComponent`) sont générées, à condition d'être écrites en entier.
+- Tailwind `^4.3.3` via `@tailwindcss/postcss` (déclaré dans `.postcssrc.json`). Il n'y a plus de `tailwind.config.js` : la configuration est en CSS en tête de `src/styles.css` (`@import 'tailwindcss' source(none)`, directives `@source`, bloc `@theme`).
+- Le bloc `@theme` définit deux animations d'entrée de 300 ms, `animate-fade-in-down` (menu mobile, 0,5 rem depuis le haut) et `animate-fade-in-up` (panneau du chatbot, 1 rem depuis le bas), appliquées en `motion-safe:`. `scale-98` (utilisé en `active:scale-98` par le menu mobile) n'a plus besoin d'extension : Tailwind 4 accepte toute valeur numérique de `scale-*`. Aucun plugin n'est installé : les classes de `tailwindcss-animate` (`animate-in`, `fade-in`, `slide-in-*`) ne génèrent rien. Une classe inconnue de Tailwind ne provoque aucune erreur de build, elle est simplement ignorée.
+- `@source` scanne `./*.{html,ts}` et `./app/**/*.{html,ts}` (relatifs à `src/`), comme le `content` de l'ancienne config v3 ; `source(none)` coupe la détection automatique, qui scannerait aussi les JSON i18n, les `.txt` et les specs. Les `.ts` sont scannés : les classes écrites dans des chaînes TypeScript (ex. la constante `shimmer` de `SkeletonComponent`) sont générées, à condition d'être écrites en entier.
+- Un `@layer base` de `src/styles.css` rétablit trois défauts de Tailwind 3 que Tailwind 4 a changés : couleur de bordure `gray-200` (v4 : `currentColor`), placeholder `gray-400` (v4 : couleur du texte à 50 %), `cursor: pointer` sur les boutons (v4 : `default`). Sans lui, chaque `border` sans couleur explicite prendrait la couleur du texte.
+- Pièges de la v4 rencontrés lors de la migration :
+  - `@apply` dans un CSS de composant exige `@reference 'tailwindcss';` en tête de fichier, et chaque utilitaire y embarque ses `@property` et fallbacks (le CSS de `ExperienceComponent`/`CertifComponent` dépassait alors le budget de 2 kb) ; ces deux fichiers sont donc écrits en CSS simple.
+  - `translate-*`, `scale-*` et `rotate-*` posent les propriétés CSS `translate`/`scale`/`rotate`, plus `transform` : `transform-none` ne les annule pas (utiliser `translate-none`), et ils se cumulent avec un `transform` écrit à la main.
+  - Classes renommées : `shadow-sm` → `shadow-xs`, `drop-shadow-sm` → `drop-shadow-xs`, `backdrop-blur-sm` → `backdrop-blur-xs`, `outline-none` → `outline-hidden`, `flex-grow` → `grow`. Une ancienne classe compile encore mais change de rendu (ex. `shadow-sm` est l'ancien `shadow`).
+  - Les couleurs de la palette sont en `oklch` et la pile `font-sans` par défaut commence par `-apple-system` (plus `ui-sans-serif, system-ui`).
+  - Les utilitaires sont dans des cascade layers natives (`@layer utilities`) : le CSS non layeré de `src/styles.css` (`.ios-card`, `.ios-btn`…) et des composants l'emporte sur eux quelle que soit la spécificité.
 
 ### CI GitHub Actions
 
@@ -95,9 +102,9 @@ L'historique (`git log --oneline`, commits `fix(deps)` et `fix(security)`) montr
 
 - **Les paquets `@angular/*` montent ensemble** : ils ont des plages de peer dependencies exactes entre eux (commits `3f24e2a`, `ecde228`). Une montée partielle laisse npm conserver d'anciennes versions et peut imposer de régénérer le lock.
 - **Un override ne doit pas contredire la chaîne Angular.** Le commit `da397a7` a retiré un override `vite ^7.3.6` qui empêchait le linker Angular de s'appliquer au pré-bundling (page blanche sous `ng serve`, Angular 22 exigeant Vite 8) et un override `@babel/core ^7` qui contredisait la dépendance `@babel/core` 8 d'`@angular/build`. L'override `vite` est aujourd'hui `^8.3.3`.
-- **Overrides qui forcent une majeure hors contrainte** : `postcss-selector-parser ^7.1.6` alors que Tailwind 3.4 demande `^6.1.2` (aucun correctif en 6.x ; CSS de prod vérifiée identique, commit `9d7820c`) ; `@hono/node-server ^2.0.5` (v1 → v2, commit `534a3c7`).
+- **Overrides qui forcent une majeure hors contrainte** : `postcss-selector-parser ^7.1.6`, posé quand Tailwind 3.4 demandait `^6.1.2` (aucun correctif en 6.x, commit `9d7820c`), Tailwind 4 n'en dépendant plus ; `@hono/node-server ^2.0.5` (v1 → v2, commit `534a3c7`).
 - **Overrides ciblés** : `"karma": { "glob": "7.2.3" }` garde `glob` 7 pour Karma alors que `glob` est forcé en `^10.5.0` ailleurs ; les clés versionnées (`minimatch@^3.0.0`, `@^9.0.0`, `@^10.0.0`, `picomatch@^2.0.0`, `@^4.0.0`) épinglent chaque ligne majeure séparément.
-- **`@emnapi/core` et `@emnapi/runtime` en `optionalDependencies` (1.11.2)** : un lock régénéré sous Windows omet ces entrées (atteintes seulement via des paquets wasm conditionnés par plateforme), ce qui fait échouer `npm ci` sur Linux en CI (commits `af84dfe`, `518d114`).
+- **`@emnapi/core` et `@emnapi/runtime` en `optionalDependencies` (1.11.3)** : un lock régénéré sous Windows omet ces entrées (atteintes seulement via des paquets wasm conditionnés par plateforme), ce qui fait échouer `npm ci` sur Linux en CI (commits `af84dfe`, `518d114`). Les deux paquets sont publiés ensemble : les monter à la même version (Dependabot n'en monte qu'un par PR).
 
 ## Contrats
 
@@ -110,12 +117,11 @@ L'historique (`git log --oneline`, commits `fix(deps)` et `fix(security)`) montr
 
 - La branche principale est `master` (aucune branche `main`) : `ci.yml` et `semgrep.yml` la ciblent toutes deux. Semgrep ne tourne pas sur `develop`.
 - `dependabot.yml` regroupe les `@angular/*` dans une seule PR (groupe `angular`), car ils doivent monter ensemble (voir plus haut) ; une PR de version ne relève pas les `overrides`, à vérifier à la main. Les alertes traitées dans les commits `fix(deps)` sont des alertes de sécurité Dependabot, distinctes de ce fichier.
-- **Overrides devenus inertes** : plusieurs paquets forcés n'apparaissent plus du tout dans `package-lock.json` (`tar`, `@isaacs/brace-expansion`, `@sigstore/core`, `hono`, `@hono/node-server`, `rollup`, `ip-address`, `undici`, `path-to-regexp`, `express`, `express-rate-limit`, `webpack`, `webpack-dev-server`, `http-proxy-middleware`, `js-yaml`, `loader-utils`, `node-forge`, `on-headers`). Ils sont sans effet aujourd'hui mais protègent contre un retour de ces paquets ; ne pas les retirer sans vérifier l'alerte d'origine (voir AGENTS.md).
+- **Overrides devenus inertes** : plusieurs paquets forcés n'apparaissent plus du tout dans `package-lock.json` (`tar`, `@isaacs/brace-expansion`, `@sigstore/core`, `hono`, `@hono/node-server`, `rollup`, `ip-address`, `undici`, `path-to-regexp`, `express`, `express-rate-limit`, `webpack`, `webpack-dev-server`, `http-proxy-middleware`, `js-yaml`, `loader-utils`, `node-forge`, `on-headers`, et `postcss-selector-parser` depuis Tailwind 4). Ils sont sans effet aujourd'hui mais protègent contre un retour de ces paquets ; ne pas les retirer sans vérifier l'alerte d'origine (voir AGENTS.md).
 - **Régénérer le lock** (`npm install` après suppression du lock) sous Windows : vérifier ensuite que les entrées `@emnapi/*` sont toujours dans `package-lock.json`, sinon `npm ci` casse en CI.
 - **`src/favicon.ico` est déclaré dans les assets** (build et test) mais n'existe pas dans le dépôt ; l'icône réellement référencée par `index.html` est `assets/img/metaLogo.webp`.
 - **Dépendances sans import direct dans `src/`** : `@angular/animations` et `@babel/runtime` (aucun import trouvé). `@angular/platform-browser-dynamic` n'est importé que par `src/test.ts` mais figure dans `dependencies`.
 - **Budget de style par composant** de 4 kb (erreur) : un CSS de composant qui grossit casse le build de prod, d'où les styles partagés dans `src/styles.css`.
-- **`README.md` est obsolète** : il indique Angular CLI 12.1.4, une commande Tailwind `npx tailwindcss -i ./tailwind.css -o ./src/assets/css/output.css` alors qu'il n'existe ni `tailwind.css` ni `src/assets/css/` (Tailwind passe par le builder Angular), et `ng e2e` qui n'est pas configuré. Se fier à [AGENTS.md](../AGENTS.md) et à cette page.
 
 ## Tests
 

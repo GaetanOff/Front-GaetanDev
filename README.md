@@ -1,7 +1,7 @@
 # Front-GaetanDev
 
 Portfolio et vitrine de [gaetandev.fr](https://gaetandev.fr) : site bilingue FR/EN, chatbot IA, visite guidée vocale et back-office `/admin` protégé par SSO.
-Angular 22 (standalone, signals), Tailwind CSS 3, tests Karma/Jasmine.
+Angular 22 (standalone, signals), Tailwind CSS 4, tests Karma/Jasmine.
 
 ## Démarrer
 

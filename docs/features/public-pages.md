@@ -11,7 +11,7 @@ sources:
   - src/app/components/include/skeletons/
   - src/assets/img/
   - src/assets/files/
-updated: 2026-10-27
+updated: 2026-10-29
 ---
 
 # Pages publiques
@@ -99,7 +99,7 @@ Tableau en dur `competencesList: { name, image }[]` dans le TS (noms de technolo
 #### `app-experience` (`ExperienceComponent`)
 
 - `experiencesList` est un `computed()` en dur dans le TS : `name`, `date`, `description`, `active`. `date` et `description` sont traduits par ternaire `i18n.isEnglish() ? … : …`, pas par le JSON.
-- Frise verticale : les cartes alternent gauche/droite selon l'index pair/impair (`timeline-item-left/right`) ; sous 768 px tout passe à gauche. `active: true` = point vert avec halo animé, sinon point gris.
+- Frise verticale : les cartes alternent gauche/droite selon l'index pair/impair (`timeline-item-left/right`) ; sous 768 px tout passe à gauche. `active: true` = point vert avec halo animé, sinon point gris. Les styles de la frise (`experience.component.css`, identique à `certif.component.css` : toute correction se fait dans les deux) sont en CSS simple, sans `@apply`, pour rester sous le budget de 2 kb avec Tailwind 4 (voir [../tooling.md](../tooling.md)) ; la règle `.absolute.z-0` annule sous 768 px le `-translate-x-1/2` de la ligne verticale via la propriété `translate`.
 - `calculateDuration(date)` découpe `date` sur `" - "`, parse chaque borne avec `parseDate()` (format « Mois AAAA », noms de mois FR ou EN selon la langue courante), traite la borne de fin égale à `cv.today` comme « maintenant », puis compose la durée avec les clés `cv.year(s)`, `cv.month(s)`, `cv.and`, `cv.lessThanMonth`, `cv.unknownDuration`.
 
 #### `app-certif` (`CertifComponent`)

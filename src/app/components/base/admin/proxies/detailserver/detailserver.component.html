@@ -17,15 +17,15 @@
           </span>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+          <div class="bg-gray-100 p-4 rounded-lg shadow-xs">
             <h2 class="text-lg font-semibold text-gray-800">Server ID</h2>
             <p class="text-gray-600">{{ details.id }}</p>
           </div>
-          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+          <div class="bg-gray-100 p-4 rounded-lg shadow-xs">
             <h2 class="text-lg font-semibold text-gray-800">Location</h2>
             <p class="text-gray-600">{{ details.location }}</p>
           </div>
-          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+          <div class="bg-gray-100 p-4 rounded-lg shadow-xs">
             <h2 class="text-lg font-semibold text-gray-800">CPU Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
               <div class="h-full" [ngClass]="getLoadBarColor(details.cpu)" [style.width.%]="details.cpu">
@@ -33,7 +33,7 @@
             </div>
             <p class="text-gray-600 mt-2">{{ details.cpu }}%</p>
           </div>
-          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+          <div class="bg-gray-100 p-4 rounded-lg shadow-xs">
             <h2 class="text-lg font-semibold text-gray-800">RAM Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
               <div class="h-full" [ngClass]="getLoadBarColor(details.ram)" [style.width.%]="details.ram">
@@ -41,7 +41,7 @@
             </div>
             <p class="text-gray-600 mt-2">{{ details.ram }}%</p>
           </div>
-          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+          <div class="bg-gray-100 p-4 rounded-lg shadow-xs">
             <h2 class="text-lg font-semibold text-gray-800">DISK Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
               <div class="h-full" [ngClass]="getLoadBarColor(details.disk)" [style.width.%]="details.disk">
@@ -49,7 +49,7 @@
             </div>
             <p class="text-gray-600 mt-2">{{ details.disk }}%</p>
           </div>
-          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+          <div class="bg-gray-100 p-4 rounded-lg shadow-xs">
             <h2 class="text-lg font-semibold text-gray-800">SWAP Usage</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
               <div class="h-full" [ngClass]="getLoadBarColor(details.swap)" [style.width.%]="details.swap">
@@ -57,7 +57,7 @@
             </div>
             <p class="text-gray-600 mt-2">{{ details.swap }}%</p>
           </div>
-          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+          <div class="bg-gray-100 p-4 rounded-lg shadow-xs">
             <h2 class="text-lg font-semibold text-gray-800">Incoming Network</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
               <div class="h-full" [ngClass]="getLoadBarColor((details.incomingNetwork / 10000) * 100)"
@@ -65,7 +65,7 @@
             </div>
             <p class="text-gray-600">{{ details.incomingNetwork }}/10000 Mbps</p>
           </div>
-          <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+          <div class="bg-gray-100 p-4 rounded-lg shadow-xs">
             <h2 class="text-lg font-semibold text-gray-800">Outgoing Network</h2>
             <div class="w-full bg-gray-300 rounded-full h-4 overflow-hidden mt-2">
               <div class="h-full" [ngClass]="getLoadBarColor((details.outgoingNetwork / 10000) * 100)"
@@ -73,7 +73,7 @@
             </div>
             <p class="text-gray-600">{{ details.outgoingNetwork }}/10000 Mbps</p>
           </div>
-          <div class="bg-gray-100 p-4 rounded-lg shadow-sm col-span-2">
+          <div class="bg-gray-100 p-4 rounded-lg shadow-xs col-span-2">
             <h2 class="text-lg font-semibold text-gray-800">IP Address</h2>
             @if (showIp()) {
             <p class="text-gray-600">{{ details.addressIp }}</p>
