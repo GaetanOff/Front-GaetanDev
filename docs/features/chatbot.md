@@ -2,7 +2,7 @@
 title: Chatbot (assistant IA flottant)
 sources:
   - src/app/components/include/chatbot/
-updated: 2026-10-27
+updated: 2026-10-29
 ---
 
 # Chatbot (assistant IA flottant)
@@ -37,7 +37,7 @@ Dépendances hors de cette zone : `CustomCaptchaComponent` (`src/app/components/
 2. **Ouvert, non vérifié** (`!isCaptchaVerified()`) : le panneau (`@if (isOpen())`) affiche un écran de vérification avec `<app-custom-captcha>`. Le champ de saisie et le bouton d'envoi sont désactivés, le placeholder est `chatbot.captchaPlaceholder`. Pendant l'appel `/verify`, le captcha est masqué et un spinner + `chatbot.captchaVerifying` s'affichent. En cas d'échec : `chatbot.captchaError`.
 3. **Ouvert, vérifié** : liste des messages, indicateur « trois points » pendant `isLoading()`, formulaire actif. Le bouton corbeille (`clearConversation()`) n'est actif que s'il y a plus d'un message.
 
-Le panneau apparaît avec `motion-safe:animate-fade-in-up` (défini dans `tailwind.config.js`, voir [../tooling.md](../tooling.md)). Quand le panneau est ouvert, le bouton flottant reste dans le DOM mais passe en `scale-0`. Fermer le panneau ne réinitialise rien : les signals restent dans le composant, seul le DOM du panneau (dont le widget Turnstile) est détruit puis recréé à la réouverture.
+Le panneau apparaît avec `motion-safe:animate-fade-in-up` (défini dans le bloc `@theme` de `src/styles.css`, voir [../tooling.md](../tooling.md)). Quand le panneau est ouvert, le bouton flottant reste dans le DOM mais passe en `scale-0`. Fermer le panneau ne réinitialise rien : les signals restent dans le composant, seul le DOM du panneau (dont le widget Turnstile) est détruit puis recréé à la réouverture.
 
 ### Flux réseau
 

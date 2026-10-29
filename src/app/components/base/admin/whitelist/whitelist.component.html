@@ -8,7 +8,7 @@
           <label>
             @if (!isAdding()) {
             <input #nameInput="ngModel" [(ngModel)]="address"
-              class="input w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300"
+              class="input w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 mt-2 p-3 rounded-xl border border-white/20 focus:outline-hidden focus:ring-2 focus:ring-green-400 transition-all duration-300"
               minlength="3" name="address" placeholder="address" required type="text">
             }
             @if (isAdding()) {
@@ -20,7 +20,7 @@
           <label class="block text-sm font-semibold mb-1 text-white">Server</label>
           <div class="relative">
             <select [(ngModel)]="server" name="server" style="color-scheme: dark;"
-              class="w-full bg-white/10 backdrop-blur-md text-white mt-2 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
+              class="w-full bg-white/10 backdrop-blur-md text-white mt-2 p-3 rounded-xl border border-white/20 focus:outline-hidden focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
               <option value="1">1</option>
               <option value="2">2</option>
             </select>

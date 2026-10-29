@@ -10,7 +10,7 @@ sources:
   - src/app/components/include/admin/
   - src/app/services/admin/
   - src/app/utils/polling.utils.ts
-updated: 2026-10-27
+updated: 2026-10-29
 ---
 
 # Back-office admin

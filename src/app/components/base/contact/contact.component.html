@@ -1,7 +1,7 @@
 <div class="text-white relative">
   <div class="text-center mb-8 relative z-10">
     <h1
-      class="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-sm">
+      class="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 drop-shadow-xs">
       {{ i18n.text().contact.title }}
     </h1>
   </div>
@@ -19,7 +19,7 @@
       </div>
       } @else {
       <input id="name" type="text" formControlName="name"
-        class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none focus:border-green-400/50 transition-all duration-300"
+        class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-hidden focus:border-green-400/50 transition-all duration-300"
         placeholder="{{ i18n.text().contact.nameLabel }}" />
       @if (name?.invalid && (name?.dirty || name?.touched)) {
       <div class="text-red-400 mt-2 text-sm">
@@ -46,7 +46,7 @@
       </div>
       } @else {
       <input id="email" type="email" formControlName="email"
-        class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none focus:border-green-400/50 transition-all duration-300"
+        class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-hidden focus:border-green-400/50 transition-all duration-300"
         placeholder="{{ i18n.text().contact.emailLabel }}" />
       @if (email?.invalid && (email?.dirty || email?.touched)) {
       <div class="text-red-400 mt-2 text-sm">
@@ -73,7 +73,7 @@
       </div>
       } @else {
       <textarea id="message" formControlName="message" rows="5"
-        class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-none focus:border-green-400/50 transition-all duration-300 resize-none"
+        class="w-full bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-400 focus:outline-hidden focus:border-green-400/50 transition-all duration-300 resize-none"
         placeholder="{{ i18n.text().contact.messageLabel }}"></textarea>
       @if (message?.invalid && (message?.dirty || message?.touched)) {
       <div class="text-red-400 mt-2 text-sm">

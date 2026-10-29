@@ -1,7 +1,60 @@
 /* You can add global styles to this file, and also import other style files */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss' source(none);
+@source './*.{html,ts}';
+@source './app/**/*.{html,ts}';
+
+@theme {
+  --animate-fade-in-down: fade-in-down 300ms ease-out;
+  --animate-fade-in-up: fade-in-up 300ms ease-out;
+
+  @keyframes fade-in-down {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/*
+ * Tailwind 4 changed these preflight defaults; restore the Tailwind 3 ones the
+ * templates were written for (border and placeholder colors, button cursor).
+ */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 html,
 body {
