@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "^22.2.3",
     "@angular/router": "^22.2.3",
     "@babel/runtime": "^7.26.10",
-    "@emailjs/browser": "^3.11.0",
+    "@emailjs/browser": "^5.0.3",
     "dompurify": "^3.4.17",
     "marked": "^18.1.1",
     "ngx-sonner": "3.0.0",
@@ -29,14 +29,15 @@
     "rxjs": "^7.8.2",
     "tslib": "^2.2.0",
     "zod": "^4.6.7",
-    "zone.js": "~0.15.0"
+    "zone.js": "~0.16.3"
   },
   "devDependencies": {
     "@angular/build": "^22.2.4",
     "@angular/cli": "^22.2.4",
     "@angular/compiler-cli": "^22.2.3",
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/dompurify": "^3.2.0",
-    "@types/jasmine": "~3.8.0",
+    "@types/jasmine": "~7.0.0",
     "@types/node": "^25.2.2",
     "istanbul-lib-instrument": "^6.0.3",
     "jasmine-core": "~3.8.0",
@@ -45,7 +46,8 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "tailwindcss": "^3.4.17",
+    "postcss": "^8.5.32",
+    "tailwindcss": "^4.3.3",
     "typescript": "~6.0.3"
   },
   "overrides": {
@@ -53,7 +55,7 @@
       "glob": "7.2.3"
     },
     "glob": "^10.5.0",
-    "qs": "^6.15.2",
+    "qs": "^6.17.1",
     "tar": "^7.5.18",
     "@isaacs/brace-expansion": "^5.0.1",
     "esbuild": "^0.28.1",
@@ -69,7 +71,7 @@
     "brace-expansion": "^2.1.3",
     "fast-uri": "^3.1.8",
     "flatted": "^3.4.2",
-    "postcss": "^8.5.18",
+    "postcss": "$postcss",
     "follow-redirects": "^1.16.1",
     "ip-address": "^10.2.2",
     "minimatch@^3.0.0": "3.1.5",
@@ -93,13 +95,13 @@
     "on-headers": "^1.1.0",
     "semver": "^7.7.1",
     "engine.io": "^6.6.7",
-    "body-parser": "^2.3.0",
+    "body-parser": "^2.4.0",
     "express": "^5.1.0",
     "source-map-js": "^1.2.2",
     "postcss-selector-parser": "^7.1.6"
   },
   "optionalDependencies": {
-    "@emnapi/core": "1.11.2",
-    "@emnapi/runtime": "1.11.2"
+    "@emnapi/core": "1.11.3",
+    "@emnapi/runtime": "1.11.3"
   }
 }

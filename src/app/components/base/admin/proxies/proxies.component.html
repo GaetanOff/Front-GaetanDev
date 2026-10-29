@@ -23,7 +23,7 @@
     </div>
 
     @if (showServers()) {
-    <div class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
+    <div class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-xs z-50">
       <div
         class="bg-black/20 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-6 w-11/12 md:w-2/3 lg:w-1/2">
         <div class="flex justify-between items-center border-b border-white/20 pb-2">
@@ -34,7 +34,7 @@
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           @for (server of scanningServers(); track server) {
           <div
-            class="p-4 border border-white/20 rounded-xl shadow-sm bg-white/10 backdrop-blur-md cursor-pointer duration-300 hover:bg-white/20 hover:shadow-lg hover:shadow-green-600/30 text-white"
+            class="p-4 border border-white/20 rounded-xl shadow-xs bg-white/10 backdrop-blur-md cursor-pointer duration-300 hover:bg-white/20 hover:shadow-lg hover:shadow-green-600/30 text-white"
             (click)="navigateToDetails(server.id)">
             <div class="flex items-center justify-between">
               <span class="text-lg font-bold">Server {{ server.id }}</span>
@@ -62,7 +62,7 @@
     }
 
     @if (showProxy()) {
-    <div class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
+    <div class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-xs z-50">
       <div
         class="bg-black/20 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-6 w-11/12 md:w-2/3 lg:w-1/2">
         <div class="flex justify-between items-center border-b border-white/20 pb-2">
@@ -75,7 +75,7 @@
             <div class="mb-4">
               <label class="block text-sm font-semibold mb-1 text-white">Protocol</label>
               <select [(ngModel)]="proxyProtocol" name="protocol" style="color-scheme: dark;"
-                class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
+                class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-hidden focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
                 <option value="http">HTTP</option>
                 <option value="socks5">SOCKS5</option>
               </select>
@@ -83,17 +83,17 @@
             <div class="mb-4">
               <label class="block text-sm font-semibold mb-1 text-white">Host</label>
               <input type="text" [(ngModel)]="proxyHost" name="host" placeholder="Proxy host"
-                class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300">
+                class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 p-3 rounded-xl border border-white/20 focus:outline-hidden focus:ring-2 focus:ring-green-400 transition-all duration-300">
             </div>
             <div class="mb-4">
               <label class="block text-sm font-semibold mb-1 text-white">Port</label>
               <input type="number" [(ngModel)]="proxyPort" name="port" placeholder="Proxy port"
-                class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300">
+                class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 p-3 rounded-xl border border-white/20 focus:outline-hidden focus:ring-2 focus:ring-green-400 transition-all duration-300">
             </div>
             <div class="mb-4">
               <label class="block text-sm font-semibold mb-1 text-white">Server</label>
               <select [(ngModel)]="serverToCheck" name="server" style="color-scheme: dark;"
-                class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
+                class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-hidden focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
                 <option value="random">Random</option>
                 @for (server of scanningServers(); track server) {
                 <option [value]="server.id">
@@ -189,7 +189,7 @@
           <div class="flex items-center gap-2 mb-2">
             <select [ngModel]="filter" (ngModelChange)="setCountryFilter(i, $event)" [name]="'countryFilter' + i"
               style="color-scheme: dark;"
-              class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
+              class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-hidden focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
               @if (countryFilters().length > 1) {
               @for (country of filteredCountries; track country) {
               <option [value]="country">{{ country }}</option>
@@ -219,7 +219,7 @@
           <div class="relative">
             <select [(ngModel)]="selectedProxyType" (ngModelChange)="onProxyTypeChange()"
               name="selectedProxyType" style="color-scheme: dark;"
-              class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
+              class="w-full bg-white/10 backdrop-blur-md text-white p-3 rounded-xl border border-white/20 focus:outline-hidden focus:ring-2 focus:ring-green-400 appearance-none transition-all duration-300">
               <option value="http">HTTP</option>
               <option value="socks5">SOCKS5</option>
             </select>
@@ -233,7 +233,7 @@
           <label class="block text-sm font-semibold mb-1 text-white">Number of Proxy</label>
           <input type="number" [ngModel]="proxyLimit()" (ngModelChange)="proxyLimit.set(+$event)" name="proxyLimit"
             min="1" max="1000"
-            class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 p-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-300" />
+            class="w-full bg-white/10 backdrop-blur-md text-white placeholder-gray-300 p-3 rounded-xl border border-white/20 focus:outline-hidden focus:ring-2 focus:ring-green-400 transition-all duration-300" />
         </div>
       </div>
 

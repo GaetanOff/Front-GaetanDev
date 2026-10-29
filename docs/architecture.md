@@ -8,7 +8,7 @@ sources:
   - src/app/types.ts
   - src/environments/
   - src/styles.css
-updated: 2026-10-27
+updated: 2026-10-29
 ---
 
 # Architecture
@@ -27,7 +27,7 @@ Vue d'ensemble de l'application : comment elle démarre (`bootstrapApplication`,
 | `src/app/types.ts` | Interfaces des réponses de l'API admin (`ScanningServer`, `ProxyDetails`, `ProxiesResponse`, `ProxyCheckResponse`, `AdminEmail`, `EmailWordsResponse`, `AdminMutationResponse`). Consommées uniquement par la zone admin, voir [features/admin.md](features/admin.md). |
 | `src/environments/environment.ts` | Configuration de développement (`ng serve`, `npm run watch`, tests). |
 | `src/environments/environment.prod.ts` | Configuration de production, substituée au build par `fileReplacements` (voir [tooling.md](tooling.md)). |
-| `src/styles.css` | Directives Tailwind, fond et scrollbar globaux, classes utilitaires `ios-*`, styles de la visite vocale `tour-*`. |
+| `src/styles.css` | Import et configuration de Tailwind 4 (`@source`, `@theme`, défauts v3 rétablis, voir [tooling.md](tooling.md)), fond et scrollbar globaux, classes utilitaires `ios-*`, styles de la visite vocale `tour-*`. |
 
 `src/index.html` (balise `<base href="/">`, `<app-root>`, meta SEO, scripts Turnstile et Cloudflare Insights) est documenté dans [seo.md](seo.md).
 
@@ -108,7 +108,7 @@ Aucun `APP_INITIALIZER` : la langue initiale est calculée par `I18nService` à 
 - **Le scroll en haut de page** est déclenché à chaque `NavigationEnd`, y compris les navigations qui ne changent que les query params.
 - **Le lecteur de langue initial dans le constructeur** (`matchLocaleFromPath(this.router.url)`) fait doublon avec `I18nService.getInitialLanguage()`, qui lit déjà `window.location.pathname`.
 - **Textes en dur dans le template racine**, contrairement à la convention i18n : « Menu », « Status », les `aria-label` (ternaires FR/EN dans le template) et l'`alt` « Language flag ».
-- Le menu mobile utilise `motion-safe:animate-fade-in-down` et `active:scale-98`, définis dans `tailwind.config.js` (voir [tooling.md](tooling.md)) : n'utilise pas les classes de `tailwindcss-animate` (`animate-in`, `fade-in`, `slide-in-*`), le plugin n'est pas installé.
+- Le menu mobile utilise `motion-safe:animate-fade-in-down` (défini dans le bloc `@theme` de `src/styles.css`) et `active:scale-98` (natif en Tailwind 4), voir [tooling.md](tooling.md) : n'utilise pas les classes de `tailwindcss-animate` (`animate-in`, `fade-in`, `slide-in-*`), le plugin n'est pas installé.
 - **Budget CSS de composant** : 2 kb en avertissement, 4 kb en erreur en production. Les styles volumineux et partagés (comme ceux de la visite vocale) vivent donc dans `src/styles.css` plutôt que dans le CSS du composant.
 
 ## Tests
