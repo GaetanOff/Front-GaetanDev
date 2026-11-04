@@ -20,7 +20,7 @@
     "@angular/platform-browser": "^22.2.3",
     "@angular/platform-browser-dynamic": "^22.2.3",
     "@angular/router": "^22.2.3",
-    "@babel/runtime": "^7.26.10",
+    "@babel/runtime": "^8.0.10",
     "@emailjs/browser": "^5.0.3",
     "dompurify": "^3.4.17",
     "marked": "^18.1.1",
