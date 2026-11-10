@@ -1,5 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, signal, effect, viewChild } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { I18nService } from "../../../services/i18n/i18n.service";
 import { SeoService } from "../../../services/seo/seo.service";
 import { LimitService } from "../../../services/limit/limit.service";
@@ -7,7 +9,13 @@ import { toast } from 'ngx-sonner';
 import { GdCaptchaComponent } from '../../include/gd-captcha/gd-captcha.component';
 import { environment } from '../../../../environments/environment';
 
-import emailjs from '@emailjs/browser';
+/** Corps attendu par le worker api-contact (workers/api-contact). */
+export interface ContactRequest {
+  name: string;
+  email: string;
+  message: string;
+  captchaToken: string;
+}
 
 @Component({
   selector: 'app-contact',
@@ -17,6 +25,7 @@ import emailjs from '@emailjs/browser';
 })
 export class ContactComponent {
   public i18n = inject(I18nService);
+  private http = inject(HttpClient);
   private limitService = inject(LimitService);
   private seo = inject(SeoService);
 
@@ -75,7 +84,8 @@ export class ContactComponent {
       return;
     }
 
-    if (!this.captchaToken()) {
+    const captchaToken = this.captchaToken();
+    if (!captchaToken) {
       toast.error(this.i18n.text().contact.validation.captchaInvalid);
       return;
     }
@@ -89,26 +99,29 @@ export class ContactComponent {
     this.loading.set(true);
     const lastToast: string | number = toast.loading(this.i18n.text().contact.form.loading || "Envoi en cours...");
 
-    const templateParams = {
+    const request: ContactRequest = {
       name: name || '',
       email: email || '',
       message: message || '',
+      captchaToken,
     };
 
-    const { serviceId, templateId, publicKey } = environment.emailjs;
-
-    emailjs.send(serviceId, templateId, templateParams, publicKey)
-      .then(() => {
-        toast.success(this.i18n.text().contact.form.success, { id: lastToast });
-        this.limitService.setLimit({ hours: 0, minutes: 10 });
-        this.contactForm.reset();
-      })
-      .catch(() => {
-        toast.error(this.i18n.text().contact.form.server, { id: lastToast });
-      }).finally(() => {
-        this.loading.set(false);
-        this.captchaToken.set(null);
-        this.captcha()?.reset();
-      });
+    try {
+      await firstValueFrom(this.http.post(environment.contactApiUrl, request));
+      toast.success(this.i18n.text().contact.form.success, { id: lastToast });
+      this.limitService.setLimit({ hours: 0, minutes: 10 });
+      this.contactForm.reset();
+    } catch (error) {
+      // Le worker répond 403 { error: 'captcha_failed' } quand siteverify refuse le jeton.
+      const captchaRefused = error instanceof HttpErrorResponse && error.error?.error === 'captcha_failed';
+      toast.error(
+        captchaRefused ? this.i18n.text().contact.validation.captchaInvalid : this.i18n.text().contact.form.server,
+        { id: lastToast }
+      );
+    } finally {
+      this.loading.set(false);
+      this.captchaToken.set(null);
+      this.captcha()?.reset();
+    }
   }
 }

@@ -19,7 +19,7 @@ Les règles d'écriture et de mise à jour sont dans la section *Système de doc
 ## Fonctionnalités
 
 - [Pages publiques](features/public-pages.md) : accueil, à propos, réalisations, sections parcours, services, mentions légales, erreur.
-- [Contact](features/contact.md) : formulaire, EmailJS, captcha, limitation d'envoi.
+- [Contact](features/contact.md) : formulaire, captcha, worker Cloudflare `api-contact` (siteverify + EmailJS), limitation d'envoi.
 - [Authentification SSO](features/auth-sso.md) : OIDC + PKCE, garde, intercepteur.
 - [Back-office](features/admin.md) : whitelist, emails, proxies.
 - [Chatbot](features/chatbot.md) : assistant IA flottant.

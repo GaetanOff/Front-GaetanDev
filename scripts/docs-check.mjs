@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// Vérifie que la doc de docs/ couvre le code de src/ (voir la section « Système de documentation » d'AGENTS.md).
+// Vérifie que la doc de docs/ couvre le code de src/ et workers/ (voir la section « Système de documentation » d'AGENTS.md).
 //   node scripts/docs-check.mjs                 couverture + sources mortes
 //   node scripts/docs-check.mjs --since master  + pages dont les sources ont changé depuis la ref
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 
 const DOCS_DIR = 'docs/';
-const CODE_DIR = 'src/';
+const CODE_DIRS = ['src/', 'workers/'];
 // Binaires et médias : documentés au niveau de leur dossier, pas fichier par fichier.
 const IGNORED = [/^src\/assets\/(img|audio|files)\//, /^src\/favicon\.ico$/];
 
@@ -53,7 +53,7 @@ for (const page of pages.filter(p => p.sources)) {
 }
 
 console.log('Code non documenté');
-const code = tracked.filter(f => f.startsWith(CODE_DIR) && !IGNORED.some(re => re.test(f)));
+const code = tracked.filter(f => CODE_DIRS.some(dir => f.startsWith(dir)) && !IGNORED.some(re => re.test(f)));
 for (const file of code) {
   if (!pages.some(p => p.sources?.some(s => covers(s, file)))) report(file);
 }

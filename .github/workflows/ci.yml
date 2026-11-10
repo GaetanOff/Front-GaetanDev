@@ -28,3 +28,6 @@ jobs:
 
       - name: Unit tests
         run: npm run test:ci
+
+      - name: Worker tests
+        run: npm run test:worker

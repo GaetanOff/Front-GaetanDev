@@ -12,7 +12,7 @@ sources:
   - .editorconfig
   - .github/
   - scripts/docs-check.mjs
-updated: 2026-10-29
+updated: 2026-11-10
 ---
 
 # Outillage, build, tests et CI
@@ -33,10 +33,10 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 | `karma.conf.js` | Runner Karma : Jasmine, Chrome, launcher `ChromeHeadlessCI`, couverture. |
 | `.postcssrc.json` | Branche le plugin `@tailwindcss/postcss` (Tailwind 4) sur le pipeline CSS du builder Angular. La configuration Tailwind elle-même est en CSS dans `src/styles.css`. |
 | `.editorconfig` | UTF-8, espaces, indentation 2, guillemets simples pour `*.ts`. |
-| `.github/workflows/ci.yml` | Build + tests à chaque push/PR sur certaines branches. |
+| `.github/workflows/ci.yml` | Build + tests (Angular et worker) à chaque push/PR sur certaines branches. |
 | `.github/workflows/semgrep.yml` | Analyse Semgrep et upload SARIF. |
 | `.github/dependabot.yml` | Mises à jour de version Dependabot hebdomadaires pour `npm` (groupe `angular` pour les `@angular/*`) et `github-actions`, sur la branche par défaut. |
-| `scripts/docs-check.mjs` | Vérifie la couverture de `src/` par `docs/` (`npm run docs:check`). |
+| `scripts/docs-check.mjs` | Vérifie la couverture de `src/` et `workers/` par `docs/` (`npm run docs:check`). |
 
 ## Fonctionnement
 
@@ -49,6 +49,7 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 | `watch` | `ng build --watch --configuration development` | Build de dev incrémental. |
 | `test` | `ng test` | Karma en mode watch dans un Chrome visible (`browsers: ['Chrome']`). |
 | `test:ci` | `ng test --watch=false --browsers=ChromeHeadlessCI` | Exécution unique en headless, comme la CI. |
+| `test:worker` | `npm --prefix workers/api-contact test` | `node --test` dans `workers/api-contact/` (tests du worker, sans dépendance à installer), comme la CI. Le worker et son déploiement sont documentés dans [features/contact.md](features/contact.md). |
 | `docs:check` | `node scripts/docs-check.mjs` | Contrôle de la doc, voir [AGENTS.md](../AGENTS.md) (section « Système de documentation »). |
 
 ### Build (`angular.json`)
@@ -93,7 +94,7 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 
 ### CI GitHub Actions
 
-- **`ci.yml`** (job `build-and-test`, `ubuntu-latest`, Node 22 avec cache npm) : `npm ci`, `npm run build`, `npm run test:ci`. Déclenché par `push` sur `develop`, `master`, `refactor/**` et par `pull_request` vers `develop`, `master`. Permissions : `contents: read`.
+- **`ci.yml`** (job `build-and-test`, `ubuntu-latest`, Node 22 avec cache npm) : `npm ci`, `npm run build`, `npm run test:ci`, `npm run test:worker`. La CI ne déploie pas le worker. Déclenché par `push` sur `develop`, `master`, `refactor/**` et par `pull_request` vers `develop`, `master`. Permissions : `contents: read`.
 - **`semgrep.yml`** : `push` et `pull_request` sur `master`, plus un cron hebdomadaire (`36 11 * * 3`, mercredi 11:36 UTC). Utilise `returntocorp/semgrep-action` épinglé par SHA, avec les secrets `SEMGREP_APP_TOKEN` et `SEMGREP_DEPLOYMENT_ID`, puis `github/codeql-action/upload-sarif@v4` (`semgrep.sarif`, même en cas d'échec).
 
 ### Politique des dépendances et des `overrides`
@@ -109,7 +110,7 @@ L'historique (`git log --oneline`, commits `fix(deps)` et `fix(security)`) montr
 
 ## Contrats
 
-- Commandes qui doivent passer avant de considérer une modification terminée : `npm ci`, `npm run build`, `npm run test:ci` (celles de `ci.yml`).
+- Commandes qui doivent passer avant de considérer une modification terminée : `npm ci`, `npm run build`, `npm run test:ci`, `npm run test:worker` (celles de `ci.yml`).
 - Sortie du build : `dist/Front-Gaetan2mz-V2` (ignoré par git).
 - Style de code (`.editorconfig`) : UTF-8, indentation 2 espaces, ligne finale, pas d'espaces en fin de ligne (sauf `*.md`), `quote_type = single` pour `*.ts`. Aucun linter ni formateur (ESLint, Prettier) n'est configuré.
 - `.gitattributes` exclut `*.css` des statistiques de langage GitHub (`linguist-detectable=false`).

@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --watch=false --browsers=ChromeHeadlessCI",
+    "test:worker": "npm --prefix workers/api-contact test",
     "docs:check": "node scripts/docs-check.mjs"
   },
   "private": true,
@@ -21,7 +22,6 @@
     "@angular/platform-browser-dynamic": "^22.2.3",
     "@angular/router": "^22.2.3",
     "@babel/runtime": "^7.26.10",
-    "@emailjs/browser": "^5.0.3",
     "dompurify": "^3.4.17",
     "marked": "^18.1.1",
     "ngx-sonner": "3.0.0",

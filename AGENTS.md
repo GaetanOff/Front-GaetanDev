@@ -9,7 +9,8 @@ Portfolio et vitrine commerciale de Gaëtan Faucher (gaetandev.fr) : site public
 
 - **Stack** : Angular 22 (composants standalone, signals, `ChangeDetectionStrategy.OnPush`), TypeScript 6, Tailwind CSS 4 (configuration CSS dans `src/styles.css`, pas de `tailwind.config.js`), RxJS 7, Zod 4 (uniquement dans `admin/email` et `admin/whitelist` ; les formulaires publics utilisent les `Validators` Angular), Cloudflare Turnstile (`ngx-turnstile`, captcha du chatbot), GaetanDev Captcha (captcha maison de la page contact, script `captcha.gaetandev.fr`), marked + DOMPurify.
 - **Pas de SSR** : application SPA buildée avec `@angular/build:application`.
-- **Backends externes** (aucun dans ce dépôt) : API admin (`environment.apiBaseUrl`), API du chatbot (`environment.chatbotApiUrl`), fournisseur SSO OIDC (`environment.sso`), EmailJS pour le formulaire de contact, GaetanDev Captcha (captcha du contact), Cloudflare Turnstile (captcha du chatbot) et Cloudflare Web Analytics (chargé par `index.html`).
+- **Backend dans ce dépôt** : le Cloudflare Worker `workers/api-contact/` (`https://api-contact.gaetandev.fr`, `environment.contactApiUrl`), qui vérifie le captcha du formulaire de contact puis envoie le mail via EmailJS. JavaScript sans dépendance, testé avec `node:test`, déployé à part avec Wrangler (voir `docs/features/contact.md`).
+- **Backends externes** : API admin (`environment.apiBaseUrl`), API du chatbot (`environment.chatbotApiUrl`), fournisseur SSO OIDC (`environment.sso`), EmailJS (appelé uniquement par le worker), GaetanDev Captcha (captcha du contact), Cloudflare Turnstile (captcha du chatbot) et Cloudflare Web Analytics (chargé par `index.html`).
 - **Langue du projet** : français (commits, docs, commentaires). Les textes affichés sont dans `src/assets/i18n/{fr,en}.json`.
 
 ## Commandes
@@ -19,10 +20,11 @@ npm ci               # installer (respecte le lockfile et les overrides)
 npm start            # serveur de dev sur http://localhost:4200
 npm run build        # build de production dans dist/Front-Gaetan2mz-V2
 npm run test:ci      # tests unitaires Karma/Jasmine en ChromeHeadless (comme la CI)
+npm run test:worker  # tests du worker api-contact (node:test, comme la CI)
 npm run docs:check   # vérifie que la doc couvre tout le code (voir plus bas)
 ```
 
-La CI (`.github/workflows/ci.yml`) exécute `npm ci`, `npm run build` et `npm run test:ci` sur Node 22, pour les push sur `develop`, `master` et `refactor/**` et les PR vers `develop` et `master`. Lance aussi ces commandes en local : une modification n'est terminée que si elles passent.
+La CI (`.github/workflows/ci.yml`) exécute `npm ci`, `npm run build`, `npm run test:ci` et `npm run test:worker` sur Node 22, pour les push sur `develop`, `master` et `refactor/**` et les PR vers `develop` et `master`. Lance aussi ces commandes en local : une modification n'est terminée que si elles passent.
 
 Ne régénère pas `package-lock.json` sous Windows sans vérifier qu'il garde les entrées `@emnapi/*`, sinon `npm ci` casse en CI (voir `docs/tooling.md`).
 
@@ -33,7 +35,7 @@ Ne régénère pas `package-lock.json` sous Windows sans vérifier qu'il garde l
 | [docs/architecture.md](docs/architecture.md) | Bootstrap, composant racine, environnements, types partagés, styles globaux |
 | [docs/routing-i18n.md](docs/routing-i18n.md) | Routes, préfixes `/fr` `/en`, `LanguageGuard`, `I18nService`, fichiers de traduction |
 | [docs/features/public-pages.md](docs/features/public-pages.md) | Accueil, à propos, réalisations, sections parcours (compétences, expériences, certifications, langues), services, mentions légales, page d'erreur, skeletons |
-| [docs/features/contact.md](docs/features/contact.md) | Formulaire de contact, EmailJS, captcha, limitation d'envoi |
+| [docs/features/contact.md](docs/features/contact.md) | Formulaire de contact, captcha, worker `api-contact` (siteverify + EmailJS), limitation d'envoi |
 | [docs/features/auth-sso.md](docs/features/auth-sso.md) | SSO OIDC/PKCE, callback, `AuthGuard`, intercepteur HTTP |
 | [docs/features/admin.md](docs/features/admin.md) | Back-office : whitelist, emails, proxies, `AdminService`, polling |
 | [docs/features/chatbot.md](docs/features/chatbot.md) | Assistant IA flottant |
@@ -89,13 +91,13 @@ Le corps suit le gabarit [docs/_template.md](docs/_template.md) : Rôle, Fichier
 
 Le script `scripts/docs-check.mjs` :
 
-- signale tout fichier suivi par git sous `src/` (hors images, audio et PDF) qu'aucune page ne déclare dans `sources` ;
+- signale tout fichier suivi par git sous `src/` (hors images, audio et PDF) ou `workers/` qu'aucune page ne déclare dans `sources` ;
 - signale toute entrée de `sources` qui ne correspond à aucun fichier (doc périmée) ;
 - avec `--since <ref>` (ex. `npm run docs:check -- --since master`), liste les pages dont les sources ont changé depuis `<ref>` sans que la page ait été modifiée.
 
 ### Quand mettre la doc à jour
 
-- Tu ajoutes, déplaces ou supprimes un fichier sous `src/` → mets à jour les `sources` de la page propriétaire (ou crée une page et ajoute-la à la carte ci-dessus et à `docs/README.md`).
+- Tu ajoutes, déplaces ou supprimes un fichier sous `src/` ou `workers/` → mets à jour les `sources` de la page propriétaire (ou crée une page et ajoute-la à la carte ci-dessus et à `docs/README.md`).
 - Tu changes un comportement, un contrat d'API, une route, une clé i18n structurante → mets à jour la page et sa date `updated`.
 - Avant de terminer, lance `npm run docs:check -- --since master` et traite ce qu'il remonte.
 
@@ -109,6 +111,6 @@ Pour un nouvel agent ou après un gros refactor, demande : « Régénère la doc
 
 ## Garde-fous
 
-- `src/environments/*.ts` contient des identifiants publics (EmailJS, client SSO) : n'y ajoute jamais de secret serveur. Attention : en dev, `apiBaseUrl` et `chatbotApiUrl` pointent sur les API de production. D'autres identifiants publics sont en dur ailleurs : la clé de site Turnstile dans `custom-captcha.component.ts`, la clé de site GaetanDev Captcha dans `gd-captcha.component.ts`, le jeton Cloudflare Web Analytics dans `index.html`. La clé secrète GaetanDev Captcha (`gd_secret_…`) ne doit jamais entrer dans ce dépôt.
+- `src/environments/*.ts` contient des identifiants publics (client SSO, URL d'API) : n'y ajoute jamais de secret serveur. Attention : en dev, `apiBaseUrl` et `chatbotApiUrl` pointent sur les API de production. D'autres identifiants publics sont en dur ailleurs : la clé de site Turnstile dans `custom-captcha.component.ts`, la clé de site GaetanDev Captcha dans `gd-captcha.component.ts`, le jeton Cloudflare Web Analytics dans `index.html`. La clé secrète GaetanDev Captcha (`gd_secret_…`) et la clé privée EmailJS ne doivent jamais entrer dans ce dépôt : ce sont des secrets du worker `api-contact` (`npx wrangler secret put`), et `workers/api-contact/wrangler.toml` ne contient que des valeurs publiques.
 - Les `overrides` de `package.json` corrigent des alertes Dependabot ; n'en retire pas sans vérifier l'alerte associée et la compatibilité Angular (voir `docs/tooling.md`).
 - Ne modifie pas les MP3 de `src/assets/audio/tour/` sans suivre `docs/voice-tour.md`.

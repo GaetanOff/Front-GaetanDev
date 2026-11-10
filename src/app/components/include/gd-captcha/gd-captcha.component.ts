@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DOCUMENT, ElementRef, effect, inject, output, signal, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DOCUMENT, ElementRef, effect, inject, input, output, signal, untracked, viewChild } from '@angular/core';
 import { I18nService } from '../../../services/i18n/i18n.service';
 
 /** Sous-ensemble de l'API `window.gdCaptcha` exposée par https://captcha.gaetandev.fr/v1/api.js. */
@@ -13,6 +13,7 @@ export interface GdCaptchaRenderOptions {
   sitekey: string;
   theme?: 'auto' | 'light' | 'dark';
   language?: 'auto' | 'fr' | 'en';
+  action?: string;
   callback?: (token: string) => void;
   'expired-callback'?: () => void;
   'error-callback'?: (code: string) => void;
@@ -65,6 +66,8 @@ function loadGdCaptchaScript(document: Document): Promise<GdCaptchaApi> {
 export class GdCaptchaComponent {
   private i18n = inject(I18nService);
 
+  /** Renvoyée par siteverify : le backend peut refuser un jeton résolu pour un autre formulaire (32 caractères max). */
+  action = input('');
   tokenResolved = output<string | null>();
   public state = signal<'idle' | 'verified' | 'error'>('idle');
 
@@ -95,6 +98,7 @@ export class GdCaptchaComponent {
           sitekey: GD_CAPTCHA_SITE_KEY,
           theme: 'dark',
           language,
+          action: this.action(),
           // Le jeton est lu via `callback` : pas de champ caché dans le formulaire réactif.
           'response-field': false,
           callback: token => this.onResolved(token),

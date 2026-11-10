@@ -1,0 +1,24 @@
+# Worker du formulaire de contact : https://api-contact.gaetandev.fr
+# Déploiement et secrets : voir docs/features/contact.md (section « Worker api-contact »).
+name = "api-contact"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = false
+
+routes = [
+  { pattern = "api-contact.gaetandev.fr", custom_domain = true },
+]
+
+[observability]
+enabled = true
+
+# Valeurs publiques uniquement. Les secrets se posent avec :
+#   npx wrangler secret put GD_CAPTCHA_SECRET
+#   npx wrangler secret put EMAILJS_PRIVATE_KEY
+[vars]
+# Origines autorisées à appeler le worker depuis un navigateur (séparées par des virgules).
+# localhost:4200 permet d'utiliser le formulaire avec `npm start` (le front de dev appelle la prod).
+ALLOWED_ORIGINS = "https://gaetandev.fr,https://www.gaetandev.fr,http://localhost:4200"
+EMAILJS_SERVICE_ID = "service_katu34t"
+EMAILJS_TEMPLATE_ID = "template_3rprude"
+EMAILJS_PUBLIC_KEY = "SsUfOyd0KywiMRRLl"
