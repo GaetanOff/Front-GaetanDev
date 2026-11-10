@@ -8,7 +8,7 @@ sources:
   - src/app/types.ts
   - src/environments/
   - src/styles.css
-updated: 2026-10-29
+updated: 2026-11-10
 ---
 
 # Architecture
@@ -29,7 +29,7 @@ Vue d'ensemble de l'application : comment elle démarre (`bootstrapApplication`,
 | `src/environments/environment.prod.ts` | Configuration de production, substituée au build par `fileReplacements` (voir [tooling.md](tooling.md)). |
 | `src/styles.css` | Import et configuration de Tailwind 4 (`@source`, `@theme`, défauts v3 rétablis, voir [tooling.md](tooling.md)), fond et scrollbar globaux, classes utilitaires `ios-*`, styles de la visite vocale `tour-*`. |
 
-`src/index.html` (balise `<base href="/">`, `<app-root>`, meta SEO, scripts Turnstile et Cloudflare Insights) est documenté dans [seo.md](seo.md).
+`src/index.html` (balise `<base href="/">`, `<app-root>`, meta SEO, préconnexions, beacon Cloudflare Insights) est documenté dans [seo.md](seo.md).
 
 ## Fonctionnement
 

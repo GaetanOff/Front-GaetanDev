@@ -7,7 +7,7 @@ sources:
   - src/sitemap.xml
   - src/llms.txt
   - src/llms-full.txt
-updated: 2026-10-27
+updated: 2026-11-10
 ---
 
 # SEO, métadonnées et fichiers pour robots
@@ -78,7 +78,7 @@ Titres et descriptions viennent des clés i18n `seo.<page>.{title,description}` 
 - Canonical `https://gaetandev.fr/` et hreflang `fr` → `/fr`, `en` → `/en`, `x-default` → `/` : ce sont les balises que `SeoService.setLink()` retrouve et met à jour ensuite.
 - **JSON-LD global** (script sans `id`, jamais modifié) : `@graph` avec `Person` (`@id` `https://gaetandev.fr/#person`), `ProfessionalService` (`#business`, adresse, SIRET) et `WebSite` (`#website`). Les entités injectées par `SeoService` et par les pages y font référence par ces `@id`.
 - Préconnexions à `challenges.cloudflare.com` et `static.cloudflareinsights.com`.
-- Script tiers : le beacon Cloudflare Web Analytics en fin de `<body>`. Le script Cloudflare Turnstile n'est pas dans `index.html` : `CustomCaptchaComponent` l'injecte à la demande (voir [features/contact.md](features/contact.md)) ; seule la préconnexion à `challenges.cloudflare.com` reste ici.
+- Script tiers : le beacon Cloudflare Web Analytics en fin de `<body>`. Les scripts de captcha ne sont pas dans `index.html` : Cloudflare Turnstile est injecté à la demande par `CustomCaptchaComponent` pour le chatbot (voir [features/chatbot.md](features/chatbot.md)), d'où la préconnexion à `challenges.cloudflare.com`, et GaetanDev Captcha par `GdCaptchaComponent` sur la page contact (voir [features/contact.md](features/contact.md)), sans préconnexion.
 - Style critique inline (fond dégradé de `body`, `app-root` en `display: block; min-height: 100vh`), favicon `assets/img/metaLogo.webp`.
 - `<noscript>` avec un `<h1>` et un résumé en français (activité, contact, GitHub).
 

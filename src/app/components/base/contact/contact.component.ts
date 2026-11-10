@@ -4,14 +4,14 @@ import { I18nService } from "../../../services/i18n/i18n.service";
 import { SeoService } from "../../../services/seo/seo.service";
 import { LimitService } from "../../../services/limit/limit.service";
 import { toast } from 'ngx-sonner';
-import { CustomCaptchaComponent } from '../../include/captcha/custom-captcha.component';
+import { GdCaptchaComponent } from '../../include/gd-captcha/gd-captcha.component';
 import { environment } from '../../../../environments/environment';
 
 import emailjs from '@emailjs/browser';
 
 @Component({
   selector: 'app-contact',
-  imports: [ReactiveFormsModule, CustomCaptchaComponent],
+  imports: [ReactiveFormsModule, GdCaptchaComponent],
   templateUrl: './contact.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -37,7 +37,7 @@ export class ContactComponent {
 
   public loading = signal(false);
   public captchaToken = signal<string | null>(null);
-  private captcha = viewChild(CustomCaptchaComponent);
+  private captcha = viewChild(GdCaptchaComponent);
 
   contactForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -49,7 +49,7 @@ export class ContactComponent {
   get email() { return this.contactForm.get('email'); }
   get message() { return this.contactForm.get('message'); }
 
-  onTurnstileResolved(token: string | null) {
+  onCaptchaResolved(token: string | null) {
     this.captchaToken.set(token);
   }
 

@@ -7,9 +7,9 @@ Lis ce fichier en entier avant de modifier le code, puis la page de `docs/` qui 
 
 Portfolio et vitrine commerciale de Gaëtan Faucher (gaetandev.fr) : site public bilingue FR/EN (accueil, à propos, réalisations, contact, mentions légales), chatbot IA, visite guidée vocale, et un back-office `/admin` protégé par SSO (whitelist, emails, supervision de proxies).
 
-- **Stack** : Angular 22 (composants standalone, signals, `ChangeDetectionStrategy.OnPush`), TypeScript 6, Tailwind CSS 4 (configuration CSS dans `src/styles.css`, pas de `tailwind.config.js`), RxJS 7, Zod 4 (uniquement dans `admin/email` et `admin/whitelist` ; les formulaires publics utilisent les `Validators` Angular), Cloudflare Turnstile (`ngx-turnstile`), marked + DOMPurify.
+- **Stack** : Angular 22 (composants standalone, signals, `ChangeDetectionStrategy.OnPush`), TypeScript 6, Tailwind CSS 4 (configuration CSS dans `src/styles.css`, pas de `tailwind.config.js`), RxJS 7, Zod 4 (uniquement dans `admin/email` et `admin/whitelist` ; les formulaires publics utilisent les `Validators` Angular), Cloudflare Turnstile (`ngx-turnstile`, captcha du chatbot), GaetanDev Captcha (captcha maison de la page contact, script `captcha.gaetandev.fr`), marked + DOMPurify.
 - **Pas de SSR** : application SPA buildée avec `@angular/build:application`.
-- **Backends externes** (aucun dans ce dépôt) : API admin (`environment.apiBaseUrl`), API du chatbot (`environment.chatbotApiUrl`), fournisseur SSO OIDC (`environment.sso`), EmailJS pour le formulaire de contact, Cloudflare Turnstile (captcha) et Cloudflare Web Analytics (chargé par `index.html`).
+- **Backends externes** (aucun dans ce dépôt) : API admin (`environment.apiBaseUrl`), API du chatbot (`environment.chatbotApiUrl`), fournisseur SSO OIDC (`environment.sso`), EmailJS pour le formulaire de contact, GaetanDev Captcha (captcha du contact), Cloudflare Turnstile (captcha du chatbot) et Cloudflare Web Analytics (chargé par `index.html`).
 - **Langue du projet** : français (commits, docs, commentaires). Les textes affichés sont dans `src/assets/i18n/{fr,en}.json`.
 
 ## Commandes
@@ -109,6 +109,6 @@ Pour un nouvel agent ou après un gros refactor, demande : « Régénère la doc
 
 ## Garde-fous
 
-- `src/environments/*.ts` contient des identifiants publics (EmailJS, client SSO) : n'y ajoute jamais de secret serveur. Attention : en dev, `apiBaseUrl` et `chatbotApiUrl` pointent sur les API de production. D'autres identifiants publics sont en dur ailleurs : la clé de site Turnstile dans `custom-captcha.component.ts`, le jeton Cloudflare Web Analytics dans `index.html`.
+- `src/environments/*.ts` contient des identifiants publics (EmailJS, client SSO) : n'y ajoute jamais de secret serveur. Attention : en dev, `apiBaseUrl` et `chatbotApiUrl` pointent sur les API de production. D'autres identifiants publics sont en dur ailleurs : la clé de site Turnstile dans `custom-captcha.component.ts`, la clé de site GaetanDev Captcha dans `gd-captcha.component.ts`, le jeton Cloudflare Web Analytics dans `index.html`. La clé secrète GaetanDev Captcha (`gd_secret_…`) ne doit jamais entrer dans ce dépôt.
 - Les `overrides` de `package.json` corrigent des alertes Dependabot ; n'en retire pas sans vérifier l'alerte associée et la compatibilité Angular (voir `docs/tooling.md`).
 - Ne modifie pas les MP3 de `src/assets/audio/tour/` sans suivre `docs/voice-tour.md`.

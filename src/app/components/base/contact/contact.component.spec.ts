@@ -4,13 +4,22 @@ import { provideHttpClient, withXhr } from '@angular/common/http';
 import { LimitService } from '../../../services/limit/limit.service';
 import emailjs from '@emailjs/browser';
 import { By } from '@angular/platform-browser';
-import { CustomCaptchaComponent } from '../../include/captcha/custom-captcha.component';
+import { GdCaptchaApi, GdCaptchaComponent } from '../../include/gd-captcha/gd-captcha.component';
 
 describe('ContactComponent', () => {
   let component: ContactComponent;
   let fixture: ComponentFixture<ContactComponent>;
 
   beforeEach(async () => {
+    // Faux widget : le vrai script de captcha.gaetandev.fr n'est pas chargé pendant les tests.
+    const gdCaptcha: GdCaptchaApi = {
+      ready: callback => callback(),
+      render: () => 'widget-1',
+      reset: () => undefined,
+      remove: () => undefined,
+    };
+    (window as Window & { gdCaptcha?: GdCaptchaApi }).gdCaptcha = gdCaptcha;
+
     await TestBed.configureTestingModule({
       imports: [ContactComponent],
       providers: [
@@ -28,6 +37,10 @@ describe('ContactComponent', () => {
     fixture = TestBed.createComponent(ContactComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    delete (window as Window & { gdCaptcha?: GdCaptchaApi }).gdCaptcha;
   });
 
   it('should create', () => {
@@ -65,8 +78,8 @@ describe('ContactComponent', () => {
         : Promise.reject(new Error('EmailJS down'));
       spyOn(emailjs, 'send').and.returnValue(send);
       const captcha = fixture.debugElement
-        .query(By.directive(CustomCaptchaComponent))
-        .componentInstance as CustomCaptchaComponent;
+        .query(By.directive(GdCaptchaComponent))
+        .componentInstance as GdCaptchaComponent;
       const resetSpy = spyOn(captcha, 'reset');
 
       component.contactForm.setValue({
