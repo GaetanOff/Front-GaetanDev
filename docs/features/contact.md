@@ -12,7 +12,7 @@ updated: 2026-11-10
 
 ## Rôle
 
-Page `/contact` : formulaire nom / email / message protégé par le captcha maison GaetanDev Captcha (`captcha.gaetandev.fr`). Le navigateur envoie le formulaire et le jeton captcha au Cloudflare Worker `api-contact` (`https://api-contact.gaetandev.fr`, code dans `workers/api-contact/`), qui vérifie le jeton auprès de GaetanDev Captcha puis envoie le mail via l'API REST d'EmailJS. Une limitation d'envoi en `localStorage` complète côté client. Le chatbot utilise un autre captcha (Cloudflare Turnstile, voir [chatbot.md](./chatbot.md)).
+Page `/contact` : formulaire nom / email / message protégé par le captcha maison GaetanDev Captcha (`captcha.gaetandev.fr`). Le navigateur envoie le formulaire et le jeton captcha au Cloudflare Worker `api-contact` (`https://api-contact.gaetandev.fr`, code dans `workers/api-contact/`), qui vérifie le jeton auprès de GaetanDev Captcha puis envoie le mail via l'API REST d'EmailJS. Une limitation d'envoi en `localStorage` complète côté client. Le chatbot utilise le même `GdCaptchaComponent`, avec l'action `chatbot` (voir [chatbot.md](./chatbot.md)).
 
 ## Fichiers
 

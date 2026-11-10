@@ -77,8 +77,8 @@ Titres et descriptions viennent des clés i18n `seo.<page>.{title,description}` 
 - Open Graph et Twitter par défaut, avec `og:image` / `twitter:image` = `https://gaetandev.fr/assets/img/metaLogo.webp` et `og:site_name` = `GaetanDev`.
 - Canonical `https://gaetandev.fr/` et hreflang `fr` → `/fr`, `en` → `/en`, `x-default` → `/` : ce sont les balises que `SeoService.setLink()` retrouve et met à jour ensuite.
 - **JSON-LD global** (script sans `id`, jamais modifié) : `@graph` avec `Person` (`@id` `https://gaetandev.fr/#person`), `ProfessionalService` (`#business`, adresse, SIRET) et `WebSite` (`#website`). Les entités injectées par `SeoService` et par les pages y font référence par ces `@id`.
-- Préconnexions à `challenges.cloudflare.com` et `static.cloudflareinsights.com`.
-- Script tiers : le beacon Cloudflare Web Analytics en fin de `<body>`. Les scripts de captcha ne sont pas dans `index.html` : Cloudflare Turnstile est injecté à la demande par `CustomCaptchaComponent` pour le chatbot (voir [features/chatbot.md](features/chatbot.md)), d'où la préconnexion à `challenges.cloudflare.com`, et GaetanDev Captcha par `GdCaptchaComponent` sur la page contact (voir [features/contact.md](features/contact.md)), sans préconnexion.
+- Préconnexion à `static.cloudflareinsights.com`.
+- Script tiers : le beacon Cloudflare Web Analytics en fin de `<body>`. Le script de captcha n'est pas dans `index.html` : GaetanDev Captcha est injecté à la demande par `GdCaptchaComponent` (page contact et chatbot, voir [features/contact.md](features/contact.md)), sans préconnexion.
 - Style critique inline (fond dégradé de `body`, `app-root` en `display: block; min-height: 100vh`), favicon `assets/img/metaLogo.webp`.
 - `<noscript>` avec un `<h1>` et un résumé en français (activité, contact, GitHub).
 

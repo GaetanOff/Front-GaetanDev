@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 import { I18nService } from '../../../services/i18n/i18n.service';
-import { CustomCaptchaComponent } from '../captcha/custom-captcha.component';
+import { GdCaptchaComponent } from '../gd-captcha/gd-captcha.component';
 import { environment } from '../../../../environments/environment';
 
 interface ChatMessage {
@@ -25,7 +25,7 @@ interface HistoryMessage {
 @Component({
   selector: 'app-chatbot',
   standalone: true,
-  imports: [CommonModule, FormsModule, CustomCaptchaComponent],
+  imports: [CommonModule, FormsModule, GdCaptchaComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './chatbot.component.html',
   styleUrl: './chatbot.component.css'

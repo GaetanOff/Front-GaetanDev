@@ -72,8 +72,8 @@
 
       @if (!captchaLoading()) {
       <div class="pt-2 w-full flex justify-center">
-        <app-custom-captcha (tokenResolved)="onCaptchaResolved($event)">
-        </app-custom-captcha>
+        <app-gd-captcha action="chatbot" (tokenResolved)="onCaptchaResolved($event)">
+        </app-gd-captcha>
       </div>
       }
 
