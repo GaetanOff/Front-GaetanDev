@@ -1,0 +1,3 @@
+# Secrets locaux de `wrangler dev` et cache de Wrangler
+.dev.vars*
+.wrangler/

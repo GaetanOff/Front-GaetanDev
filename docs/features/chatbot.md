@@ -2,7 +2,8 @@
 title: Chatbot (assistant IA flottant)
 sources:
   - src/app/components/include/chatbot/
-updated: 2026-10-29
+  - src/app/components/include/captcha/
+updated: 2026-11-10
 ---
 
 # Chatbot (assistant IA flottant)
@@ -18,8 +19,9 @@ Assistant conversationnel affiché sur toutes les pages publiques : un bouton fl
 | `src/app/components/include/chatbot/chatbot.component.ts` | `ChatbotComponent` : état (signals), vérification captcha, appels HTTP, historique, conversion markdown → HTML assaini |
 | `src/app/components/include/chatbot/chatbot.component.html` | Bouton flottant, panneau (en-tête, écran captcha, liste des messages, indicateur de saisie, formulaire) |
 | `src/app/components/include/chatbot/chatbot.component.css` | Barre de défilement fine et styles du markdown rendu (`.chat-markdown`, via `:host ::ng-deep`) |
+| `src/app/components/include/captcha/custom-captcha.component.ts` | `CustomCaptchaComponent` : enveloppe `ngx-turnstile` et réémet le jeton Turnstile. Seul le chatbot l'utilise (la page contact a son propre captcha, voir [contact.md](./contact.md)). |
 
-Dépendances hors de cette zone : `CustomCaptchaComponent` (`src/app/components/include/captcha/custom-captcha.component.ts`, documenté dans [contact.md](./contact.md)), `I18nService` ([../routing-i18n.md](../routing-i18n.md)), le montage dans `src/app/components/app.component.html` ([../architecture.md](../architecture.md)).
+Dépendances hors de cette zone : `I18nService` ([../routing-i18n.md](../routing-i18n.md)), le montage dans `src/app/components/app.component.html` ([../architecture.md](../architecture.md)).
 
 ## Fonctionnement
 
@@ -103,6 +105,13 @@ Les erreurs sont aussi loguées via `console.error`.
 
 **Entrée** : `(tokenResolved)` de `app-custom-captcha` → `onCaptchaResolved(token: string | null)` (`null` = échec du widget).
 
+### `CustomCaptchaComponent` (Turnstile)
+
+- Sélecteur `app-custom-captcha`, output `tokenResolved: string | null`, méthode publique `reset()` (réinitialise le widget, qui émet `null`, puis remet `state` à `'idle'`) ; le chatbot ne l'appelle pas.
+- **Chargement du script** : `loadTurnstileScript()` (fonction de module) injecte une seule fois `turnstile/v0/api.js?render=explicit` avec l'`id` `ngx-turnstile` et mémorise la promesse ; `<ngx-turnstile>` n'est rendu (`@if (scriptReady())`) qu'une fois le script chargé. Raison : `ngx-turnstile` n'injecte pas son propre script si un élément porte cet `id`, et rend alors le widget immédiatement, ce qui échouerait si `window.turnstile` n'existait pas encore. Si le script échoue, `state` passe à `'error'`, la balise est retirée et le prochain captcha réessaie.
+- Thème `dark`, `siteKey` (clé de site Turnstile publique) en dur dans la classe, pas dans `environment`.
+- Signal `state` (`'idle' | 'verified' | 'error'`) mis à jour mais lu nulle part.
+
 **Clés i18n** `chatbot.*` (dans `fr.json` et `en.json`) : `title`, `subtitle`, `toggle`, `close`, `clear`, `placeholder`, `captchaPlaceholder`, `send`, `welcome`, `error`, `captchaTitle`, `captchaVerifying`, `captchaDescription`, `captchaError`, `captchaExpired`, `disclaimer`. `captchaExpired` n'est utilisée nulle part dans le code.
 
 **Attribut de visite** : `data-tour="chatbot"` sur le bouton flottant, ciblé par l'étape `assistant` de la visite guidée ([voice-tour.md](./voice-tour.md)). La visite ne fait que le mettre en lumière, elle n'ouvre pas le panneau.
@@ -114,12 +123,14 @@ Les erreurs sont aussi loguées via `console.error`.
 - `.chat-markdown` est stylé avec `:host ::ng-deep` parce que le HTML injecté via `[innerHTML]` ne reçoit pas les attributs d'encapsulation d'Angular. Garde ces sélecteurs préfixés par `:host` pour ne pas fuiter sur le reste du site. Budget CSS de composant : 4 kb en production.
 - Renommer ou retirer `data-tour="chatbot"` casse l'étape `assistant` de la visite (elle attend la cible 3 s puis continue sans projecteur).
 - Sur 403, c'est `chatbot.captchaError` (« La vérification a échoué ») qui s'affiche, pas `chatbot.captchaExpired`.
-- La clé de site Turnstile est codée en dur dans `CustomCaptchaComponent`, pas dans `environment`. Le script Turnstile est chargé par ce composant (voir [contact.md](./contact.md)).
+- La clé de site Turnstile est codée en dur dans `CustomCaptchaComponent`, pas dans `environment`. Le backend du chatbot vérifie le jeton avec la clé secrète Turnstile : passer le chatbot au captcha GaetanDev de la page contact exige de changer aussi cette vérification côté API.
+- N'ajoute pas de balise `<script>` Turnstile dans `src/index.html` : le script serait chargé deux fois (`CustomCaptchaComponent` l'injecte déjà).
+- `CustomCaptchaComponent` importe `CommonModule` sans l'utiliser et déclare `standalone: true` (redondant). L'output `errored` de `ngx-turnstile` n'est pas écouté : une erreur Turnstile ne change pas `state` et n'émet rien.
 - Le composant utilise encore `@ViewChild` + `AfterViewChecked` et `CommonModule` (et non `viewChild()`), contrairement au style signal du reste du code.
 
 ## Tests
 
-`chatbot.component.spec.ts` (`provideHttpClient(withXhr())` + `provideHttpClientTesting()`, panneau fermé donc sans widget Turnstile) : après un échange, un 403 puis une nouvelle vérification, la requête suivante part avec `history: []` et le nouveau `sessionToken`. Non couverts : échec de `/verify`, erreurs autres que 403, `clearConversation()`, changement de langue, assainissement du markdown.
+`chatbot.component.spec.ts` (`provideHttpClient(withXhr())` + `provideHttpClientTesting()`, panneau fermé donc sans widget Turnstile ; `CustomCaptchaComponent` n'a pas de spec) : après un échange, un 403 puis une nouvelle vérification, la requête suivante part avec `history: []` et le nouveau `sessionToken`. Non couverts : échec de `/verify`, erreurs autres que 403, `clearConversation()`, changement de langue, assainissement du markdown.
 
 ```bash
 npx ng test --watch=false --browsers=ChromeHeadlessCI --include src/app/components/include/chatbot

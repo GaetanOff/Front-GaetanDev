@@ -8,7 +8,7 @@ sources:
   - src/app/types.ts
   - src/environments/
   - src/styles.css
-updated: 2026-10-29
+updated: 2026-11-10
 ---
 
 # Architecture
@@ -29,7 +29,7 @@ Vue d'ensemble de l'application : comment elle démarre (`bootstrapApplication`,
 | `src/environments/environment.prod.ts` | Configuration de production, substituée au build par `fileReplacements` (voir [tooling.md](tooling.md)). |
 | `src/styles.css` | Import et configuration de Tailwind 4 (`@source`, `@theme`, défauts v3 rétablis, voir [tooling.md](tooling.md)), fond et scrollbar globaux, classes utilitaires `ios-*`, styles de la visite vocale `tour-*`. |
 
-`src/index.html` (balise `<base href="/">`, `<app-root>`, meta SEO, scripts Turnstile et Cloudflare Insights) est documenté dans [seo.md](seo.md).
+`src/index.html` (balise `<base href="/">`, `<app-root>`, meta SEO, préconnexions, beacon Cloudflare Insights) est documenté dans [seo.md](seo.md).
 
 ## Fonctionnement
 
@@ -51,7 +51,8 @@ flowchart TD
   SVC -->|"HttpClient + authInterceptor"| API["API admin<br/>environment.apiBaseUrl"]
   SVC -->|OIDC/PKCE| SSO["Fournisseur SSO<br/>environment.sso"]
   GLOBAL -->|HTTP| BOT["API chatbot<br/>environment.chatbotApiUrl"]
-  BASE -->|"@emailjs/browser"| EJS["EmailJS<br/>environment.emailjs"]
+  BASE -->|HTTP| CONTACT["Worker api-contact<br/>environment.contactApiUrl"]
+  CONTACT --> EJS["EmailJS"]
 ```
 
 ### Bootstrap (`src/main.ts`)
@@ -86,7 +87,7 @@ Aucun `APP_INITIALIZER` : la langue initiale est calculée par `I18nService` à 
 | `sso.scopes` | `openid profile email` | idem | `SsoService` |
 | `apiBaseUrl` | `https://api.gaetandev.fr` | idem | `AdminService`, `SsoService`, `authInterceptor` |
 | `chatbotApiUrl` | `https://api-ia-chatbot-portfolio.gaetandev.fr` | idem | `ChatbotComponent` |
-| `emailjs.serviceId` / `templateId` / `publicKey` | identiques en dev et prod | idem | `ContactComponent` |
+| `contactApiUrl` | `https://api-contact.gaetandev.fr` | idem | `ContactComponent` (worker de `workers/api-contact/`, voir [features/contact.md](features/contact.md)) |
 
 ## Contrats
 
@@ -102,8 +103,8 @@ Aucun `APP_INITIALIZER` : la langue initiale est calculée par `I18nService` à 
 
 ## Points d'attention
 
-- **Pas de secret dans `src/environments/`** : tout ce qui s'y trouve finit dans le bundle client. Seuls des identifiants publics (EmailJS, `clientId` SSO public) y sont acceptables.
-- **SSO inutilisable en dev tel quel** : `environment.ts` pointe un fournisseur SSO sur `localhost:3000` avec un `clientId` placeholder, alors que `apiBaseUrl` pointe la vraie API de production. En dev, l'admin appelle donc l'API de prod.
+- **Pas de secret dans `src/environments/`** : tout ce qui s'y trouve finit dans le bundle client. Seuls des identifiants publics (`clientId` SSO public, URL d'API) y sont acceptables. Les identifiants EmailJS n'y sont plus : seul le worker `api-contact` appelle EmailJS.
+- **SSO inutilisable en dev tel quel** : `environment.ts` pointe un fournisseur SSO sur `localhost:3000` avec un `clientId` placeholder, alors que `apiBaseUrl` pointe la vraie API de production. En dev, l'admin appelle donc l'API de prod, et le formulaire de contact le worker de prod (de vrais mails partent).
 - **`isAdminRoute` repose sur `startsWith('/admin')`** : une URL inconnue commençant par `/admin` (ex. `/administration`) est aussi traitée comme admin, donc rendue sans header ni footer.
 - **Le scroll en haut de page** est déclenché à chaque `NavigationEnd`, y compris les navigations qui ne changent que les query params.
 - **Le lecteur de langue initial dans le constructeur** (`matchLocaleFromPath(this.router.url)`) fait doublon avec `I18nService.getInitialLanguage()`, qui lit déjà `window.location.pathname`.

@@ -86,8 +86,8 @@
     </div>
 
     <div class="flex justify-center">
-      <app-custom-captcha (tokenResolved)="onTurnstileResolved($event)">
-      </app-custom-captcha>
+      <app-gd-captcha action="contact" (tokenResolved)="onCaptchaResolved($event)">
+      </app-gd-captcha>
     </div>
 
 

@@ -12,7 +12,7 @@ sources:
   - .editorconfig
   - .github/
   - scripts/docs-check.mjs
-updated: 2026-10-29
+updated: 2026-11-10
 ---
 
 # Outillage, build, tests et CI
@@ -33,10 +33,10 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 | `karma.conf.js` | Runner Karma : Jasmine, Chrome, launcher `ChromeHeadlessCI`, couverture. |
 | `.postcssrc.json` | Branche le plugin `@tailwindcss/postcss` (Tailwind 4) sur le pipeline CSS du builder Angular. La configuration Tailwind elle-même est en CSS dans `src/styles.css`. |
 | `.editorconfig` | UTF-8, espaces, indentation 2, guillemets simples pour `*.ts`. |
-| `.github/workflows/ci.yml` | Build + tests à chaque push/PR sur certaines branches. |
+| `.github/workflows/ci.yml` | Build + tests (Angular et worker) à chaque push/PR sur certaines branches. |
 | `.github/workflows/semgrep.yml` | Analyse Semgrep et upload SARIF. |
 | `.github/dependabot.yml` | Mises à jour de version Dependabot hebdomadaires pour `npm` (groupe `angular` pour les `@angular/*`) et `github-actions`, sur la branche par défaut. |
-| `scripts/docs-check.mjs` | Vérifie la couverture de `src/` par `docs/` (`npm run docs:check`). |
+| `scripts/docs-check.mjs` | Vérifie la couverture de `src/` et `workers/` par `docs/` (`npm run docs:check`). |
 
 ## Fonctionnement
 
@@ -49,6 +49,7 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 | `watch` | `ng build --watch --configuration development` | Build de dev incrémental. |
 | `test` | `ng test` | Karma en mode watch dans un Chrome visible (`browsers: ['Chrome']`). |
 | `test:ci` | `ng test --watch=false --browsers=ChromeHeadlessCI` | Exécution unique en headless, comme la CI. |
+| `test:worker` | `npm --prefix workers/api-contact test` | `node --test` dans `workers/api-contact/` (tests du worker, sans dépendance à installer), comme la CI. Le worker et son déploiement sont documentés dans [features/contact.md](features/contact.md). |
 | `docs:check` | `node scripts/docs-check.mjs` | Contrôle de la doc, voir [AGENTS.md](../AGENTS.md) (section « Système de documentation »). |
 
 ### Build (`angular.json`)
@@ -93,14 +94,15 @@ Tout ce qui sert à installer, builder, tester et vérifier le projet : scripts 
 
 ### CI GitHub Actions
 
-- **`ci.yml`** (job `build-and-test`, `ubuntu-latest`, Node 22 avec cache npm) : `npm ci`, `npm run build`, `npm run test:ci`. Déclenché par `push` sur `develop`, `master`, `refactor/**` et par `pull_request` vers `develop`, `master`. Permissions : `contents: read`.
+- **`ci.yml`** (job `build-and-test`, `ubuntu-latest`, Node 22 avec cache npm) : `npm ci`, `npm run build`, `npm run test:ci`, `npm run test:worker`. La CI ne déploie pas le worker. Déclenché par `push` sur `develop`, `master`, `refactor/**` et par `pull_request` vers `develop`, `master`. Permissions : `contents: read`.
 - **`semgrep.yml`** : `push` et `pull_request` sur `master`, plus un cron hebdomadaire (`36 11 * * 3`, mercredi 11:36 UTC). Utilise `returntocorp/semgrep-action` épinglé par SHA, avec les secrets `SEMGREP_APP_TOKEN` et `SEMGREP_DEPLOYMENT_ID`, puis `github/codeql-action/upload-sarif@v4` (`semgrep.sarif`, même en cas d'échec).
 
 ### Politique des dépendances et des `overrides`
 
 L'historique (`git log --oneline`, commits `fix(deps)` et `fix(security)`) montre un cycle répété : une alerte Dependabot ou `npm audit` vise une dépendance **transitive**, presque toujours d'outillage (Angular CLI et son serveur MCP, Karma, Vite, Tailwind), qu'on ne peut pas mettre à jour directement ; on ajoute ou relève alors un plancher dans `overrides`. Chaque commit cite les GHSA et numéros d'alerte traités. Règles qui en découlent :
 
-- **Les paquets `@angular/*` montent ensemble** : ils ont des plages de peer dependencies exactes entre eux (commits `3f24e2a`, `ecde228`). Une montée partielle laisse npm conserver d'anciennes versions et peut imposer de régénérer le lock.
+- **Les paquets `@angular/*` montent ensemble** : ils ont des plages de peer dependencies exactes entre eux (commits `3f24e2a`, `ecde228`). Une montée partielle laisse npm conserver d'anciennes versions et peut imposer de régénérer le lock. Si `npm install` lève `ERESOLVE` (« Conflicting peer dependency: @angular/core@… ») alors que les nouvelles plages sont cohérentes, c'est le lock qui retient les anciennes versions exactes : retirer de `package-lock.json` les seules entrées `packages` des paquets montés (`node_modules/@angular/*`, `@angular-devkit/*`, `@schematics/angular`…) puis relancer `npm install`, ce qui évite de régénérer tout le lock (et de perdre les `@emnapi/*`).
+- **TypeScript est borné par Angular** : `@angular/build` 22 déclare `typescript >=6.0 <6.1` en peer dependency. Une PR Dependabot vers TypeScript 7 (ex. #146) ne s'installe pas tant qu'Angular ne l'accepte pas ; elle ne se teste qu'avec une montée d'Angular qui élargit cette plage.
 - **Un override ne doit pas contredire la chaîne Angular.** Le commit `da397a7` a retiré un override `vite ^7.3.6` qui empêchait le linker Angular de s'appliquer au pré-bundling (page blanche sous `ng serve`, Angular 22 exigeant Vite 8) et un override `@babel/core ^7` qui contredisait la dépendance `@babel/core` 8 d'`@angular/build`. L'override `vite` est aujourd'hui `^8.3.3`.
 - **Overrides qui forcent une majeure hors contrainte** : `postcss-selector-parser ^7.1.6`, posé quand Tailwind 3.4 demandait `^6.1.2` (aucun correctif en 6.x, commit `9d7820c`), Tailwind 4 n'en dépendant plus ; `@hono/node-server ^2.0.5` (v1 → v2, commit `534a3c7`).
 - **Overrides ciblés** : `"karma": { "glob": "7.2.3" }` garde `glob` 7 pour Karma alors que `glob` est forcé en `^10.5.0` ailleurs ; les clés versionnées (`minimatch@^3.0.0`, `@^9.0.0`, `@^10.0.0`, `picomatch@^2.0.0`, `@^4.0.0`) épinglent chaque ligne majeure séparément.
@@ -109,7 +111,7 @@ L'historique (`git log --oneline`, commits `fix(deps)` et `fix(security)`) montr
 
 ## Contrats
 
-- Commandes qui doivent passer avant de considérer une modification terminée : `npm ci`, `npm run build`, `npm run test:ci` (celles de `ci.yml`).
+- Commandes qui doivent passer avant de considérer une modification terminée : `npm ci`, `npm run build`, `npm run test:ci`, `npm run test:worker` (celles de `ci.yml`).
 - Sortie du build : `dist/Front-Gaetan2mz-V2` (ignoré par git).
 - Style de code (`.editorconfig`) : UTF-8, indentation 2 espaces, ligne finale, pas d'espaces en fin de ligne (sauf `*.md`), `quote_type = single` pour `*.ts`. Aucun linter ni formateur (ESLint, Prettier) n'est configuré.
 - `.gitattributes` exclut `*.css` des statistiques de langage GitHub (`linguist-detectable=false`).
@@ -121,7 +123,7 @@ L'historique (`git log --oneline`, commits `fix(deps)` et `fix(security)`) montr
 - **Overrides devenus inertes** : plusieurs paquets forcés n'apparaissent plus du tout dans `package-lock.json` (`tar`, `@isaacs/brace-expansion`, `@sigstore/core`, `hono`, `@hono/node-server`, `rollup`, `ip-address`, `undici`, `path-to-regexp`, `express`, `express-rate-limit`, `webpack`, `webpack-dev-server`, `http-proxy-middleware`, `js-yaml`, `loader-utils`, `node-forge`, `on-headers`, et `postcss-selector-parser` depuis Tailwind 4). Ils sont sans effet aujourd'hui mais protègent contre un retour de ces paquets ; ne pas les retirer sans vérifier l'alerte d'origine (voir AGENTS.md).
 - **Régénérer le lock** (`npm install` après suppression du lock) sous Windows : vérifier ensuite que les entrées `@emnapi/*` sont toujours dans `package-lock.json`, sinon `npm ci` casse en CI.
 - **`src/favicon.ico` est déclaré dans les assets** (build et test) mais n'existe pas dans le dépôt ; l'icône réellement référencée par `index.html` est `assets/img/metaLogo.webp`.
-- **Dépendances sans import direct dans `src/`** : `@angular/animations` et `@babel/runtime` (aucun import trouvé). `@angular/platform-browser-dynamic` n'est importé que par `src/test.ts` mais figure dans `dependencies`.
+- **Dépendances sans import direct dans `src/`** : `@angular/animations` et `@babel/runtime` (aucun import trouvé ; `@babel/runtime` est en v8 depuis novembre 2026). `@angular/platform-browser-dynamic` n'est importé que par `src/test.ts` mais figure dans `dependencies`.
 - **Budget de style par composant** de 4 kb (erreur) : un CSS de composant qui grossit casse le build de prod, d'où les styles partagés dans `src/styles.css`.
 
 ## Tests
