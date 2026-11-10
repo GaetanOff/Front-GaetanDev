@@ -25,7 +25,6 @@
     "dompurify": "^3.4.17",
     "marked": "^18.1.1",
     "ngx-sonner": "3.0.0",
-    "ngx-turnstile": "^1.0.0",
     "rxjs": "^7.8.2",
     "tslib": "^2.2.0",
     "zod": "^4.6.7",

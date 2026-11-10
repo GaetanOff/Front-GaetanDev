@@ -12,7 +12,7 @@ updated: 2026-11-10
 
 ## Rôle
 
-Page `/contact` : formulaire nom / email / message protégé par le captcha maison GaetanDev Captcha (`captcha.gaetandev.fr`). Le navigateur envoie le formulaire et le jeton captcha au Cloudflare Worker `api-contact` (`https://api-contact.gaetandev.fr`, code dans `workers/api-contact/`), qui vérifie le jeton auprès de GaetanDev Captcha puis envoie le mail via l'API REST d'EmailJS. Une limitation d'envoi en `localStorage` complète côté client. Le chatbot utilise un autre captcha (Cloudflare Turnstile, voir [chatbot.md](./chatbot.md)).
+Page `/contact` : formulaire nom / email / message protégé par le captcha maison GaetanDev Captcha (`captcha.gaetandev.fr`). Le navigateur envoie le formulaire et le jeton captcha au Cloudflare Worker `api-contact` (`https://api-contact.gaetandev.fr`, code dans `workers/api-contact/`), qui vérifie le jeton auprès de GaetanDev Captcha puis envoie le mail via l'API REST d'EmailJS. Une limitation d'envoi en `localStorage` complète côté client. Le chatbot utilise le même `GdCaptchaComponent`, avec l'action `chatbot` (voir [chatbot.md](./chatbot.md)).
 
 ## Fichiers
 
@@ -23,7 +23,7 @@ Page `/contact` : formulaire nom / email / message protégé par le captcha mais
 | `src/app/components/include/gd-captcha/gd-captcha.component.ts` | `GdCaptchaComponent` : charge le script GaetanDev Captcha, rend le widget et réémet le jeton. Exporte aussi les types `GdCaptchaApi` et `GdCaptchaRenderOptions`. |
 | `src/app/services/limit/limit.service.ts` | `LimitService` : anti-spam côté client basé sur un horodatage en `localStorage`. |
 | `workers/api-contact/src/index.js` | Worker : CORS, validation, siteverify, envoi EmailJS. Aucune dépendance. |
-| `workers/api-contact/wrangler.toml` | Nom `api-contact`, domaine personnalisé `api-contact.gaetandev.fr`, variables publiques (`ALLOWED_ORIGINS`, identifiants EmailJS publics). |
+| `workers/api-contact/wrangler.toml` | Nom `api-contact`, domaine personnalisé `api-contact.gaetandev.fr`, observabilité. Pas de `[vars]` : les valeurs publiques sont dans le code. |
 | `workers/api-contact/test/index.test.js` | Tests du worker (`node:test`, `fetch` simulé). |
 | `workers/api-contact/package.json` | `"type": "module"` (pour que Node charge `src/index.js` en ESM) et scripts `test`, `dev`, `deploy`. |
 | `workers/api-contact/.gitignore` | Exclut `.dev.vars*` (secrets locaux de `wrangler dev`) et `.wrangler/`. |
@@ -68,9 +68,10 @@ Les toasts viennent de `ngx-sonner` (fonction `toast` importée directement, pas
 
 Ordre de traitement de `fetch(request, env)` dans `workers/api-contact/src/index.js` :
 
-1. **CORS** : l'en-tête `Origin` doit figurer dans `env.ALLOWED_ORIGINS` (liste séparée par des virgules). Seule une origine autorisée reçoit `Access-Control-Allow-Origin` (son origine exacte, `Vary: Origin`). `OPTIONS` répond `204` (autorisée) ou `403`.
+0. **Configuration** : `withDefaults()` part de `DEFAULT_CONFIG` (valeurs publiques : `ALLOWED_ORIGINS`, `EMAILJS_SERVICE_ID`, `EMAILJS_TEMPLATE_ID`, `EMAILJS_PUBLIC_KEY`) et la remplace par toute variable d'environnement non vide. Le worker fonctionne donc aussi quand son script est collé dans le dashboard Cloudflare sans variables ; seuls les secrets sont à poser.
+1. **CORS** : l'en-tête `Origin` doit figurer dans `ALLOWED_ORIGINS` (liste séparée par des virgules), comparée après `normalizeOrigin()` (espaces, `/` final et casse ignorés). Seule une origine autorisée reçoit `Access-Control-Allow-Origin` (son origine exacte, `Vary: Origin`). `OPTIONS` répond `204` (autorisée) ou `403`. Un refus est logué (`console.warn` avec l'origine et la liste effective), visible dans `npx wrangler tail`.
 2. **Routage** : toute méthode autre que `POST`/`OPTIONS` est redirigée (`301`) vers `https://gaetandev.fr/contact`. Un `POST` hors de `/` répond `404`. Un `POST` sans `Origin` ou d'une autre origine répond `403 origin_not_allowed`, sans appeler aucun service.
-3. **Configuration** : si un des secrets ou variables requis manque (`GD_CAPTCHA_SECRET`, `EMAILJS_SERVICE_ID`, `EMAILJS_TEMPLATE_ID`, `EMAILJS_PUBLIC_KEY`, `EMAILJS_PRIVATE_KEY`), réponse `500 server_misconfigured` et log de la liste.
+3. **Secrets** : si `GD_CAPTCHA_SECRET` ou `EMAILJS_PRIVATE_KEY` manque (`REQUIRED_SECRETS`), réponse `500 server_misconfigured` et log de la liste. Ce contrôle vient après celui de l'origine : un `403 origin_not_allowed` ne dit rien des secrets.
 4. **Corps** : lu en texte, refusé au-delà de 32 Ko (`413`), puis parsé en JSON (`400 invalid_json`). `readContact()` applique `trim()` à `name`, `email` et `message` et vérifie : `name` 3 à 100 caractères, `email` au format `x@y.z` et 254 caractères max, `message` 3 à 5000 caractères, `captchaToken` non vide. Le premier champ fautif donne `400 { error: 'invalid_field', field }`. La validation passe avant siteverify, pour ne pas consommer le jeton sur un formulaire invalide.
 5. **Captcha** : `POST https://captcha.gaetandev.fr/v1/siteverify` en JSON avec `secret`, `response` et `remoteip` (`CF-Connecting-IP`, omis s'il est absent). Le jeton est refusé (`403 captcha_failed`, `error_codes` logués) si `success !== true` **ou** si `action !== 'contact'` (constante `CAPTCHA_ACTION`). Une erreur réseau ou une réponse non JSON donne `502 captcha_unavailable` : le worker échoue fermé.
 6. **EmailJS** : `POST https://api.emailjs.com/api/v1.0/email/send` avec `service_id`, `template_id`, `user_id` (clé publique), `accessToken` (clé privée) et `template_params = { name, email, message }` (valeurs nettoyées). Toute réponse non `2xx` ou erreur réseau donne `502 email_failed` (statut et texte d'EmailJS logués). Succès : `200 { ok: true }`.
@@ -112,10 +113,10 @@ Le front ne distingue que `captcha_failed` ; tout le reste affiche `contact.form
 
 | Nom | Type | Où | Valeur |
 | --- | --- | --- | --- |
-| `ALLOWED_ORIGINS` | variable | `wrangler.toml` | `https://gaetandev.fr,https://www.gaetandev.fr,http://localhost:4200` |
-| `EMAILJS_SERVICE_ID` | variable | `wrangler.toml` | `service_katu34t` |
-| `EMAILJS_TEMPLATE_ID` | variable | `wrangler.toml` | `template_3rprude` |
-| `EMAILJS_PUBLIC_KEY` | variable | `wrangler.toml` | clé publique EmailJS |
+| `ALLOWED_ORIGINS` | variable facultative | défaut dans `DEFAULT_CONFIG` | `https://gaetandev.fr,https://www.gaetandev.fr,http://localhost:4200` |
+| `EMAILJS_SERVICE_ID` | variable facultative | défaut dans `DEFAULT_CONFIG` | `service_katu34t` |
+| `EMAILJS_TEMPLATE_ID` | variable facultative | défaut dans `DEFAULT_CONFIG` | `template_3rprude` |
+| `EMAILJS_PUBLIC_KEY` | variable facultative | défaut dans `DEFAULT_CONFIG` | clé publique EmailJS |
 | `GD_CAPTCHA_SECRET` | secret | `wrangler secret put` | clé secrète GaetanDev Captcha (`gd_secret_…`) |
 | `EMAILJS_PRIVATE_KEY` | secret | `wrangler secret put` | clé privée EmailJS (Account → API Keys) |
 
@@ -142,7 +143,7 @@ Le template EmailJS (tableau de bord, hors dépôt) doit utiliser exactement les
 
 ## Points d'attention
 
-- **La protection repose sur le worker, pas sur le navigateur.** Le captcha n'a de valeur que parce que le worker vérifie le jeton avant d'appeler EmailJS. Pour que personne ne contourne le worker en appelant EmailJS directement avec les identifiants publics (toujours dans `wrangler.toml`, et dans d'anciens bundles), il faut, dans EmailJS (Account → Security), activer l'usage de la clé privée, qui rend `accessToken` obligatoire, et autoriser l'API pour les applications hors navigateur. Sans cette dernière option, EmailJS refuse les appels du worker (« API calls are disabled for non-browser applications ») et le worker répond `502 email_failed`.
+- **La protection repose sur le worker, pas sur le navigateur.** Le captcha n'a de valeur que parce que le worker vérifie le jeton avant d'appeler EmailJS. Pour que personne ne contourne le worker en appelant EmailJS directement avec les identifiants publics (toujours dans `DEFAULT_CONFIG` du worker, et dans d'anciens bundles), il faut, dans EmailJS (Account → Security), activer l'usage de la clé privée, qui rend `accessToken` obligatoire, et autoriser l'API pour les applications hors navigateur. Sans cette dernière option, EmailJS refuse les appels du worker (« API calls are disabled for non-browser applications ») et le worker répond `502 email_failed`.
 - **Les secrets (`GD_CAPTCHA_SECRET`, `EMAILJS_PRIVATE_KEY`) ne vont jamais dans ce dépôt** : ni dans `wrangler.toml`, ni dans `src/environments/`. Ils se posent avec `npx wrangler secret put`. En local, `wrangler dev` les lit dans `workers/api-contact/.dev.vars`, ignoré par git.
 - **L'action du captcha lie le front et le worker** : `action="contact"` dans `contact.component.html` doit rester égal à `CAPTCHA_ACTION` dans le worker, sinon tous les envois répondent `403 captcha_failed`.
 - **`ALLOWED_ORIGINS` filtre les navigateurs, pas les scripts** : un client hors navigateur peut forger `Origin`. C'est le captcha (un jeton par envoi, valable 5 minutes, consommé par siteverify) qui limite réellement les envois ; il n'y a pas de limitation par IP côté worker.
@@ -207,4 +208,4 @@ Modifier l'argument de `this.limitService.setLimit({ hours, minutes })` dans le 
 
 ### Changer de service ou de template EmailJS
 
-Modifier `EMAILJS_SERVICE_ID` / `EMAILJS_TEMPLATE_ID` dans `workers/api-contact/wrangler.toml`, puis redéployer le worker. Rien à changer côté front.
+Modifier `EMAILJS_SERVICE_ID` / `EMAILJS_TEMPLATE_ID` dans `DEFAULT_CONFIG` (`workers/api-contact/src/index.js`) puis redéployer, ou les définir comme variables du worker dans le dashboard (elles remplacent les valeurs par défaut). Rien à changer côté front.

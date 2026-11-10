@@ -68,6 +68,43 @@ describe("CORS", () => {
     assert.equal(calls.length, 0);
   });
 
+  it("allows the site when deployed without any variable (only the secrets)", async () => {
+    const secretsOnly = { GD_CAPTCHA_SECRET: "gd_secret_test", EMAILJS_PRIVATE_KEY: "private_test" };
+    const preflight = await worker.fetch(
+      new Request("https://api-contact.gaetandev.fr/", {
+        method: "OPTIONS",
+        headers: { Origin: "https://www.gaetandev.fr" },
+      }),
+      secretsOnly
+    );
+    assert.equal(preflight.status, 204);
+    assert.equal(preflight.headers.get("Access-Control-Allow-Origin"), "https://www.gaetandev.fr");
+
+    const response = await worker.fetch(
+      new Request("https://api-contact.gaetandev.fr/", {
+        method: "POST",
+        headers: { Origin: "https://www.gaetandev.fr", "Content-Type": "application/json" },
+        body: JSON.stringify(FORM),
+      }),
+      secretsOnly
+    );
+    assert.equal(response.status, 200);
+    const [send] = callsTo("api.emailjs.com");
+    assert.equal(send.body.service_id, "service_katu34t");
+    assert.equal(send.body.template_id, "template_3rprude");
+  });
+
+  it("tolerates a trailing slash or capitals in ALLOWED_ORIGINS", async () => {
+    const response = await worker.fetch(
+      new Request("https://api-contact.gaetandev.fr/", {
+        method: "OPTIONS",
+        headers: { Origin: "https://www.gaetandev.fr" },
+      }),
+      { ...ENV, ALLOWED_ORIGINS: "https://WWW.gaetandev.fr/" }
+    );
+    assert.equal(response.status, 204);
+  });
+
   it("refuses a request without Origin", async () => {
     const response = await post(FORM, { origin: null });
     assert.equal(response.status, 403);

@@ -14,18 +14,23 @@ const LIMITS = {
   message: { min: 3, max: 5000 },
 };
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const REQUIRED_ENV = [
-  "GD_CAPTCHA_SECRET",
-  "EMAILJS_SERVICE_ID",
-  "EMAILJS_TEMPLATE_ID",
-  "EMAILJS_PUBLIC_KEY",
-  "EMAILJS_PRIVATE_KEY",
-];
+// Valeurs publiques par défaut : le worker marche même déployé sans variables
+// (script collé dans le dashboard). Une variable d'environnement non vide les remplace.
+const DEFAULT_CONFIG = {
+  ALLOWED_ORIGINS: "https://gaetandev.fr,https://www.gaetandev.fr,http://localhost:4200",
+  EMAILJS_SERVICE_ID: "service_katu34t",
+  EMAILJS_TEMPLATE_ID: "template_3rprude",
+  EMAILJS_PUBLIC_KEY: "SsUfOyd0KywiMRRLl",
+};
+// Secrets : jamais de valeur par défaut, à poser avec `wrangler secret put`.
+const REQUIRED_SECRETS = ["GD_CAPTCHA_SECRET", "EMAILJS_PRIVATE_KEY"];
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, rawEnv) {
+    const env = withDefaults(rawEnv);
     const origin = request.headers.get("Origin");
-    const originAllowed = origin !== null && parseList(env.ALLOWED_ORIGINS).includes(origin);
+    const originAllowed =
+      origin !== null && parseList(env.ALLOWED_ORIGINS).map(normalizeOrigin).includes(normalizeOrigin(origin));
     const corsHeaders = originAllowed
       ? {
           "Access-Control-Allow-Origin": origin,
@@ -57,10 +62,11 @@ export default {
     // Seul le site peut appeler le worker depuis un navigateur. Un client hors navigateur
     // peut forger l'en-tête Origin : c'est le captcha qui protège réellement l'envoi.
     if (!originAllowed) {
+      console.warn("Origine refusée :", origin, "| autorisées :", env.ALLOWED_ORIGINS);
       return json({ error: "origin_not_allowed" }, 403);
     }
 
-    const missing = REQUIRED_ENV.filter((key) => !env[key]);
+    const missing = REQUIRED_SECRETS.filter((key) => !env[key]);
     if (missing.length > 0) {
       console.error("Configuration manquante :", missing.join(", "));
       return json({ error: "server_misconfigured" }, 500);
@@ -173,6 +179,19 @@ async function sendEmail(env, templateParams) {
     return false;
   }
   return true;
+}
+
+function withDefaults(env) {
+  const config = { ...DEFAULT_CONFIG };
+  for (const [key, value] of Object.entries(env || {})) {
+    if (value) config[key] = value;
+  }
+  return config;
+}
+
+// « https://WWW.gaetandev.fr/ » et « https://www.gaetandev.fr » désignent la même origine.
+function normalizeOrigin(value) {
+  return value.trim().replace(/\/+$/, "").toLowerCase();
 }
 
 function parseList(value) {
