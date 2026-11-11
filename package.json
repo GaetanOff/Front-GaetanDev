@@ -34,7 +34,7 @@
     "@angular/build": "^22.2.6",
     "@angular/cli": "^22.2.6",
     "@angular/compiler-cli": "^22.2.5",
-    "@tailwindcss/postcss": "^4.3.3",
+    "@tailwindcss/postcss": "^4.3.5",
     "@types/dompurify": "^3.2.0",
     "@types/jasmine": "~7.0.0",
     "@types/node": "^25.2.2",
